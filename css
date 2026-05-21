@@ -99,7 +99,69 @@ nav a:hover{
     background:#004aad;
     color:white;
   }
+  .buttons button{
+    background:#ffd23f;
+  }
+  /*PROGRESSO*/
+  .progresso{
+    padding:50px;
+  }
+  .box{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  }
+.box h2{
+  color:#004aad;
+  margin-botton:20px;
+}
+/* COMENTARIOS*/
+  .comentarios h2{
+    color:#004 aad;
+    margin-botton:20 px;
+  }
+  textarea{
+    width:100%;
+    height:150px;
+    border-radius:15px;
+    border:2px solid #ccc;
+    padding:20px;
+    resize:none;
+    margin-botton:20px;
+    font-size:16px;
+  }
+  .comentarios button{
+    background:#004aad;
+    color:white;
+    border:none;
+    padding: 15px 25 px;
+    border-radius:12px;
+    cursor: pointer;
+    font-weght: bold;
+  }
 
+  /*RODAPE*/
+  footer{
+    background:#004aad;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:40 px;
+  }
+  /* REPONSIVO*/
+  @media(max-width:900px){
+    .menu{
+      flex-direction:column;
+      gap:20px;
+    }
+    .nav{
+      flex-wrap;
+  justify-content:center;
+    }
+.cards{
+  justify-content:center;
+}
 
 
 
