@@ -1,4 +1,4 @@
-/*css/style.css */
+/*style.css */
 *{
   margin:0;
   paffing:0;
@@ -10,12 +10,18 @@ body{
 }
   /*MENU */
 .menu{
-  width:100%
+  width:100%;
   background:#004aad;
   display: flex;
   justify-content:space-between;
   align-items:center;
   padding:15px 40px;
+}
+.menu a {
+  color:white;
+  text-decoration:none;
+  margin-left:20px;
+  font-weight:bold;
 }
   .logo-area img{
     width:120px;
