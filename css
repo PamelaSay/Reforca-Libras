@@ -1,0 +1,110 @@
+/*css/style.css */
+*{
+  margin:0;
+  paffing:0;
+  box-sizing:border-box:
+}
+body{
+  font-family:'Nunito', sans-serif;
+  background:#f4f7fb
+}
+  /*MENU */
+.menu{
+  width:100%
+  background:#004aad;
+  display: flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+}
+  .logo-area img{
+    width:120px;
+  }
+  nav{
+    display:flex;
+    gap:20px;
+  }
+  nav.a{
+    color:white;
+    text-decoration:nome;
+    font-weight:700;
+    transition:0.3s;
+  }
+nav a:hover{
+  color:#ffd23f;
+}
+  .login-btn{
+    background:#ffd23f;
+    border:none;
+    padding:12px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+  }
+  /*BANNER*/
+  .banner img{
+    width:100%
+    display:block;
+  }
+  /*AULAS*/
+  .aulas{
+    paddinf:50px;
+  }
+ .aulas h2{
+    color:#004aad;
+   margin-bottom:30 px;
+  }
+.cards{
+  display:flex;
+  gap:30px;
+  flex-wrap:wrap;
+}
+.card{
+  background:white;
+  width:320px;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s;  
+}
+.card:hover{
+   transform:translate y(-5px);  
+}
+.card-content{
+  padding:20px;
+}
+.card-content h3{
+  color:#004aad;
+  margin-bottom:10px;
+}
+.card-content p{
+  margin-bottom:20px;
+}
+.buttons{
+  display:flex;
+  gap:10px;
+}
+.buttons a,
+  .buttons button{
+    flex:1;
+    text-align:center;
+    text-decoration:none;
+    border:none;
+    padding:12px;
+    border-radius:12px;
+    font-weight:bold;
+     
+  }
+  .button a{
+    background:#004aad;
+    color:white;
+  }
+
+
+
+
+
+
+  
+}
+
