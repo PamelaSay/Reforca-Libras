@@ -321,7 +321,7 @@ footer{
       display: flex;
   }
   
-  .nav a  {
+  .nav {
     display: none; /* Oculta o menu inicialmente no mobile */
     flex-direction: column;
     position: fixed;
@@ -333,7 +333,7 @@ footer{
     padding: 2rem 0;
   }
 
-  .nav a.active {
+  .nav .active {
     display: flex; /* Exibe o menu quando a classe 'active' é adicionada */
   }
   
