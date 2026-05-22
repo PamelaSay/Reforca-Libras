@@ -11,6 +11,33 @@ if(document.getElementById("Login realizado!")){
     "Olá, " + usuario
 }}
 
+function pesquisarConteudo(){
+
+    let input =
+    document.getElementById("campo-pesquisa")
+    .value.toLowerCase()
+
+    let cards =
+    document.querySelectorAll(".card")
+
+    cards.forEach(function(card){
+
+        let texto =
+        card.innerText.toLowerCase()
+
+        if(texto.includes(input)){
+
+            card.style.display = "block"
+
+        }else{
+
+            card.style.display = "none"
+        }
+
+    })
+}
+
+
 // =========================
 // MENU RESPONSIVO
 // =========================
