@@ -3,6 +3,13 @@ let usuario = localStorage.getItem("usuario")
         document.getElementById("usuario-logado").innerHTML =
         "Olá, " + usuario
 
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+});
+
 function salvarComentario(){
 
     let comentario =
