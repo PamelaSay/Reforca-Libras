@@ -93,6 +93,16 @@ nav a:hover{
     border: 2px solid gold;
     border-radius: 15px 60px;
 }
+.buttons hover {
+background: linear-gradient(
+rgba(255, 255, 255, 0),
+rgba(255, 255, 255, 0)),
+linear-gradient(
+101deg,
+darkgoldenrod,
+khaki,
+peru,
+sandybrown);
 }
 .buttons a,
 .buttons button{
