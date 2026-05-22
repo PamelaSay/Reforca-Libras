@@ -87,9 +87,12 @@ nav a:hover{
 .card-content p{
   margin-bottom:20px;
 }
-.buttons{
-  display:flex;
-  gap:10px;
+.buttons {
+    background-color: white;
+    color: black;
+    border: 2px solid gold;
+    border-radius: 15px 60px;
+}
 }
 .buttons a,
 .buttons button{
