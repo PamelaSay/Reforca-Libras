@@ -314,14 +314,12 @@ footer{
     border-top:2px solid gold;
 }
 
-/* RESPONSIVO */
-
 
 /* Responsividade para Mobile */
 @media (max-width: 768px) {
   .menu-toggle { display: flex; }
   
-  .nav-links {
+  .nav a {
     display: none; /* Oculta o menu inicialmente no mobile */
     flex-direction: column;
     position: fixed;
@@ -333,11 +331,11 @@ footer{
     padding: 2rem 0;
   }
 
-  .nav-links.active {
+  .nav a.active {
     display: flex; /* Exibe o menu quando a classe 'active' é adicionada */
   }
   
-  .nav-links li {
+  .nav a {
     margin: 1rem 0;
   }
 }
