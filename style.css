@@ -177,10 +177,22 @@ nav a:hover{
 /* CARDS */
 
 .cards{
-    display:flex;
-    flex-wrap:wrap;
-    gap:30px;
-    justify-content:center;
+
+    width:100%;
+
+    max-width:1400px;
+
+    margin:0 auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+
+    gap:40px;
+
+    justify-items:center;
+
+    align-items:start;
 }
 
 .card{
