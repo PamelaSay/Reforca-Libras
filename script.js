@@ -116,7 +116,7 @@ mostrarComentarios()
 // ABRIR JOGOS
 // =========================
 
-   function abrirJogo(tipo){
+  function abrirJogo(tipo){
 
     if(tipo === 'potencia'){
 
@@ -124,7 +124,6 @@ mostrarComentarios()
         "jogos/jogo_potencia.html"
     }
 }
-
     if(tipo === 'radiciacao'){
         alert('Abrindo jogo de Radiciação')
     }
