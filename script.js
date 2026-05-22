@@ -118,17 +118,17 @@ mostrarComentarios()
 
 function abrirJogo(tipo){
 
-    if(tipo === 'jogo_potencia'){
+    if(tipo == 'jogo_potencia'){
 
         window.location.href ="jogo_potencia.html"
-    }
+        }
 
-    if(tipo === 'radiciacao'){
+    if(tipo == 'radiciacao'){
 
         alert('Abrindo jogo de Radiciação')
     }
 
-    if(tipo === 'cartesiano'){
+    if(tipo == 'cartesiano'){
 
         alert('Abrindo jogo Plano Cartesiano')
     }
