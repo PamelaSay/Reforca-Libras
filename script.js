@@ -8,10 +8,45 @@ function salvarComentario(){
     let comentario =
     document.getElementById("comentario").value
 
-    localStorage.setItem("comentario", comentario)
+    if(comentario == ""){
 
-    alert("Comentário enviado!")
+        alert("Digite um comentário!")
+
+        return
+    }
+
+    let comentarios = JSON.parse(
+    localStorage.getItem("comentarios")) || []
+
+    comentarios.push(comentario)
+
+    localStorage.setItem(
+    "comentarios",
+    JSON.stringify(comentarios)
+    )
+
+    mostrarComentarios()
+
+    document.getElementById("comentario").value = ""
 }
+
+function mostrarComentarios(){
+
+    let comentarios = JSON.parse(
+    localStorage.getItem("comentarios")) || []
+    let lista =
+    document.getElementById("lista-comentarios")
+    lista.innerHTML = ""
+    comentarios.forEach(function(item){
+        lista.innerHTML += `
+        <div class="comentario-item">
+            💬 ${item}
+        </div>
+         `
+    })
+}
+
+mostrarComentarios()
 
 function abrirjogo(tipo){
   if(tipo =='potencia1'){
