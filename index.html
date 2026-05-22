@@ -24,7 +24,7 @@
                 <a href="#">💬 Comentários</a>
                 <a href="#">🤟 Libras</a>
             </nav>
-           <a href="login.html" class="login-btn">
+            <a href="login.html" class="login-btn">
                     👤 Login
             </a>
         </div>
@@ -110,11 +110,13 @@
     <section class="comentarios">
         <div class="container">
             <h2>💬 Comentários</h2>
-            <textarea placeholder="Escreva seu comentário..."></textarea>
-            <button>
-               Enviar Comentário
-            </button>
-        </div>
+               <textarea id="comentario" placeholder="Escreva seu comentário..."></textarea>
+                    <button onclick="salvarComentario()">
+                            Enviar Comentário
+                    </button>
+                <div id="lista-comentarios">
+                </div>
+          </div>
     </section>
     <!-- TILS -->
     <img src="imagens/tils.png" alt="TILS" id="tils">
