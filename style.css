@@ -317,27 +317,29 @@ footer{
 /* RESPONSIVO */
 
 
-@media(max-width:600px){
-    .menu-content{
-        flex-direction:column;
-    }
+/* Responsividade para Mobile */
+@media (max-width: 768px) {
+  .menu-toggle { display: flex; }
+  
+  .nav-links {
+    display: none; /* Oculta o menu inicialmente no mobile */
+    flex-direction: column;
+    position: fixed;
+    top: 60px; /* Altura da barra superior */
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    text-align: center;
+    padding: 2rem 0;
+  }
 
-    nav{
-        justify-content:center;
-    }
-
-    nav a{
-        width:50%;
-        text-align:center;
-    }
-
-    .cards{
-        flex-direction:column;
-        align-items:center;
-    }
-
-    #tils{
-        width:120px;
-    }
+  .nav-links.active {
+    display: flex; /* Exibe o menu quando a classe 'active' é adicionada */
+  }
+  
+  .nav-links li {
+    margin: 1rem 0;
+  }
+}
 
 }
