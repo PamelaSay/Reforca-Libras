@@ -1,13 +1,16 @@
-/* RESET */
+/* =========================
+RESET
+========================= */
 
 *{
-
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
-/* BODY */
+/* =========================
+BODY
+========================= */
 
 body{
     font-family:'Nunito', sans-serif;
@@ -19,7 +22,9 @@ body{
     overflow-x:hidden;
 }
 
-/* CONTAINER */
+/* =========================
+CONTAINER
+========================= */
 
 .container{
     width:100%;
@@ -28,7 +33,9 @@ body{
     padding:0 20px;
 }
 
-/* MENU */
+/* =========================
+MENU
+========================= */
 
 .menu{
     width:100%;
@@ -39,8 +46,6 @@ body{
     z-index:1000;
 }
 
-/* CONTEÚDO MENU */
-
 .menu-content{
     display:flex;
     justify-content:space-between;
@@ -48,7 +53,10 @@ body{
     padding:20px 0;
     gap:20px;
 }
-/* LOGO */
+
+/* =========================
+LOGO
+========================= */
 
 .logo-area img{
     width:120px;
@@ -59,7 +67,9 @@ body{
     transform:scale(1.05);
 }
 
-/* NAV */
+/* =========================
+NAV
+========================= */
 
 nav{
     display:flex;
@@ -70,7 +80,6 @@ nav{
 }
 
 nav a{
-
     background:white;
     color:black;
     text-decoration:none;
@@ -84,11 +93,19 @@ nav a{
 
 nav a:hover{
     transform:translateY(-5px);
-    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown);
+    background:linear-gradient(
+        101deg,
+        darkgoldenrod,
+        khaki,
+        peru,
+        sandybrown
+    );
     color:black;
 }
 
-/* LOGIN */
+/* =========================
+LOGIN
+========================= */
 
 .login-btn{
     background:white;
@@ -99,23 +116,35 @@ nav a:hover{
     font-weight:bold;
     cursor:pointer;
     transition:0.4s;
+    text-decoration:none;
 }
 
 .login-btn:hover{
     transform:translateY(-5px);
-    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown);
+    background:linear-gradient(
+        101deg,
+        darkgoldenrod,
+        khaki,
+        peru,
+        sandybrown
+    );
 }
 
-/* BANNER */
+/* =========================
+BANNER
+========================= */
 
 .banner img{
     width:100%;
     max-height:500px;
     object-fit:cover;
     display:block;
-    border-bottom:2px solid gold;}
+    border-bottom:2px solid gold;
+}
 
-/* SEÇÕES */
+/* =========================
+SEÇÕES
+========================= */
 
 .aulas,
 .progresso,
@@ -123,7 +152,9 @@ nav a:hover{
     padding:60px 0;
 }
 
-/* TITULOS */
+/* =========================
+TÍTULOS
+========================= */
 
 .aulas h2,
 .progresso h2,
@@ -135,7 +166,9 @@ nav a:hover{
     text-shadow:2px 2px 5px black;
 }
 
-/* CARDS */
+/* =========================
+CARDS
+========================= */
 
 .cards{
     width:100%;
@@ -145,7 +178,9 @@ nav a:hover{
     gap:40px;
 }
 
-/* CARD */
+/* =========================
+CARD
+========================= */
 
 .card{
     width:100%;
@@ -162,7 +197,9 @@ nav a:hover{
     transform:translateY(-8px);
 }
 
-/* IMG CARD */
+/* =========================
+IMG CARD
+========================= */
 
 .card img{
     width:100%;
@@ -170,7 +207,9 @@ nav a:hover{
     object-fit:cover;
 }
 
-/* CONTEUDO CARD */
+/* =========================
+CONTEÚDO CARD
+========================= */
 
 .card-content{
     padding:20px;
@@ -185,7 +224,9 @@ nav a:hover{
     color:#333;
 }
 
-/* BOTÕES */
+/* =========================
+BOTÕES
+========================= */
 
 .buttons{
     display:flex;
@@ -236,7 +277,9 @@ nav a:hover{
     color:black;
 }
 
-/* PROGRESSO */
+/* =========================
+PROGRESSO
+========================= */
 
 .box{
     background:rgba(255,255,255,0.95);
@@ -248,7 +291,9 @@ nav a:hover{
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* COMENTÁRIOS */
+/* =========================
+COMENTÁRIOS
+========================= */
 
 .comentarios{
     text-align:center;
@@ -307,7 +352,9 @@ textarea{
     );
 }
 
-/* TILS */
+/* =========================
+TILS
+========================= */
 
 #tils{
     position:fixed;
@@ -317,7 +364,9 @@ textarea{
     z-index:999;
 }
 
-/*FOOTER */
+/* =========================
+FOOTER
+========================= */
 
 footer{
     background:rgba(0,0,0,0.95);
@@ -327,22 +376,35 @@ footer{
     border-top:2px solid gold;
 }
 
-/* MENU HAMBURGUER */
+/* =========================
+MENU HAMBURGUER
+========================= */
 
+.menu-toggle{
+    display:none;
+    background:white;
+    color:black;
+    border:2px solid gold;
+    border-radius:15px;
+    padding:10px 15px;
+    cursor:pointer;
+    font-size:20px;
+    font-weight:bold;
+}
 
-
-/* RESPONSIVO */
+/* =========================
+RESPONSIVO
+========================= */
 
 @media(max-width:768px){
 
     .menu-content{
-        flex-direction:colunn;
+        flex-direction:column;
         align-items:center;
     }
 
     .menu-toggle{
         display:block;
-      
     }
 
     nav{
@@ -370,31 +432,10 @@ footer{
     .card{
         max-width:100%;
     }
-    /* LOGIN */
-
-.login-btn{
-    background:white;
-    color:black;
-    border:2px solid gold;
-    border-radius:20px 60px;
-    padding:12px 25px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.4s;
-}
-
-.login-btn:hover{
-    transform:translateY(-5px);
-    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown);
-}
-
 
     #tils{
         width:120px;
         right:10px;
         bottom:10px;
     }
-}
-
-
 }
