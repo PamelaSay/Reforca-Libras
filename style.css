@@ -320,7 +320,7 @@ footer{
 @media (max-width: 768px) {
   // Hamburger menu toggler stuff below
 // Hamburger menu toggler stuff below
-.toggle-menu {
+.menu {
   background-color: transparent;
   border: none;
   cursor: pointer;
