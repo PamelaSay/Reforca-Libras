@@ -315,21 +315,9 @@ footer{
 }
 
 /* RESPONSIVO */
+
+
 @media(max-width:600px){
-    .menu-content{
-        flex-direction:column;
-    }
-
-    nav{
-        justify-content:center;
-    }
-
-    nav a{
-        width:100%;
-        text-align:center;
-    }
-
-@media(max-width:900px){
     .menu-content{
         flex-direction:column;
     }
