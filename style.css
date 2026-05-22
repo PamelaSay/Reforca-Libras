@@ -228,11 +228,19 @@ nav a:hover{
 .buttons a:hover,
 .buttons button:hover{
     transform:translateY(-5px);
-    background:linear-gradient( 101deg,darkgoldenrod,khaki,peru, sandybrown);
+    background:linear-gradient(
+        101deg,
+        darkgoldenrod,
+        khaki,
+        peru,
+        sandybrown
+    );
     color:black;
 }
 
-/* PROGRESSO */
+/* =========================
+PROGRESSO
+========================= */
 
 .box{
     background:rgba(255,255,255,0.95);
@@ -244,12 +252,28 @@ nav a:hover{
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* COMENTÁRIOS */
+/* =========================
+COMENTÁRIOS
+========================= */
 
 .comentarios{
     text-align:center;
 }
-/* LISTA DE COMENTÁRIOS */
+
+textarea{
+    width:100%;
+    max-width:900px;
+    height:180px;
+    padding:20px;
+    border-radius:25px;
+    border:2px solid gold;
+    resize:none;
+    margin:20px auto;
+    display:block;
+    font-size:16px;
+}
+
+/* LISTA */
 
 #lista-comentarios{
     margin-top:30px;
@@ -266,18 +290,6 @@ nav a:hover{
     text-align:left;
     box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
-textarea{
-    width:100%;
-    max-width:900px;
-    height:180px;
-    padding:20px;
-    border-radius:25px;
-    border:2px solid gold;
-    resize:none;
-    margin:20px auto;
-    display:block;
-    font-size:16px;
-}
 
 .comentarios button{
     background:white;
@@ -292,10 +304,18 @@ textarea{
 
 .comentarios button:hover{
     transform:translateY(-5px);
-    background:linear-gradient( 101deg,darkgoldenrod, khaki, peru,sandybrown);
+    background:linear-gradient(
+        101deg,
+        darkgoldenrod,
+        khaki,
+        peru,
+        sandybrown
+    );
 }
 
-/* TILS */
+/* =========================
+TILS
+========================= */
 
 #tils{
     position:fixed;
@@ -303,6 +323,34 @@ textarea{
     bottom:20px;
     width:170px;
     z-index:999;
+}
+
+/* =========================
+FOOTER
+========================= */
+
+footer{
+    background:rgba(0,0,0,0.95);
+    color:white;
+    text-align:center;
+    padding:20px;
+    border-top:2px solid gold;
+}
+
+/* =========================
+MENU HAMBURGUER
+========================= */
+
+.menu-toggle{
+    display:none;
+    background:white;
+    color:black;
+    border:2px solid gold;
+    border-radius:15px;
+    padding:10px 15px;
+    cursor:pointer;
+    font-size:20px;
+    font-weight:bold;
 }
 
 /* FOOTER */
