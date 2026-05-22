@@ -167,7 +167,77 @@ nav a:hover{
     peru,
     sandybrown);
 }
+/* PESQUISA */
 
+.pesquisa{
+
+    padding:40px 0;
+}
+
+.pesquisa-box{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+.pesquisa-box input{
+
+    width:100%;
+
+    max-width:500px;
+
+    padding:15px 20px;
+
+    border-radius:20px 60px;
+
+    border:2px solid gold;
+
+    font-size:16px;
+
+    outline:none;
+
+    background:rgba(255,255,255,0.95);
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.pesquisa-box button{
+
+    background:white;
+
+    color:black;
+
+    border:2px solid gold;
+
+    border-radius:20px 60px;
+
+    padding:15px 30px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.4s;
+}
+
+.pesquisa-box button:hover{
+    transform:translateY(-5px);
+    background:linear-gradient(
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
+}
 /* BANNER */
 
 .banner img{
