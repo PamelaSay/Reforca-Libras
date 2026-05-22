@@ -317,9 +317,9 @@ footer{
 
 /* Responsividade para Mobile */
 @media (max-width: 768px) {
-  .menu-toggle { display: flex; }
+  .menu-content { display: flex; }
   
-  .nav a {
+  .nav  {
     display: none; /* Oculta o menu inicialmente no mobile */
     flex-direction: column;
     position: fixed;
