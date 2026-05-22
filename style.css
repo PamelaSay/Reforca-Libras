@@ -319,7 +319,7 @@ footer{
 /* Responsividade para Mobile */
 @media (max-width: 768px) {
 .menu {
-  background-color: black;
+  background-color: transparent;
   border: none;
   cursor: pointer;
   display: inline-block;
