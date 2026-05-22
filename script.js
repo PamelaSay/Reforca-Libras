@@ -1,7 +1,7 @@
 //js/script.js
-    let usuario = localStorage.getItem("usuario")
-    document.getElementById("usuario-logado").innerHTML =
-    "Olá, " + usuario
+let usuario = localStorage.getItem("usuario")
+        document.getElementById("usuario-logado").innerHTML =
+        "Olá, " + usuario
 
 
 function abrirjogo(tipo){
