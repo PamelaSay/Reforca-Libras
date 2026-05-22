@@ -1,4 +1,5 @@
-function entrar(){
+localStorage.setItem("usuario", nome)
+    function entrar(){
 
     let nome = document.getElementById("nome").value
 
