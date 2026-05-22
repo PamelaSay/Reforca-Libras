@@ -1,13 +1,29 @@
-//js/script.js
-let usuario = localStorage.getItem("usuario")
-        document.getElementById("usuario-logado").innerHTML =
-        "Olá, " + usuario
+// =========================
+// USUÁRIO LOGADO
+// =========================
 
-function menuresponsivo(){
-$('.menu').click (function(){
-  $(this).toggleClass('active');
-  $('#menu').toggleClass('open');
-})};
+let usuario = localStorage.getItem("usuario")
+
+if(document.getElementById("usuario-logado")){
+
+    document.getElementById("usuario-logado").innerHTML =
+    "Olá, " + usuario
+}
+
+// =========================
+// MENU RESPONSIVO
+// =========================
+
+function menuResponsivo(){
+
+    const nav = document.getElementById("menu-links")
+
+    nav.classList.toggle("ativo")
+}
+
+// =========================
+// COMENTÁRIOS
+// =========================
 
 function salvarComentario(){
 
@@ -22,13 +38,14 @@ function salvarComentario(){
     }
 
     let comentarios = JSON.parse(
-    localStorage.getItem("comentarios")) || []
+        localStorage.getItem("comentarios")
+    ) || []
 
     comentarios.push(comentario)
 
     localStorage.setItem(
-    "comentarios",
-    JSON.stringify(comentarios)
+        "comentarios",
+        JSON.stringify(comentarios)
     )
 
     mostrarComentarios()
@@ -39,40 +56,80 @@ function salvarComentario(){
 function mostrarComentarios(){
 
     let comentarios = JSON.parse(
-    localStorage.getItem("comentarios")) || []
+        localStorage.getItem("comentarios")
+    ) || []
+
     let lista =
     document.getElementById("lista-comentarios")
+
+    if(!lista){
+        return
+    }
+
     lista.innerHTML = ""
+
     comentarios.forEach(function(item){
+
         lista.innerHTML += `
+
         <div class="comentario-item">
+
             💬 ${item}
+
         </div>
-         `
+
+        `
     })
 }
 
 mostrarComentarios()
 
-function abrirjogo(tipo){
-  if(tipo =='potencia1'){
-    alert('Abrindo jogo de Potenciação');
-  }
-  if(tipo === 'radiciacao'){
-    alert('Abrindo jogo de Radiciação');
-  }
-  if(tipo === ' cartesiano'){
-    alert('Abrindo jogo Plano Cartesiano')
-  }
+// =========================
+// ABRIR JOGOS
+// =========================
+
+function abrirJogo(tipo){
+
+    if(tipo === 'potencia'){
+
+        window.location.href =
+        "jogos/potencia.html"
+    }
+
+    if(tipo === 'radiciacao'){
+
+        alert('Abrindo jogo de Radiciação')
+    }
+
+    if(tipo === 'cartesiano'){
+
+        alert('Abrindo jogo Plano Cartesiano')
+    }
 }
 
-let pontos = 10
-localStorage.setItem("pontos", pontos)
+// =========================
+// PONTUAÇÃO
+// =========================
 
-let pontos = localStorage.getItem("pontos")
-document.getElementById("pontuacao")
-.innerHTML = pontos
+localStorage.setItem("pontos", 10)
 
+let pontos =
+localStorage.getItem("pontos")
+
+if(document.getElementById("pontuacao")){
+
+    document.getElementById("pontuacao").innerHTML =
+    pontos
+}
+
+// =========================
+// VOLTAR PÁGINA
+// =========================
+
+function voltarPagina(){
+
+    history.back()
+}
 function voltarPagina(){
 
     history.back()
