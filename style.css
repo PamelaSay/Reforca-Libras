@@ -236,9 +236,7 @@ nav a:hover{
     color:black;
 }
 
-/* =========================
-PROGRESSO
-========================= */
+/* PROGRESSO */
 
 .box{
     background:rgba(255,255,255,0.95);
@@ -250,9 +248,7 @@ PROGRESSO
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* =========================
-COMENTÁRIOS
-========================= */
+/* COMENTÁRIOS */
 
 .comentarios{
     text-align:center;
@@ -311,9 +307,7 @@ textarea{
     );
 }
 
-/* =========================
-TILS
-========================= */
+/* TILS */
 
 #tils{
     position:fixed;
@@ -323,9 +317,7 @@ TILS
     z-index:999;
 }
 
-/* =========================
-FOOTER
-========================= */
+/*FOOTER */
 
 footer{
     background:rgba(0,0,0,0.95);
@@ -335,9 +327,7 @@ footer{
     border-top:2px solid gold;
 }
 
-/* =========================
-MENU HAMBURGUER
-========================= */
+/* MENU HAMBURGUER */
 
 .menu-toggle{
     display:none;
@@ -351,28 +341,18 @@ MENU HAMBURGUER
     font-weight:bold;
 }
 
-/* FOOTER */
-
-footer{
-    background:rgba(0,0,0,0.95);
-    color:white;
-    text-align:center;
-    padding:20px;
-    border-top:2px solid gold;
-}
-/* =========================
-RESPONSIVO
-========================= */
+/* RESPONSIVO */
 
 @media(max-width:768px){
 
     .menu-content{
         flex-direction:column;
-        align-items:height;
+        align-items:center;
     }
 
     .menu-toggle{
         display:block;
+        height:20px;
     }
 
     nav{
