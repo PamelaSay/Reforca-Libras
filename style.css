@@ -317,7 +317,7 @@ footer{
 
 /* Responsividade para Mobile */
 @media (max-width: 768px) {
-  .menu-content { 
+  .menu { 
       display: flex;
   }
   
