@@ -464,6 +464,61 @@ footer{
     }
 
 }
+/* =========================
+   TELAS GRANDES - PC
+========================= */
+
+@media screen and (min-width:1200px){
+
+    .cards{
+
+        display:grid;
+
+        grid-template-columns:repeat(3, 1fr);
+
+        gap:40px;
+
+        justify-items:center;
+
+        max-width:1400px;
+
+        margin:0 auto;
+    }
+
+    .card{
+
+        width:100%;
+
+        max-width:350px;
+    }
+
+    .aulas,
+    .progresso,
+    .comentarios{
+
+        max-width:1400px;
+
+        margin:0 auto;
+    }
+
+    .menu{
+
+        padding:20px 80px;
+    }
+
+    nav{
+
+        gap:30px;
+    }
+
+    .banner img{
+
+        max-height:500px;
+
+        object-fit:cover;
+    }
+
+}
 
 
 
