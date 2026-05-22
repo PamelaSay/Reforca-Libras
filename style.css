@@ -317,11 +317,11 @@ footer{
 
 /* Responsividade para Mobile */
 @media (max-width: 768px) {
-  .menu { 
+  .menu-content { 
       display: flex;
   }
   
-  .nav  {
+  .nav a  {
     display: none; /* Oculta o menu inicialmente no mobile */
     flex-direction: column;
     position: fixed;
