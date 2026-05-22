@@ -4,9 +4,9 @@
 function usuariologado(){
 let usuario = localStorage.getItem("usuario")
 
-if(document.getElementById("usuario-logado")){
+if(document.getElementById("Login realizado!")){
 
-    document.getElementById("usuario-logado").innerHTML =
+    document.getElementById("Login realizado!").innerHTML =
     "Olá, " + usuario
 }}
 
