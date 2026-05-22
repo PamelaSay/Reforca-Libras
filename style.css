@@ -1,5 +1,7 @@
-/*style.css */
+/* RESET */
+
 *{
+
     margin:0;
     padding:0;
     box-sizing:border-box;
@@ -12,12 +14,29 @@ body{
     font-family:'Nunito', sans-serif;
 
     background-image:url('../imagens/transferir.jpg');
+
     background-size:cover;
+
     background-position:center;
+
     background-repeat:no-repeat;
+
     background-attachment:fixed;
 
-    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* CONTAINER */
+
+.container{
+
+    width:100%;
+
+    max-width:1400px;
+
+    margin:0 auto;
+
+    padding:0 20px;
 }
 
 /* MENU */
@@ -26,20 +45,30 @@ body{
 
     width:100%;
 
-    background:rgba(0,0,0,0.9);
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:15px 40px;
+    background:rgba(0,0,0,0.95);
 
     border-bottom:2px solid gold;
 
     position:sticky;
+
     top:0;
 
     z-index:1000;
+}
+
+/* CONTEÚDO MENU */
+
+.menu-content{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:20px 0;
+
+    gap:20px;
 }
 
 /* LOGO */
@@ -56,12 +85,19 @@ body{
     transform:scale(1.05);
 }
 
-/* MENU LINKS */
+/* NAV */
 
 nav{
 
     display:flex;
-    gap:20px;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
 }
 
 nav a{
@@ -99,7 +135,7 @@ nav a:hover{
     color:black;
 }
 
-/* BOTÃO LOGIN */
+/* LOGIN */
 
 .login-btn{
 
@@ -118,8 +154,6 @@ nav a:hover{
     cursor:pointer;
 
     transition:0.4s;
-
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 .login-btn:hover{
@@ -136,18 +170,17 @@ nav a:hover{
 
 /* BANNER */
 
-.banner{
-
-    width:100%;
-}
-
 .banner img{
 
     width:100%;
 
+    max-height:500px;
+
+    object-fit:cover;
+
     display:block;
 
-    border-bottom:3px solid gold;
+    border-bottom:2px solid gold;
 }
 
 /* SEÇÕES */
@@ -156,22 +189,24 @@ nav a:hover{
 .progresso,
 .comentarios{
 
-    padding:60px 40px;
+    padding:60px 0;
 }
 
-/* TÍTULOS */
+/* TITULOS */
 
-.aulas,
-.progresso,
-.comentarios{
+.aulas h2,
+.progresso h2,
+.comentarios h2{
 
-    width:100%;
+    color:white;
 
-    max-width:1400px;
+    font-size:2rem;
 
-    margin:0 auto;
+    margin-bottom:30px;
 
-    padding:60px 40px;
+    text-align:center;
+
+    text-shadow:2px 2px 5px black;
 }
 
 /* CARDS */
@@ -180,26 +215,22 @@ nav a:hover{
 
     width:100%;
 
-    max-width:1400px;
+    display:flex;
 
-    margin:0 auto;
+    justify-content:center;
 
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    flex-wrap:wrap;
 
     gap:40px;
-
-    justify-items:center;
-
-    align-items:start;
 }
+
+/* CARD */
 
 .card{
 
     width:100%;
 
-    max-width:320px;
+    max-width:330px;
 
     background:rgba(255,255,255,0.95);
 
@@ -216,10 +247,10 @@ nav a:hover{
 
 .card:hover{
 
-    transform:translateY(-8px) scale(1.02);
+    transform:translateY(-8px);
 }
 
-/* IMAGEM CARD */
+/* IMG CARD */
 
 .card img{
 
@@ -230,7 +261,7 @@ nav a:hover{
     object-fit:cover;
 }
 
-/* CONTEÚDO CARD */
+/* CONTEUDO CARD */
 
 .card-content{
 
@@ -239,18 +270,14 @@ nav a:hover{
 
 .card-content h3{
 
-    color:black;
-
     margin-bottom:10px;
-
-    font-size:1.4rem;
 }
 
 .card-content p{
 
-    color:#333;
-
     margin-bottom:20px;
+
+    color:#333;
 }
 
 /* BOTÕES */
@@ -260,6 +287,8 @@ nav a:hover{
     display:flex;
 
     gap:10px;
+
+    width:100%;
 }
 
 .buttons a,
@@ -284,11 +313,9 @@ nav a:hover{
     text-decoration:none;
 
     border:2px solid gold;
-
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* BOTÃO AULA */
+/* AULA */
 
 .buttons a{
 
@@ -297,7 +324,7 @@ nav a:hover{
     color:white;
 }
 
-/* BOTÃO JOGO */
+/* JOGO */
 
 .buttons button{
 
@@ -306,7 +333,7 @@ nav a:hover{
     color:black;
 }
 
-/* HOVER BOTÕES */
+/* HOVER */
 
 .buttons a:hover,
 .buttons button:hover{
@@ -329,24 +356,31 @@ nav a:hover{
 
     background:rgba(255,255,255,0.95);
 
-    padding:30px;
+    border:2px solid gold;
 
     border-radius:25px;
 
-    border:2px solid gold;
-
-    box-shadow:0 8px 20px rgba(0,0,0,0.3);
-
-    color:black;
+    padding:30px;
 
     max-width:500px;
+
+    margin:0 auto;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
 /* COMENTÁRIOS */
 
+.comentarios{
+
+    text-align:center;
+}
+
 textarea{
 
     width:100%;
+
+    max-width:900px;
 
     height:180px;
 
@@ -356,13 +390,13 @@ textarea{
 
     border:2px solid gold;
 
-    font-size:16px;
-
     resize:none;
 
-    background:rgba(255,255,255,0.95);
+    margin:20px auto;
 
-    margin-bottom:20px;
+    display:block;
+
+    font-size:16px;
 }
 
 .comentarios button{
@@ -406,16 +440,9 @@ textarea{
 
     bottom:20px;
 
-    width:180px;
+    width:170px;
 
     z-index:999;
-
-    transition:0.4s;
-}
-
-#tils:hover{
-
-    transform:scale(1.05);
 }
 
 /* FOOTER */
@@ -431,31 +458,34 @@ footer{
     padding:20px;
 
     border-top:2px solid gold;
-
-    margin-top:40px;
 }
 
 /* RESPONSIVO */
 
 @media(max-width:900px){
 
-    .menu{
+    .menu-content{
 
         flex-direction:column;
-
-        gap:20px;
     }
 
     nav{
 
-        flex-wrap:wrap;
-
         justify-content:center;
+    }
+
+    nav a{
+
+        width:100%;
+
+        text-align:center;
     }
 
     .cards{
 
-        justify-content:center;
+        flex-direction:column;
+
+        align-items:center;
     }
 
     #tils{
@@ -464,139 +494,3 @@ footer{
     }
 
 }
-/* =========================
-   DESKTOP
-========================= */
-
-@media screen and (min-width:1024px){
-
-    body{
-        overflow-x:hidden;
-    }
-
-    /* MENU */
-
-    .menu{
-
-        width:100%;
-
-        display:flex;
-
-        justify-content:space-between;
-
-        align-items:center;
-
-        padding:20px 50px;
-    }
-
-    nav{
-
-        display:flex;
-
-        justify-content:center;
-
-        align-items:center;
-
-        gap:15px;
-
-        flex-wrap:wrap;
-    }
-
-    nav a{
-
-        width:auto;
-
-        min-width:130px;
-
-        text-align:center;
-
-        padding:12px 20px;
-    }
-
-    /* ÁREA PRINCIPAL */
-
-    .aulas,
-    .progresso,
-    .comentarios{
-
-        width:100%;
-
-        max-width:1400px;
-
-        margin:0 auto;
-    }
-
-    /* GRID DOS CARDS */
-
-    .cards{
-
-        display:grid;
-
-        grid-template-columns:repeat(3, 1fr);
-
-        gap:35px;
-
-        justify-items:center;
-
-        align-items:start;
-    }
-
-    /* CARD */
-
-    .card{
-
-        width:100%;
-
-        max-width:340px;
-    }
-
-    /* BOTÕES DOS CARDS */
-
-    .buttons{
-
-        display:flex;
-
-        gap:10px;
-    }
-
-    .buttons a,
-    .buttons button{
-
-        width:100%;
-
-        min-height:48px;
-
-        display:flex;
-
-        justify-content:center;
-
-        align-items:center;
-
-        text-align:center;
-    }
-
-    /* BANNER */
-
-    .banner img{
-
-        width:100%;
-
-        max-height:450px;
-
-        object-fit:cover;
-    }
-
-    /* TILS */
-
-    #tils{
-
-        width:170px;
-    }
-
-}
-
-
-
-  
-}
-
