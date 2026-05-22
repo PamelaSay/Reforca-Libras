@@ -324,17 +324,17 @@ footer{
   cursor: pointer;
   display: inline-block;
   float: right;
-  height: $hamburger-height;
+  height:50px;
   outline: none;
   padding: 0;
   pointer-events: initial;
   position: relative;
   vertical-align: middle;
-  width: $hamburger-width;
-  z-index: $hamburger-zindex;
+  width: 50px;
+  z-index: 50px;
 
   span {
-    background-color: $hamburger-color;
+    background-color:color;
     content: "";
     display: block;
     height: 2px;
@@ -346,7 +346,7 @@ footer{
     width: 26px;
 
     &:before, &:after {
-      background-color: $hamburger-color;
+      background-color: color;
       content: "";
       display: block;
       height: 2px;
