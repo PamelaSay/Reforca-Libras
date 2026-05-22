@@ -336,7 +336,7 @@ footer{
 @media(max-width:768px){
 
     .menu-content{
-        flex-direction:column;
+        flex-direction:line;
         align-items:center;
     }
 
