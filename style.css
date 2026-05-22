@@ -1,264 +1,335 @@
-/* =========================
-RESET
-========================= */
+/* RESET */
 
 *{
+
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
-/* =========================
-BODY
-========================= */
+/* BODY */
 
 body{
+
     font-family:'Nunito', sans-serif;
+
     background-image:url('../imagens/transferir.jpg');
+
     background-size:cover;
+
     background-position:center;
+
     background-repeat:no-repeat;
+
     background-attachment:fixed;
+
     overflow-x:hidden;
 }
 
-/* =========================
-CONTAINER
-========================= */
+/* CONTAINER */
 
 .container{
+
     width:100%;
+
     max-width:1400px;
+
     margin:0 auto;
+
     padding:0 20px;
 }
 
-/* =========================
-MENU
-========================= */
+/* MENU */
 
 .menu{
+
     width:100%;
+
     background:rgba(0,0,0,0.95);
+
     border-bottom:2px solid gold;
+
     position:sticky;
+
     top:0;
+
     z-index:1000;
 }
 
+/* CONTEÚDO MENU */
+
 .menu-content{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     padding:20px 0;
+
     gap:20px;
 }
 
-/* =========================
-LOGO
-========================= */
+/* LOGO */
 
 .logo-area img{
+
     width:120px;
+
     transition:0.3s;
 }
 
 .logo-area img:hover{
+
     transform:scale(1.05);
 }
 
-/* =========================
-NAV
-========================= */
+/* NAV */
 
 nav{
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
     gap:15px;
+
     flex-wrap:wrap;
 }
 
 nav a{
+
     background:white;
+
     color:black;
+
     text-decoration:none;
+
     border:2px solid gold;
+
     border-radius:20px 60px;
+
     padding:12px 20px;
+
     font-weight:bold;
+
     transition:0.4s;
+
     box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 nav a:hover{
+
     transform:translateY(-5px);
+
     background:linear-gradient(
-        101deg,
-        darkgoldenrod,
-        khaki,
-        peru,
-        sandybrown
-    );
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
+
     color:black;
 }
 
-/* =========================
-LOGIN
-========================= */
+/* LOGIN */
 
 .login-btn{
+
     background:white;
+
     color:black;
+
     border:2px solid gold;
+
     border-radius:20px 60px;
+
     padding:12px 25px;
+
     font-weight:bold;
+
     cursor:pointer;
+
     transition:0.4s;
-    text-decoration:none;
 }
 
 .login-btn:hover{
+
     transform:translateY(-5px);
+
     background:linear-gradient(
-        101deg,
-        darkgoldenrod,
-        khaki,
-        peru,
-        sandybrown
-    );
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
 }
 
-/* =========================
-BANNER
-========================= */
+/* BANNER */
 
 .banner img{
+
     width:100%;
+
     max-height:500px;
+
     object-fit:cover;
+
     display:block;
+
     border-bottom:2px solid gold;
 }
 
-/* =========================
-SEÇÕES
-========================= */
+/* SEÇÕES */
 
 .aulas,
 .progresso,
 .comentarios{
+
     padding:60px 0;
 }
 
-/* =========================
-TÍTULOS
-========================= */
+/* TITULOS */
 
 .aulas h2,
 .progresso h2,
 .comentarios h2{
+
     color:white;
+
     font-size:2rem;
+
     margin-bottom:30px;
+
     text-align:center;
+
     text-shadow:2px 2px 5px black;
 }
 
-/* =========================
-CARDS
-========================= */
+/* CARDS */
 
 .cards{
+
     width:100%;
+
     display:flex;
+
     justify-content:center;
+
     flex-wrap:wrap;
+
     gap:40px;
 }
 
-/* =========================
-CARD
-========================= */
+/* CARD */
 
 .card{
+
     width:100%;
+
     max-width:330px;
+
     background:rgba(255,255,255,0.95);
+
     border-radius:25px;
+
     overflow:hidden;
+
     border:2px solid gold;
+
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
+
     transition:0.4s;
 }
 
 .card:hover{
+
     transform:translateY(-8px);
 }
 
-/* =========================
-IMG CARD
-========================= */
+/* IMG CARD */
 
 .card img{
+
     width:100%;
+
     height:220px;
+
     object-fit:cover;
 }
 
-/* =========================
-CONTEÚDO CARD
-========================= */
+/* CONTEUDO CARD */
 
 .card-content{
+
     padding:20px;
 }
 
 .card-content h3{
+
     margin-bottom:10px;
 }
 
 .card-content p{
+
     margin-bottom:20px;
+
     color:#333;
 }
 
-/* =========================
-BOTÕES
-========================= */
+/* BOTÕES */
 
 .buttons{
+
     display:flex;
+
     gap:10px;
+
     width:100%;
 }
 
 .buttons a,
 .buttons button{
+
     flex:1;
+
     border:none;
+
     padding:12px;
+
     border-radius:20px 60px;
+
     font-weight:bold;
+
     cursor:pointer;
+
     transition:0.4s;
+
     text-align:center;
+
     text-decoration:none;
+
     border:2px solid gold;
 }
 
 /* AULA */
 
 .buttons a{
+
     background:black;
+
     color:white;
 }
 
 /* JOGO */
 
 .buttons button{
+
     background:white;
+
     color:black;
 }
 
@@ -266,176 +337,160 @@ BOTÕES
 
 .buttons a:hover,
 .buttons button:hover{
+
     transform:translateY(-5px);
+
     background:linear-gradient(
-        101deg,
-        darkgoldenrod,
-        khaki,
-        peru,
-        sandybrown
-    );
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
+
     color:black;
 }
 
-/* =========================
-PROGRESSO
-========================= */
+/* PROGRESSO */
 
 .box{
+
     background:rgba(255,255,255,0.95);
+
     border:2px solid gold;
+
     border-radius:25px;
+
     padding:30px;
+
     max-width:500px;
+
     margin:0 auto;
+
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* =========================
-COMENTÁRIOS
-========================= */
+/* COMENTÁRIOS */
 
 .comentarios{
+
     text-align:center;
 }
 
 textarea{
+
     width:100%;
+
     max-width:900px;
+
     height:180px;
+
     padding:20px;
+
     border-radius:25px;
+
     border:2px solid gold;
+
     resize:none;
+
     margin:20px auto;
+
     display:block;
+
     font-size:16px;
 }
 
-/* LISTA */
-
-#lista-comentarios{
-    margin-top:30px;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
-
-.comentario-item{
-    background:rgba(255,255,255,0.95);
-    border:2px solid gold;
-    padding:20px;
-    border-radius:20px;
-    text-align:left;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
-
 .comentarios button{
+
     background:white;
+
     color:black;
+
     border:2px solid gold;
+
     border-radius:20px 60px;
+
     padding:15px 30px;
+
     font-weight:bold;
+
     cursor:pointer;
+
     transition:0.4s;
 }
 
 .comentarios button:hover{
+
     transform:translateY(-5px);
+
     background:linear-gradient(
-        101deg,
-        darkgoldenrod,
-        khaki,
-        peru,
-        sandybrown
-    );
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
 }
 
-/* =========================
-TILS
-========================= */
+/* TILS */
 
 #tils{
+
     position:fixed;
+
     right:20px;
+
     bottom:20px;
+
     width:170px;
+
     z-index:999;
 }
 
-/* =========================
-FOOTER
-========================= */
+/* FOOTER */
 
 footer{
+
     background:rgba(0,0,0,0.95);
+
     color:white;
+
     text-align:center;
+
     padding:20px;
+
     border-top:2px solid gold;
 }
 
-/* =========================
-MENU HAMBURGUER
-========================= */
+/* RESPONSIVO */
 
-.menu-toggle{
-    display:none;
-    background:white;
-    color:black;
-    border:2px solid gold;
-    border-radius:15px;
-    padding:10px 15px;
-    cursor:pointer;
-    font-size:20px;
-    font-weight:bold;
-}
-
-/* =========================
-RESPONSIVO
-========================= */
-
-@media(max-width:768px){
+@media(max-width:900px){
 
     .menu-content{
-        flex-direction:column;
-        align-items:center;
-    }
 
-    .menu-toggle{
-        display:block;
+        flex-direction:column;
     }
 
     nav{
-        display:none;
-        width:100%;
-        flex-direction:column;
-        align-items:center;
-        gap:15px;
-        margin-top:20px;
-    }
 
-    nav.ativo{
-        display:flex;
+        justify-content:center;
     }
 
     nav a{
-        width:90%;
+
+        width:100%;
+
         text-align:center;
     }
 
     .cards{
-        gap:25px;
-    }
 
-    .card{
-        max-width:100%;
+        flex-direction:column;
+
+        align-items:center;
     }
 
     #tils{
+
         width:120px;
-        right:10px;
-        bottom:10px;
     }
+
 }
