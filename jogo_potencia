@@ -1,13 +1,99 @@
-<h1>⚡ Missão Potência</h1>
+<!-- jogos/potencia.html -->
 
-<div id="fase"></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<div id="pergunta"></div>
+<head>
 
-<div id="respostas"></div>
+    <meta charset="UTF-8">
 
-<div id="pontuacao"></div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>⚡ Missão Potência</title>
 
+    <link rel="stylesheet" href="../css/potencia.css">
 
-<script src="potencia.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- TOPO -->
+
+    <header class="topo">
+
+        <h1>
+            ⚡ Missão Potência
+        </h1>
+
+        <button onclick="voltarPagina()">
+
+            ⬅ Voltar
+
+        </button>
+
+    </header>
+
+    <!-- CONTAINER -->
+
+    <main class="container">
+
+        <!-- STATUS -->
+
+        <section class="status">
+
+            <div class="status-box">
+
+                ⭐ Pontos:
+                <span id="pontos">0</span>
+
+            </div>
+
+            <div class="status-box">
+
+                ❤️ Vidas:
+                <span id="vidas">3</span>
+
+            </div>
+
+            <div class="status-box">
+
+                🎯 Fase:
+                <span id="fase">1</span>
+
+            </div>
+
+        </section>
+
+        <!-- QUIZ -->
+
+        <section class="quiz-box">
+
+            <h2 id="pergunta">
+
+                Carregando pergunta...
+
+            </h2>
+
+            <div id="respostas">
+
+            </div>
+
+        </section>
+
+        <!-- FEEDBACK -->
+
+        <section id="feedback">
+
+        </section>
+
+    </main>
+
+    <script src="potencia.js"></script>
+
+</body>
+
+</html>
