@@ -11,7 +11,8 @@ body{
   /*MENU */
 .menu{
   width:100%;
-   background-color:black; /* Cor de fundo do menu */
+   background-color: white;
+    color: black;
   display: flex;
   justify-content:space-between;
   align-items:center;
