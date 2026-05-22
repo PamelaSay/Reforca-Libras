@@ -1,14 +1,14 @@
 // =========================
 // USUÁRIO LOGADO
 // =========================
-
+function usuariologado(){
 let usuario = localStorage.getItem("usuario")
 
 if(document.getElementById("usuario-logado")){
 
     document.getElementById("usuario-logado").innerHTML =
     "Olá, " + usuario
-}
+}}
 
 // =========================
 // MENU RESPONSIVO
