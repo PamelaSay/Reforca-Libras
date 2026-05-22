@@ -10,185 +10,117 @@
 /* BODY */
 
 body{
-
     font-family:'Nunito', sans-serif;
-
     background-image:url('../imagens/transferir.jpg');
-
     background-size:cover;
-
     background-position:center;
-
     background-repeat:no-repeat;
-
     background-attachment:fixed;
-
     overflow-x:hidden;
 }
 
 /* CONTAINER */
 
 .container{
-
     width:100%;
-
     max-width:1400px;
-
     margin:0 auto;
-
     padding:0 20px;
 }
 
 /* MENU */
 
 .menu{
-
     width:100%;
-
     background:rgba(0,0,0,0.95);
-
     border-bottom:2px solid gold;
-
     position:sticky;
-
     top:0;
-
     z-index:1000;
 }
 
 /* CONTEÚDO MENU */
 
 .menu-content{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     padding:20px 0;
-
     gap:20px;
 }
 
 /* LOGO */
 
 .logo-area img{
-
     width:120px;
-
     transition:0.3s;
 }
 
 .logo-area img:hover{
-
     transform:scale(1.05);
 }
 
 /* NAV */
 
 nav{
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     gap:15px;
-
     flex-wrap:wrap;
 }
 
 nav a{
 
     background:white;
-
     color:black;
-
     text-decoration:none;
-
     border:2px solid gold;
-
     border-radius:20px 60px;
-
     padding:12px 20px;
-
     font-weight:bold;
-
     transition:0.4s;
-
     box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 nav a:hover{
-
     transform:translateY(-5px);
-
-    background:linear-gradient(
-    101deg,
-    darkgoldenrod,
-    khaki,
-    peru,
-    sandybrown);
-
+    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown);
     color:black;
 }
 
 /* LOGIN */
 
 .login-btn{
-
     background:white;
-
     color:black;
-
     border:2px solid gold;
-
     border-radius:20px 60px;
-
     padding:12px 25px;
-
     font-weight:bold;
-
     cursor:pointer;
-
     transition:0.4s;
 }
 
 .login-btn:hover{
-
     transform:translateY(-5px);
-
-    background:linear-gradient(
-    101deg,
-    darkgoldenrod,
-    khaki,
-    peru,
-    sandybrown);
+    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown);
 }
 
 /* BANNER */
 
 .banner img{
-
     width:100%;
-
     max-height:500px;
-
     object-fit:cover;
-
     display:block;
-
-    border-bottom:2px solid gold;
-}
+    border-bottom:2px solid gold;}
 
 /* SEÇÕES */
 
 .aulas,
 .progresso,
 .comentarios{
-
     padding:60px 0;
 }
 
@@ -197,139 +129,96 @@ nav a:hover{
 .aulas h2,
 .progresso h2,
 .comentarios h2{
-
     color:white;
-
     font-size:2rem;
-
     margin-bottom:30px;
-
     text-align:center;
-
     text-shadow:2px 2px 5px black;
 }
 
 /* CARDS */
 
 .cards{
-
     width:100%;
-
     display:flex;
-
     justify-content:center;
-
     flex-wrap:wrap;
-
     gap:40px;
 }
 
 /* CARD */
 
 .card{
-
     width:100%;
-
     max-width:330px;
-
     background:rgba(255,255,255,0.95);
-
     border-radius:25px;
-
     overflow:hidden;
-
     border:2px solid gold;
-
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
-
     transition:0.4s;
 }
 
 .card:hover{
-
     transform:translateY(-8px);
 }
 
 /* IMG CARD */
 
 .card img{
-
     width:100%;
-
     height:220px;
-
     object-fit:cover;
 }
 
 /* CONTEUDO CARD */
 
 .card-content{
-
     padding:20px;
 }
 
 .card-content h3{
-
     margin-bottom:10px;
 }
 
 .card-content p{
-
     margin-bottom:20px;
-
     color:#333;
 }
 
 /* BOTÕES */
 
 .buttons{
-
     display:flex;
-
     gap:10px;
-
     width:100%;
 }
 
 .buttons a,
 .buttons button{
-
     flex:1;
-
     border:none;
-
     padding:12px;
-
     border-radius:20px 60px;
-
     font-weight:bold;
-
     cursor:pointer;
-
     transition:0.4s;
-
     text-align:center;
-
     text-decoration:none;
-
     border:2px solid gold;
 }
 
 /* AULA */
 
 .buttons a{
-
     background:black;
-
     color:white;
 }
 
 /* JOGO */
 
 .buttons button{
-
     background:white;
-
     color:black;
 }
 
@@ -337,185 +226,129 @@ nav a:hover{
 
 .buttons a:hover,
 .buttons button:hover{
-
     transform:translateY(-5px);
-
-    background:linear-gradient(
-    101deg,
-    darkgoldenrod,
-    khaki,
-    peru,
-    sandybrown);
-
+    background:linear-gradient( 101deg,darkgoldenrod,khaki,peru, sandybrown);
     color:black;
 }
 
 /* PROGRESSO */
 
 .box{
-
     background:rgba(255,255,255,0.95);
-
     border:2px solid gold;
-
     border-radius:25px;
-
     padding:30px;
-
     max-width:500px;
-
     margin:0 auto;
-
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
 /* COMENTÁRIOS */
 
 .comentarios{
-
     text-align:center;
 }
 /* LISTA DE COMENTÁRIOS */
 
 #lista-comentarios{
-
     margin-top:30px;
-
     display:flex;
-
     flex-direction:column;
-
     gap:20px;
 }
 
 .comentario-item{
-
     background:rgba(255,255,255,0.95);
-
     border:2px solid gold;
-
     padding:20px;
-
     border-radius:20px;
-
     text-align:left;
-
     box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 textarea{
-
     width:100%;
-
     max-width:900px;
-
     height:180px;
-
     padding:20px;
-
     border-radius:25px;
-
     border:2px solid gold;
-
     resize:none;
-
     margin:20px auto;
-
     display:block;
-
     font-size:16px;
 }
 
 .comentarios button{
-
     background:white;
-
     color:black;
-
     border:2px solid gold;
-
     border-radius:20px 60px;
-
     padding:15px 30px;
-
     font-weight:bold;
-
     cursor:pointer;
-
     transition:0.4s;
 }
 
 .comentarios button:hover{
-
     transform:translateY(-5px);
-
-    background:linear-gradient(
-    101deg,
-    darkgoldenrod,
-    khaki,
-    peru,
-    sandybrown);
+    background:linear-gradient( 101deg,darkgoldenrod, khaki, peru,sandybrown);
 }
 
 /* TILS */
 
 #tils{
-
     position:fixed;
-
     right:20px;
-
     bottom:20px;
-
     width:170px;
-
     z-index:999;
 }
 
 /* FOOTER */
 
 footer{
-
     background:rgba(0,0,0,0.95);
-
     color:white;
-
     text-align:center;
-
     padding:20px;
-
     border-top:2px solid gold;
 }
 
 /* RESPONSIVO */
-
-@media(max-width:900px){
-
+@media(max-width:600px){
     .menu-content{
-
         flex-direction:column;
     }
 
     nav{
-
         justify-content:center;
     }
 
     nav a{
-
         width:100%;
+        text-align:center;
+    }
 
+@media(max-width:900px){
+    .menu-content{
+        flex-direction:column;
+    }
+
+    nav{
+        justify-content:center;
+    }
+
+    nav a{
+        width:100%;
         text-align:center;
     }
 
     .cards{
-
         flex-direction:column;
-
         align-items:center;
     }
 
     #tils{
-
         width:120px;
     }
 
