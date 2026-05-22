@@ -1,4 +1,4 @@
-// js/potencia.js
+// potencia.js
 
 const perguntas = [
 
