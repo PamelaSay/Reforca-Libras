@@ -4,7 +4,7 @@ let usuario = localStorage.getItem("usuario")
         "Olá, " + usuario
 
 function menuresponsivo(){
-$('.toggle-menu').click (function(){
+$('.menu').click (function(){
   $(this).toggleClass('active');
   $('#menu').toggleClass('open');
 })};
