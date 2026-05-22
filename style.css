@@ -1,187 +1,461 @@
 /*style.css */
+/* RESET */
+
 *{
-  margin:0;
-  paffing:0;
-  box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
+
+/* BODY */
+
 body{
-  font-family:'Nunito', sans-serif;
-  background:#f4f7fb;
+
+    font-family:'Nunito', sans-serif;
+
+    background-image:url('../imagens/transferir.jpg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    min-height:100vh;
 }
-  /*MENU */
+
+/* MENU */
+
 .menu{
-  width:100%;
-   background-color: white;
-    color: black;
-  display: flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 40px;
+
+    width:100%;
+
+    background:rgba(0,0,0,0.9);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px 40px;
+
+    border-bottom:2px solid gold;
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
 }
-.menu a {
-  color:white;
-  text-decoration:none;
-  margin-left:20px;
-  font-weight:bold;
-}
-  .logo-area img{
+
+/* LOGO */
+
+.logo-area img{
+
     width:120px;
-  }
-  nav{
+
+    transition:0.3s;
+}
+
+.logo-area img:hover{
+
+    transform:scale(1.05);
+}
+
+/* MENU LINKS */
+
+nav{
+
     display:flex;
     gap:20px;
-  }
-  nav.a{
-    color:white;
-    text-decoration:nome;
-    font-weight:700;
-    transition:0.3s;
-  }
-nav a:hover{
-  color:#ffd23f;
 }
-  .login-btn{
-    background:#ffd23f;
-    border:none;
+
+nav a{
+
+    background:white;
+
+    color:black;
+
+    text-decoration:none;
+
+    border:2px solid gold;
+
+    border-radius:20px 60px;
+
     padding:12px 20px;
-    border-radius:12px;
-    cursor:pointer;
+
     font-weight:bold;
-  }
-  /*BANNER*/
-  .banner img{
+
+    transition:0.4s;
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+nav a:hover{
+
+    transform:translateY(-5px);
+
+    background:linear-gradient(
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
+
+    color:black;
+}
+
+/* BOTÃO LOGIN */
+
+.login-btn{
+
+    background:white;
+
+    color:black;
+
+    border:2px solid gold;
+
+    border-radius:20px 60px;
+
+    padding:12px 25px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.4s;
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.login-btn:hover{
+
+    transform:translateY(-5px);
+
+    background:linear-gradient(
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
+}
+
+/* BANNER */
+
+.banner{
+
     width:100%;
+}
+
+.banner img{
+
+    width:100%;
+
     display:block;
-  }
-  /*AULAS*/
-  .aulas{
-    paddinf:50px;
-  }
- .aulas h2{
-    color:#004aad;
-   margin-bottom:30 px;
-  }
+
+    border-bottom:3px solid gold;
+}
+
+/* SEÇÕES */
+
+.aulas,
+.progresso,
+.comentarios{
+
+    padding:60px 40px;
+}
+
+/* TÍTULOS */
+
+.aulas h2,
+.progresso h2,
+.comentarios h2{
+
+    color:white;
+
+    font-size:2rem;
+
+    margin-bottom:30px;
+
+    text-shadow:2px 2px 5px black;
+}
+
+/* CARDS */
+
 .cards{
-  display:flex;
-  gap:30px;
-  flex-wrap:wrap;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:30px;
+
+    justify-content:center;
 }
+
 .card{
-  background:white;
-  width:320px;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  transition:0.3s;  
+
+    width:320px;
+
+    background:rgba(255,255,255,0.95);
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    border:2px solid gold;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+
+    transition:0.4s;
 }
+
 .card:hover{
-   transform:translate y(-5px);  
+
+    transform:translateY(-8px) scale(1.02);
 }
+
+/* IMAGEM CARD */
+
+.card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+}
+
+/* CONTEÚDO CARD */
+
 .card-content{
-  padding:20px;
+
+    padding:20px;
 }
+
 .card-content h3{
-  color:#004aad;
-  margin-bottom:10px;
+
+    color:black;
+
+    margin-bottom:10px;
+
+    font-size:1.4rem;
 }
+
 .card-content p{
-  margin-bottom:20px;
+
+    color:#333;
+
+    margin-bottom:20px;
 }
-.buttons {
-    background-color: white;
-    color: black;
-    border: 2px solid gold;
-    border-radius: 15px 60px;
+
+/* BOTÕES */
+
+.buttons{
+
+    display:flex;
+
+    gap:10px;
 }
-.buttons hover {
-background: linear-gradient(
-rgba(255, 255, 255, 0),
-rgba(255, 255, 255, 0)),
-linear-gradient(
-101deg,
-darkgoldenrod,
-khaki,
-peru,
-sandybrown);
-}
+
 .buttons a,
 .buttons button{
+
     flex:1;
-    text-align:center;
-    text-decoration:none;
+
     border:none;
+
     padding:12px;
-    border-radius:12px;
-    font-weight:bold;     
-  }
-  .buttons a{
-    background:#004aad;
-    color:white;
-  }
-  .buttons button{
-    background:#ffd23f;
-  }
-  /*PROGRESSO*/
-  .progresso{
-    padding:50px;
-  }
-  .box{
-    background:white;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  }
-.box h2{
-  color:#004aad;
-  margin-botton:20px;
-}
-/* COMENTARIOS*/
-  .comentarios h2{
-    color:#004 aad;
-    margin-botton:20 px;
-  }
-  textarea{
-    width:100%;
-    height:150px;
-    border-radius:15px;
-    border:2px solid #ccc;
-    padding:20px;
-    resize:none;
-    margin-botton:20px;
-    font-size:16px;
-  }
-  .comentarios button{
-    background:#004aad;
-    color:white;
-    border:none;
-    padding: 15px 25 px;
-    border-radius:12px;
-    cursor: pointer;
-    font-weght: bold;
-  }
 
-  /*RODAPE*/
-  footer{
-    background:#004aad;
-    color:white;
+    border-radius:20px 60px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.4s;
+
     text-align:center;
-    padding:20px;
-    margin-top:40 px;
-  }
-  /* REPONSIVO*/
-  @media(max-width:900px){
-    .menu{
-      flex-direction:column;
-      gap:20px;
-    }
-    .nav{
-      flex-wrap;
-  justify-content:center;
-    }
-.cards{
-  justify-content:center;
+
+    text-decoration:none;
+
+    border:2px solid gold;
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* BOTÃO AULA */
+
+.buttons a{
+
+    background:black;
+
+    color:white;
+}
+
+/* BOTÃO JOGO */
+
+.buttons button{
+
+    background:white;
+
+    color:black;
+}
+
+/* HOVER BOTÕES */
+
+.buttons a:hover,
+.buttons button:hover{
+
+    transform:translateY(-5px);
+
+    background:linear-gradient(
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
+
+    color:black;
+}
+
+/* PROGRESSO */
+
+.box{
+
+    background:rgba(255,255,255,0.95);
+
+    padding:30px;
+
+    border-radius:25px;
+
+    border:2px solid gold;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+
+    color:black;
+
+    max-width:500px;
+}
+
+/* COMENTÁRIOS */
+
+textarea{
+
+    width:100%;
+
+    height:180px;
+
+    padding:20px;
+
+    border-radius:25px;
+
+    border:2px solid gold;
+
+    font-size:16px;
+
+    resize:none;
+
+    background:rgba(255,255,255,0.95);
+
+    margin-bottom:20px;
+}
+
+.comentarios button{
+
+    background:white;
+
+    color:black;
+
+    border:2px solid gold;
+
+    border-radius:20px 60px;
+
+    padding:15px 30px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.4s;
+}
+
+.comentarios button:hover{
+
+    transform:translateY(-5px);
+
+    background:linear-gradient(
+    101deg,
+    darkgoldenrod,
+    khaki,
+    peru,
+    sandybrown);
+}
+
+/* TILS */
+
+#tils{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:20px;
+
+    width:180px;
+
+    z-index:999;
+
+    transition:0.4s;
+}
+
+#tils:hover{
+
+    transform:scale(1.05);
+}
+
+/* FOOTER */
+
+footer{
+
+    background:rgba(0,0,0,0.95);
+
+    color:white;
+
+    text-align:center;
+
+    padding:20px;
+
+    border-top:2px solid gold;
+
+    margin-top:40px;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:900px){
+
+    .menu{
+
+        flex-direction:column;
+
+        gap:20px;
+    }
+
+    nav{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+    }
+
+    .cards{
+
+        justify-content:center;
+    }
+
+    #tils{
+
+        width:120px;
+    }
+
+}
 
 
 
