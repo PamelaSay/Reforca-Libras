@@ -161,17 +161,17 @@ nav a:hover{
 
 /* TÍTULOS */
 
-.aulas h2,
-.progresso h2,
-.comentarios h2{
+.aulas,
+.progresso,
+.comentarios{
 
-    color:white;
+    width:100%;
 
-    font-size:2rem;
+    max-width:1400px;
 
-    margin-bottom:30px;
+    margin:0 auto;
 
-    text-shadow:2px 2px 5px black;
+    padding:60px 40px;
 }
 
 /* CARDS */
@@ -197,7 +197,9 @@ nav a:hover{
 
 .card{
 
-    width:320px;
+    width:100%;
+
+    max-width:320px;
 
     background:rgba(255,255,255,0.95);
 
