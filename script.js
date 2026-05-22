@@ -121,7 +121,7 @@ function abrirJogo(tipo){
     if(tipo === 'potencia'){
 
         window.location.href =
-        "jogos/jogo_potencia.html"
+        "jogo_potencia.html"
     }
 
     if(tipo === 'radiciacao'){
