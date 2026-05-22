@@ -12,6 +12,7 @@ function salvarComentario(){
 
     alert("Comentário enviado!")
 }
+
 function abrirjogo(tipo){
   if(tipo =='potencia1'){
     alert('Abrindo jogo de Potenciação');
@@ -23,4 +24,16 @@ function abrirjogo(tipo){
     alert('Abrindo jogo Plano Cartesiano')
   }
 }
-localStorage.setItem("usuario", nome)
+
+let pontos = 10
+localStorage.setItem("pontos", pontos)
+
+let pontos = localStorage.getItem("pontos")
+document.getElementById("pontuacao")
+.innerHTML = pontos
+
+function voltarPagina(){
+
+    history.back()
+}
+
