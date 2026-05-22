@@ -118,9 +118,10 @@ mostrarComentarios()
 
 function abrirJogo(tipo){
 
-    if(tipo === 'potencia'){
+    if(tipo === 'potencia' ){
 
-        window.location.href ="jogo_potencia.html"
+        window.location.href =
+          "jogo_potencia.html"
         }
 
     if(tipo == 'radiciacao'){
