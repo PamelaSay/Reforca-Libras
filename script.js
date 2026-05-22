@@ -116,7 +116,7 @@ mostrarComentarios()
 // ABRIR JOGOS
 // =========================
 
-function abrirJogo(tipo){
+function abrirJogo( ){
 
     if(tipo === 'jogo_potencia'){
         window.location.href = "jogo_potencia.html"}
