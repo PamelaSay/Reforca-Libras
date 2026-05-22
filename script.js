@@ -1,10 +1,4 @@
 //js/script.js
-localStorage.setItem("usuario", nome)
-function entrar(){
-    let nome = document.getElementById("nome").value
-    localStorage.setItem("usuario", nome)
-    window.location.href = "index.html"
-}
     let usuario = localStorage.getItem("usuario")
     document.getElementById("usuario-logado").innerHTML =
     "Olá, " + usuario
