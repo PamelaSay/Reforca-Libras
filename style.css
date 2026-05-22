@@ -1,6 +1,4 @@
 /*style.css */
-/* RESET */
-
 *{
     margin:0;
     padding:0;
@@ -179,13 +177,9 @@ nav a:hover{
 /* CARDS */
 
 .cards{
-
     display:flex;
-
     flex-wrap:wrap;
-
     gap:30px;
-
     justify-content:center;
 }
 
