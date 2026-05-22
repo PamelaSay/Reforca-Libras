@@ -318,8 +318,6 @@ footer{
 
 /* Responsividade para Mobile */
 @media (max-width: 768px) {
-  // Hamburger menu toggler stuff below
-// Hamburger menu toggler stuff below
 .menu {
   background-color: transparent;
   border: none;
