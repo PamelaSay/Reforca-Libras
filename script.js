@@ -4,10 +4,10 @@ let usuario = localStorage.getItem("usuario")
         "Olá, " + usuario
 
 function menuresponsivo(){
-$('.content-menu').click (function(){
-  $(this).contentClass('active');
-  $('#menu').contentClass('open');
-});}
+$('.toggle-menu').click (function(){
+  $(this).toggleClass('active');
+  $('#menu').toggleClass('open');
+})};
 
 function salvarComentario(){
 
