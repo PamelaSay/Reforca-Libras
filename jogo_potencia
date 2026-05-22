@@ -1,1 +1,13 @@
-<script src="../potencia.js"></script>
+<h1>⚡ Missão Potência</h1>
+
+<div id="fase"></div>
+
+<div id="pergunta"></div>
+
+<div id="respostas"></div>
+
+<div id="pontuacao"></div>
+
+
+
+<script src="potencia.js"></script>
