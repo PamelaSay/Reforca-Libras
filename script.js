@@ -118,7 +118,7 @@ mostrarComentarios()
 
 function abrirJogo(tipo){
 
-    if(tipo === 'potencia'){
+    if(tipo === 'jogo_potencia'){
 
         window.location.href ="jogo_potencia.html"
     }
