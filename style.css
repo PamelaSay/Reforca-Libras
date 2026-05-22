@@ -380,6 +380,24 @@ footer{
     .card{
         max-width:100%;
     }
+    /* LOGIN */
+
+.login-btn{
+    background:white;
+    color:black;
+    border:2px solid gold;
+    border-radius:20px 60px;
+    padding:12px 25px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.login-btn:hover{
+    transform:translateY(-5px);
+    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown);
+}
+
 
     #tils{
         width:120px;
