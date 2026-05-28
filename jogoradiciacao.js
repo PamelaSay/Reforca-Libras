@@ -1,3 +1,4 @@
+/*radiciacao*/
 let resposta = 25;
 
 let pontos = 0;
