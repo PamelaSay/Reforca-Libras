@@ -1,1 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Jogo da Radiciação</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- TOPO -->
+
+  <div class="topo">
+
+    <div class="box-topo">
+      🏆 <span id="pontos">0</span>
+      <p>PONTOS</p>
+    </div>
+
+    <div class="titulo">
+      ⭐ Jogo da Radiciação ⭐
+    </div>
+
+    <div class="box-topo">
+      <span id="fase">1</span>/10
+      <p>FASE</p>
+    </div>
+
+  </div>
+
+  <!-- CONTEÚDO -->
+
+  <div class="conteudo">
+
+    <!-- AVATAR -->
+
+    <div class="avatar-area">
+
+      <div class="fala">
+        Observe o quadrado abaixo e responda:
+      </div>
+
+      <img
+        id="avatar"
+        src="img/avatar.png"
+        alt="Avatar">
+
+    </div>
+
+    <!-- PERGUNTA -->
+
+    <div class="pergunta-area">
+
+      <h2 id="textoPergunta">
+        Qual é a raiz quadrada de 25?
+      </h2>
+
+      <h3>
+        Qual número multiplicado por ele mesmo gera 25?
+      </h3>
+
+      <div id="quadrado"></div>
+
+    </div>
+
+    <!-- LIBRAS -->
+
+    <div class="libras">
+
+      <h2>✋ Tradução em Libras</h2>
+
+      <img
+        src="img/libras.png"
+        alt="Libras">
+
+    </div>
+
+  </div>
+
+  <!-- BOTÕES -->
+
+  <div class="alternativas">
+
+    <button onclick="verificar(4)">4</button>
+
+    <button onclick="verificar(5)">5</button>
+
+    <button onclick="verificar(6)">6</button>
+
+    <button onclick="verificar(8)">8</button>
+
+  </div>
+
+  <!-- BARRA -->
+
+  <div class="rodape">
+
+    <button class="menu">
+      MENU
+    </button>
+
+    <div class="progresso-area">
+
+      <p>PROGRESSO</p>
+
+      <div class="barra">
+        <div id="progresso"></div>
+      </div>
+
+    </div>
+
+    <button class="proximo" onclick="novaPergunta()">
+      PRÓXIMA →
+    </button>
+
+  </div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
