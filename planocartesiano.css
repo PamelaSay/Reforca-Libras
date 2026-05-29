@@ -1,1 +1,129 @@
+body{
 
+    margin:0;
+    font-family:Arial;
+    background:#d7f0ff;
+    padding:20px;
+}
+
+/* TOPO */
+
+.topo{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:#5f2cff;
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:20px;
+}
+
+.topo h1{
+
+    font-size:40px;
+}
+
+/* CONTEÚDO */
+
+.conteudo{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+}
+
+/* AVATAR */
+
+.avatar-area{
+
+    width:20%;
+}
+
+.fala{
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    font-size:25px;
+
+    margin-bottom:20px;
+}
+
+.avatar{
+
+    width:100%;
+}
+
+/* JOGO */
+
+.jogo{
+
+    width:50%;
+
+    text-align:center;
+}
+
+.jogo h2{
+
+    font-size:35px;
+
+    color:#4d26d3;
+}
+
+canvas{
+
+    background:white;
+
+    border:5px solid #5f2cff;
+
+    border-radius:20px;
+}
+
+/* LIBRAS */
+
+.libras{
+
+    width:20%;
+
+    background:#5f2cff;
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    text-align:center;
+}
+
+.libras img{
+
+    width:100%;
+
+    border-radius:20px;
+}
+
+/* MENSAGEM */
+
+#mensagem{
+
+    text-align:center;
+
+    margin-top:30px;
+
+    font-size:40px;
+
+    font-weight:bold;
+}
