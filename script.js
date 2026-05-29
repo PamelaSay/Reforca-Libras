@@ -124,9 +124,10 @@ function abrirJogo(tipo){
           "jogo_potencia.html"
         }
 
-    if(tipo == 'radiciacao'){
+    if(tipo === 'radiciacao' ){
 
-        alert('Abrindo jogo de Radiciação')
+        window.location.href =
+          "jogoradiciacao.html"
     }
 
     if(tipo == 'cartesiano'){
