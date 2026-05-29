@@ -2,63 +2,131 @@ body{
 
     margin:0;
     font-family:Arial;
-    background:#d7f0ff;
-    padding:20px;
+    background:#d8f2ff;
 }
 
 /* TOPO */
 
 .topo{
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    background:#5f2cff;
+    background:#5c2cff;
 
     color:white;
 
-    padding:20px;
+    display:flex;
 
-    border-radius:20px;
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px;
+
+    flex-wrap:wrap;
 }
 
 .topo h1{
 
-    font-size:40px;
+    font-size:28px;
 }
 
-/* CONTEÚDO */
+.topo button{
 
-.conteudo{
+    background:white;
 
-    margin-top:30px;
+    color:#5c2cff;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:15px;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}
+
+/* INFO */
+
+.info{
 
     display:flex;
 
-    justify-content:space-between;
+    justify-content:center;
+
+    gap:20px;
+
+    margin-top:20px;
+
+    flex-wrap:wrap;
+}
+
+.box{
+
+    background:white;
+
+    padding:15px 25px;
+
+    border-radius:20px;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+/* PERGUNTA */
+
+.pergunta-area{
+
+    text-align:center;
+
+    margin-top:20px;
+}
+
+.pergunta-area h2{
+
+    color:#5c2cff;
+
+    font-size:30px;
+}
+
+.pergunta-area h3{
+
+    font-size:35px;
+
+    color:#ff4d8d;
+}
+
+/* JOGO */
+
+.jogo-area{
+
+    display:flex;
+
+    justify-content:space-around;
 
     align-items:flex-start;
+
+    margin-top:20px;
+
+    gap:20px;
+
+    padding:10px;
+
+    flex-wrap:wrap;
 }
 
 /* AVATAR */
 
 .avatar-area{
 
-    width:20%;
-}
+    width:220px;
 
-.fala{
-
-    background:white;
-
-    padding:20px;
-
-    border-radius:20px;
-
-    font-size:25px;
-
-    margin-bottom:20px;
+    text-align:center;
 }
 
 .avatar{
@@ -66,64 +134,117 @@ body{
     width:100%;
 }
 
-/* JOGO */
+.fala{
 
-.jogo{
+    background:white;
 
-    width:50%;
+    padding:15px;
 
-    text-align:center;
+    border-radius:20px;
+
+    font-size:20px;
+
+    margin-bottom:15px;
 }
 
-.jogo h2{
+/* CANVAS */
 
-    font-size:35px;
+.canvas-area{
 
-    color:#4d26d3;
+    background:white;
+
+    padding:15px;
+
+    border-radius:25px;
+
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 canvas{
 
     background:white;
 
-    border:5px solid #5f2cff;
+    border:4px solid #5c2cff;
 
     border-radius:20px;
+
+    width:90vw;
+
+    max-width:500px;
+
+    height:90vw;
+
+    max-height:500px;
 }
 
 /* LIBRAS */
 
 .libras{
 
-    width:20%;
-
-    background:#5f2cff;
+    background:#5c2cff;
 
     color:white;
 
-    padding:20px;
+    padding:15px;
 
     border-radius:20px;
 
     text-align:center;
+
+    width:220px;
 }
 
 .libras img{
 
     width:100%;
 
-    border-radius:20px;
+    border-radius:15px;
 }
 
 /* MENSAGEM */
 
-#mensagem{
+.mensagem{
 
     text-align:center;
 
-    margin-top:30px;
+    margin-top:20px;
 
-    font-size:40px;
+    margin-bottom:30px;
+}
 
-    font-weight:bold;
+#mensagem{
+
+    font-size:35px;
+
+    color:#5c2cff;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .jogo-area{
+
+        flex-direction:column;
+
+        align-items:center;
+    }
+
+    .avatar-area,
+    .libras{
+
+        width:90%;
+    }
+
+    .topo{
+
+        text-align:center;
+
+        gap:10px;
+    }
+
+    .topo h1{
+
+        width:100%;
+    }
 }
