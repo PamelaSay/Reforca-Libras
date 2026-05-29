@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Plano Cartesiano</title>
+
+<link rel="stylesheet" href="planocartesiano.css">
+
+</head>
+
+<body>
+
+<div class="topo">
+
+    <div class="pontuacao">
+        ⭐ Pontos:
+        <span id="pontos">0</span>
+    </div>
+
+    <h1>
+        📈 Plano Cartesiano Interativo
+    </h1>
+
+    <div class="fase">
+        Fase:
+        <span id="fase">1</span>
+    </div>
+
+</div>
+
+<div class="conteudo">
+
+    <!-- AVATAR -->
+
+    <div class="avatar-area">
+
+        <div class="fala">
+            Clique no ponto correto no plano cartesiano.
+        </div>
+
+        <img
+        src="img/avatar.png"
+        class="avatar">
+
+    </div>
+
+    <!-- JOGO -->
+
+    <div class="jogo">
+
+        <h2 id="pergunta">
+            Clique no ponto (2,3)
+        </h2>
+
+        <canvas id="canvas" width="500" height="500"></canvas>
+
+    </div>
+
+    <!-- LIBRAS -->
+
+    <div class="libras">
+
+        <h2>🤟 Libras</h
