@@ -129,11 +129,12 @@ function abrirJogo(tipo){
         window.location.href =
           "jogoradiciacao.html"
     }
+if(tipo === 'planocartesiano' ){
 
-    if(tipo == 'cartesiano'){
-
-        alert('Abrindo jogo Plano Cartesiano')
+        window.location.href=
+            "planocartesiano.html"
     }
+    
 }
 
 // =========================
