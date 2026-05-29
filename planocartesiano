@@ -63,4 +63,18 @@
 
     <div class="libras">
 
-        <h2>🤟 Libras</h
+        <h2>🤟 Libras</h2>
+
+        <img
+        src="img/libras.png">
+
+    </div>
+
+</div>
+
+<div id="mensagem"></div>
+
+<script src="planocartesiano.js"></script>
+
+</body>
+</html>
