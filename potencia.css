@@ -72,6 +72,29 @@ body{
     background:linear-gradient( 101deg,darkgoldenrod,khaki,peru,sandybrown);
 }
 
+
+.return-button{
+    display: inline; /* isso faz com que os itens fiquem na mesma linha*/
+    background-color:0;
+    margin-right: 2px; /* Adicione o espaçamento desejado entre os itens */
+    padding:10px 10px 10px 10px; /* Espaçamento interno do botão*/
+    border-radius:1px; /*borda arredondada*/
+    text-decoration: none; /* remova o sublinahdo do link*/
+    transition:background-color 0.3 s;/*Efeito transição ao passar o mouse*/
+  }
+.return-button img{
+    vertical-align:middle;/* Centralizar verticalmente a imagem*/
+    margin-right:20 px;/* Margem a direita da imagem para separa-la do texto */
+    margin-left:0;
+    max-width:30 px;
+    max-height:30 px;
+   }
+
+
+
+
+
+
 /* CONTAINER */
 
 .container{
