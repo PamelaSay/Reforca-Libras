@@ -17,7 +17,7 @@ body{
 
     min-height:100vh;
 
-    background-image:url('../imagens/transferir.jpg');
+    background-image:url('transferir.jpg');
 
     background-size:cover;
 
@@ -69,12 +69,7 @@ body{
 
     transform:translateY(-5px);
 
-    background:linear-gradient(
-    101deg,
-    darkgoldenrod,
-    khaki,
-    peru,
-    sandybrown);
+    background:linear-gradient( 101deg,darkgoldenrod,khaki,peru,sandybrown);
 }
 
 /* CONTAINER */
