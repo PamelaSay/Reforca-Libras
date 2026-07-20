@@ -237,9 +237,4 @@ function reiniciarJogo(){
     location.reload()
 }
 
-function voltarPagina(){
-
-    history.back()
-}
-
 carregarPergunta()
