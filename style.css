@@ -582,42 +582,28 @@ body{
 /* ==========================
    HERO / BANNER PRINCIPAL
 ========================== */
-/* IMAGEM */
+/* ==========================
+   HERO / BANNER PRINCIPAL
+========================== */
 
-.hero-img{
-{
-    max-width:1400px;
-   padding:0px;
-   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:40px;
-
-    
-
-
-    text-align:center;
-
-
+.hero-img {
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-
-
-.hero-img img{
-
-
-    width:100%;
-
-
-    max-width:550px;
-
-
-    border-radius:25px;
-
-
+.hero-img img {
+    width: 100%;
+    max-width: 550px; /* Mantém o tamanho exato do card */
+    height: auto;
+    border-radius: 25px;
+    display: block;
+    object-fit: cover;
 }
-
-
 
 /* ==========================
    LAYOUT PRINCIPAL HOME
