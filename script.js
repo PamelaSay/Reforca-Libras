@@ -13,28 +13,61 @@ if(document.getElementById("Login realizado!")){
 
 function pesquisarConteudo(){
 
-    let input =
-    document.getElementById("campo-pesquisa")
-    .value.toLowerCase()
+let pesquisa =
+document.getElementById("campoPesquisa")
+.value
+.toLowerCase();
 
-    let cards =
-    document.querySelectorAll(".card")
 
-    cards.forEach(function(card){
+let cards =
+document.querySelectorAll(".card");
 
-        let texto =
-        card.innerText.toLowerCase()
 
-        if(texto.includes(input)){
+cards.forEach(card=>{
 
-            card.style.display = "block"
 
-        }else{
+let nome =
+card.dataset.nome;
 
-            card.style.display = "none"
+
+if(nome.includes(pesquisa)){
+
+
+card.style.display="block";
+
+
+}
+else{
+
+
+card.style.display="none";
+
+
+}
+
+
+});
+
+
+}
+
+// Exemplo de como deve ficar a função do botão da Disciplina / Subnível
+const btnDisciplina = document.getElementById("btnDisciplina"); // ou o seu seletor
+
+if (btnDisciplina) {
+    btnDisciplina.addEventListener("click", function(e) {
+        // 1. Impede que a página dê "jump" ou recarregue se for um link <a>
+        e.preventDefault(); 
+
+        // 2. IMPEDIMENTO CHAVE: Evita que o clique suba para a página e feche o menu na hora!
+        e.stopPropagation(); 
+
+        // 3. Sua lógica para abrir o subnível da matemática
+        const subnivelMatematica = document.getElementById("subnivelMatematica");
+        if (subnivelMatematica) {
+            subnivelMatematica.classList.toggle("ativo"); // ou .style.display = 'block'
         }
-
-    })
+    });
 }
 
 
