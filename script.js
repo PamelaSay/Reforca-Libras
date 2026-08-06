@@ -85,32 +85,32 @@ if (abrirCadastro) {
 // FUNÇÃO DE CADASTRO (Com Login Automático + Redirecionamento)
 // ==========================================
 function cadastrar() {
-    let nomeInput = document.getElementById("nomeCadastro");
-    let emailInput = document.getElementById("emailCadastro");
-    let senhaInput = document.getElementById("senhaCadastro");
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
 
-    if (!nomeInput || !emailInput || !senhaInput) return;
-
-    let nome = nomeInput.value.trim();
-    let email = emailInput.value.trim();
-    let senha = senhaInput.value;
-
-    if (nome === "" || email === "" || senha === "") {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Atenção!',
-            text: 'Preencha todos os campos.',
-            confirmColor: '#d33'
-        });
+    if (!nome || !email || !senha) {
+        alert("Preencha todos os campos!");
         return;
     }
 
-    let usuario = {
+    // Grava o usuário na coleção "usuarios"
+    db.collection("usuarios").add({
         nome: nome,
         email: email,
         senha: senha,
-        pontos: 0
-    };
+        nivel: "Iniciante",
+        pontos: 0,
+        dataCriacao: new Date()
+    })
+    .then(() => {
+        alert("Cadastro realizado com sucesso!");
+    })
+    .catch((error) => {
+        console.error("Erro ao salvar no Firebase: ", error);
+        alert("Erro ao cadastrar. Verifique o console.");
+    });
+}
 
     // Salva o cadastro e já salva como usuário LOGADO
     localStorage.setItem("usuarioCadastrado", JSON.stringify(usuario));
