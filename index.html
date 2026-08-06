@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reforca Libras</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 (Alertas Elegantes) -->
+    <!-- Coloque esta linha dentro da tag <head> do seu HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
@@ -18,7 +21,7 @@
 
         <!-- Logo -->
         <div class="logo-area">
-            <img src="logo.png" alt="Logo Reforça Libras">
+            <img src="../imagens/logo2.png" alt="Logo Reforça Libras">
         </div>
 
         <!-- Menu -->
@@ -37,24 +40,24 @@
         
         <!-- MATEMÁTICA -->
         <div class="submenu">
-            <a href="matematica.html" class="item-menu">Matemática ▶</a>
+            <a href="../html/matematica.html" class="item-menu">Matemática ▶</a>
             
             <!-- COLUNA NÍVEL 3: Tópicos de Matemática -->
             <div class="submenu-content">
-                <a href="matematica.html/tema=potenciacao">Potenciação</a>
-                <a href="matematica.html/tema=radiciacao">Radiciação</a>
-                <a href="matematica.html" class="ler-mais">➕ Ler mais...</a>
+                <a href="../html/matematica.html/tema=potenciacao">Potenciação</a>
+                <a href="../html/matematica.html/tema=radiciacao">Radiciação</a>
+                <a href="../html/matematica.html" class="ler-mais">➕ Ler mais...</a>
             </div>
         </div>
 
         <!-- BIOLOGIA -->
         <div class="submenu">
-            <a href="biologia.html" class="item-menu">Biologia ▶</a>
+            <a href="../html/biologia.html" class="item-menu">Biologia ▶</a>
             
             <!-- COLUNA NÍVEL 3: Tópicos de Biologia -->
             <div class="submenu-content">
-                <a href="biologia.html/tema=celulas">Células</a>
-                <a href="biologia.html" class="ler-mais">➕ Ler mais...</a>
+                <a href="../html/biologia.html/tema=celulas">Células</a>
+                <a href="../html/biologia.html" class="ler-mais">➕ Ler mais...</a>
             </div>
         </div>
 
@@ -81,20 +84,105 @@
         <!-- Login -->
 
         <button id="btnLogin" class="login-btn">
-            👤Entrar
+            👤 Entrar
         </button>
 
     </div>
+
+<!-- MODAL LOGIN -->
+<div id="modalLogin" class="modal">
+    <div class="perfil-box">
+        <span class="fechar" id="fecharLogin">&times;</span>
+        <img src="../imagens/logo2.png" alt="Logo">
+        <h2>Entrar</h2>
+
+        <!-- Campo flexível para E-mail ou Usuário -->
+        <input type="text" id="loginUsuario" placeholder="E-mail ou Nome de Usuário" required>
+
+        <!-- CAMPO DE SENHA COM OLHO -->
+        <div class="campo-senha">
+            <input id="senhaLogin" type="password" placeholder="Senha">
+            <span class="icone-olho" onclick="alternarSenha('senhaLogin', this)">👁️</span>
+        </div>
+
+        <!-- LINK ESQUECEU SUA SENHA -->
+        <a href="#" class="esqueceu-senha" onclick="esqueceuSenha(event)">Esqueceu sua senha?</a>
+
+        <button type="button" onclick="login()">Entrar</button>
+
+        <!-- DIVISOR -->
+        <div class="divisor">
+            <span>ou</span>
+        </div>
+
+        <!-- BOTÃO DO GOOGLE -->
+        <div id="g_id_onload"
+             data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+
+        <div class="g_id_signin"
+             data-type="standard"
+             data-size="large"
+             data-theme="outline"
+             data-text="sign_in_with"
+             data-shape="pill"
+             data-logo_alignment="left">
+        </div>
+
+        <p>Não possui conta? 
+            <button type="button" id="abrirCadastro">Cadastrar</button>
+        </p>
+    </div>
+</div>
+
+<!-- MODAL CADASTRO -->
+<div id="modalCadastro" class="modal">
+    <div class="perfil-box">
+        <span class="fechar" id="fecharCadastro">&times;</span>
+        <img src="../imagens/logo2.png" alt="Logo">
+        <h2>Criar conta</h2>
+
+        <input id="nomeCadastro" placeholder="Nome">
+        <input id="emailCadastro" type="email" placeholder="E-mail">
+        <!-- CAMPO DE SENHA COM OLHO -->
+        <div class="campo-senha">
+            <input id="senhaCadastro" type="password" placeholder="Senha">
+            <span class="icone-olho" onclick="alternarSenha('senhaCadastro', this)">👁️</span>
+        </div>
+        <button type="button" onclick="cadastrar()"> Criar cadastro </button>
+    </div>
+</div>
+
+<!-- PERFIL USUARIO -->
+<div id="modalPerfil" class="modal">
+    <div class="perfil-box">
+        <span class="fechar" id="fecharPerfil">&times;</span>
+
+        <div class="icone-usuario">👤</div>
+        <h2 id="nomeUsuario">Usuário</h2>
+        <h3>📈 Meu progresso</h3>
+
+        <p>Aulas concluídas: <span id="aulas">0</span></p>
+        <p>Jogos realizados: <span id="jogos">0</span></p>
+        <p>Pontuação: ⭐ <span id="pontos">0</span></p>
+
+        <button class="excluir" onclick="excluirConta()">🗑 Excluir conta</button>
+        <button type="button" onclick="sair()">🚪 Sair</button>
+    </div>
+</div>
 
 </header>
 
    
 
         <!-- BANNER -->
-        <section>      
+        <section class="hero">
+         
 
          <div class="hero-img">
-                <img src="banner.png">
+                <img src="../imagens/banner.png">
          </div>
         </section>
                       
@@ -106,7 +194,7 @@
                 
                         <!-- CARD POTENCIAÇÃO -->
                     <div class="card" data-nome="potenciacao>
-                        <img src='capa_potenciacao.png' alt="Potenciação">
+                        <img src="capa_potenciacao.png" alt="Potenciação">
                         <div class="card-content">
                             <h3>Potenciação</h3>
                             <p>Aprenda potência de forma divertida.</p>
@@ -200,7 +288,7 @@
 
     <!-- Botão que leva para a página completa -->
     <div class="ver-mais-box">
-        <a href="comentarios.html"  class="btn-ver-todos">Ler todos os comentários</a>
+        <a href="../html/comentarios.html"  class="btn-ver-todos">Ler todos os comentários</a>
     </div>
 </section>
 
@@ -208,13 +296,16 @@
     <!-- FOOTER -->
     <footer>
         <p>
-            © 2026 Reforça Libras - Todos os direitos reservados.
+            © 2026 ......... Libras - Todos os direitos reservados.
         </p>
     </footer>
 
-    <script src="login.js"></script>
-    <script src="usuario.js"></script>
-        <script src="script.js"></script>
-        <script src="comentarios.js"></script>
+  <!-- SDK do Firebase (Core e Firestore Database) -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+
+        <script src="../js/script.js"></script>
+        <script src="../js/comentarios.js"></script>
 </body>
 </html>
