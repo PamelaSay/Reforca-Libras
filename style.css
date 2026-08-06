@@ -582,19 +582,6 @@ body{
 /* ==========================
    HERO / BANNER PRINCIPAL
 ========================== */
-.hero{
-    max-width:1400px;
-    margin:40px auto;
-   padding:40px;
-   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:40px;
- 
-}
-
-
-
 /* TEXTO */
 
 
@@ -709,9 +696,16 @@ body{
 
 
 .hero-img{
+{
+    max-width:1400px;
+    margin:40px auto;
+   padding:40px;
+   display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:40px;
 
-
-    flex:1;
+    
 
 
     text-align:center;
