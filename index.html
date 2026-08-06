@@ -4,118 +4,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reforça Libras</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Reforca Libras</title>
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <!-- MENU -->
     <header class="menu">
-        <div class="container menu-content">
-            <div class="logo-area">
-                <img src="logo.png" alt="Logo Reforça Libras">
+
+    <div class="container menu-content">
+
+        <!-- Logo -->
+        <div class="logo-area">
+            <img src="../imagens/logo2.png" alt="Logo Reforça Libras">
+        </div>
+
+        <!-- Menu -->
+        <nav id="menu-links">
+            <a href="#">🏠 Início</a>
+                <!-- DROPDOWN DISCIPLINAS (Texto simples sem formato de botão) -->
+                
+                        <div class="dropdown">
+    <!-- Seu botão original de Disciplinas -->
+    <button type="button" class="dropbtn">
+        📚 Disciplinas ▼
+    </button>
+    
+    <!-- COLUNA NÍVEL 2: Matemática, Biologia -->
+    <div class="dropdown-content">
+        
+        <!-- MATEMÁTICA -->
+        <div class="submenu">
+            <a href="../html/matematica.html" class="item-menu">Matemática ▶</a>
+            
+            <!-- COLUNA NÍVEL 3: Tópicos de Matemática -->
+            <div class="submenu-content">
+                <a href="../html/matematica.html?tema=potenciacao">Potenciação</a>
+                <a href="../html/matematica.html?tema=radiciacao">Radiciação</a>
+                <a href="../html/matematica.html" class="ler-mais">➕ Ler mais...</a>
             </div>
-            <button class="menu-toggle" onclick="menuResponsivo()">
-                        ☰
-            </button>
-           <nav id="menu-links">
-                <a href="#">🏠 Início</a>
-                <a href="#aulas">📚 Aulas</a>
-               <a href="#">🎮 Jogos</a>
-                <a href="#">📈 Progresso</a>
-                <a href="#">💬 Comentários</a>
-                <a href="#">🤟 Libras</a>
-            </nav>
-            <a href="login.html" class="login-btn">
-                    👤 Login
+        </div>
+
+        <!-- BIOLOGIA -->
+        <div class="submenu">
+            <a href="../html/biologia.html" class="item-menu">Biologia ▶</a>
+            
+            <!-- COLUNA NÍVEL 3: Tópicos de Biologia -->
+            <div class="submenu-content">
+                <a href="../html/biologia.html?tema=celulas">Células</a>
+                <a href="../html/biologia.html" class="ler-mais">➕ Ler mais...</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+        
+
+            <a href="#">🎮 Jogos</a>
+            <a href="../html/comentarios.html">
+
+                💬 Comentários
+
             </a>
+
+        </nav>
+
+        <!-- Pesquisa -->
+
+       <div class="pesquisa-box">
+            <input id="campoPesquisa" type="text" placeholder="🔎 Pesquisar aulas, jogos...">
+                <button onclick="pesquisarConteudo()">Pesquisar</button>
         </div>
-    </header>
-    <section class="pesquisa">
-        <div class="container">
-        <div class="pesquisa-box">
-            <input type="text" id="campo-pesquisa" placeholder="🔎 Pesquisar conteúdo...">
-            <button onclick="pesquisarConteudo()">
-                Pesquisar
-            </button>
+
+        <!-- Login -->
+
+        <button id="btnLogin" class="login-btn">
+            👤Entrar
+        </button>
+
+    </div>
+
+   <!-- MODAL LOGIN -->
+<div id="modalLogin" class="modal">
+    <div class="perfil-box">
+        <span class="fechar" id="fecharLogin">×</span>
+        <img src="../imagens/logo2.png" alt="Logo">
+        <h2>Entrar</h2>
+
+        <input id="emailLogin" type="email" placeholder="E-mail">
+        <input id="senhaLogin" type="password" placeholder="Senha">
+        <button onclick="entrar()">Entrar</button>
+
+        <!-- DIVISOR -->
+        <div class="divisor">
+            <span>ou</span>
         </div>
-   '    </div>
-    </section>
-    <!-- BANNER -->
-    <section class="banner">
-        <img src="banner.png" alt="Banner Reforça Libras">
-    </section>
-    <!-- AULAS -->
-    <section class="aulas" id="aulas">
-        <div class="container">
-            <h2>📚 Aulas</h2>
-            <div class="cards">
-                <!-- POTENCIAÇÃO -->
-                <div class="card">
-                    <img src="capa_potenciacao.png" alt="Potenciação">
-                    <div class="card-content">
-                        <h3>Potenciação</h3>
-                        <p>
-                           Aprenda potência de forma divertida.
-                        </p>
-                        <div class="buttons">
-                            <a href="#">
-                                ▶ Assistir Aula
-                            </a>
-                            <button onclick="abrirJogo('potencia')">
-                            🎮 Jogar
-                           </button>
+
+        <!-- BOTÃO DO GOOGLE -->
+        <div id="g_id_onload"
+             data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+
+        <div class="g_id_signin"
+             data-type="standard"
+             data-size="large"
+             data-theme="outline"
+             data-text="sign_in_with"
+             data-shape="pill"
+             data-logo_alignment="left">
+        </div>
+
+        <p>Não possui conta? <a href="#" id="abrirCadastro">Criar cadastro</a></p>
+    </div>
+</div>
+
+
+<!-- MODAL CADASTRO -->
+
+
+<div id="modalCadastro" class="modal">
+
+
+<div class="perfil-box">
+
+<span class="fechar" id="fecharCadastro">
+×
+</span>
+
+
+<img src="../imagens/logo2.png">
+
+
+<h2>Criar conta</h2>
+
+
+<input
+id="nomeCadastro"
+placeholder="Nome">
+
+
+<input
+id="emailCadastro"
+type="email"
+placeholder="E-mail">
+
+
+<input
+id="senhaCadastro"
+type="password"
+placeholder="Senha">
+
+
+<button onclick="cadastrar()">
+Criar cadastro
+</button>
+
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- PERFIL USUARIO -->
+
+
+<div id="modalPerfil" class="modal">
+
+
+<div class="perfil-box">
+
+
+<span class="fechar" id="fecharPerfil">
+×
+</span>
+
+
+<div class="icone-usuario">
+
+👤
+
+</div>
+
+
+<h2 id="nomeUsuario">
+Usuário
+</h2>
+
+
+<h3>
+📈 Meu progresso
+</h3>
+
+
+<p>
+Aulas concluídas:
+<span id="aulas">
+0
+</span>
+</p>
+
+
+<p>
+Jogos realizados:
+<span id="jogos">
+0
+</span>
+</p>
+
+
+<p>
+Pontuação:
+⭐
+<span id="pontos">
+0
+</span>
+</p>
+
+
+
+<button class="excluir" onclick="excluirConta()">
+
+🗑 Excluir conta
+
+</button>
+
+
+<button onclick="sair()">
+
+🚪 Sair
+
+</button>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+</header>
+
+   
+
+        <!-- BANNER -->
+        <section class="hero">
+         
+
+         <div class="hero-img">
+                <img src="../imagens/banner.png">
+         </div>
+        </section>
+                      
+   <main>
+         <section class="conteudo-home">
+                <section class="em-alta">
+                    <h2>🔥 Em Alta</h2>
+                    <div class="cards">
+                
+                        <!-- CARD POTENCIAÇÃO -->
+                    <div class="card" data-nome="potenciacao>
+                        <img src="capa_potenciacao.png" alt="Potenciação">
+                        <div class="card-content">
+                            <h3>Potenciação</h3>
+                            <p>Aprenda potência de forma divertida.</p>
+                            <div class="buttons">
+                                <a href="www.youtube.com/reforça_libras">▶Assistir Aula</a>
+                                <button onclick="abrirJogo('potencia')">🎮 Jogar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD RADICIAÇÃO -->
+
+                    <div class="card" data-nome="radiciacao matematica">
+                        <img src="radiciacao.jpg" alt="Radiciação">
+                        <div class="card-content">
+                            <h3>Radiciação</h3>
+                            <p>Descubra as raízes matemáticas.</p>
+                            <div class="buttons">
+                                <a href="www.youtube.com/reforça_libras">▶Assistir Aula</a>
+                                <button onclick="abrirJogo('radiciacao')">🎮 Jogar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- RADICIAÇÃO -->
-                <div class="card">
-                    <img src="imagens/radiciacao.jpg" alt="Radiciação">
-                    <div class="card-content">
-                        <h3>Radiciação</h3>
-                        <p>
-                            Descubra as raízes matemáticas.
-                        </p>
-                        <div class="buttons">
-                            <a href="www.youtube.com/reforça_libras">
-                                ▶ Assistir Aula
-                            </a>
-                                <button onclick="abrirJogo('radiciacao')">
-                                🎮 Jogar
-                                </button>
-                        </div>
-                    </div>
-    </section>
-    <!-- PROGRESSO -->
-    <section class="progresso">
-        <div class="container">
-           <div class="box">
-               <h2>📈 Meu Progresso</h2>
-                <p>Aulas concluídas: </p>
-                <p>Jogos jogados: </p>
-                <p>Pontuação: </p>
-            </div>
+            </section>
+
+  <!-- PROGRESSO E RANKING -->
+    <aside class="lateral">
+
+
+<div class="box">
+
+<h3>🏆 Ranking</h3>
+
+<p>🥇 Ana</p>
+<p>🥈 João</p>
+<p>🥉 Maria</p>
+
+</div>
+
+
+
+<div class="box">
+
+<h3>📈 Meu progresso</h3>
+
+<p>Aulas concluídas: 10</p>
+
+<div class="barra">
+
+<div></div>
+
+</div>
+
+</div>
+
+
+</aside>
+  
+</main>
+  <!-- COMENTÁRIOS -->
+      <section class="container-comentarios-page">
+
+    <!-- 1. FORMULÁRIO DE AVALIAÇÃO NO TOPO -->
+    <div class="form-comentario-box">
+        <h2>Avalie sua experiência</h2>
+        <p>Sua opinião é muito importante para nós!</p>
+
+        <!-- Estrelas -->
+        <div class="estrelas-input">
+            <span class="estrela" data-nota="1">★</span>
+            <span class="estrela" data-nota="2">★</span>
+            <span class="estrela" data-nota="3">★</span>
+            <span class="estrela" data-nota="4">★</span>
+            <span class="estrela" data-nota="5">★</span>
         </div>
-    </section>
-    <!-- COMENTÁRIOS -->
-    <section class="comentarios">
-        <div class="container">
-            <h2>💬 Comentários</h2>
-               <textarea id="comentario" placeholder="Escreva seu comentário..."></textarea>
-                    <button onclick="salvarComentario()">
-                            Enviar Comentário
-                    </button>
-                <div id="lista-comentarios">
-                </div>
-          </div>
-    </section>
+
+        <!-- Campo de texto -->
+        <textarea id="comentario" placeholder="Escreva aqui sua avaliação..."></textarea>
+
+        <!-- Botão enviar -->
+        <button type="button" onclick="salvarComentario()">Enviar Avaliação</button>
+    </div>
+
+    <hr class="divisor-pagina">
+    <section class="comentarios-home">
+    <h2>O que nossos alunos dizem</h2>
+
+    <!-- O JS vai preencher no máximo 3 cards aqui -->
+    <div id="ultimos-comentarios" class="comentarios-grid"></div>
+
+    <!-- Botão que leva para a página completa -->
+    <div class="ver-mais-box">
+        <a href="../html/comentarios.html"  class="btn-ver-todos">Ler todos os comentários</a>
+    </div>
+</section>
+
+</section>
     <!-- FOOTER -->
     <footer>
         <p>
             © 2026 Reforça Libras - Todos os direitos reservados.
         </p>
     </footer>
-    <script src="script.js"></script>
+
+    <script src="../js/login.js"></script>
+    <script src="../js/usuario.js"></script>
+        <script src="../js/script.js"></script>
+        <script src="../js/comentarios.js"></script>
 </body>
 </html>
