@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIGURAÇÃO DO FIREBASE
+// CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE
 // ==========================================
 const firebaseConfig = {
     apiKey: "AIzaSyCA5nHe1MRdnYR70flitnIjI75IOkh0ji8",
@@ -11,13 +11,15 @@ const firebaseConfig = {
     measurementId: "G-0YVN46JS8W"
 };
 
-// Inicializa o Firebase
+// Inicializa o Firebase SDK
 if (typeof firebase !== 'undefined') {
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     var db = firebase.firestore();
-    console.log("Firebase e Firestore inicializados com sucesso!");
+    console.log("🔥 Firebase inicializado com sucesso!");
 } else {
-    console.error("SDK do Firebase não encontrado no HTML!");
+    console.error("❌ SDK do Firebase não carregou no HTML.");
 }
 
 // ==========================================
@@ -34,7 +36,7 @@ const fecharCadastro = document.getElementById("fecharCadastro");
 const modalPerfil = document.getElementById("modalPerfil");
 const fecharPerfil = document.getElementById("fecharPerfil");
 
-// Evento no botão do Header
+// Evento do botão do Header (Login / Perfil)
 if (btnLogin) {
     btnLogin.onclick = () => {
         let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
@@ -51,7 +53,7 @@ if (fecharLogin) fecharLogin.onclick = () => modalLogin.style.display = "none";
 if (fecharCadastro) fecharCadastro.onclick = () => modalCadastro.style.display = "none";
 if (fecharPerfil) fecharPerfil.onclick = () => modalPerfil.style.display = "none";
 
-// Trocar do Login para o Cadastro
+// Trocar de Login para Cadastro
 if (abrirCadastro) {
     abrirCadastro.onclick = () => {
         if (modalLogin) modalLogin.style.display = "none";
@@ -63,12 +65,13 @@ if (abrirCadastro) {
 // FUNÇÃO DE CADASTRO (Firestore + LocalStorage)
 // ==========================================
 function cadastrar() {
-    const nomeInput = document.getElementById('nome');
-    const emailInput = document.getElementById('email');
-    const senhaInput = document.getElementById('senha');
+    // Busca pelos IDs corretos do seu HTML
+    const nomeInput = document.getElementById('nomeCadastro');
+    const emailInput = document.getElementById('emailCadastro');
+    const senhaInput = document.getElementById('senhaCadastro');
 
     if (!nomeInput || !emailInput || !senhaInput) {
-        alert("Erro: Campos de cadastro não encontrados no HTML!");
+        alert("Erro: Campos de cadastro não encontrados!");
         return;
     }
 
@@ -77,7 +80,15 @@ function cadastrar() {
     const senha = senhaInput.value;
 
     if (!nome || !email || !senha) {
-        alert("Preencha todos os campos!");
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atenção',
+                text: 'Preencha todos os campos do cadastro!'
+            });
+        } else {
+            alert("Preencha todos os campos!");
+        }
         return;
     }
 
@@ -89,14 +100,16 @@ function cadastrar() {
         pontos: 0
     };
 
-    // Grava no banco de dados Firestore
+    // Salva no banco de dados do Firebase
     if (typeof db !== 'undefined') {
         db.collection("usuarios").add({
             ...novoUsuario,
             dataCriacao: new Date()
         })
-        .then(() => {
-            // Salva sessão local
+        .then((docRef) => {
+            console.log("Usuário cadastrado com ID:", docRef.id);
+
+            // Armazena sessão localmente
             localStorage.setItem("usuarioCadastrado", JSON.stringify(novoUsuario));
             localStorage.setItem("usuarioLogado", JSON.stringify(novoUsuario));
 
@@ -104,23 +117,23 @@ function cadastrar() {
                 Swal.fire({
                     icon: 'success',
                     title: 'Sucesso!',
-                    text: 'Cadastro realizado! Entrando...',
+                    text: 'Cadastro realizado com sucesso!',
                     timer: 1500,
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "index.html";
+                    window.location.reload();
                 });
             } else {
                 alert("Cadastro realizado com sucesso!");
-                window.location.href = "index.html";
+                window.location.reload();
             }
         })
         .catch((error) => {
-            console.error("Erro ao salvar no Firebase: ", error);
-            alert("Erro ao cadastrar no banco de dados: " + error.message);
+            console.error("Erro ao salvar no Firebase:", error);
+            alert("Erro ao cadastrar: " + error.message);
         });
     } else {
-        alert("Erro de conexão com o banco de dados Firebase.");
+        alert("Erro na conexão com o banco de dados Firebase.");
     }
 }
 
@@ -143,8 +156,7 @@ function login() {
             Swal.fire({
                 icon: 'info',
                 title: 'Conta não encontrada',
-                text: 'Você ainda não possui cadastro.',
-                confirmColor: '#3085d6'
+                text: 'Você ainda não possui cadastro.'
             });
         } else {
             alert("Conta não encontrada. Faça seu cadastro!");
@@ -163,22 +175,22 @@ function login() {
                 icon: 'success',
                 title: 'Bem-vindo(a)!',
                 text: `Olá, ${usuario.nome}!`,
-                timer: 2000,
+                timer: 1800,
                 showConfirmButton: false
+            }).then(() => {
+                if (modalLogin) modalLogin.style.display = "none";
+                mostrarUsuario();
             });
         } else {
-            alert(`Bem-vindo(a), ${usuario.nome}!`);
+            if (modalLogin) modalLogin.style.display = "none";
+            mostrarUsuario();
         }
-
-        if (modalLogin) modalLogin.style.display = "none";
-        mostrarUsuario();
     } else {
         if (typeof Swal !== 'undefined') {
             Swal.fire({
                 icon: 'error',
                 title: 'Erro',
-                text: 'E-mail/Usuário ou senha incorretos!',
-                confirmColor: '#d33'
+                text: 'E-mail/Usuário ou senha incorretos!'
             });
         } else {
             alert("E-mail/Usuário ou senha incorretos!");
@@ -216,9 +228,7 @@ function esqueceuSenha(event) {
             inputPlaceholder: 'seu.email@exemplo.com',
             showCancelButton: true,
             confirmButtonText: 'Verificar',
-            cancelButtonText: 'Cancelar',
-            confirmColor: '#3085d6',
-            cancelColor: '#d33'
+            cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
                 const emailDigitado = result.value.trim();
@@ -228,15 +238,13 @@ function esqueceuSenha(event) {
                     Swal.fire({
                         icon: 'success',
                         title: 'Senha Encontrada!',
-                        html: `Sua senha cadastrada é: <strong>${usuario.senha}</strong>`,
-                        confirmColor: '#3085d6'
+                        html: `Sua senha cadastrada é: <strong>${usuario.senha}</strong>`
                     });
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Não encontrado',
-                        text: 'Nenhuma conta cadastrada foi encontrada com este e-mail.',
-                        confirmColor: '#d33'
+                        text: 'Nenhuma conta encontrada com este e-mail.'
                     });
                 }
             }
@@ -245,7 +253,7 @@ function esqueceuSenha(event) {
 }
 
 // ==========================================
-// EXIBIR DADOS DO USUÁRIO LOGADO
+// MOSTRAR USUÁRIO LOGADO E PERFIL
 // ==========================================
 function mostrarUsuario() {
     let usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
@@ -310,7 +318,10 @@ function excluirConta() {
 // PESQUISAR CONTEÚDO
 // ==========================================
 function pesquisarConteudo() {
-    let pesquisa = document.getElementById("campoPesquisa").value.toLowerCase();
+    let campo = document.getElementById("campoPesquisa");
+    if (!campo) return;
+
+    let pesquisa = campo.value.toLowerCase();
     let cards = document.querySelectorAll(".card");
 
     cards.forEach(card => {
@@ -320,60 +331,6 @@ function pesquisarConteudo() {
         } else {
             card.style.display = "none";
         }
-    });
-}
-
-// ==========================================
-// MENU RESPONSIVO & EVENTOS
-// ==========================================
-function menuResponsivo() {
-    const nav = document.getElementById("menu-links");
-    if (nav) nav.classList.toggle("ativo");
-}
-
-const btnDisciplina = document.getElementById("btnDisciplina");
-if (btnDisciplina) {
-    btnDisciplina.addEventListener("click", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const subnivelMatematica = document.getElementById("subnivelMatematica");
-        if (subnivelMatematica) {
-            subnivelMatematica.classList.toggle("ativo");
-        }
-    });
-}
-
-// ==========================================
-// COMENTÁRIOS
-// ==========================================
-function salvarComentario() {
-    let campo = document.getElementById("comentario");
-    if (!campo) return;
-
-    let comentario = campo.value.trim();
-
-    if (comentario === "") {
-        alert("Digite um comentário!");
-        return;
-    }
-
-    let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
-    comentarios.push(comentario);
-    localStorage.setItem("comentarios", JSON.stringify(comentarios));
-
-    mostrarComentarios();
-    campo.value = "";
-}
-
-function mostrarComentarios() {
-    let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
-    let lista = document.getElementById("lista-comentarios");
-
-    if (!lista) return;
-
-    lista.innerHTML = "";
-    comentarios.forEach(function(item) {
-        lista.innerHTML += `<div class="comentario-item">💬 ${item}</div>`;
     });
 }
 
@@ -391,9 +348,8 @@ function voltarPagina() {
 }
 
 // ==========================================
-// INICIALIZAÇÃO DA PÁGINA
+// INICIALIZAÇÃO AO CARREGAR A PÁGINA
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
     mostrarUsuario();
-    mostrarComentarios();
 });
