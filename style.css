@@ -462,14 +462,6 @@ body{
   box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
 }
 
-/* Imagem da lupa */
-.pesquisa-box img {
-  width: 18px;
-  height: 18px;
-  margin-left: 12px;
-  margin-right: 6px;
-  object-fit: contain;
-}
 
 /* Input pelo seu ID real */
 #campoPesquisa {
