@@ -413,7 +413,7 @@ body{
   display: flex;
   align-items: center;
   background-color: #FFFFFF;       /* Fundo branco */
-  border: 2px solid  #e6ca65;        /* Borda em Azul Suave */
+  border: 2px solid  linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown);  /* Borda em Azul Suave */
   border-radius: 20px;             /* Bordas arredondadas */
   width: 100%;
   max-width: 320px;                /* Ajuste a largura máxima conforme a necessidade */
@@ -437,13 +437,13 @@ body{
   border: none;
   outline: none;                   /* Remove a borda padrão do navegador ao clicar */
   font-size: 14px;
-  color: #4A4A4A;
+  color: #e6ca65;
   padding: 0 6px;
   height: 100%;
 }
 
 .campoPesquisa::placeholder {
-  color: #A0A0A0;
+  color: #e6ca65;
 }
 
 /* Botão dentro da caixa de pesquisa */
