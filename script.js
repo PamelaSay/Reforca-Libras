@@ -359,4 +359,3 @@ document.addEventListener("DOMContentLoaded", () => {
         campoPesquisa.value = "";
     }
 });
-});
