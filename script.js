@@ -345,21 +345,27 @@ function abrirJogo(tipo) {
 function voltarPagina() {
     history.back();
 }
-
 // ==========================================
 // INICIALIZAÇÃO AO CARREGAR A PÁGINA
 // ==========================================
-JavaScript
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. Atualiza a exibição do usuário
     mostrarUsuario();
-    // Força a limpeza dos campos de login ao carregar a página
 
-    window.addEventListener("load", () => {
+    // 2. Limpa o campo de pesquisa (para não ficar com e-mail)
+    const campoPesquisa = document.getElementById("campoPesquisa");
+    if (campoPesquisa) {
+        campoPesquisa.value = "";
+    }
+});
+
+// Limpa os campos de Login logo após o carregamento total da página
+window.addEventListener("load", () => {
     setTimeout(() => {
         const campoEmail = document.getElementById("emailLogin");
         const campoSenha = document.getElementById("senhaLogin");
 
         if (campoEmail) campoEmail.value = "";
         if (campoSenha) campoSenha.value = "";
-    }, 150); // Aguarda 150 milissegundos para apagar o preenchimento automático do navegador
+    }, 150); // Aguarda 150ms para sobrescrever o preenchimento automático do Chrome
 });
