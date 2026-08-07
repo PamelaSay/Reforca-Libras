@@ -728,7 +728,7 @@ body {
 
 .form-comentario-box textarea {
     width: 100%;
-    height: 70px;
+    height: 50px;
     padding: 10px 12px;
     border: 2px solid #ddd;
     border-radius: 12px;
@@ -769,7 +769,7 @@ body {
 .comentario-card:not(:last-child)::after {
     content: '';
     display: block;
-    width: 80%;
+    width: 60%;
     height: 1px;
     background: rgba(255, 215, 0, 0.4);
     margin: 15px auto 0 auto;
