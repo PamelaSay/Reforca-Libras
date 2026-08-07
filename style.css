@@ -413,49 +413,6 @@ body{
 }
 
 
-
-
-/* ==========================
-   PESQUISA
-========================== */
-.pesquisa-box{
-    display:flex;
-   align-items:center;
-    width:260px;
-    height:32px;
-    margin-left: 5px;
-    background-color:#E0EEEE;
-    border:solid 2px #5F9EA0;
-    border-radius:10px;
-}
-
-.campoPesquisa input{
-    float:left;
-    width:180px;
-    heught:32px:
-    padding:10px 10px;
-    border-radius:25px;
-    border:2px solid gold;
-   font-family:'Nunito',sans-serif;
-    font-size:15px;
-    background-color:transparent;
-}
-/* BOTÃO PESQUISAR */
-.pesquisa-box button{
-  
-  float:left;
-  height:32px;
-  border-radius:0 7px 7px 0;
-  width:70px;
-  font-weight:bold;
-  background:#5F9EA0;
-}
-
-.pesquisa-box button:hover{
-    transform:translateY(-5px);
-    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown );
-    color:black;
-}
 /* ==========================
    HERO / BANNER PRINCIPAL
 ========================== */
@@ -466,7 +423,81 @@ body{
     padding: 0 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-conten/* ==========================
+   PESQUISA
+========================== */
+
+
+.pesquisa-box{
+
+    display:flex;
+    align-items:center;
+    width:260px;
+    margin-left: 5px;
+
+}
+
+/* CAMPO */
+
+.pesquisa-box input{
+    width:180px;
+    padding:10px 10px;
+    border-radius:25px;
+    border:2px solid gold;
+    outline:none;
+   font-family:'Nunito',sans-serif;
+    font-size:15px;
+    background:white;
+
+}
+
+
+
+/* BOTÃO PESQUISAR */
+
+
+.pesquisa-box button{
+
+
+    background:black;
+
+
+    color:white;
+
+
+    border:2px solid gold;
+
+
+    border-radius:20px 60px;
+
+
+    padding:10px 15px;
+
+
+    font-weight:bold;
+
+
+    cursor:pointer;
+
+
+    transition:.4s;
+
+
+}
+
+
+
+.pesquisa-box button:hover{
+
+
+    transform:translateY(-5px);
+
+
+    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown );
+    color:black;
+
+
+}t: center;
     text-align: center;
 }
 
