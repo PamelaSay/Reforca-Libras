@@ -428,7 +428,7 @@ body{
     border-radius:10px;
 }
 
-.campoPesquisa input{
+.campoPesquisa{
     float:left;
     width:180px;
     heught:32px:
