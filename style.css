@@ -431,7 +431,7 @@ body{
 
 
 /* Input pelo seu ID real */
-.campoPesquisa {
+#campoPesquisa {
   flex: 1;                         /* Preenche todo o espaço central dinamicamente */
   background: transparent;
   border: none;
