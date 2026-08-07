@@ -363,4 +363,3 @@ document.addEventListener("DOMContentLoaded", () => {
         if (campoSenha) campoSenha.value = "";
     }, 150); // Aguarda 150 milissegundos para apagar o preenchimento automático do navegador
 });
-});
