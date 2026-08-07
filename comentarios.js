@@ -168,59 +168,81 @@ function escutarComentariosFirebase() {
         });
 }
 
-// Renderiza os 4 últimos comentários
+// Renderiza os 4 últimos comentários de forma segura
 function renderizarUltimosComentarios(comentarios) {
     const lista = document.getElementById("ultimos-comentarios");
     if (!lista) return;
 
     lista.innerHTML = "";
 
-    if (comentarios.length === 0) {
+    if (!comentarios || comentarios.length === 0) {
         lista.innerHTML = "<p style='color: white; text-align: center; width: 100%;'>Nenhuma avaliação ainda.</p>";
         return;
     }
 
+    let htmlFinal = "";
+
     comentarios.slice(0, 4).forEach((comentario) => {
-        lista.innerHTML += `
+        // Valida a nota (garante um número entre 1 e 5 para não quebrar o .repeat)
+        const notaValidada = Math.max(1, Math.min(5, Number(comentario.nota) || 5));
+        const estrelas = "⭐".repeat(notaValidada);
+
+        const nome = comentario.nome || "Aluno";
+        const texto = comentario.texto || "";
+
+        htmlFinal += `
             <div class="comentario-card">
                 <div class="comentario-estrelas">
-                    ${"⭐".repeat(comentario.nota)}
+                    ${estrelas}
                 </div>
-                <strong>${comentario.nome}</strong>
-                <p>${comentario.texto}</p>
+                <strong>${nome}</strong>
+                <p>${texto}</p>
             </div>
         `;
     });
+
+    lista.innerHTML = htmlFinal;
 }
 
-// Renderiza a lista completa de comentários
+// Renderiza a lista completa de comentários de forma segura
 function renderizarTodosComentarios(comentarios) {
     const lista = document.getElementById("lista-comentarios");
     if (!lista) return;
 
     lista.innerHTML = "";
 
-    if (comentarios.length === 0) {
+    if (!comentarios || comentarios.length === 0) {
         lista.innerHTML = "<p style='color: white; text-align: center; width: 100%;'>Nenhum comentário cadastrado ainda.</p>";
         return;
     }
 
+    let htmlFinal = "";
+
     comentarios.forEach((comentario) => {
-        lista.innerHTML += `
+        // Valida a nota (garante um número entre 1 e 5 para não quebrar o .repeat)
+        const notaValidada = Math.max(1, Math.min(5, Number(comentario.nota) || 5));
+        const estrelas = "⭐".repeat(notaValidada);
+
+        const nome = comentario.nome || "Aluno";
+        const texto = comentario.texto || "";
+        const data = comentario.data || "Recente";
+
+        htmlFinal += `
             <div class="comentario-card">
                 <div class="comentario-topo">
-                    <strong>${comentario.nome}</strong>
-                    <span>${comentario.data}</span>
+                    <strong>${nome}</strong>
+                    <span>${data}</span>
                 </div>
                 <div class="comentario-estrelas">
-                    ${"⭐".repeat(comentario.nota)}
+                    ${estrelas}
                 </div>
-                <p>${comentario.texto}</p>
+                <p>${texto}</p>
             </div>
         `;
     });
-}
 
+    lista.innerHTML = htmlFinal;
+}
 // 6. Inicialização segura
 function inicializar() {
     configurarEstrelas();
