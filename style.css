@@ -430,7 +430,7 @@ body{
     border-radius:10px;
 }
 
-#pesquisa-box input{
+.pesquisa-box input{
   float:left;
   background-color:transparent;
   padding-left:5px;
