@@ -442,7 +442,7 @@ body{
 }
 /* BOTÃO PESQUISAR */
 .pesquisa-box button{
-  border:none;
+  
   float:left;
   height:32px;
   border-radius:0 7px 7px 0;
