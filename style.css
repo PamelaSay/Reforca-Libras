@@ -711,20 +711,19 @@ body {
     margin-bottom: 12px;
 }
 
+./* ==========================
+   COMENTÁRIOS E AVALIAÇÃO (CORRIGIDO)
+========================== */
 .estrela {
     font-size: 32px;
-    color: #ccc !important;
+    color: #ccc; /* Removido o !important daqui */
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
     user-select: none;
 }
 
 .estrela.ativa {
-    color: #FFD700 !important;
-}
-
-.estrela:hover {
-    transform: scale(1.2);
+    color: #FFD700 !important; /* Mantém o amarelo ouro quando ativa */
 }
 
 .form-comentario-box textarea {
