@@ -459,6 +459,7 @@ body{
   transition: background-color 0.2s ease;
 }
 
+
 /* Efeito ao passar o mouse no botão */
 .pesquisa-box button:hover {
   background-color: #D4AF37;       /* Fica Dourado no hover */
