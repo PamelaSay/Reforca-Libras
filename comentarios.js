@@ -2,7 +2,6 @@
 // CONFIGURAÇÃO DE COMENTÁRIOS COM FIREBASE
 // ==========================================
 
-// Nota inicial zero (todas apagadas)
 let notaSelecionada = 0;
 
 const palavrasProibidas = [
@@ -37,7 +36,7 @@ function obterNomeUsuarioLogado() {
     return "Aluno";
 }
 
-// 2. Função que pinta e apaga as estrelas na tela
+// 2. Atualiza a aparência das estrelas
 function atualizarEstrelas(nota) {
     const estrelas = document.querySelectorAll(".estrela");
     
@@ -54,7 +53,7 @@ function atualizarEstrelas(nota) {
     });
 }
 
-// 3. Ativa o clique em cada estrela
+// 3. Ativa o clique nas estrelas
 function configurarEstrelas() {
     const estrelas = document.querySelectorAll(".estrela");
 
@@ -69,7 +68,7 @@ function configurarEstrelas() {
     atualizarEstrelas(notaSelecionada);
 }
 
-// 4. Salva comentário no Firestore e permanece na mesma página
+// 4. Salva comentário no Firestore
 function salvarComentario() {
     const textarea = document.getElementById("comentario");
     if (!textarea) return;
@@ -77,19 +76,19 @@ function salvarComentario() {
     const texto = textarea.value.trim();
 
     if (notaSelecionada === 0) {
-        alert("Por favor, clique em uma das estrelas para avaliar.");
+        exibirMensagem('warning', 'Atenção', 'Por favor, selecione de 1 a 5 estrelas para avaliar.');
         return;
     }
 
     if (texto === "") {
-        alert("Escreva um comentário antes de enviar.");
+        exibirMensagem('warning', 'Atenção', 'Escreva um comentário antes de enviar.');
         return;
     }
 
     const comentarioMinusculo = texto.toLowerCase();
     for (let palavra of palavrasProibidas) {
         if (comentarioMinusculo.includes(palavra)) {
-            alert("Seu comentário possui palavras inadequadas.");
+            exibirMensagem('error', 'Atenção', 'Seu comentário contém termos inadequados.');
             return;
         }
     }
@@ -110,50 +109,21 @@ function salvarComentario() {
                 notaSelecionada = 0;
                 atualizarEstrelas(0);
 
-                alert("Obrigado pela sua avaliação!");
+                exibirMensagem('success', 'Obrigado!', 'Sua avaliação foi enviada com sucesso!');
             })
             .catch((error) => {
                 console.error("Erro ao salvar comentário no Firebase:", error);
-                alert("Erro ao enviar comentário. Tente novamente!");
+                exibirMensagem('error', 'Erro', 'Falha ao enviar comentário. Tente novamente!');
             });
     } else {
-        alert("Conexão com o banco de dados não encontrada.");
-    }
-}
-    // Salva no banco de dados
-    if (typeof db !== 'undefined') {
-        db.collection("comentarios").add(novoComentario)
-            .then(() => {
-                textarea.value = "";
-                notaSelecionada = 0;
-                atualizarEstrelas(0);
-
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Obrigado!',
-                        text: 'Sua avaliação foi enviada com sucesso!',
-                        timer: 1800,
-                        showConfirmButton: false
-                    });
-                } else {
-                    alert("Obrigado pela sua avaliação!");
-                }
-            })
-            .catch((error) => {
-                console.error("Erro ao salvar comentário no Firebase:", error);
-                alert("Erro ao enviar comentário. Tente novamente!");
-            });
-    } else {
-        alert("Conexão com o banco de dados não encontrada.");
+        exibirMensagem('error', 'Erro', 'Conexão com o banco de dados não encontrada.');
     }
 }
 
-// 5. OUVINTE EM TEMPO REAL (Carrega lista geral e últimos comentários)
+// 5. Ouvinte em tempo real para carregar os comentários
 function escutarComentariosFirebase() {
     if (typeof db === 'undefined') return;
 
-    // Escuta a coleção "comentarios" em tempo real
     db.collection("comentarios")
         .orderBy("dataCriacao", "desc")
         .onSnapshot((snapshot) => {
@@ -162,7 +132,6 @@ function escutarComentariosFirebase() {
             snapshot.forEach((doc) => {
                 const dados = doc.data();
 
-                // Formata a data do Firebase
                 let dataFormatada = "Recente";
                 if (dados.dataCriacao && dados.dataCriacao.toDate) {
                     dataFormatada = dados.dataCriacao.toDate().toLocaleDateString("pt-BR");
@@ -176,7 +145,6 @@ function escutarComentariosFirebase() {
                 });
             });
 
-            // Atualiza os dois locais da tela
             renderizarUltimosComentarios(comentarios);
             renderizarTodosComentarios(comentarios);
         }, (error) => {
@@ -184,7 +152,7 @@ function escutarComentariosFirebase() {
         });
 }
 
-// Renderiza os 4 últimos comentários de forma segura
+// Renderiza últimos comentários (se o elemento existir na tela)
 function renderizarUltimosComentarios(comentarios) {
     const lista = document.getElementById("ultimos-comentarios");
     if (!lista) return;
@@ -192,25 +160,21 @@ function renderizarUltimosComentarios(comentarios) {
     lista.innerHTML = "";
 
     if (!comentarios || comentarios.length === 0) {
-        lista.innerHTML = "<p style='color: white; text-align: center; width: 100%;'>Nenhuma avaliação ainda.</p>";
+        lista.innerHTML = "<p style='text-align: center; width: 100%;'>Nenhuma avaliação ainda.</p>";
         return;
     }
 
     let htmlFinal = "";
 
     comentarios.slice(0, 4).forEach((comentario) => {
-        // Valida a nota (garante um número entre 1 e 5 para não quebrar o .repeat)
         const notaValidada = Math.max(1, Math.min(5, Number(comentario.nota) || 5));
         const estrelas = "⭐".repeat(notaValidada);
-
-        const nome = comentario.nome || "Aluno";
-        const texto = comentario.texto || "";
+        const nome = sanitarizarTexto(comentario.nome);
+        const texto = sanitarizarTexto(comentario.texto);
 
         htmlFinal += `
             <div class="comentario-card">
-                <div class="comentario-estrelas">
-                    ${estrelas}
-                </div>
+                <div class="comentario-estrelas">${estrelas}</div>
                 <strong>${nome}</strong>
                 <p>${texto}</p>
             </div>
@@ -220,7 +184,7 @@ function renderizarUltimosComentarios(comentarios) {
     lista.innerHTML = htmlFinal;
 }
 
-// Renderiza a lista completa de comentários de forma segura
+// Renderiza a lista completa de comentários
 function renderizarTodosComentarios(comentarios) {
     const lista = document.getElementById("lista-comentarios");
     if (!lista) return;
@@ -228,19 +192,17 @@ function renderizarTodosComentarios(comentarios) {
     lista.innerHTML = "";
 
     if (!comentarios || comentarios.length === 0) {
-        lista.innerHTML = "<p style='color: white; text-align: center; width: 100%;'>Nenhum comentário cadastrado ainda.</p>";
+        lista.innerHTML = "<p style='text-align: center; width: 100%;'>Nenhum comentário cadastrado ainda.</p>";
         return;
     }
 
     let htmlFinal = "";
 
     comentarios.forEach((comentario) => {
-        // Valida a nota (garante um número entre 1 e 5 para não quebrar o .repeat)
         const notaValidada = Math.max(1, Math.min(5, Number(comentario.nota) || 5));
         const estrelas = "⭐".repeat(notaValidada);
-
-        const nome = comentario.nome || "Aluno";
-        const texto = comentario.texto || "";
+        const nome = sanitarizarTexto(comentario.nome);
+        const texto = sanitarizarTexto(comentario.texto);
         const data = comentario.data || "Recente";
 
         htmlFinal += `
@@ -249,9 +211,7 @@ function renderizarTodosComentarios(comentarios) {
                     <strong>${nome}</strong>
                     <span>${data}</span>
                 </div>
-                <div class="comentario-estrelas">
-                    ${estrelas}
-                </div>
+                <div class="comentario-estrelas">${estrelas}</div>
                 <p>${texto}</p>
             </div>
         `;
@@ -259,7 +219,29 @@ function renderizarTodosComentarios(comentarios) {
 
     lista.innerHTML = htmlFinal;
 }
-// 6. Inicialização segura
+
+// Funções auxiliares
+function exibirMensagem(icon, title, text) {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: text,
+            timer: icon === 'success' ? 1800 : null,
+            showConfirmButton: icon !== 'success'
+        });
+    } else {
+        alert(`${title}: ${text}`);
+    }
+}
+
+function sanitarizarTexto(str) {
+    const temp = document.createElement('div');
+    temp.textContent = str;
+    return temp.innerHTML;
+}
+
+// 6. Inicialização
 function inicializar() {
     configurarEstrelas();
     escutarComentariosFirebase();
