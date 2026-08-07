@@ -1,4 +1,6 @@
-// ===== COMENTÁRIOS =====
+// ==========================================
+// CONFIGURAÇÃO DE COMENTÁRIOS COM FIREBASE
+// ==========================================
 
 // Nota inicial zero (todas apagadas)
 let notaSelecionada = 0;
@@ -8,9 +10,10 @@ const palavrasProibidas = [
     "merda", "fdp", "desgraçado", "desgracado", "imbecil", "lixo"
 ];
 
-// 1. Pega o nome do usuário logado e trata se for e-mail
+// 1. Pega o nome do usuário logado
 function obterNomeUsuarioLogado() {
     const dados = localStorage.getItem("usuarioLogado") || 
+                  localStorage.getItem("usuarioCadastrado") || 
                   localStorage.getItem("usuario") || 
                   localStorage.getItem("user");
 
@@ -39,15 +42,14 @@ function atualizarEstrelas(nota) {
     const estrelas = document.querySelectorAll(".estrela");
     
     estrelas.forEach((e) => {
-        // Aceita data-nota ou data-valor do HTML
         const valorEstrela = Number(e.dataset.nota || e.dataset.valor || e.getAttribute("data-nota") || 0);
         
         if (valorEstrela <= Number(nota) && Number(nota) > 0) {
             e.classList.add("ativa");
-            e.style.color = "#FFD700"; // Força a cor dourada via estilo inline
+            e.style.color = "#FFD700"; // Cor dourada
         } else {
             e.classList.remove("ativa");
-            e.style.color = "#ccc"; // Força a cor cinza via estilo inline
+            e.style.color = "#ccc"; // Cor cinza
         }
     });
 }
@@ -67,7 +69,7 @@ function configurarEstrelas() {
     atualizarEstrelas(notaSelecionada);
 }
 
-// 4. Salvar comentário no localStorage
+// 4. Salvar comentário no FIREBASE FIRESTORE
 function salvarComentario() {
     const textarea = document.getElementById("comentario");
     if (!textarea) return;
@@ -94,34 +96,84 @@ function salvarComentario() {
 
     const nomeAutor = obterNomeUsuarioLogado();
 
-    let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
-
-    comentarios.unshift({
+    // Objeto do comentário para enviar ao Firebase
+    const novoComentario = {
         nome: nomeAutor,
         nota: notaSelecionada,
         texto: texto,
-        data: new Date().toLocaleDateString("pt-BR")
-    });
+        dataCriacao: firebase.firestore.FieldValue.serverTimestamp() // Pega a data/hora oficial do servidor
+    };
 
-    localStorage.setItem("comentarios", JSON.stringify(comentarios));
+    // Salva no banco de dados
+    if (typeof db !== 'undefined') {
+        db.collection("comentarios").add(novoComentario)
+            .then(() => {
+                textarea.value = "";
+                notaSelecionada = 0;
+                atualizarEstrelas(0);
 
-    textarea.value = "";
-    notaSelecionada = 0;
-    atualizarEstrelas(0);
-
-    carregarComentarios();
-    carregarUltimosComentarios();
-
-    alert("Obrigado pela sua avaliação!");
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Obrigado!',
+                        text: 'Sua avaliação foi enviada com sucesso!',
+                        timer: 1800,
+                        showConfirmButton: false
+                    });
+                } else {
+                    alert("Obrigado pela sua avaliação!");
+                }
+            })
+            .catch((error) => {
+                console.error("Erro ao salvar comentário no Firebase:", error);
+                alert("Erro ao enviar comentário. Tente novamente!");
+            });
+    } else {
+        alert("Conexão com o banco de dados não encontrada.");
+    }
 }
 
-// 5. Exibe os 4 últimos comentários
-function carregarUltimosComentarios() {
+// 5. OUVINTE EM TEMPO REAL (Carrega lista geral e últimos comentários)
+function escutarComentariosFirebase() {
+    if (typeof db === 'undefined') return;
+
+    // Escuta a coleção "comentarios" em tempo real
+    db.collection("comentarios")
+        .orderBy("dataCriacao", "desc")
+        .onSnapshot((snapshot) => {
+            const comentarios = [];
+
+            snapshot.forEach((doc) => {
+                const dados = doc.data();
+
+                // Formata a data do Firebase
+                let dataFormatada = "Recente";
+                if (dados.dataCriacao && dados.dataCriacao.toDate) {
+                    dataFormatada = dados.dataCriacao.toDate().toLocaleDateString("pt-BR");
+                }
+
+                comentarios.push({
+                    nome: dados.nome || "Anônimo",
+                    nota: dados.nota || 5,
+                    texto: dados.texto || "",
+                    data: dataFormatada
+                });
+            });
+
+            // Atualiza os dois locais da tela
+            renderizarUltimosComentarios(comentarios);
+            renderizarTodosComentarios(comentarios);
+        }, (error) => {
+            console.error("Erro ao carregar comentários do Firebase:", error);
+        });
+}
+
+// Renderiza os 4 últimos comentários
+function renderizarUltimosComentarios(comentarios) {
     const lista = document.getElementById("ultimos-comentarios");
     if (!lista) return;
 
     lista.innerHTML = "";
-    const comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
 
     if (comentarios.length === 0) {
         lista.innerHTML = "<p style='color: white; text-align: center; width: 100%;'>Nenhuma avaliação ainda.</p>";
@@ -141,13 +193,12 @@ function carregarUltimosComentarios() {
     });
 }
 
-// 6. Exibe todos os comentários
-function carregarComentarios() {
+// Renderiza a lista completa de comentários
+function renderizarTodosComentarios(comentarios) {
     const lista = document.getElementById("lista-comentarios");
     if (!lista) return;
 
     lista.innerHTML = "";
-    const comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
 
     if (comentarios.length === 0) {
         lista.innerHTML = "<p style='color: white; text-align: center; width: 100%;'>Nenhum comentário cadastrado ainda.</p>";
@@ -170,11 +221,10 @@ function carregarComentarios() {
     });
 }
 
-// 7. Inicialização segura (Garante a execução mesmo se a página já tiver carregado)
+// 6. Inicialização segura
 function inicializar() {
     configurarEstrelas();
-    carregarComentarios();
-    carregarUltimosComentarios();
+    escutarComentariosFirebase();
 }
 
 if (document.readyState === "loading") {
