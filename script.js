@@ -351,21 +351,55 @@ function voltarPagina() {
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Atualiza a exibição do usuário
     mostrarUsuario();
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // 1. Captura o formulário pelo ID
+    const formLogin = document.getElementById("formLogin");
 
-    // 2. Limpa o campo de pesquisa (para não ficar com e-mail)
-    const campoPesquisa = document.getElementById("campoPesquisa");
-    if (campoPesquisa) {
-        campoPesquisa.value = "";
+    if (formLogin) {
+        formLogin.addEventListener("submit", (e) => {
+            e.preventDefault(); // Evita que a página recarregue ao clicar em Entrar
+
+            const emailInput = document.getElementById("emailLogin");
+            const senhaInput = document.getElementById("senhaLogin");
+
+            if (!emailInput || !senhaInput) return;
+
+            const email = emailInput.value.trim();
+            const senha = senhaInput.value;
+
+            if (!email || !senha) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            // 2. Realiza o login no Firebase Authentication
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                firebase.auth().signInWithEmailAndPassword(email, senha)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        
+                        // Salva os dados do usuário logado
+                        const dadosUsuario = {
+                            email: user.email,
+                            nome: user.displayName || user.email.split("@")[0]
+                        };
+                        localStorage.setItem("usuarioLogado", JSON.stringify(dadosUsuario));
+
+                        alert("Login realizado com sucesso!");
+                        
+                        // Atualiza a tela ou fecha o modal de login se houver
+                        if (typeof mostrarUsuario === "function") {
+                            mostrarUsuario();
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Erro no login:", error);
+                        alert("E-mail ou senha incorretos.");
+                    });
+            } else {
+                alert("Serviço de autenticação não encontrado.");
+            }
+        });
     }
-});
-
-// Limpa os campos de Login logo após o carregamento total da página
-window.addEventListener("load", () => {
-    setTimeout(() => {
-        const campoEmail = document.getElementById("emailLogin");
-        const campoSenha = document.getElementById("senhaLogin");
-
-        if (campoEmail) campoEmail.value = "";
-        if (campoSenha) campoSenha.value = "";
-    }, 150); // Aguarda 150ms para sobrescrever o preenchimento automático do Chrome
 });
