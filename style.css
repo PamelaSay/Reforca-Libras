@@ -11,18 +11,12 @@
 /* BODY */
 
 body{
-
     font-family:'Nunito', sans-serif;
     background-size:cover;
-
     background-position:center;
-
     background-repeat:no-repeat;
-
     background-attachment:fixed;
-
     overflow-x:hidden;
-
 }
 
 
@@ -32,57 +26,35 @@ body{
 
 
 .container{
-
     width:100%;
     max-width:1400px;
     margin:auto;
     padding:0 20px;
-
 }
 
 /* ==========================
    MENU PRINCIPAL
 ========================== */
-
-
 .menu{
-
     position:sticky;
-
     top:0;
-
     width:100%;
-
     background:black;
-
     box-shadow:0 3px 15px rgba(0,0,0,.4);
-
     z-index:999;
-
 }
 
 
 
 .menu-content{
-
     max-width:1400px;
-
     margin:auto;
-
     padding:12px 30px;
-
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
-
     gap:20px;
-
 }
-
-
-
 /* ==========================
    LOGO
 ========================== */
@@ -300,18 +272,13 @@ body{
 
 
 \*Titulo*\
-
-
 .login-container h2{
-
-
     color:white;
-
-
     margin-bottom:25px;
-
-
 }
+
+
+
 /* Estilização dos Inputs nos Modais (Login e Cadastro) */
 .modal .perfil-box input {
     width: 100%;
@@ -446,7 +413,7 @@ body{
   display: flex;
   align-items: center;
   background-color: #FFFFFF;       /* Fundo branco */
-  border: 2px solid #A0C4DF;        /* Borda em Azul Suave */
+  border: 2px solid  rgba(212, 175, 55, 0.3);        /* Borda em Azul Suave */
   border-radius: 20px;             /* Bordas arredondadas */
   width: 100%;
   max-width: 320px;                /* Ajuste a largura máxima conforme a necessidade */
@@ -464,7 +431,7 @@ body{
 
 
 /* Input pelo seu ID real */
-#campoPesquisa {
+.campoPesquisa {
   flex: 1;                         /* Preenche todo o espaço central dinamicamente */
   background: transparent;
   border: none;
@@ -475,7 +442,7 @@ body{
   height: 100%;
 }
 
-#campoPesquisa::placeholder {
+.campoPesquisa::placeholder {
   color: #A0A0A0;
 }
 
