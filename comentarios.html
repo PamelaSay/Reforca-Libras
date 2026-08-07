@@ -4,18 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reforca Libras</title>
+    <title>Reforça Libras - Comentários</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- SweetAlert2 para alertas personalizados -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Firebase SDK (v8) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 </head>
+
 <body>
-    <section>
-        <h2>Lista de Comentários</h2>       
-                        <div id="lista-comentarios">
-                        </div>
-    </section>
-        <script src="script.js"></script>
-        <script src="comentarios.js"></script>
+    <main class="container">
+        <!-- Formulário para Deixar Comentário -->
+        <section class="secao-avaliar">
+            <h2>Deixe sua Avaliação</h2>
+            
+            <div class="estrelas-container">
+                <span class="estrela" data-nota="1">★</span>
+                <span class="estrela" data-nota="2">★</span>
+                <span class="estrela" data-nota="3">★</span>
+                <span class="estrela" data-nota="4">★</span>
+                <span class="estrela" data-nota="5">★</span>
+            </div>
+
+            <textarea id="comentario" placeholder="Escreva aqui seu comentário ou sugestão..." rows="4"></textarea>
+            
+            <button type="button" class="btn-enviar" onclick="salvarComentario()">Enviar Comentário</button>
+        </section>
+
+        <!-- Lista Completa de Comentários -->
+        <section class="secao-comentarios">
+            <h2>Lista de Comentários</h2>
+            <div id="lista-comentarios">
+                <p style="text-align: center; color: #666;">Carregando comentários...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Script principal de inicialização do Firebase -->
+    <script src="script.js"></script>
+    <!-- Script de gestão dos comentários -->
+    <script src="comentarios.js"></script>
 </body>
+
 </html>
