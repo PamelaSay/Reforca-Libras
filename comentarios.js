@@ -69,7 +69,7 @@ function configurarEstrelas() {
     atualizarEstrelas(notaSelecionada);
 }
 
-// 4. Salvar comentário no FIREBASE FIRESTORE
+// 4. Salva comentário no Firestore e permanece na mesma página
 function salvarComentario() {
     const textarea = document.getElementById("comentario");
     if (!textarea) return;
@@ -96,14 +96,30 @@ function salvarComentario() {
 
     const nomeAutor = obterNomeUsuarioLogado();
 
-    // Objeto do comentário para enviar ao Firebase
     const novoComentario = {
         nome: nomeAutor,
         nota: notaSelecionada,
         texto: texto,
-        dataCriacao: firebase.firestore.FieldValue.serverTimestamp() // Pega a data/hora oficial do servidor
+        dataCriacao: firebase.firestore.FieldValue.serverTimestamp()
     };
 
+    if (typeof db !== 'undefined') {
+        db.collection("comentarios").add(novoComentario)
+            .then(() => {
+                textarea.value = "";
+                notaSelecionada = 0;
+                atualizarEstrelas(0);
+
+                alert("Obrigado pela sua avaliação!");
+            })
+            .catch((error) => {
+                console.error("Erro ao salvar comentário no Firebase:", error);
+                alert("Erro ao enviar comentário. Tente novamente!");
+            });
+    } else {
+        alert("Conexão com o banco de dados não encontrada.");
+    }
+}
     // Salva no banco de dados
     if (typeof db !== 'undefined') {
         db.collection("comentarios").add(novoComentario)
