@@ -352,10 +352,4 @@ function voltarPagina() {
 JavaScript
 document.addEventListener("DOMContentLoaded", () => {
     mostrarUsuario();
-
-    // Limpa o campo de pesquisa para remover qualquer e-mail preenchido pelo navegador
-    const campoPesquisa = document.getElementById("campoPesquisa");
-    if (campoPesquisa) {
-        campoPesquisa.value = "";
-    }
 });
