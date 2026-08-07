@@ -1,6 +1,9 @@
 let usuarios =
 JSON.parse(localStorage.getItem("usuarios")) || [];
 
+
+
+
 // ABRIR LOGIN
 
 document.getElementById("btnLogin").onclick=function(){
