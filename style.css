@@ -428,21 +428,21 @@ body{
     border-radius:10px;
 }
 
-.pesquisa-box input{
-  float:left;
-  background-color:transparent;
-  padding-left:5px;
-  font-size:18px;
-  border:none;
-  height:32px;
-  width:191px;
+.campoPesquisa input{
+    float:left;
+    width:180px;
+    heught:32px:
+    padding:10px 10px;
+    border-radius:25px;
+    border:2px solid gold;
+   font-family:'Nunito',sans-serif;
+    font-size:15px;
+    background-color:transparent;
 }
-
 
 .pesquisa-box img{
   float:left;
 }
-
 
 /* BOTÃO PESQUISAR */
 .pesquisa-box button{
