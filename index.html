@@ -102,7 +102,7 @@
 
             <!-- CAMPO DE SENHA COM OLHO -->
             <div class="campo-senha">
-                <input id="senhaLogin" type="password" placeholder="Senha" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');>
+                <input id="senhaLogin" type="password" placeholder="Senha" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');">
                 <span class="icone-olho" onclick="alternarSenha('senhaLogin', this)">👁️</span>
             </div>
 
@@ -194,13 +194,13 @@
                     <div class="cards">
                 
                         <!-- CARD POTENCIAÇÃO -->
-                    <div class="card" data-nome="potenciacao>
+                    <div class="card" data-nome="potenciacao">
                         <img src="capa_potenciacao.png" alt="Potenciação">
                         <div class="card-content">
                             <h3>Potenciação</h3>
                             <p>Aprenda potência de forma divertida.</p>
                             <div class="buttons">
-                                <a href="www.youtube.com/reforça_libras">▶Assistir Aula</a>
+                                <a href="https://www.youtube.com/reforça_libras" target="_blank">▶Assistir Aula</a>
                                 <button onclick="abrirJogo('potencia')">🎮 Jogar</button>
                             </div>
                         </div>
@@ -214,7 +214,7 @@
                             <h3>Radiciação</h3>
                             <p>Descubra as raízes matemáticas.</p>
                             <div class="buttons">
-                                <a href="www.youtube.com/reforça_libras">▶Assistir Aula</a>
+                                <a href="https://www.youtube.com/reforça_libras" target="_blank">▶Assistir Aula</a>
                                 <button onclick="abrirJogo('radiciacao')">🎮 Jogar</button>
                             </div>
                         </div>
@@ -304,6 +304,7 @@
   <!-- Bibliotecas do Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
 <!-- Biblioteca de Alertas Bonitos SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
