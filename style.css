@@ -1,194 +1,134 @@
-/* RESET */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* ==========================
+   VARIÁVEIS DE ESTILO
+========================== */
+:root {
+    --gold-primary: gold;
+    --gold-hover-gradient: linear-gradient(101deg, darkgoldenrod, khaki, peru, sandybrown);
+    --blue-primary: #2f80ed;
+    --blue-soft: #A0C4DF;
+    --navy-dark: #1d3557;
+    --dark-bg: #000000;
+    --font-main: 'Nunito', sans-serif;
 }
 
-
-
-/* BODY */
-
-body{
-    font-family:'Nunito', sans-serif;
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
-    overflow-x:hidden;
+/* ==========================
+   RESET & BASE
+========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: var(--font-main);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
 
 /* ==========================
    CONTAINER
 ========================== */
-
-
-.container{
-    width:100%;
-    max-width:1400px;
-    margin:auto;
-    padding:0 20px;
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    padding: 0 20px;
 }
 
 /* ==========================
    MENU PRINCIPAL
 ========================== */
-.menu{
-    position:sticky;
-    top:0;
-    width:100%;
-    background:black;
-    box-shadow:0 3px 15px rgba(0,0,0,.4);
-    z-index:999;
+.menu {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: var(--dark-bg);
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+    z-index: 999;
 }
 
-
-
-.menu-content{
-    max-width:1400px;
-    margin:auto;
-    padding:12px 30px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-/* ==========================
-   LOGO
-========================== */
-
-
-.logo-area img{
-
-    height:70px;
-
-    display:block;
-
-    transition:.3s;
-
+.menu-content {
+    max-width: 1400px;
+    margin: auto;
+    padding: 12px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
-
-.logo-area img:hover{
-
-    transform:scale(1.05);
-
+/* LOGO */
+.logo-area img {
+    height: 70px;
+    display: block;
+    transition: transform 0.3s ease;
 }
 
-
-
-/* ==========================
-   LINKS DO MENU
-========================== */
-
-
-#menu-links{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:15px;
-
-    flex:1;
-
+.logo-area img:hover {
+    transform: scale(1.05);
 }
 
-
-
-/* BOTÕES DO MENU */
+/* LINKS DO MENU */
+#menu-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex: 1;
+}
 
 #menu-links a,
-.dropbtn{
-
-
-    background:black;
-
-    color:white;
-
-    border:2px solid gold;
-
-    border-radius:20px 60px;
-
-    padding:12px 20px;
-
-    font-family:'Nunito',sans-serif;
-
-    font-size:16px;
-
-    font-weight:bold;
-
-    text-decoration:none;
-
-    cursor:pointer;
-
-    transition:.4s;
-
-
+.dropbtn {
+    background: var(--dark-bg);
+    color: white;
+    border: 2px solid var(--gold-primary);
+    border-radius: 20px 60px;
+    padding: 12px 20px;
+    font-family: var(--font-main);
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
 }
-
-
-
-/* EFEITO IGUAL AO ASSISTIR AULA */
-
 
 #menu-links a:hover,
-.dropbtn:hover{
-    transform:translateY(-5px);
-    background:linear-gradient( 101deg,darkgoldenrod,khaki,peru,sandybrown);
-   color:black;
+.dropbtn:hover {
+    transform: translateY(-5px);
+    background: var(--gold-hover-gradient);
+    color: black;
 }
 
-
-
-/* ==========================
-   BOTÃO LOGIN
-========================== */
-
-
-.login-btn{
-
-
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    border:none;
-    background:#2f80ed;
-    color:white;
-    font-size:20px;
-    cursor:pointer;
-    transition:.3s;
-    margin-left:50px;
-
-
+/* BOTÃO LOGIN */
+.login-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: var(--blue-primary);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-left: 50px;
 }
 
-
-
-.login-btn:hover{
-
-
-    transform:scale(1.1);
-
-
+.login-btn:hover {
+    transform: scale(1.1);
 }
-    
 
 /* ==========================================
-   MENU DISCIPLINAS EM COLUNA (CSS PURO)
-   ========================================== */
-
-/* Container base */
+   MENU DISCIPLINAS EM COLUNA (DROPDOWN)
+========================================== */
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
-/* Coluna 2º Nível (Matemática, Biologia) */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -203,18 +143,15 @@ body{
     flex-direction: column;
 }
 
-/* Exibe em coluna ao passar o mouse em Disciplinas */
 .dropdown:hover .dropdown-content {
     display: flex;
 }
 
-/* Container de cada matéria */
 .submenu {
     position: relative;
     width: 100%;
 }
 
-/* Coluna 3º Nível (Potenciação, Radiciação, Ler mais) */
 .submenu-content {
     display: none;
     position: absolute;
@@ -229,12 +166,10 @@ body{
     flex-direction: column;
 }
 
-/* Exibe em coluna ao passar o mouse na matéria */
 .submenu:hover .submenu-content {
     display: flex;
 }
 
-/* Estilo padrão de TODOS os itens internos (Texto simples em coluna) */
 .dropdown-content a {
     display: block;
     width: 100%;
@@ -248,13 +183,11 @@ body{
     transition: background 0.2s, color 0.2s;
 }
 
-/* Efeito Hover nos itens */
 .dropdown-content a:hover {
     background-color: #f0f4f8;
     color: #007bff;
 }
 
-/* Destaque para o 'Ler mais...' */
 .submenu-content a.ler-mais {
     color: #007bff;
     border-top: 1px solid #eeeeee;
@@ -267,20 +200,299 @@ body{
     color: #0056b3;
 }
 
-
-
-
-
-\*Titulo*\
-.login-container h2{
-    color:white;
-    margin-bottom:25px;
+/* ==========================
+   HERO / BANNER PRINCIPAL
+========================== */
+.hero-img {
+    max-width: 1400px;
+    margin: 10px auto 25px auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
+.hero-img img {
+    width: 100%;
+    max-width: 1400px;
+    height: 250px;
+    border-radius: 25px;
+    display: block;
+    object-fit: cover;
+}
 
+/* ==========================
+   PESQUISA
+========================== */
+.pesquisa-box {
+    display: flex;
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 2px solid var(--blue-soft);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 320px;
+    height: 38px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-/* Estilização dos Inputs nos Modais (Login e Cadastro) */
-.modal .perfil-box input {
+.pesquisa-box:focus-within {
+    border-color: #D4AF37;
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
+}
+
+.pesquisa-box img {
+    width: 18px;
+    height: 18px;
+    margin-left: 12px;
+    margin-right: 6px;
+    object-fit: contain;
+}
+
+#campoPesquisa {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #4A4A4A;
+    padding: 0 6px;
+    height: 100%;
+}
+
+#campoPesquisa::placeholder {
+    color: #A0A0A0;
+}
+
+.pesquisa-box button {
+    border: none;
+    background-color: var(--blue-soft);
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 0 16px;
+    height: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pesquisa-box button:hover {
+    background-color: #D4AF37;
+}
+
+/* ==========================
+   LAYOUT PRINCIPAL HOME
+========================== */
+.conteudo-home {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.em-alta {
+    flex: 70%;
+}
+
+.em-alta h2 {
+    color: white;
+    font-size: 32px;
+    margin-bottom: 30px;
+    text-align: center;
+    text-shadow: 2px 2px 5px black;
+}
+
+.lateral {
+    width: 320px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+/* CARDS */
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    gap: 35px;
+}
+
+.card {
+    width: 330px;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    border: 2px solid var(--gold-primary);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease;
+    margin: 15px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-content h3 {
+    color: var(--navy-dark);
+    margin-bottom: 10px;
+}
+
+.card-content p {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.buttons a,
+.buttons button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 20px 60px;
+    border: 2px solid var(--gold-primary);
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.4s ease;
+}
+
+.buttons a {
+    background: var(--dark-bg);
+    color: white;
+}
+
+.buttons button {
+    background: white;
+    color: black;
+}
+
+.buttons a:hover,
+.buttons button:hover {
+    transform: translateY(-5px);
+    background: var(--gold-hover-gradient);
+    color: black;
+}
+
+/* ==========================
+   RANKING E PROGRESSO
+========================== */
+.box {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--gold-primary);
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.box h3 {
+    text-align: center;
+    color: var(--navy-dark);
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+.ranking-item:first-child {
+    background: var(--gold-primary);
+}
+
+.progresso-text {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.barra {
+    width: 100%;
+    height: 20px;
+    background: #ddd;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.barra div {
+    height: 100%;
+    width: 65%;
+    background: linear-gradient(90deg, gold, darkgoldenrod);
+}
+
+/* ==========================
+   MODAIS (LOGIN E CADASTRO)
+========================== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    width: 360px;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    border: 1px solid white;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    text-align: center;
+    color: white;
+    position: relative;
+    box-shadow: 0 10px 30px black;
+}
+
+/* Título corrigido */
+.login-container h2 {
+    color: white;
+    margin-bottom: 25px;
+}
+
+.login-container img,
+.perfil-box img {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 120px;
+}
+
+.modal .perfil-box input,
+.login-container input {
     width: 100%;
     height: 48px;
     margin: 10px 0;
@@ -289,41 +501,42 @@ body{
     border-radius: 30px;
     background: rgba(255, 255, 255, 0.15);
     color: #ffffff;
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--font-main);
     font-size: 15px;
     outline: none;
-    box-sizing: border-box;
     transition: all 0.3s ease;
 }
 
-.modal .perfil-box input::placeholder {
+.modal .perfil-box input::placeholder,
+.login-container input::placeholder {
     color: rgba(255, 255, 255, 0.7);
 }
 
-.modal .perfil-box input:focus {
-    border-color: gold;
+.modal .perfil-box input:focus,
+.login-container input:focus {
+    border-color: var(--gold-primary);
     background: rgba(255, 255, 255, 0.25);
     box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
 }
 
-/* Botões do modal */
-.modal .perfil-box button {
+.modal .perfil-box button,
+.login-container button {
     width: 100%;
     padding: 12px;
     border-radius: 30px;
     border: none;
-    margin-top: 10px;
+    margin-top: 15px;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background 0.3s ease;
 }
 
-.modal .perfil-box button:hover {
-    background: gold;
+.modal .perfil-box button:hover,
+.login-container button:hover {
+    background: var(--gold-primary);
     color: black;
 }
 
-/* FECHAR (X) PARA OS MODAIS */
 #fecharLogin,
 #fecharPerfil,
 #fecharCadastro {
@@ -335,19 +548,17 @@ body{
     color: white;
 }
 
-/* Container do campo de senha */
+/* CAMPO DE SENHA COM OLHO */
 .campo-senha {
     position: relative;
     width: 100%;
 }
 
-/* Ajusta o padding para o texto não ficar em cima do olho */
 .campo-senha input {
     width: 100%;
     padding-right: 45px !important;
 }
 
-/* Ícone do olho dentro do input */
 .icone-olho {
     position: absolute;
     right: 15px;
@@ -364,7 +575,6 @@ body{
     opacity: 1;
 }
 
-/* Link de Esqueceu a senha */
 .esqueceu-senha {
     display: block;
     text-align: right;
@@ -376,574 +586,11 @@ body{
 }
 
 .esqueceu-senha:hover {
-    color: gold;
+    color: var(--gold-primary);
     text-decoration: underline;
 }
 
-
-
-/* ==========================
-   HERO / BANNER PRINCIPAL
-========================== */
-
-.hero-img {
-    max-width: 1400px;
-    margin: 10px auto 25px auto; /* Reduziu a distância entre o menu e a imagem */
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.hero-img img {
-    width:100%;
-    max-width:1400px; /* Aumentado de 550px para 900px (imagem mais larga) */
-    height: 250px; /* Aumentado de 300px para 350px (imagem mais alta) */
-    border-radius: 25px;
-    display: block;
-    object-fit: cover;
-}
-
-/* ==========================
-   PESQUISA
-========================== */
-/* Container Principal */
-.pesquisa-box {
-  display: flex;
-  align-items: center;
-  background-color: #FFFFFF;       /* Fundo branco */
-  border: 2px solid #A0C4DF;        /* Borda em Azul Suave */
-  border-radius: 20px;             /* Bordas arredondadas */
-  width: 100%;
-  max-width: 320px;                /* Ajuste a largura máxima conforme a necessidade */
-  height: 38px;
-  overflow: hidden;                /* Garante que o botão respeite o arredondamento */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Efeito ao clicar no campo para digitar */
-.pesquisa-box:focus-within {
-  border-color: #D4AF37;           /* Borda muda para Dourado ao focar */
-  box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
-}
-
-/* Imagem da lupa */
-.pesquisa-box img {
-  width: 18px;
-  height: 18px;
-  margin-left: 12px;
-  margin-right: 6px;
-  object-fit: contain;
-}
-
-/* Input pelo seu ID real */
-#campoPesquisa {
-  flex: 1;                         /* Preenche todo o espaço central dinamicamente */
-  background: transparent;
-  border: none;
-  outline: none;                   /* Remove a borda padrão do navegador ao clicar */
-  font-size: 14px;
-  color: #4A4A4A;
-  padding: 0 6px;
-  height: 100%;
-}
-
-#campoPesquisa::placeholder {
-  color: #A0A0A0;
-}
-
-/* Botão dentro da caixa de pesquisa */
-.pesquisa-box button {
-  border: none;
-  background-color: #A0C4DF;       /* Fundo do botão em Azul Suave */
-  color: #FFFFFF;                  /* Texto Branco */
-  font-weight: 600;
-  font-size: 14px;
-  padding: 0 16px;
-  height: 100%;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-/* Efeito ao passar o mouse no botão */
-.pesquisa-box button:hover {
-  background-color: #D4AF37;       /* Fica Dourado no hover */
-}
-
-/* ==========================
-   LAYOUT PRINCIPAL HOME
-========================== */
-
-.conteudo-home{
-
-    max-width:1400px;
-
-    margin:40px auto;
-
-    padding:0 20px;
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:40px;
-
-}
-
-/* ÁREA EM ALTA */
-
-.em-alta{
-
-    flex:70%;
-
-}
-
-/* LATERAL - RANKING E PROGRESSO */
-
-.lateral{
-
-    width:320px;
-
-    flex-shrink:0;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:35px;
-
-}
-.em-alta h2{
-
-
-    color:white;
-
-    font-size:32px;
-
-    margin-bottom:30px;
-
-    text-align:center;
-
-    text-shadow:2px 2px 5px black;
-
-
-}
-
-
-
-/* ÁREA DOS CARDS */
-
-
-
-
-
-
-/* CARD */
-
-.cards{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    justify-content:center;
-
-    align-content:flex-start;
-
-    gap:35px;
-
-}
-.card{
-    width:330px;
-    gap:35px;
-    background:white;
-    border-radius:25px;
-    overflow:hidden;
-   border:2px solid gold;
-    box-shadow:0 8px 20px rgba(0,0,0,.3);
-    transition:.4s;
-   margin:30px;
-}
-
-
-
-
-.card:hover{
-
-
-    transform:translateY(-10px);
-
-
-}
-
-
-
-/* IMAGEM */
-
-
-.card img{
-
-
-    width:100%;
-
-
-    height:220px;
-
-
-    object-fit:cover;
-
-
-}
-
-
-
-/* CONTEÚDO */
-
-
-.card-content{
-
-
-    padding:20px;
-
-
-}
-
-
-
-.card-content h3{
-
-
-    color:#1d3557;
-
-
-    margin-bottom:10px;
-
-
-}
-
-
-
-.card-content p{
-
-
-    color:#333;
-
-
-    margin-bottom:20px;
-
-
-}
-
-
-
-/* BOTÕES */
-
-
-.buttons{
-
-
-    display:flex;
-
-
-    gap:10px;
-
-
-}
-
-
-
-.buttons a,
-.buttons button{
-
-
-    flex:1;
-
-
-    padding:12px;
-
-
-    border-radius:20px 60px;
-
-
-    border:2px solid gold;
-
-
-    font-weight:bold;
-
-
-    cursor:pointer;
-
-
-    text-decoration:none;
-
-
-    text-align:center;
-
-
-    transition:.4s;
-
-
-}
-
-
-
-/* ASSISTIR */
-
-
-.buttons a{
-
-
-    background:black;
-
-
-    color:white;
-
-
-}
-
-
-
-/* JOGAR */
-
-
-.buttons button{
-
-
-    background:white;
-
-
-    color:black;
-
-
-}
-
-
-
-/* HOVER */
-
-
-.buttons a:hover,
-.buttons button:hover{
-
-
-    transform:translateY(-5px);
-
-
-    background:linear-gradient(
-
-        101deg,
-
-        darkgoldenrod,
-
-        khaki,
-
-        peru,
-
-        sandybrown
-
-    );
-
-
-    color:black;
-
-
-}
-/* ==========================
-   RANKING E PROGRESSO
-========================== */
-
-/* CAIXAS */
-
-.box{
-
-
-    background:rgba(255,255,255,.95);
-
-
-    border:2px solid gold;
-
-
-    border-radius:25px;
-
-
-    padding:25px;
-
-
-    box-shadow:0 8px 20px rgba(0,0,0,.3);
-
-
-
-}
-
-
-
-.box h3{
-
-
-    text-align:center;
-
-
-    color:#1d3557;
-
-
-    font-size:24px;
-
-
-    margin-bottom:20px;
-
-
-
-}
-
-
-
-/* RANKING */
-
-
-.ranking-item{
-
-
-    display:flex;
-
-
-    justify-content:space-between;
-
-
-    align-items:center;
-
-
-    padding:12px;
-
-
-    margin-bottom:10px;
-
-
-    border-radius:15px;
-
-
-    background:#f5f5f5;
-
-
-    font-weight:bold;
-
-
-
-}
-
-
-
-.ranking-item:first-child{
-
-
-    background:gold;
-
-
-}
-
-
-
-/* PROGRESSO */
-
-
-.progresso-text{
-
-
-    margin-bottom:15px;
-
-
-    color:#333;
-
-
-}
-
-
-
-/* BARRA DE PROGRESSO */
-
-
-.barra{
-
-
-    width:100%;
-
-
-    height:20px;
-
-
-    background:#ddd;
-
-
-    border-radius:20px;
-
-
-    overflow:hidden;
-
-
-
-}
-
-
-
-.barra div{
-
-
-    height:100%;
-
-
-    width:65%;
-
-
-    background:linear-gradient(
-
-        90deg,
-
-        gold,
-
-        darkgoldenrod
-
-    );
-
-
-
-}
-/* ==========================
-LOGIN E CADASTRO
-========================== */
-
-
-.modal{
-
-display:none;
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-width:100%;
-
-height:100%;
-
-background:rgba(0,0,0,.75);
-
-backdrop-filter:blur(8px);
-
-z-index:9999;
-
-align-items:center;
-
-justify-content:center;
-
-
-}
-
-/* ==========================
-   DIVISOR E BOTÃO GOOGLE
-========================== */
-
+/* DIVISOR E GOOGLE */
 .divisor {
     display: flex;
     align-items: center;
@@ -965,274 +612,96 @@ justify-content:center;
     font-weight: bold;
 }
 
-/* Centraliza o botão do Google */
 .g_id_signin {
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
 }
 
-.login-container{
-
-
-width:360px;
-
-
-padding:35px;
-
-
-background:rgba(255, 255, 255, 0.15);
-
-
-border-radius:25px;
-
-
-border:1px solid white;
-
-
-backdrop-filter:blur(20px);
-
-
-text-align:center;
-
-
-color:white;
-
-
-position:relative;
-
-
-box-shadow:0 10px 30px black;
-
-
-
-}
-
-
-
-/* Centraliza a imagem no Login e no Perfil */
-.login-container img,
-.perfil-box img {
-    display: block;
-    margin: 0 auto 20px auto; /* 'auto' nas laterais centraliza a imagem */
-    width: 120px;             /* Mantém a largura padrão */
-}
-
-
-
-.login-container input{
-
-
-width:100%;
-
-
-padding:13px;
-
-
-margin:10px 0;
-
-
-border-radius:30px;
-
-
-border:none;
-
-
-outline:none;
-
-
-
-}
-
-
-
-.login-container button{
-
-
-width:100%;
-
-
-padding:13px;
-
-
-border-radius:30px;
-
-
-border:none;
-
-
-margin-top:15px;
-
-
-font-weight:bold;
-
-
-cursor:pointer;
-
-
-}
-
-
-
-.login-container button:hover{
-
-
-background:gold;
-
-
-}
-/* ==========================
-   LINK "CRIAR CADASTRO"
-========================== */
-
-/* 1. Estado normal e visitado (Garante que NUNCA fique roxo ao abrir) */
 .login-container a,
 .login-container a:link,
 .login-container a:visited {
-    color: rgb(145, 255, 0);             /* 👈 Cor principal bem visível (troque se quiser) */
+    color: rgb(145, 255, 0);
     font-weight: bold;
-    text-decoration: none;   /* Tira o sublinhado */
+    text-decoration: none;
 }
 
-/* 2. Quando passa o mouse por cima */
 .login-container a:hover {
-    color: #ffffff;          /* Fica branco ao passar o mouse */
+    color: #ffffff;
     text-decoration: underline;
 }
 
-/* 3. No momento em que clica */
 .login-container a:active {
-    color: red;              /* Mantém o vermelho que você gostou ao clicar */
+    color: red;
 }
-
 
 /* ==========================
    PERFIL DO USUÁRIO
 ========================== */
-
-
-.perfil-box{
-
-
-width:380px;
-background:rgba(255,255,255,.15);
-backdrop-filter:blur(15px);
-border:1px solid white;
-border-radius:25px;
-padding:35px;
-color:white;
-text-align:center;
-box-shadow:0 10px 30px black;
-position:relative;
+.perfil-box {
+    width: 380px;
+    background: rgba(255, 255, 255, 0.15);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border: 1px solid white;
+    border-radius: 25px;
+    padding: 35px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 30px black;
+    position: relative;
 }
 
-
-
-.icone-usuario{
-font-size:80px;
-margin-bottom:15px;
+.icone-usuario {
+    font-size: 80px;
+    margin-bottom: 15px;
 }
 
-
-
-.dados-perfil{
-background:white;
-color:#333;
-padding:20px;
-border-radius:20px;
-margin:20px 0;
+.dados-perfil {
+    background: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px 0;
 }
 
-
-
-.dados-perfil p{
-margin:10px;
-font-weight:bold;
+.dados-perfil p {
+    margin: 10px;
+    font-weight: bold;
 }
 
-
-
-
-
-.perfil-box button{
-width:100%;
-padding:13px;
-border-radius:30px;
-border:none;
-margin-top:15px;
-cursor:pointer;
-font-weight:bold;
+.excluir {
+    background: #b00020;
+    color: white;
 }
 
-
-
-.perfil-box button:hover{
-
-
-background:gold;
-
-
+.excluir:hover {
+    background: red !important;
 }
 
-
-
-.excluir{
-
-
-background:#b00020;
-
-
-color:white;
-
-
-}
-
-
-
-.excluir:hover{
-
-
-background:red !important;
-
-
-}
-
-
-
-#barraPerfil{
-
-
-height:100%;
-
-
-width:0%;
-
-
-background:gold;
-
-
-transition:.5s;
-
-
+#barraPerfil {
+    height: 100%;
+    width: 0%;
+    background: var(--gold-primary);
+    transition: width 0.5s ease;
 }
 
 /* ==========================
-   FORMULÁRIO MAIS COMPACTO
+   COMENTÁRIOS E AVALIAÇÃO
 ========================== */
-
 .form-comentario-box {
     background: white;
-    border: 2px solid gold;
+    border: 2px solid var(--gold-primary);
     border-radius: 18px;
-    padding: 18px 25px; /* Reduzido o padding interno */
+    padding: 18px 25px;
     margin-bottom: 25px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
 
 .form-comentario-box h2 {
-    color: #1d3557;
-    font-size: 22px; /* Título levemente menor */
+    color: var(--navy-dark);
+    font-size: 22px;
     margin-bottom: 4px;
 }
 
@@ -1241,28 +710,26 @@ transition:.5s;
     font-size: 14px;
     margin-bottom: 12px;
 }
-/* Estrelas do formulário */
+
 .estrela {
     font-size: 32px;
-    color: #ccc !important; /* Estrela cinza (desativada) */
+    color: #ccc !important;
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
     user-select: none;
 }
 
-/* Estrela pintada de dourado quando está ativa */
 .estrela.ativa {
-    color: #FFD700 !important; /* Dourado aceso */
+    color: #FFD700 !important;
 }
 
 .estrela:hover {
     transform: scale(1.2);
 }
 
-/* Área de Texto mais baixa */
 .form-comentario-box textarea {
     width: 100%;
-    height: 70px; /* Altura reduzida de 110px para 70px */
+    height: 70px;
     padding: 10px 12px;
     border: 2px solid #ddd;
     border-radius: 12px;
@@ -1270,101 +737,80 @@ transition:.5s;
     font-size: 14px;
     outline: none;
     resize: none;
-    box-sizing: border-box;
     margin-bottom: 14px;
     transition: border-color 0.3s ease;
 }
 
 .form-comentario-box textarea:focus {
-    border-color: gold;
+    border-color: var(--gold-primary);
 }
 
-/* Botão mais enxuto */
 .form-comentario-box button {
-    background: black;
+    background: var(--dark-bg);
     color: white;
-    border: 2px solid gold;
+    border: 2px solid var(--gold-primary);
     border-radius: 20px 60px;
     padding: 8px 25px;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    transition: .4s;
+    transition: all 0.4s ease;
 }
-
-/* ==========================
-   LINHA ENTRE OS COMENTÁRIOS
-========================== */
 
 .comentario-card {
     background: white;
     padding: 15px;
     border-radius: 15px;
-    border: 2px solid gold;
-    box-shadow: 0 8px 20px rgba(0,0,0,.3);
-    margin-bottom: 15px; /* Espaço para a linha */
+    border: 2px solid var(--gold-primary);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    margin-bottom: 15px;
     position: relative;
 }
 
-/* Linha divisória sutil abaixo de cada comentário */
 .comentario-card:not(:last-child)::after {
     content: '';
     display: block;
     width: 80%;
     height: 1px;
-    background: rgba(255, 215, 0, 0.4); /* Linha dourada suave */
+    background: rgba(255, 215, 0, 0.4);
     margin: 15px auto 0 auto;
 }
+
 /* ==========================
    FOOTER
 ========================== */
-
-
-footer{
-
-    background:black;
-
-    color:white;
-
-    text-align:center;
-
-    padding:25px;
-
-    margin-top:60px;
-
-    border-top:2px solid gold;
-
-    font-weight:bold;
-
+footer {
+    background: var(--dark-bg);
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 60px;
+    border-top: 2px solid var(--gold-primary);
+    font-weight: bold;
 }
 
-
-/* RESPONSIVO */
-
-
-@media(max-width:900px){
-
-
-    .hero{
-
-
-        flex-direction:column;
-
-
-        text-align:center;
-
-
+/* ==========================
+   RESPONSIVIDADE
+========================== */
+@media (max-width: 900px) {
+    .conteudo-home {
+        flex-direction: column;
     }
 
-
-
-    .hero-text h1{
-
-
-        font-size:32px;
-
-
+    .lateral {
+        width: 100%;
     }
 
+    .menu-content {
+        flex-direction: column;
+        gap: 15px;
+    }
 
+    #menu-links {
+        flex-wrap: wrap;
+    }
+
+    .login-btn {
+        margin-left: 0;
+    }
 }
