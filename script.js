@@ -352,4 +352,15 @@ function voltarPagina() {
 JavaScript
 document.addEventListener("DOMContentLoaded", () => {
     mostrarUsuario();
+    // Força a limpeza dos campos de login ao carregar a página
+
+    window.addEventListener("load", () => {
+    setTimeout(() => {
+        const campoEmail = document.getElementById("emailLogin");
+        const campoSenha = document.getElementById("senhaLogin");
+
+        if (campoEmail) campoEmail.value = "";
+        if (campoSenha) campoSenha.value = "";
+    }, 150); // Aguarda 150 milissegundos para apagar o preenchimento automático do navegador
+});
 });
