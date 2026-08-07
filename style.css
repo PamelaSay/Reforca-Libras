@@ -414,6 +414,7 @@ body{
 }
 
 
+
 /* ==========================
    HERO / BANNER PRINCIPAL
 ========================== */
@@ -424,81 +425,7 @@ body{
     padding: 0 20px;
     display: flex;
     align-items: center;
-    justify-conten/* ==========================
-   PESQUISA
-========================== */
-
-
-.pesquisa-box{
-
-    display:flex;
-    align-items:center;
-    width:260px;
-    margin-left: 5px;
-
-}
-
-/* CAMPO */
-
-.pesquisa-box input{
-    width:180px;
-    padding:10px 10px;
-    border-radius:25px;
-    border:2px solid gold;
-    outline:none;
-   font-family:'Nunito',sans-serif;
-    font-size:15px;
-    background:white;
-
-}
-
-
-
-/* BOTÃO PESQUISAR */
-
-
-.pesquisa-box button{
-
-
-    background:black;
-
-
-    color:white;
-
-
-    border:2px solid gold;
-
-
-    border-radius:20px 60px;
-
-
-    padding:10px 15px;
-
-
-    font-weight:bold;
-
-
-    cursor:pointer;
-
-
-    transition:.4s;
-
-
-}
-
-
-
-.pesquisa-box button:hover{
-
-
-    transform:translateY(-5px);
-
-
-    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown );
-    color:black;
-
-
-}t: center;
+    justify-content: center;
     text-align: center;
 }
 
@@ -510,6 +437,76 @@ body{
     display: block;
     object-fit: cover;
 }
+
+/* ==========================
+   PESQUISA
+========================== */
+/* Container Principal */
+.pesquisa-box {
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;       /* Fundo branco */
+  border: 2px solid #A0C4DF;        /* Borda em Azul Suave */
+  border-radius: 20px;             /* Bordas arredondadas */
+  width: 100%;
+  max-width: 320px;                /* Ajuste a largura máxima conforme a necessidade */
+  height: 38px;
+  overflow: hidden;                /* Garante que o botão respeite o arredondamento */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito ao clicar no campo para digitar */
+.pesquisa-box:focus-within {
+  border-color: #D4AF37;           /* Borda muda para Dourado ao focar */
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
+}
+
+/* Imagem da lupa */
+.pesquisa-box img {
+  width: 18px;
+  height: 18px;
+  margin-left: 12px;
+  margin-right: 6px;
+  object-fit: contain;
+}
+
+/* Input pelo seu ID real */
+#campoPesquisa {
+  flex: 1;                         /* Preenche todo o espaço central dinamicamente */
+  background: transparent;
+  border: none;
+  outline: none;                   /* Remove a borda padrão do navegador ao clicar */
+  font-size: 14px;
+  color: #4A4A4A;
+  padding: 0 6px;
+  height: 100%;
+}
+
+#campoPesquisa::placeholder {
+  color: #A0A0A0;
+}
+
+/* Botão dentro da caixa de pesquisa */
+.pesquisa-box button {
+  border: none;
+  background-color: #A0C4DF;       /* Fundo do botão em Azul Suave */
+  color: #FFFFFF;                  /* Texto Branco */
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0 16px;
+  height: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Efeito ao passar o mouse no botão */
+.pesquisa-box button:hover {
+  background-color: #D4AF37;       /* Fica Dourado no hover */
+}
+
+
+
 
 /* ==========================
    LAYOUT PRINCIPAL HOME
