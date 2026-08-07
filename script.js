@@ -349,11 +349,19 @@ function voltarPagina() {
 // INICIALIZAÇÃO AO CARREGAR A PÁGINA
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Atualiza a exibição do usuário
-    mostrarUsuario();
-document.addEventListener("DOMContentLoaded", () => {
     
-    // 1. Captura o formulário pelo ID
+    // 1. Atualiza o nome do usuário na tela se ele já estiver logado
+    if (typeof mostrarUsuario === "function") {
+        mostrarUsuario();
+    }
+
+    // 2. Garante que o campo de pesquisa comece limpo
+    const campoPesquisa = document.getElementById("campoPesquisa");
+    if (campoPesquisa) {
+        campoPesquisa.value = "";
+    }
+
+    // 3. Captura o envio do formulário de Login
     const formLogin = document.getElementById("formLogin");
 
     if (formLogin) {
@@ -373,22 +381,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 2. Realiza o login no Firebase Authentication
+            // 4. Autenticação via Firebase
             if (typeof firebase !== 'undefined' && firebase.auth) {
                 firebase.auth().signInWithEmailAndPassword(email, senha)
                     .then((userCredential) => {
                         const user = userCredential.user;
                         
-                        // Salva os dados do usuário logado
+                        // Formata e salva o nome do usuário no localStorage
+                        let nomeFormatado = user.displayName;
+                        if (!nomeFormatado && user.email) {
+                            nomeFormatado = user.email.split("@")[0];
+                            nomeFormatado = nomeFormatado.charAt(0).toUpperCase() + nomeFormatado.slice(1);
+                        }
+
                         const dadosUsuario = {
                             email: user.email,
-                            nome: user.displayName || user.email.split("@")[0]
+                            nome: nomeFormatado || "Aluno"
                         };
+                        
                         localStorage.setItem("usuarioLogado", JSON.stringify(dadosUsuario));
 
                         alert("Login realizado com sucesso!");
                         
-                        // Atualiza a tela ou fecha o modal de login se houver
+                        // Atualiza a tela com o nome
                         if (typeof mostrarUsuario === "function") {
                             mostrarUsuario();
                         }
@@ -402,4 +417,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+});
+
+// Limpa o preenchimento automático do Chrome assim que a página termina de carregar
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        const campoEmail = document.getElementById("emailLogin");
+        const campoSenha = document.getElementById("senhaLogin");
+
+        if (campoEmail) campoEmail.value = "";
+        if (campoSenha) campoSenha.value = "";
+    }, 150);
 });
