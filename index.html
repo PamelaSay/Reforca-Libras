@@ -97,11 +97,13 @@
         <h2>Entrar</h2>
 
         <!-- Campo flexível para E-mail ou Usuário -->
-        <input type="text" id="loginUsuario" placeholder="E-mail ou Nome de Usuário" required>
+       <form id="formLogin" autocomplete="off">
+        <input type="text" id="loginUsuario" placeholder="E-mail ou Nome de Usuário" required autocomplete="off" 
+      readonly nfocus="this.removeAttribute('readonly');">
 
         <!-- CAMPO DE SENHA COM OLHO -->
         <div class="campo-senha">
-            <input id="senhaLogin" type="password" placeholder="Senha">
+            <input id="senhaLogin" type="password" placeholder="Senha" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');>
             <span class="icone-olho" onclick="alternarSenha('senhaLogin', this)">👁️</span>
         </div>
 
