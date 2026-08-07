@@ -413,7 +413,7 @@ body{
   display: flex;
   align-items: center;
   background-color: #FFFFFF;       /* Fundo branco */
-  border: 2px solid  #f7e7ce;  /* Borda em Azul Suave */
+  border: 2px solid #A0C4DF;        /* Borda em Azul Suave */
   border-radius: 20px;             /* Bordas arredondadas */
   width: 100%;
   max-width: 320px;                /* Ajuste a largura máxima conforme a necessidade */
@@ -429,6 +429,14 @@ body{
   box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
 }
 
+/* Imagem da lupa */
+.pesquisa-box img {
+  width: 18px;
+  height: 18px;
+  margin-left: 12px;
+  margin-right: 6px;
+  object-fit: contain;
+}
 
 /* Input pelo seu ID real */
 #campoPesquisa {
@@ -437,13 +445,13 @@ body{
   border: none;
   outline: none;                   /* Remove a borda padrão do navegador ao clicar */
   font-size: 14px;
-  color: #e6ca65;
+  color: #4A4A4A;
   padding: 0 6px;
   height: 100%;
 }
 
-.campoPesquisa::placeholder {
-  color: #e6ca65;
+#campoPesquisa::placeholder {
+  color: #A0A0A0;
 }
 
 /* Botão dentro da caixa de pesquisa */
@@ -459,13 +467,10 @@ body{
   transition: background-color 0.2s ease;
 }
 
-
 /* Efeito ao passar o mouse no botão */
 .pesquisa-box button:hover {
   background-color: #D4AF37;       /* Fica Dourado no hover */
 }
-
-
 
 /* ==========================
    LAYOUT PRINCIPAL HOME
