@@ -11,20 +11,20 @@ const firebaseConfig = {
     measurementId: "G-0YVN46JS8W"
 };
 
-// Inicializa o Firebase SDK
 let db = null;
+
 if (typeof firebase !== 'undefined') {
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
     db = firebase.firestore();
-    console.log("🔥 Firebase inicializado com sucesso!");
+    console.log("🔥 Firebase inicializado no GitHub Pages!");
 } else {
-    console.error("❌ SDK do Firebase não carregou no HTML.");
+    console.error("❌ SDK do Firebase não foi carregado no HTML.");
 }
 
 // ==========================================
-// MENSAGENS E ALERTAS (SWEETALERT2 FALLBACK)
+// MENSAGENS E ALERTAS (COMPATÍVEL COM SWEETALERT2)
 // ==========================================
 function exibirAlerta(icone, titulo, texto, timer = null) {
     if (typeof Swal !== 'undefined') {
@@ -41,44 +41,57 @@ function exibirAlerta(icone, titulo, texto, timer = null) {
 }
 
 // ==========================================
-// ELEMENTOS E MODAIS
+// GERENCIAMENTO DE MODAIS E NAVEGAÇÃO
 // ==========================================
-const btnLogin = document.getElementById("btnLogin");
-const modalLogin = document.getElementById("modalLogin");
-const fecharLogin = document.getElementById("fecharLogin");
+document.addEventListener("DOMContentLoaded", () => {
+    const btnLogin = document.getElementById("btnLogin");
+    const modalLogin = document.getElementById("modalLogin");
+    const fecharLogin = document.getElementById("fecharLogin");
 
-const abrirCadastro = document.getElementById("abrirCadastro");
-const modalCadastro = document.getElementById("modalCadastro");
-const fecharCadastro = document.getElementById("fecharCadastro");
+    const abrirCadastro = document.getElementById("abrirCadastro");
+    const modalCadastro = document.getElementById("modalCadastro");
+    const fecharCadastro = document.getElementById("fecharCadastro");
 
-const modalPerfil = document.getElementById("modalPerfil");
-const fecharPerfil = document.getElementById("fecharPerfil");
+    const modalPerfil = document.getElementById("modalPerfil");
+    const fecharPerfil = document.getElementById("fecharPerfil");
 
-// Eventos de Abertura e Fechamento
-if (btnLogin) {
-    btnLogin.onclick = () => {
-        const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-        if (usuarioLogado) {
-            if (modalPerfil) modalPerfil.style.display = "flex";
-        } else {
-            if (modalLogin) modalLogin.style.display = "flex";
-        }
-    };
-}
+    // Botão de Login / Perfil no cabeçalho
+    if (btnLogin) {
+        btnLogin.onclick = () => {
+            const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+            if (usuarioLogado) {
+                if (modalPerfil) modalPerfil.style.display = "flex";
+            } else {
+                if (modalLogin) modalLogin.style.display = "flex";
+            }
+        };
+    }
 
-if (fecharLogin) fecharLogin.onclick = () => modalLogin.style.display = "none";
-if (fecharCadastro) fecharCadastro.onclick = () => modalCadastro.style.display = "none";
-if (fecharPerfil) fecharPerfil.onclick = () => modalPerfil.style.display = "none";
+    // Fechar Modais
+    if (fecharLogin) fecharLogin.onclick = () => modalLogin.style.display = "none";
+    if (fecharCadastro) fecharCadastro.onclick = () => modalCadastro.style.display = "none";
+    if (fecharPerfil) fecharPerfil.onclick = () => modalPerfil.style.display = "none";
 
-if (abrirCadastro) {
-    abrirCadastro.onclick = () => {
-        if (modalLogin) modalLogin.style.display = "none";
-        if (modalCadastro) modalCadastro.style.display = "flex";
-    };
-}
+    // Transição de Login para Cadastro
+    if (abrirCadastro) {
+        abrirCadastro.onclick = () => {
+            if (modalLogin) modalLogin.style.display = "none";
+            if (modalCadastro) modalCadastro.style.display = "flex";
+        };
+    }
+
+    // Campo de busca em tempo real (se existir na página)
+    const campoPesquisa = document.getElementById("campoPesquisa");
+    if (campoPesquisa) {
+        campoPesquisa.addEventListener("input", pesquisarConteudo);
+    }
+
+    // Carrega dados da sessão atual
+    mostrarUsuario();
+});
 
 // ==========================================
-// FUNÇÃO DE CADASTRO (Firestore + Session)
+// CADASTRO DE USUÁRIO (FIRESTORE)
 // ==========================================
 async function cadastrar() {
     const nomeInput = document.getElementById('nomeCadastro');
@@ -86,7 +99,7 @@ async function cadastrar() {
     const senhaInput = document.getElementById('senhaCadastro');
 
     if (!nomeInput || !emailInput || !senhaInput) {
-        exibirAlerta('error', 'Erro', 'Campos de cadastro não encontrados no formulário.');
+        exibirAlerta('error', 'Erro', 'Campos de cadastro não encontrados.');
         return;
     }
 
@@ -100,18 +113,19 @@ async function cadastrar() {
     }
 
     if (!db) {
-        exibirAlerta('error', 'Erro', 'Sem conexão com o banco de dados Firebase.');
+        exibirAlerta('error', 'Erro', 'Banco de dados inacessível. Verifique os scripts do Firebase.');
         return;
     }
 
     try {
-        // Verifica se o e-mail já existe
+        // 1. Verifica no Firestore se o e-mail já existe no banco global
         const snapshot = await db.collection("usuarios").where("email", "==", email).get();
         if (!snapshot.empty) {
-            exibirAlerta('error', 'E-mail em uso', 'Este e-mail já está cadastrado.');
+            exibirAlerta('error', 'E-mail já cadastrado', 'Já existe uma conta com este e-mail.');
             return;
         }
 
+        // 2. Prepara o objeto do novo usuário
         const novoUsuario = {
             nome: nome,
             email: email,
@@ -121,22 +135,27 @@ async function cadastrar() {
             dataCriacao: new Date()
         };
 
+        // 3. Salva no Firestore
         const docRef = await db.collection("usuarios").add(novoUsuario);
+        
+        // Inclui o ID gerado pelo Firebase na sessão local
         novoUsuario.id = docRef.id;
-
         localStorage.setItem("usuarioLogado", JSON.stringify(novoUsuario));
 
         exibirAlerta('success', 'Sucesso!', 'Cadastro realizado com sucesso!', 1500);
-        setTimeout(() => window.location.reload(), 1500);
+        
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
 
     } catch (error) {
-        console.error("Erro ao cadastrar:", error);
-        exibirAlerta('error', 'Erro', 'Falha ao realizar cadastro: ' + error.message);
+        console.error("Erro no cadastro:", error);
+        exibirAlerta('error', 'Erro', 'Falha ao salvar no banco de dados: ' + error.message);
     }
 }
 
 // ==========================================
-// FUNÇÃO DE LOGIN (Consulta Firestore)
+// LOGIN DE USUÁRIO (CONSULTA AO FIRESTORE)
 // ==========================================
 async function login() {
     const campoLogin = document.getElementById("loginUsuario");
@@ -148,7 +167,7 @@ async function login() {
     const senhaDigitada = campoSenha.value;
 
     if (!loginDigitado || !senhaDigitada) {
-        exibirAlerta('warning', 'Atenção', 'Preencha o usuário/e-mail e a senha.');
+        exibirAlerta('warning', 'Atenção', 'Digite o e-mail/usuário e a senha.');
         return;
     }
 
@@ -158,19 +177,20 @@ async function login() {
     }
 
     try {
-        // Busca por e-mail no Firestore
+        // 1. Busca por e-mail no Firestore
         let snapshot = await db.collection("usuarios").where("email", "==", loginDigitado).get();
 
-        // Se não achar por e-mail, busca por nome de usuário
+        // 2. Se não achar por e-mail, busca por nome de usuário
         if (snapshot.empty) {
             snapshot = await db.collection("usuarios").where("nome", "==", campoLogin.value.trim()).get();
         }
 
         if (snapshot.empty) {
-            exibirAlerta('info', 'Conta não encontrada', 'E-mail ou usuário não possui cadastro.');
+            exibirAlerta('info', 'Conta não encontrada', 'Nenhum usuário cadastrado com estes dados.');
             return;
         }
 
+        // 3. Valida a senha
         let usuarioEncontrado = null;
         snapshot.forEach(doc => {
             const dados = doc.data();
@@ -180,41 +200,28 @@ async function login() {
         });
 
         if (usuarioEncontrado) {
+            // Salva a sessão no localStorage
             localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
-            exibirAlerta('success', 'Bem-vindo(a)!', `Olá, ${usuarioEncontrado.nome}!`, 1500);
             
+            exibirAlerta('success', 'Bem-vindo(a)!', `Olá, ${usuarioEncontrado.nome}!`, 1500);
+
             setTimeout(() => {
+                const modalLogin = document.getElementById("modalLogin");
                 if (modalLogin) modalLogin.style.display = "none";
                 mostrarUsuario();
             }, 1500);
         } else {
-            exibirAlerta('error', 'Erro', 'Senha incorreta!');
+            exibirAlerta('error', 'Senha incorreta', 'A senha digitada está incorreta.');
         }
 
     } catch (error) {
-        console.error("Erro no login:", error);
-        exibirAlerta('error', 'Erro', 'Falha ao autenticar.');
+        console.error("Erro ao fazer login:", error);
+        exibirAlerta('error', 'Erro', 'Falha ao conectar com o servidor.');
     }
 }
 
 // ==========================================
-// ALTERNAR VISIBILIDADE DA SENHA (OLHO)
-// ==========================================
-function alternarSenha(idCampo, elementoIcone) {
-    const campoSenha = document.getElementById(idCampo);
-    if (!campoSenha) return;
-
-    if (campoSenha.type === "password") {
-        campoSenha.type = "text";
-        elementoIcone.innerText = "🙈";
-    } else {
-        campoSenha.type = "password";
-        elementoIcone.innerText = "👁️";
-    }
-}
-
-// ==========================================
-// ESQUECEU SUA SENHA
+// RECUPERAÇÃO DE SENHA (FIRESTORE)
 // ==========================================
 async function esqueceuSenha(event) {
     if (event) event.preventDefault();
@@ -230,7 +237,7 @@ async function esqueceuSenha(event) {
         input: 'email',
         inputPlaceholder: 'seu.email@exemplo.com',
         showCancelButton: true,
-        confirmButtonText: 'Verificar',
+        confirmButtonText: 'Buscar Senha',
         cancelButtonText: 'Cancelar'
     });
 
@@ -251,23 +258,23 @@ async function esqueceuSenha(event) {
                 exibirAlerta('error', 'Não encontrado', 'Nenhuma conta encontrada com este e-mail.');
             }
         } catch (error) {
-            console.error("Erro na recuperação:", error);
-            exibirAlerta('error', 'Erro', 'Falha ao consultar banco de dados.');
+            console.error("Erro ao recuperar senha:", error);
+            exibirAlerta('error', 'Erro', 'Falha ao buscar dados no banco.');
         }
     }
 }
 
 // ==========================================
-// MOSTRAR USUÁRIO LOGADO E PERFIL
+// EXIBIR DADOS NA INTERFACE (SESSÃO)
 // ==========================================
 function mostrarUsuario() {
     const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const btnLogin = document.getElementById("btnLogin");
+    const elemNome = document.getElementById("nomeUsuario");
+    const elemPontos = document.getElementById("pontos");
 
     if (usuario) {
         if (btnLogin) btnLogin.innerHTML = "👤 " + usuario.nome;
-        const elemNome = document.getElementById("nomeUsuario");
-        const elemPontos = document.getElementById("pontos");
-
         if (elemNome) elemNome.innerText = usuario.nome;
         if (elemPontos) elemPontos.innerText = usuario.pontos || 0;
     } else {
@@ -280,18 +287,21 @@ function mostrarUsuario() {
 // ==========================================
 function sair() {
     localStorage.removeItem("usuarioLogado");
+    const modalPerfil = document.getElementById("modalPerfil");
     if (modalPerfil) modalPerfil.style.display = "none";
-    if (btnLogin) btnLogin.innerHTML = "👤 Entrar";
+    mostrarUsuario();
     window.location.reload();
 }
 
 async function excluirConta() {
     const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
 
+    if (!usuario) return;
+
     if (typeof Swal !== 'undefined') {
         const result = await Swal.fire({
-            title: 'Tem certeza?',
-            text: "Sua conta será apagada permanentemente do banco de dados!",
+            title: 'Excluir conta?',
+            text: "Esta ação apagará seu perfil do banco de dados definitivamente!",
             icon: 'warning',
             showCancelButton: true,
             confirmColor: '#d33',
@@ -301,19 +311,16 @@ async function excluirConta() {
         });
 
         if (result.isConfirmed) {
-            if (usuario && usuario.id && db) {
+            if (usuario.id && db) {
                 try {
+                    // Remove do Firestore pelo ID do documento
                     await db.collection("usuarios").doc(usuario.id).delete();
                 } catch (e) {
-                    console.error("Erro ao remover do Firestore:", e);
+                    console.error("Erro ao excluir do Firestore:", e);
                 }
             }
 
             localStorage.removeItem("usuarioLogado");
-
-            if (modalPerfil) modalPerfil.style.display = "none";
-            if (btnLogin) btnLogin.innerHTML = "👤 Entrar";
-
             exibirAlerta('success', 'Excluído!', 'Sua conta foi removida com sucesso.', 1500);
             setTimeout(() => window.location.reload(), 1500);
         }
@@ -321,8 +328,21 @@ async function excluirConta() {
 }
 
 // ==========================================
-// PESQUISAR CONTEÚDO (MELHORADO)
+// UTILITÁRIOS (SENHA, BUSCA E JOGOS)
 // ==========================================
+function alternarSenha(idCampo, elementoIcone) {
+    const campoSenha = document.getElementById(idCampo);
+    if (!campoSenha) return;
+
+    if (campoSenha.type === "password") {
+        campoSenha.type = "text";
+        elementoIcone.innerText = "🙈";
+    } else {
+        campoSenha.type = "password";
+        elementoIcone.innerText = "👁️";
+    }
+}
+
 function pesquisarConteudo() {
     const campo = document.getElementById("campoPesquisa");
     if (!campo) return;
@@ -343,9 +363,6 @@ function pesquisarConteudo() {
     });
 }
 
-// ==========================================
-// ABRIR JOGOS E NAVEGAÇÃO
-// ==========================================
 function abrirJogo(tipo) {
     const rotas = {
         'potencia': 'jogo_potencia.html',
@@ -361,16 +378,3 @@ function abrirJogo(tipo) {
 function voltarPagina() {
     history.back();
 }
-
-// ==========================================
-// INICIALIZAÇÃO AO CARREGAR A PÁGINA
-// ==========================================
-document.addEventListener("DOMContentLoaded", () => {
-    mostrarUsuario();
-
-    // Evento de busca em tempo real se o campo existir
-    const campoPesquisa = document.getElementById("campoPesquisa");
-    if (campoPesquisa) {
-        campoPesquisa.addEventListener("input", pesquisarConteudo);
-    }
-});
