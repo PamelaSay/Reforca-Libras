@@ -47,8 +47,7 @@ if (btnLogin) {
         }
     };
 }
-
-// Fechar modais
+    // Fechar modais
 if (fecharLogin) fecharLogin.onclick = () => modalLogin.style.display = "none";
 if (fecharCadastro) fecharCadastro.onclick = () => modalCadastro.style.display = "none";
 if (fecharPerfil) fecharPerfil.onclick = () => modalPerfil.style.display = "none";
