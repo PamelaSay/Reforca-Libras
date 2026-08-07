@@ -419,6 +419,7 @@ body{
    PESQUISA
 ========================== */
 .pesquisa-box{
+    display:flex;
    align-items:center;
     width:260px;
     height:32px;
@@ -428,7 +429,7 @@ body{
     border-radius:10px;
 }
 
-.campoPesquisa{
+.campoPesquisa input{
     float:left;
     width:180px;
     heught:32px:
@@ -439,11 +440,6 @@ body{
     font-size:15px;
     background-color:transparent;
 }
-
-.pesquisa-box img{
-  float:left;
-}
-
 /* BOTÃO PESQUISAR */
 .pesquisa-box button{
   border:none;
