@@ -1,5 +1,5 @@
 // ==========================================
-// 1. CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE
+// CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE
 // ==========================================
 const firebaseConfig = {
     apiKey: "AIzaSyCA5nHe1MRdnYR70flitnIjI75IOkh0ji8",
@@ -11,99 +11,319 @@ const firebaseConfig = {
     measurementId: "G-0YVN46JS8W"
 };
 
-let db = null;
-
+// Inicializa o Firebase SDK
 if (typeof firebase !== 'undefined') {
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
-    db = firebase.firestore();
-}
-
-// Helper para alertas simples
-function exibirAlerta(icone, titulo, texto) {
-    if (typeof Swal !== 'undefined') {
-        Swal.fire({ icon: icone, title: titulo, text: texto, confirmButtonColor: '#d4af37' });
-    } else {
-        alert(`${titulo}: ${texto}`);
-    }
+    var db = firebase.firestore();
+    var auth = firebase.auth();
+    console.log("🔥 Firebase inicializado com sucesso!");
+} else {
+    console.error("❌ SDK do Firebase não carregou no HTML.");
 }
 
 // ==========================================
-// 2. INICIALIZAÇÃO SEGURA DA PÁGINA
+// ELEMENTOS E MODAIS
 // ==========================================
-document.addEventListener("DOMContentLoaded", () => {
-    // Apenas configura a busca quando o usuário REALMENTE digitar
-    const campoPesquisa = document.getElementById("campoPesquisa");
-    if (campoPesquisa) {
-        campoPesquisa.value = ""; // Limpa para não vir e-mail do navegador
-        campoPesquisa.addEventListener("input", pesquisarConteudo);
+const btnLogin = document.getElementById("btnLogin");
+const modalLogin = document.getElementById("modalLogin");
+const fecharLogin = document.getElementById("fecharLogin");
+
+const abrirCadastro = document.getElementById("abrirCadastro");
+const modalCadastro = document.getElementById("modalCadastro");
+const fecharCadastro = document.getElementById("fecharCadastro");
+
+const modalPerfil = document.getElementById("modalPerfil");
+const fecharPerfil = document.getElementById("fecharPerfil");
+
+// Evento do botão do Header (Login / Perfil)
+if (btnLogin) {
+    btnLogin.onclick = () => {
+        let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+        if (usuarioLogado) {
+            if (modalPerfil) modalPerfil.style.display = "flex";
+        } else {
+            if (modalLogin) modalLogin.style.display = "flex";
+        }
+    };
+}
+
+// Fechar modais
+if (fecharLogin) fecharLogin.onclick = () => modalLogin.style.display = "none";
+if (fecharCadastro) fecharCadastro.onclick = () => modalCadastro.style.display = "none";
+if (fecharPerfil) fecharPerfil.onclick = () => modalPerfil.style.display = "none";
+
+// Trocar de Login para Cadastro
+if (abrirCadastro) {
+    abrirCadastro.onclick = () => {
+        if (modalLogin) modalLogin.style.display = "none";
+        if (modalCadastro) modalCadastro.style.display = "flex";
+    };
+}
+
+// ==========================================
+// FUNÇÃO DE CADASTRO (Auth + Firestore + LocalStorage)
+// ==========================================
+function cadastrar() {
+    const nomeInput = document.getElementById('nomeCadastro');
+    const emailInput = document.getElementById('emailCadastro');
+    const senhaInput = document.getElementById('senhaCadastro');
+
+    if (!nomeInput || !emailInput || !senhaInput) {
+        alert("Erro: Campos de cadastro não encontrados!");
+        return;
     }
 
-    // Configura os modais e botões de login/perfil
-    configurarModais();
+    const nome = nomeInput.value.trim();
+    const email = emailInput.value.trim();
+    const senha = senhaInput.value;
 
-    // Configura o clique das estrelas de forma isolada (sem sumir com os cards)
-    configurarEstrelasSeguro();
+    if (!nome || !email || !senha) {
+        mostrarAlerta('warning', 'Atenção', 'Preencha todos os campos do cadastro!');
+        return;
+    }
 
-    // Atualiza botão de login/nome na tela
-    mostrarUsuario();
-});
+    if (typeof firebase === 'undefined' || !firebase.auth) {
+        alert("Erro na conexão com o Firebase.");
+        return;
+    }
+
+    // 1. Cria a conta no Firebase Authentication
+    auth.createUserWithEmailAndPassword(email, senha)
+        .then((userCredential) => {
+            const user = userCredential.user;
+
+            // Atualiza o perfil com o nome digitado
+            return user.updateProfile({ displayName: nome }).then(() => user);
+        })
+        .then((user) => {
+            const novoUsuario = {
+                uid: user.uid,
+                nome: nome,
+                email: email,
+                nivel: "Iniciante",
+                pontos: 0,
+                dataCriacao: new Date()
+            };
+
+            // 2. Salva informações adicionais no Firestore
+            return db.collection("usuarios").doc(user.uid).set(novoUsuario).then(() => novoUsuario);
+        })
+        .then((dadosUsuario) => {
+            // 3. Salva a sessão localmente
+            localStorage.setItem("usuarioLogado", JSON.stringify(dadosUsuario));
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Cadastro realizado com sucesso!',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+                alert("Cadastro realizado com sucesso!");
+                window.location.reload();
+            }
+        })
+        .catch((error) => {
+            console.error("Erro ao cadastrar:", error);
+            let mensagemErro = "Erro ao realizar cadastro.";
+            if (error.code === 'auth/email-already-in-use') {
+                mensagemErro = "Este e-mail já está em uso.";
+            } else if (error.code === 'auth/weak-password') {
+                mensagemErro = "A senha deve ter pelo menos 6 caracteres.";
+            }
+            mostrarAlerta('error', 'Erro no Cadastro', mensagemErro);
+        });
+}
 
 // ==========================================
-// 3. AVALIAÇÃO COM ESTRELAS (ISOLADO E SEGURO)
+// FUNÇÃO DE LOGIN UNIFICADA (Firebase Auth)
 // ==========================================
-function configurarEstrelasSeguro() {
-    // Procura elementos com classe 'estrela' ou dentro de contêineres de estrelas
-    const elementosEstrela = document.querySelectorAll('.estrelas i, .estrelas span, .estrela, [data-estrela]');
+function executarLogin(email, senha) {
+    if (!email || !senha) {
+        mostrarAlerta('warning', 'Atenção', 'Por favor, preencha todos os campos.');
+        return;
+    }
 
-    elementosEstrela.forEach((estrela, index) => {
-        estrela.addEventListener('click', (e) => {
-            // IMPEDE que o clique afete o card pai ou recarregue a página
-            e.preventDefault();
-            e.stopPropagation();
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+        auth.signInWithEmailAndPassword(email, senha)
+            .then((userCredential) => {
+                const user = userCredential.user;
 
-            const container = estrela.parentElement;
-            if (!container) return;
+                let nomeFormatado = user.displayName;
+                if (!nomeFormatado && user.email) {
+                    nomeFormatado = user.email.split("@")[0];
+                    nomeFormatado = nomeFormatado.charAt(0).toUpperCase() + nomeFormatado.slice(1);
+                }
 
-            const todasEstrelas = container.children;
-            let posicaoClicada = Array.from(todasEstrelas).indexOf(estrela);
+                const dadosUsuario = {
+                    uid: user.uid,
+                    email: user.email,
+                    nome: nomeFormatado || "Aluno",
+                    pontos: 0
+                };
 
-            // Se não achou pelo indice dos filhos, usa o index relativo
-            if (posicaoClicada === -1) posicaoClicada = index;
+                localStorage.setItem("usuarioLogado", JSON.stringify(dadosUsuario));
 
-            // Pinta apenas a cor da estrela, SEM alterar a exibição/classes do Card
-            for (let i = 0; i < todasEstrelas.length; i++) {
-                if (i <= posicaoClicada) {
-                    todasEstrelas[i].style.color = "#FFD700"; // Dourado
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Bem-vindo(a)!',
+                        text: `Olá, ${dadosUsuario.nome}!`,
+                        timer: 1800,
+                        showConfirmButton: false
+                    }).then(() => {
+                        if (modalLogin) modalLogin.style.display = "none";
+                        mostrarUsuario();
+                    });
                 } else {
-                    todasEstrelas[i].style.color = "#CCC"; // Cinza
+                    alert(`Bem-vindo(a), ${dadosUsuario.nome}!`);
+                    if (modalLogin) modalLogin.style.display = "none";
+                    mostrarUsuario();
+                }
+            })
+            .catch((error) => {
+                console.error("Erro no login:", error);
+                mostrarAlerta('error', 'Erro', 'E-mail ou senha incorretos!');
+            });
+    } else {
+        alert("Serviço de autenticação indisponível.");
+    }
+}
+
+// ==========================================
+// ALTERNAR VISIBILIDADE DA SENHA (OLHO)
+// ==========================================
+function alternarSenha(idCampo, elementoIcone) {
+    const campoSenha = document.getElementById(idCampo);
+    if (!campoSenha) return;
+
+    if (campoSenha.type === "password") {
+        campoSenha.type = "text";
+        elementoIcone.innerText = "🙈";
+    } else {
+        campoSenha.type = "password";
+        elementoIcone.innerText = "👁️";
+    }
+}
+
+// ==========================================
+// FUNÇÃO ESQUECEU SUA SENHA (Recuperação Oficial Firebase)
+// ==========================================
+function esqueceuSenha(event) {
+    if (event) event.preventDefault();
+
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: 'Recuperação de Senha',
+            text: 'Digite seu e-mail para receber o link de redefinição:',
+            input: 'email',
+            inputPlaceholder: 'seu.email@exemplo.com',
+            showCancelButton: true,
+            confirmButtonText: 'Enviar Link',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                const emailDigitado = result.value.trim();
+
+                auth.sendPasswordResetEmail(emailDigitado)
+                    .then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'E-mail Enviado!',
+                            text: 'Verifique sua caixa de entrada para redefinir a senha.'
+                        });
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao redefinir senha:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: 'Não foi possível enviar o e-mail de recuperação.'
+                        });
+                    });
+            }
+        });
+    }
+}
+
+// ==========================================
+// MOSTRAR USUÁRIO LOGADO E PERFIL
+// ==========================================
+function mostrarUsuario() {
+    let usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+    if (usuario) {
+        if (btnLogin) btnLogin.innerHTML = "👤 " + usuario.nome;
+        if (document.getElementById("nomeUsuario")) {
+            document.getElementById("nomeUsuario").innerText = usuario.nome;
+        }
+        if (document.getElementById("pontos")) {
+            document.getElementById("pontos").innerText = usuario.pontos || 0;
+        }
+    } else {
+        if (btnLogin) btnLogin.innerHTML = "👤 Entrar";
+    }
+}
+
+// ==========================================
+// SAIR E EXCLUIR CONTA
+// ==========================================
+function sair() {
+    if (auth) auth.signOut();
+    localStorage.removeItem("usuarioLogado");
+    if (modalPerfil) modalPerfil.style.display = "none";
+    if (btnLogin) btnLogin.innerHTML = "👤 Entrar";
+    window.location.reload();
+}
+
+function excluirConta() {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Sua conta será apagada permanentemente!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmColor: '#d33',
+            cancelColor: '#3085d6',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const user = auth.currentUser;
+                if (user) {
+                    user.delete().then(() => {
+                        localStorage.removeItem("usuarioLogado");
+                        window.location.reload();
+                    }).catch((error) => {
+                        console.error("Erro ao excluir conta:", error);
+                        alert("Para excluir a conta, faça login novamente e tente em seguida.");
+                    });
                 }
             }
         });
-    });
+    }
 }
 
 // ==========================================
-// 4. BUSCA (SÓ FILTRA SE DIGITAR)
+// PESQUISAR CONTEÚDO
 // ==========================================
 function pesquisarConteudo() {
-    const campo = document.getElementById("campoPesquisa");
+    let campo = document.getElementById("campoPesquisa");
     if (!campo) return;
 
-    const termo = campo.value.toLowerCase().trim();
-    const cards = document.querySelectorAll(".card, .card-jogo");
+    let pesquisa = campo.value.toLowerCase();
+    let cards = document.querySelectorAll(".card");
 
     cards.forEach(card => {
-        // Se o campo estiver vazio, MOSTRA todos os cards obrigatoriamente
-        if (termo === "") {
-            card.style.display = "";
-            return;
-        }
-
-        const texto = card.innerText.toLowerCase();
-        if (texto.includes(termo)) {
-            card.style.display = "";
+        let nome = card.dataset.nome ? card.dataset.nome.toLowerCase() : "";
+        if (nome.includes(pesquisa)) {
+            card.style.display = "block";
         } else {
             card.style.display = "none";
         }
@@ -111,165 +331,61 @@ function pesquisarConteudo() {
 }
 
 // ==========================================
-// 5. LOGIN E CADASTRO (FIRESTORE)
+// NAVEGAÇÃO E UTILITÁRIOS
 // ==========================================
-async function login() {
-    const campoLogin = document.getElementById("loginUsuario") || document.getElementById("emailLogin");
-    const campoSenha = document.getElementById("senhaLogin");
-
-    if (!campoLogin || !campoSenha) return;
-
-    const valorLogin = campoLogin.value.trim().toLowerCase();
-    const senhaDigitada = campoSenha.value;
-
-    if (!valorLogin || !senhaDigitada) {
-        exibirAlerta('warning', 'Atenção', 'Preencha o e-mail/usuário e a senha.');
-        return;
-    }
-
-    try {
-        let snapshot = await db.collection("usuarios").where("email", "==", valorLogin).get();
-
-        if (snapshot.empty) {
-            snapshot = await db.collection("usuarios").where("nome", "==", campoLogin.value.trim()).get();
-        }
-
-        if (snapshot.empty) {
-            exibirAlerta('error', 'Erro', 'Usuário não encontrado.');
-            return;
-        }
-
-        let usuarioEncontrado = null;
-        snapshot.forEach(doc => {
-            const dados = doc.data();
-            if (dados.senha === senhaDigitada) {
-                usuarioEncontrado = { id: doc.id, ...dados };
-            }
-        });
-
-        if (usuarioEncontrado) {
-            localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
-            exibirAlerta('success', 'Sucesso', `Bem-vindo, ${usuarioEncontrado.nome}!`);
-            setTimeout(() => location.reload(), 1000);
-        } else {
-            exibirAlerta('error', 'Erro', 'Senha incorreta.');
-        }
-    } catch (err) {
-        exibirAlerta('error', 'Erro', 'Falha ao conectar com o banco.');
-    }
-}
-
-async function cadastrar() {
-    const nomeInput = document.getElementById('nomeCadastro');
-    const emailInput = document.getElementById('emailCadastro');
-    const senhaInput = document.getElementById('senhaCadastro');
-
-    if (!nomeInput || !emailInput || !senhaInput) return;
-
-    const nome = nomeInput.value.trim();
-    const email = emailInput.value.trim().toLowerCase();
-    const senha = senhaInput.value;
-
-    if (!nome || !email || !senha) {
-        exibirAlerta('warning', 'Atenção', 'Preencha todos os campos!');
-        return;
-    }
-
-    try {
-        const snapshot = await db.collection("usuarios").where("email", "==", email).get();
-        if (!snapshot.empty) {
-            exibirAlerta('error', 'Erro', 'E-mail já cadastrado.');
-            return;
-        }
-
-        const novoUsuario = { nome, email, senha, nivel: "Iniciante", pontos: 0 };
-        const docRef = await db.collection("usuarios").add(novoUsuario);
-        novoUsuario.id = docRef.id;
-
-        localStorage.setItem("usuarioLogado", JSON.stringify(novoUsuario));
-        exibirAlerta('success', 'Sucesso', 'Conta criada com sucesso!');
-        setTimeout(() => location.reload(), 1000);
-    } catch (err) {
-        exibirAlerta('error', 'Erro', 'Não foi possível cadastrar.');
-    }
-}
-
-// ==========================================
-// 6. GERENCIAMENTO DE MODAIS E NAVEGAÇÃO
-// ==========================================
-function configurarModais() {
-    const btnLogin = document.getElementById("btnLogin");
-    const modalLogin = document.getElementById("modalLogin");
-    const fecharLogin = document.getElementById("fecharLogin");
-
-    const abrirCadastro = document.getElementById("abrirCadastro");
-    const modalCadastro = document.getElementById("modalCadastro");
-    const fecharCadastro = document.getElementById("fecharCadastro");
-
-    const modalPerfil = document.getElementById("modalPerfil");
-    const fecharPerfil = document.getElementById("fecharPerfil");
-
-    if (btnLogin) {
-        btnLogin.onclick = (e) => {
-            e.preventDefault();
-            const user = JSON.parse(localStorage.getItem("usuarioLogado"));
-            if (user && modalPerfil) modalPerfil.style.display = "flex";
-            else if (modalLogin) modalLogin.style.display = "flex";
-        };
-    }
-
-    if (fecharLogin) fecharLogin.onclick = () => modalLogin.style.display = "none";
-    if (fecharCadastro) fecharCadastro.onclick = () => modalCadastro.style.display = "none";
-    if (fecharPerfil) fecharPerfil.onclick = () => modalPerfil.style.display = "none";
-
-    if (abrirCadastro) {
-        abrirCadastro.onclick = (e) => {
-            e.preventDefault();
-            if (modalLogin) modalLogin.style.display = "none";
-            if (modalCadastro) modalCadastro.style.display = "flex";
-        };
-    }
-
-    const formLogin = document.getElementById("formLogin");
-    if (formLogin) formLogin.onsubmit = (e) => { e.preventDefault(); login(); };
-
-    const formCadastro = document.getElementById("formCadastro");
-    if (formCadastro) formCadastro.onsubmit = (e) => { e.preventDefault(); cadastrar(); };
-}
-
-function mostrarUsuario() {
-    const user = JSON.parse(localStorage.getItem("usuarioLogado"));
-    const btnLogin = document.getElementById("btnLogin");
-    const elemNome = document.getElementById("nomeUsuario");
-
-    if (user) {
-        if (btnLogin) btnLogin.innerHTML = "👤 " + user.nome;
-        if (elemNome) elemNome.innerText = user.nome;
-    } else {
-        if (btnLogin) btnLogin.innerHTML = "👤 Entrar";
-    }
-}
-
-function sair() {
-    localStorage.removeItem("usuarioLogado");
-    location.reload();
-}
-
-function alternarSenha(idCampo, el) {
-    const campo = document.getElementById(idCampo);
-    if (!campo) return;
-    campo.type = campo.type === "password" ? "text" : "password";
-}
-
 function abrirJogo(tipo) {
-    const rotas = {
-        'potencia': 'jogo_potencia.html',
-        'radiciacao': 'jogoradiciacao.html',
-        'planocartesiano': 'planocartesiano.html'
-    };
-    if (rotas[tipo]) window.location.href = rotas[tipo];
+    if (tipo === 'potencia') window.location.href = "jogo_potencia.html";
+    if (tipo === 'radiciacao') window.location.href = "jogoradiciacao.html";
+    if (tipo === 'planocartesiano') window.location.href = "planocartesiano.html";
 }
 
 function voltarPagina() {
     history.back();
 }
+
+function mostrarAlerta(icone, titulo, texto) {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({ icon: icone, title: titulo, text: texto });
+    } else {
+        alert(`${titulo}: ${texto}`);
+    }
+}
+
+// ==========================================
+// INICIALIZAÇÃO AO CARREGAR A PÁGINA
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // Atualiza interface do usuário
+    mostrarUsuario();
+
+    // Limpa o campo de pesquisa
+    const campoPesquisa = document.getElementById("campoPesquisa");
+    if (campoPesquisa) campoPesquisa.value = "";
+
+    // Evento do Formulário de Login
+    const formLogin = document.getElementById("formLogin");
+    if (formLogin) {
+        formLogin.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const emailInput = document.getElementById("emailLogin") || document.getElementById("loginUsuario");
+            const senhaInput = document.getElementById("senhaLogin");
+
+            if (emailInput && senhaInput) {
+                executarLogin(emailInput.value.trim(), senhaInput.value);
+            }
+        });
+    }
+});
+
+// Limpa autopreenchimento do navegador no login
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        const campoEmail = document.getElementById("emailLogin") || document.getElementById("loginUsuario");
+        const campoSenha = document.getElementById("senhaLogin");
+
+        if (campoEmail) campoEmail.value = "";
+        if (campoSenha) campoSenha.value = "";
+    }, 150);
+});
