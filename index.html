@@ -96,15 +96,18 @@
         <img src="logo2.png" alt="Logo">
         <h2>Entrar</h2>
 
-        <!-- Campo flexível para E-mail ou Usuário -->
-       <form id="formLogin" autocomplete="off">
-            <input type="text" id="loginUsuario" placeholder="E-mail ou Nome de Usuário" required autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+       <!-- CAMPO LOGIN / CADASTRO AJUSTADO -->
+<form id="formLogin" autocomplete="off">
+    <input type="text" id="loginUsuario" placeholder="E-mail ou Nome de Usuário" required autocomplete="off">
 
-            <!-- CAMPO DE SENHA COM OLHO -->
-            <div class="campo-senha">
-                <input id="senhaLogin" type="password" placeholder="Senha" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');">
-                <span class="icone-olho" onclick="alternarSenha('senhaLogin', this)">👁️</span>
-            </div>
+    <div class="campo-senha">
+        <input id="senhaLogin" type="password" placeholder="Senha" autocomplete="current-password" required>
+        <span class="icone-olho" onclick="alternarSenha('senhaLogin', this)">👁️</span>
+    </div>
+
+    <a href="#" class="esqueceu-senha" onclick="esqueceuSenha(event)">Esqueceu sua senha?</a>
+    <button type="button" onclick="login()">Entrar</button>
+</form>
 
             <!-- LINK ESQUECEU SUA SENHA -->
             <a href="#" class="esqueceu-senha" onclick="esqueceuSenha(event)">Esqueceu sua senha?</a>
@@ -134,7 +137,7 @@
             <p>Não possui conta? 
                 <button type="button" id="abrirCadastro">Cadastrar</button>
             </p>
-       </form>
+       
     </div>
 </div>
 
