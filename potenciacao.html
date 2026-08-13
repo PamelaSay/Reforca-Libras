@@ -59,10 +59,14 @@
                         <p>Compreenda a potência como uma multiplicação de fatores iguais.</p>
                     </div>
                     <div class="acoes-topico">
-                        <a class="btn-aula" data-acao="aula" href="https://www.youtube.com/@reforcalibras" target="_blank"  rel="noopener noreferrer">
-                            <span class="icone">▶</span>
-                            <span><small>PRIMEIRO</small>Assistir Aula</span>
-                        </a>
+                        <a class="btn-aula" data-acao="aula" data-video-id="COLOQUE_AQUI_O_ID_DO_VIDEO" href="#">
+    <span class="icone">▶</span>
+
+    <span>
+        <small>PRIMEIRO</small>
+        Assistir aula
+    </span>
+</a>
                         <a class="btn-jogo" data-acao="teste" href="jogo_potencia.html"> 
                             <span class="icone">🎮</span>
                             <span><small>DEPOIS</small>Verificar conhecimento</span>
@@ -78,7 +82,7 @@
                         <p>Identifique os elementos e aprenda a leitura correta de uma potência.</p>
                     </div>
                     <div class="acoes-topico">
-                        <a class="btn-jogo" data-acao="teste" href="#">
+                        <a class="btn-aula" data-acao="aula" data-video-id="ID_DO_VIDEO_DA_AULA_2" href="#">
                             <span class="icone">▶</span>
                             <span><small>PRIMEIRO</small>Assistir videoaula</span>
                         </a>
@@ -129,10 +133,49 @@
             </div>
         </section>
     </main>
+    <!-- MODAL DA VIDEOAULA -->
 
+<div
+    id="modalVideoaula"
+    class="modal-videoaula"
+    aria-hidden="true"
+>
+    <div class="videoaula-box">
+
+        <div class="videoaula-topo">
+            <div>
+                <span>VIDEOAULA</span>
+                <h2 id="tituloVideoaula">
+                    Potenciação
+                </h2>
+            </div>
+
+            <button
+                type="button"
+                id="fecharVideoaula"
+                class="fechar-videoaula"
+                aria-label="Fechar videoaula"
+                title="Fechar"
+            >
+                &times;
+            </button>
+        </div>
+
+        <div class="videoaula-player">
+            <div id="playerVideoaula"></div>
+        </div>
+
+        <p class="aviso-videoaula">
+            Assista ao vídeo até o final para liberar
+            o teste de conhecimento.
+        </p>
+
+    </div>
+</div>
     <footer>
         <p>© 2026 Reforça Libras - Todos os direitos reservados.</p>
     </footer>
-    <script src="curso-potenciacao.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+<script src="curso-potenciacao.js"></script>
 </body>
 </html>

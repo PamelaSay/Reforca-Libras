@@ -4,7 +4,10 @@
 
 const CHAVE_CURSO = "progressoCursoPotenciacao";
 const TOTAL_ETAPAS = 4;
-
+let playerVideoaula = null;
+let etapaVideoAtual = null;
+let apiYouTubePronta = false;
+let videoConcluido = false;
 
 // ==========================================
 // OBTER PROGRESSO SALVO
@@ -225,9 +228,22 @@ function configurarLinksDoCurso() {
                 const card =
                     link.closest(".etapa-curso");
 
-                if (!card) {
-                    return;
-                }
+               if (tipo === "aula") {
+    const videoId =
+        link.dataset.videoId;
+
+    abrirVideoaula(
+        numero,
+        videoId
+    );
+}
+
+if (tipo === "teste") {
+    abrirTeste(
+        numero,
+        destino
+    );
+}
 
                 const numero =
                     Number(card.dataset.etapa);
@@ -365,6 +381,230 @@ document.addEventListener(
     function () {
         atualizarCursoNaTela();
         configurarLinksDoCurso();
-        configurarBotaoContinuar();
+
+        const botaoFecharVideo =
+            document.getElementById(
+                "fecharVideoaula"
+            );
+
+        const modalVideo =
+            document.getElementById(
+                "modalVideoaula"
+            );
+
+        if (botaoFecharVideo) {
+            botaoFecharVideo.addEventListener(
+                "click",
+                fecharModalVideoaula
+            );
+        }
+
+        if (modalVideo) {
+            modalVideo.addEventListener(
+                "click",
+                function (evento) {
+                    if (evento.target === modalVideo) {
+                        fecharModalVideoaula();
+                    }
+                }
+            );
+        }
     }
 );
+
+// ==========================================
+// API DO YOUTUBE CARREGADA
+// ==========================================
+
+function onYouTubeIframeAPIReady() {
+    apiYouTubePronta = true;
+}
+
+
+// ==========================================
+// ABRIR VIDEOAULA NO MODAL
+// ==========================================
+
+function abrirVideoaula(numero, videoId) {
+    const progresso = obterProgressoCurso();
+
+    if (numero > progresso.etapaLiberada) {
+        alert(
+            "Conclua o teste da etapa anterior " +
+            "para liberar esta videoaula."
+        );
+
+        return;
+    }
+
+    if (!videoId) {
+        alert(
+            "O vídeo desta aula ainda não foi cadastrado."
+        );
+
+        return;
+    }
+
+    if (
+        !apiYouTubePronta ||
+        typeof YT === "undefined" ||
+        !YT.Player
+    ) {
+        alert(
+            "O vídeo ainda está carregando. " +
+            "Aguarde um instante e tente novamente."
+        );
+
+        return;
+    }
+
+    etapaVideoAtual = numero;
+    videoConcluido = false;
+
+    const modal =
+        document.getElementById("modalVideoaula");
+
+    const titulo =
+        document.getElementById("tituloVideoaula");
+
+    titulo.textContent =
+        "Aula " + numero + " — Potenciação";
+
+    modal.classList.add("aberto");
+    modal.setAttribute("aria-hidden", "false");
+
+    document.body.style.overflow = "hidden";
+
+    if (playerVideoaula) {
+        playerVideoaula.destroy();
+        playerVideoaula = null;
+    }
+
+    playerVideoaula = new YT.Player(
+        "playerVideoaula",
+        {
+            videoId: videoId,
+
+            playerVars: {
+                autoplay: 1,
+                rel: 0,
+                modestbranding: 1
+            },
+
+            events: {
+                onStateChange:
+                    verificarEstadoDoVideo
+            }
+        }
+    );
+}
+
+
+// ==========================================
+// VERIFICAR SE O VÍDEO TERMINOU
+// ==========================================
+
+function verificarEstadoDoVideo(evento) {
+    if (
+        evento.data === YT.PlayerState.ENDED
+    ) {
+        videoConcluido = true;
+
+        registrarAulaAssistida(
+            etapaVideoAtual
+        );
+
+        fecharModalVideoaula();
+
+        mostrarAvisoAulaConcluida();
+    }
+}
+
+
+// ==========================================
+// FECHAR MODAL
+// ==========================================
+
+function fecharModalVideoaula() {
+    const modal =
+        document.getElementById("modalVideoaula");
+
+    modal.classList.remove("aberto");
+    modal.setAttribute("aria-hidden", "true");
+
+    document.body.style.overflow = "";
+
+    if (playerVideoaula) {
+        playerVideoaula.destroy();
+        playerVideoaula = null;
+    }
+
+    etapaVideoAtual = null;
+}
+
+
+// ==========================================
+// MENSAGEM APÓS O VÍDEO
+// ==========================================
+
+function mostrarAvisoAulaConcluida() {
+    if (typeof Swal !== "undefined") {
+        Swal.fire({
+            icon: "success",
+            title: "Videoaula concluída!",
+            text:
+                "O teste de conhecimento " +
+                "desta etapa foi liberado.",
+            confirmButtonText: "Fazer o teste",
+            confirmButtonColor: "#1d3557"
+        }).then(function () {
+            localizarTesteDisponivel();
+        });
+
+        return;
+    }
+
+    alert(
+        "Videoaula concluída! " +
+        "O teste foi liberado."
+    );
+
+    localizarTesteDisponivel();
+}
+
+
+// ==========================================
+// MOSTRAR O TESTE LIBERADO
+// ==========================================
+
+function localizarTesteDisponivel() {
+    if (!videoConcluido) {
+        return;
+    }
+
+    const card = document.querySelector(
+        '.etapa-curso[data-etapa="' +
+        obterUltimaAulaAssistida() +
+        '"]'
+    );
+
+    if (card) {
+        card.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+}
+
+
+function obterUltimaAulaAssistida() {
+    const progresso = obterProgressoCurso();
+
+    if (progresso.aulasAssistidas.length === 0) {
+        return 1;
+    }
+
+    return Math.max(
+        ...progresso.aulasAssistidas
+    );
+};

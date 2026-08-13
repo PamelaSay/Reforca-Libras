@@ -628,6 +628,119 @@
     font-weight: 900;
     text-align: center;
 }
+/* ==========================================
+   MODAL DA VIDEOAULA
+========================================== */
+
+.pagina-curso .modal-videoaula {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(8, 25, 43, 0.82);
+
+    z-index: 9999;
+}
+
+.pagina-curso .modal-videoaula.aberto {
+    display: flex;
+}
+
+.pagina-curso .videoaula-box {
+    width: min(900px, 100%);
+    max-height: 95vh;
+
+    overflow-y: auto;
+
+    border: 2px solid var(--curso-dourado);
+    border-radius: 25px;
+
+    background: var(--curso-branco);
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.pagina-curso .videoaula-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 20px;
+
+    border-bottom: 2px solid var(--curso-dourado);
+
+    background: var(--curso-azul-escuro);
+    color: var(--curso-branco);
+}
+
+.pagina-curso .videoaula-topo span {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    color: var(--curso-dourado);
+}
+
+.pagina-curso .videoaula-topo h2 {
+    margin: 3px 0 0;
+
+    font-size: 22px;
+}
+
+.pagina-curso .fechar-videoaula {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+
+    padding: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+
+    background: transparent;
+    color: var(--curso-branco);
+
+    font-size: 30px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.pagina-curso .fechar-videoaula:hover {
+    border-color: var(--curso-dourado);
+    color: var(--curso-dourado);
+}
+
+.pagina-curso .videoaula-player {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    background: #000000;
+}
+
+.pagina-curso #playerVideoaula,
+.pagina-curso #playerVideoaula iframe {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+
+.pagina-curso .aviso-videoaula {
+    padding: 14px 20px;
+
+    color: var(--curso-azul-escuro);
+
+    font-weight: 700;
+    text-align: center;
+}
 
 
 /* ==========================================
@@ -727,5 +840,26 @@
     .pagina-curso
     .acoes-topico a {
         min-width: 0;
+    }
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+
+    .pagina-curso .modal-videoaula {
+        padding: 10px;
+    }
+
+    .pagina-curso .videoaula-box {
+        border-radius: 18px;
+    }
+
+    .pagina-curso .videoaula-topo {
+        padding: 12px 14px;
+    }
+
+    .pagina-curso .videoaula-topo h2 {
+        font-size: 18px;
     }
 }
