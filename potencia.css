@@ -17,8 +17,6 @@ body{
 
     min-height:100vh;
 
-    background-image:url('transferir.jpg');
-
     background-size:cover;
 
     background-position:center;
@@ -84,10 +82,10 @@ body{
   }
 .return-button img{
     vertical-align:middle;/* Centralizar verticalmente a imagem*/
-    margin-right:20 px;/* Margem a direita da imagem para separa-la do texto */
+    margin-right:5 px;/* Margem a direita da imagem para separa-la do texto */
     margin-left:0;
-    max-width:30 px;
-    max-height:30 px;
+    width:10 px;
+    height:10 px;
    }
 
 
