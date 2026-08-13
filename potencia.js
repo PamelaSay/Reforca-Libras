@@ -154,18 +154,13 @@ function verificarResposta(indice){
 
         carregarPergunta()
 
-        document.getElementById("feedback").innerHTML = ""
-
-    },1500)
+        document.getElementById("feedback").innerHTML = "" },1500)
 }
 
 function atualizarStatus(){
 
-    document.getElementById("pontos").innerHTML =
-    pontos
-
-    document.getElementById("vidas").innerHTML =
-    vidas
+    document.getElementById("pontos").innerHTML = pontos
+    document.getElementById("vidas").innerHTML =  vidas
 }
 
 function finalizarJogo(){
@@ -192,9 +187,8 @@ function finalizarJogo(){
 
         🔄 Jogar Novamente
 
-    </button>
+    </button>'
 
-    `
 }
 
 function fimDeJogo(){
@@ -221,10 +215,9 @@ function fimDeJogo(){
 
         🔄 Tentar Novamente
 
-    </button>
-
-    `
+    </button>'
 }
+
 
 function reiniciarJogo(){
 
@@ -240,5 +233,6 @@ function reiniciarJogo(){
 carregarPergunta()
 
 function voltarPagina() {
-    history.back();
-}
+    window.history.back();
+}   
+
