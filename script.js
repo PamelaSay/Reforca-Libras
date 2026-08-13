@@ -1,6 +1,7 @@
 // ==========================================
-// CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE
+// CONFIGURAÇÃO DO FIREBASE
 // ==========================================
+
 const firebaseConfig = {
     apiKey: "AIzaSyCA5nHe1MRdnYR70flitnIjI75IOkh0ji8",
     authDomain: "reforca-app-25554.firebaseapp.com",
@@ -11,21 +12,32 @@ const firebaseConfig = {
     measurementId: "G-0YVN46JS8W"
 };
 
-// Inicializa o Firebase SDK
-if (typeof firebase !== 'undefined') {
+let db;
+let auth;
+
+if (typeof firebase !== "undefined") {
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
-    var db = firebase.firestore();
-    console.log("🔥 Firebase inicializado com sucesso!");
+
+    db = firebase.firestore();
+    auth = firebase.auth();
+
+    console.log("Firebase inicializado com sucesso.");
 } else {
-    console.error("❌ SDK do Firebase não carregou no HTML.");
+    console.error("O Firebase não foi carregado.");
 }
 
+// Altere quando modificar o Código de Ética
+const VERSAO_TERMOS = "1.0";
+
+
 // ==========================================
-// ELEMENTOS E MODAIS
+// ELEMENTOS DA PÁGINA
 // ==========================================
+
 const btnLogin = document.getElementById("btnLogin");
+
 const modalLogin = document.getElementById("modalLogin");
 const fecharLogin = document.getElementById("fecharLogin");
 
@@ -36,320 +48,683 @@ const fecharCadastro = document.getElementById("fecharCadastro");
 const modalPerfil = document.getElementById("modalPerfil");
 const fecharPerfil = document.getElementById("fecharPerfil");
 
-// Evento do botão do Header (Login / Perfil)
+const modalTermos = document.getElementById("modalTermos");
+const abrirTermos = document.getElementById("abrirTermos");
+const fecharTermos = document.getElementById("fecharTermos");
+const concordarTermos = document.getElementById("concordarTermos");
+
+
+// ==========================================
+// CONTROLE DOS MODAIS
+// ==========================================
+
 if (btnLogin) {
-    btnLogin.onclick = () => {
-        let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-        if (usuarioLogado) {
-            if (modalPerfil) modalPerfil.style.display = "flex";
-        } else {
-            if (modalLogin) modalLogin.style.display = "flex";
+    btnLogin.onclick = function () {
+        const usuario = obterUsuarioLocal();
+
+        if (usuario && modalPerfil) {
+            mostrarUsuario();
+            modalPerfil.style.display = "flex";
+        } else if (modalLogin) {
+            modalLogin.style.display = "flex";
         }
     };
 }
 
-// Fechar modais
-if (fecharLogin) fecharLogin.onclick = () => modalLogin.style.display = "none";
-if (fecharCadastro) fecharCadastro.onclick = () => modalCadastro.style.display = "none";
-if (fecharPerfil) fecharPerfil.onclick = () => modalPerfil.style.display = "none";
-
-// Trocar de Login para Cadastro
-if (abrirCadastro) {
-    abrirCadastro.onclick = () => {
-        if (modalLogin) modalLogin.style.display = "none";
-        if (modalCadastro) modalCadastro.style.display = "flex";
+if (fecharLogin) {
+    fecharLogin.onclick = function () {
+        modalLogin.style.display = "none";
     };
 }
 
-// ==========================================
-// FUNÇÃO DE CADASTRO (Firestore + LocalStorage)
-// ==========================================
-function cadastrar() {
-    // Busca pelos IDs corretos do seu HTML
-    const nomeInput = document.getElementById('nomeCadastro');
-    const emailInput = document.getElementById('emailCadastro');
-    const senhaInput = document.getElementById('senhaCadastro');
+if (fecharCadastro) {
+    fecharCadastro.onclick = function () {
+        modalCadastro.style.display = "none";
+    };
+}
 
-    if (!nomeInput || !emailInput || !senhaInput) {
-        alert("Erro: Campos de cadastro não encontrados!");
+if (fecharPerfil) {
+    fecharPerfil.onclick = function () {
+        modalPerfil.style.display = "none";
+    };
+}
+
+if (fecharTermos) {
+    fecharTermos.onclick = function () {
+        modalTermos.style.display = "none";
+    };
+}
+
+if (abrirCadastro) {
+    abrirCadastro.onclick = function () {
+        if (modalLogin) {
+            modalLogin.style.display = "none";
+        }
+
+        if (modalCadastro) {
+            modalCadastro.style.display = "flex";
+        }
+    };
+}
+
+if (abrirTermos) {
+    abrirTermos.onclick = function () {
+        if (modalTermos) {
+            modalTermos.style.display = "flex";
+        }
+    };
+}
+
+if (concordarTermos) {
+    concordarTermos.onclick = function () {
+        const aceite = document.getElementById("aceitarTermos");
+
+        if (aceite) {
+            aceite.checked = true;
+        }
+
+        if (modalTermos) {
+            modalTermos.style.display = "none";
+        }
+    };
+}
+
+
+// ==========================================
+// USUÁRIO SALVO NO NAVEGADOR
+// ==========================================
+
+function obterUsuarioLocal() {
+    try {
+        return JSON.parse(localStorage.getItem("usuarioLogado"));
+    } catch (erro) {
+        return null;
+    }
+}
+
+
+// ==========================================
+// CRIAR IDENTIFICADOR PELO E-MAIL
+// ==========================================
+
+async function gerarIdDoEmail(email) {
+    const emailNormalizado = email.trim().toLowerCase();
+    const bytes = new TextEncoder().encode(emailNormalizado);
+
+    const hash = await crypto.subtle.digest("SHA-256", bytes);
+
+    return Array.from(new Uint8Array(hash))
+        .map(function (byte) {
+            return byte.toString(16).padStart(2, "0");
+        })
+        .join("");
+}
+
+
+// ==========================================
+// SESSÃO ANÔNIMA DO FIREBASE
+// ==========================================
+
+async function garantirSessaoAnonima() {
+    if (!auth) {
+        throw {
+            code: "auth/indisponivel"
+        };
+    }
+
+    if (auth.currentUser) {
+        return auth.currentUser;
+    }
+
+    const credencial = await auth.signInAnonymously();
+
+    return credencial.user;
+}
+
+
+// ==========================================
+// CADASTRO SEM SENHA
+// ==========================================
+
+async function cadastrar() {
+    const nomeInput = document.getElementById("nomeCadastro");
+    const emailInput = document.getElementById("emailCadastro");
+    const aceiteInput = document.getElementById("aceitarTermos");
+
+    if (!nomeInput || !emailInput || !aceiteInput) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "Os campos do cadastro não foram encontrados."
+        );
+
         return;
     }
 
     const nome = nomeInput.value.trim();
-    const email = emailInput.value.trim();
-    const senha = senhaInput.value;
+    const email = emailInput.value.trim().toLowerCase();
 
-    if (!nome || !email || !senha) {
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Atenção',
-                text: 'Preencha todos os campos do cadastro!'
-            });
-        } else {
-            alert("Preencha todos os campos!");
-        }
+    if (!nome || !email) {
+        exibirAlerta(
+            "warning",
+            "Atenção",
+            "Preencha seu nome e seu e-mail."
+        );
+
         return;
     }
 
-    const novoUsuario = {
-        nome: nome,
-        email: email,
-        senha: senha,
-        nivel: "Iniciante",
-        pontos: 0
-    };
+    if (!emailInput.checkValidity()) {
+        exibirAlerta(
+            "warning",
+            "E-mail inválido",
+            "Informe um endereço de e-mail válido."
+        );
 
-    // Salva no banco de dados do Firebase
-    if (typeof db !== 'undefined') {
-        db.collection("usuarios").add({
-            ...novoUsuario,
-            dataCriacao: new Date()
-        })
-        .then((docRef) => {
-            console.log("Usuário cadastrado com ID:", docRef.id);
+        return;
+    }
 
-            // Armazena sessão localmente
-            localStorage.setItem("usuarioCadastrado", JSON.stringify(novoUsuario));
-            localStorage.setItem("usuarioLogado", JSON.stringify(novoUsuario));
+    if (!aceiteInput.checked) {
+        exibirAlerta(
+            "warning",
+            "Aceite necessário",
+            "Leia e aceite o Código de Ética e os termos de participação."
+        );
 
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sucesso!',
-                    text: 'Cadastro realizado com sucesso!',
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    window.location.reload();
-                });
-            } else {
-                alert("Cadastro realizado com sucesso!");
-                window.location.reload();
-            }
-        })
-        .catch((error) => {
-            console.error("Erro ao salvar no Firebase:", error);
-            alert("Erro ao cadastrar: " + error.message);
-        });
-    } else {
-        alert("Erro na conexão com o banco de dados Firebase.");
+        return;
+    }
+
+    if (!auth || !db) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "O Firebase não está disponível."
+        );
+
+        return;
+    }
+
+    try {
+        const usuarioAnonimo = await garantirSessaoAnonima();
+        const idUsuario = await gerarIdDoEmail(email);
+
+        const referencia = db
+            .collection("usuarios")
+            .doc(idUsuario);
+
+        const cadastroExistente = await referencia.get();
+
+        if (cadastroExistente.exists) {
+            exibirAlerta(
+                "info",
+                "Cadastro encontrado",
+                "Este e-mail já está cadastrado. Volte à tela de entrada."
+            );
+
+            return;
+        }
+
+        const dadosUsuario = {
+            nome: nome,
+            email: email,
+
+            uidAnonimoInicial: usuarioAnonimo.uid,
+
+            nivel: "Iniciante",
+            pontos: 0,
+            aulas: 0,
+            jogos: 0,
+
+            termosAceitos: true,
+            versaoTermos: VERSAO_TERMOS,
+
+            dataAceiteTermos:
+                firebase.firestore.FieldValue.serverTimestamp(),
+
+            dataCriacao:
+                firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await referencia.set(dadosUsuario);
+
+        const sessaoUsuario = {
+            idUsuario: idUsuario,
+            nome: nome,
+            email: email,
+            pontos: 0,
+            aulas: 0,
+            jogos: 0
+        };
+
+        localStorage.setItem(
+            "usuarioLogado",
+            JSON.stringify(sessaoUsuario)
+        );
+
+        if (modalCadastro) {
+            modalCadastro.style.display = "none";
+        }
+
+        exibirAlerta(
+            "success",
+            "Cadastro concluído",
+            `Bem-vindo(a), ${nome}!`,
+            1600,
+            mostrarUsuario
+        );
+
+    } catch (erro) {
+        console.error("Erro ao cadastrar:", erro);
+
+        exibirAlerta(
+            "error",
+            "Erro ao cadastrar",
+            traduzirErroFirebase(erro.code)
+        );
     }
 }
 
+
 // ==========================================
-// FUNÇÃO DE LOGIN
+// LOGIN SOMENTE COM E-MAIL
 // ==========================================
-function login() {
-    const campoLogin = document.getElementById("loginUsuario");
-    const campoSenha = document.getElementById("senhaLogin");
 
-    if (!campoLogin || !campoSenha) return;
+async function login() {
+    const emailInput =
+        document.getElementById("loginEmail") ||
+        document.getElementById("loginUsuario");
 
-    let loginDigitado = campoLogin.value.trim();
-    let senhaDigitada = campoSenha.value;
+    if (!emailInput) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "O campo de e-mail não foi encontrado."
+        );
 
-    let usuario = JSON.parse(localStorage.getItem("usuarioCadastrado"));
+        return;
+    }
+
+    const email = emailInput.value.trim().toLowerCase();
+
+    if (!email || !emailInput.checkValidity()) {
+        exibirAlerta(
+            "warning",
+            "Atenção",
+            "Informe um e-mail válido."
+        );
+
+        return;
+    }
+
+    if (!auth || !db) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "O Firebase não está disponível."
+        );
+
+        return;
+    }
+
+    try {
+        await garantirSessaoAnonima();
+
+        const idUsuario = await gerarIdDoEmail(email);
+
+        const documento = await db
+            .collection("usuarios")
+            .doc(idUsuario)
+            .get();
+
+        // Se o e-mail não estiver cadastrado,
+        // abre automaticamente o cadastro.
+        if (!documento.exists) {
+            if (modalLogin) {
+                modalLogin.style.display = "none";
+            }
+
+            if (modalCadastro) {
+                modalCadastro.style.display = "flex";
+            }
+
+            const emailCadastro =
+                document.getElementById("emailCadastro");
+
+            if (emailCadastro) {
+                emailCadastro.value = email;
+            }
+
+            exibirAlerta(
+                "info",
+                "Primeiro acesso",
+                "Informe seu nome e aceite os termos para concluir o cadastro."
+            );
+
+            return;
+        }
+
+        const dados = documento.data();
+
+        const sessaoUsuario = {
+            idUsuario: idUsuario,
+            nome: dados.nome,
+            email: dados.email,
+            pontos: dados.pontos || 0,
+            aulas: dados.aulas || 0,
+            jogos: dados.jogos || 0
+        };
+
+        localStorage.setItem(
+            "usuarioLogado",
+            JSON.stringify(sessaoUsuario)
+        );
+
+        if (modalLogin) {
+            modalLogin.style.display = "none";
+        }
+
+        exibirAlerta(
+            "success",
+            "Bem-vindo(a)!",
+            `Olá, ${dados.nome}!`,
+            1600,
+            mostrarUsuario
+        );
+
+    } catch (erro) {
+        console.error("Erro ao entrar:", erro);
+
+        exibirAlerta(
+            "error",
+            "Não foi possível entrar",
+            traduzirErroFirebase(erro.code)
+        );
+    }
+}
+
+
+// ==========================================
+// MOSTRAR USUÁRIO E PROGRESSO
+// ==========================================
+
+function mostrarUsuario() {
+    const usuario = obterUsuarioLocal();
 
     if (!usuario) {
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: 'info',
-                title: 'Conta não encontrada',
-                text: 'Você ainda não possui cadastro.'
-            });
-        } else {
-            alert("Conta não encontrada. Faça seu cadastro!");
+        if (btnLogin) {
+            btnLogin.innerHTML = "👤 Entrar";
         }
+
         return;
     }
 
-    const loginCorreto = (loginDigitado === usuario.email || loginDigitado === usuario.nome);
-    const senhaCorreta = (senhaDigitada === usuario.senha);
+    if (btnLogin) {
+        btnLogin.innerHTML = "👤 " + usuario.nome;
+    }
 
-    if (loginCorreto && senhaCorreta) {
-        localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+    const nome = document.getElementById("nomeUsuario");
+    const pontos = document.getElementById("pontos");
+    const aulas = document.getElementById("aulas");
+    const jogos = document.getElementById("jogos");
 
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: 'success',
-                title: 'Bem-vindo(a)!',
-                text: `Olá, ${usuario.nome}!`,
-                timer: 1800,
-                showConfirmButton: false
-            }).then(() => {
-                if (modalLogin) modalLogin.style.display = "none";
-                mostrarUsuario();
-            });
-        } else {
-            if (modalLogin) modalLogin.style.display = "none";
-            mostrarUsuario();
-        }
-    } else {
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro',
-                text: 'E-mail/Usuário ou senha incorretos!'
-            });
-        } else {
-            alert("E-mail/Usuário ou senha incorretos!");
-        }
+    if (nome) {
+        nome.innerText = usuario.nome;
+    }
+
+    if (pontos) {
+        pontos.innerText = usuario.pontos || 0;
+    }
+
+    if (aulas) {
+        aulas.innerText = usuario.aulas || 0;
+    }
+
+    if (jogos) {
+        jogos.innerText = usuario.jogos || 0;
     }
 }
 
-// ==========================================
-// ALTERNAR VISIBILIDADE DA SENHA (OLHO)
-// ==========================================
-function alternarSenha(idCampo, elementoIcone) {
-    const campoSenha = document.getElementById(idCampo);
-    if (!campoSenha) return;
-
-    if (campoSenha.type === "password") {
-        campoSenha.type = "text";
-        elementoIcone.innerText = "🙈";
-    } else {
-        campoSenha.type = "password";
-        elementoIcone.innerText = "👁️";
-    }
-}
 
 // ==========================================
-// FUNÇÃO ESQUECEU SUA SENHA
+// SAIR
 // ==========================================
-function esqueceuSenha(event) {
-    if (event) event.preventDefault();
 
-    if (typeof Swal !== 'undefined') {
-        Swal.fire({
-            title: 'Recuperação de Senha',
-            text: 'Digite o e-mail cadastrado na sua conta:',
-            input: 'email',
-            inputPlaceholder: 'seu.email@exemplo.com',
-            showCancelButton: true,
-            confirmButtonText: 'Verificar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const emailDigitado = result.value.trim();
-                const usuario = JSON.parse(localStorage.getItem("usuarioCadastrado"));
-
-                if (usuario && usuario.email.toLowerCase() === emailDigitado.toLowerCase()) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Senha Encontrada!',
-                        html: `Sua senha cadastrada é: <strong>${usuario.senha}</strong>`
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Não encontrado',
-                        text: 'Nenhuma conta encontrada com este e-mail.'
-                    });
-                }
-            }
-        });
-    }
-}
-
-// ==========================================
-// MOSTRAR USUÁRIO LOGADO E PERFIL
-// ==========================================
-function mostrarUsuario() {
-    let usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-
-    if (usuario) {
-        if (btnLogin) btnLogin.innerHTML = "👤 " + usuario.nome;
-        if (document.getElementById("nomeUsuario")) {
-            document.getElementById("nomeUsuario").innerText = usuario.nome;
-        }
-        if (document.getElementById("pontos")) {
-            document.getElementById("pontos").innerText = usuario.pontos || 0;
-        }
-    } else {
-        if (btnLogin) btnLogin.innerHTML = "👤 Entrar";
-    }
-}
-
-// ==========================================
-// SAIR E EXCLUIR CONTA
-// ==========================================
 function sair() {
     localStorage.removeItem("usuarioLogado");
-    if (modalPerfil) modalPerfil.style.display = "none";
-    if (btnLogin) btnLogin.innerHTML = "👤 Entrar";
+
+    if (modalPerfil) {
+        modalPerfil.style.display = "none";
+    }
+
+    if (btnLogin) {
+        btnLogin.innerHTML = "👤 Entrar";
+    }
+
     window.location.reload();
 }
 
-function excluirConta() {
-    if (typeof Swal !== 'undefined') {
-        Swal.fire({
-            title: 'Tem certeza?',
-            text: "Sua conta será apagada permanentemente!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmColor: '#d33',
-            cancelColor: '#3085d6',
-            confirmButtonText: 'Sim, excluir!',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                localStorage.removeItem("usuarioCadastrado");
-                localStorage.removeItem("usuarioLogado");
 
-                if (modalPerfil) modalPerfil.style.display = "none";
-                if (btnLogin) btnLogin.innerHTML = "👤 Entrar";
+// ==========================================
+// EXCLUIR CADASTRO
+// ==========================================
 
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Excluído!',
-                    text: 'Sua conta foi removida.',
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    window.location.reload();
-                });
-            }
+async function excluirConta() {
+    if (typeof Swal === "undefined") {
+        return;
+    }
+
+    const resultado = await Swal.fire({
+        title: "Excluir participação?",
+        text: "Seus dados de perfil serão apagados permanentemente.",
+        icon: "warning",
+
+        showCancelButton: true,
+
+        confirmColor: "#d33",
+        cancelColor: "#3085d6",
+
+        confirmButtonText: "Sim, excluir",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!resultado.isConfirmed) {
+        return;
+    }
+
+    try {
+        const sessao = obterUsuarioLocal();
+
+        if (sessao && sessao.idUsuario) {
+            await db
+                .collection("usuarios")
+                .doc(sessao.idUsuario)
+                .delete();
+        }
+
+        localStorage.removeItem("usuarioLogado");
+
+        await Swal.fire({
+            icon: "success",
+            title: "Dados excluídos",
+            timer: 1500,
+            showConfirmButton: false
         });
+
+        window.location.reload();
+
+    } catch (erro) {
+        console.error("Erro ao excluir:", erro);
+
+        exibirAlerta(
+            "error",
+            "Erro",
+            "Não foi possível excluir os dados."
+        );
     }
 }
 
+
 // ==========================================
-// PESQUISAR CONTEÚDO
+// PESQUISA
 // ==========================================
+
 function pesquisarConteudo() {
-    let campo = document.getElementById("campoPesquisa");
-    if (!campo) return;
+    const campo = document.getElementById("campoPesquisa");
 
-    let pesquisa = campo.value.toLowerCase();
-    let cards = document.querySelectorAll(".card");
+    if (!campo) {
+        return;
+    }
 
-    cards.forEach(card => {
-        let nome = card.dataset.nome ? card.dataset.nome.toLowerCase() : "";
-        if (nome.includes(pesquisa)) {
-            card.style.display = "block";
-        } else {
-            card.style.display = "none";
-        }
+    const pesquisa = campo.value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(function (card) {
+        const nome = (card.dataset.nome || "").toLowerCase();
+
+        card.style.display =
+            nome.includes(pesquisa) ? "block" : "none";
     });
 }
 
+
 // ==========================================
-// ABRIR JOGOS E NAVEGAÇÃO
+// ABRIR JOGOS
 // ==========================================
+
 function abrirJogo(tipo) {
-    if (tipo === 'potencia') window.location.href = "jogo_potencia.html";
-    if (tipo === 'radiciacao') window.location.href = "jogoradiciacao.html";
-    if (tipo === 'planocartesiano') window.location.href = "planocartesiano.html";
+    const paginas = {
+        potencia: "jogo_potencia.html",
+        radiciacao: "jogoradiciacao.html",
+        planocartesiano: "planocartesiano.html"
+    };
+
+    if (paginas[tipo]) {
+        window.location.href = paginas[tipo];
+    }
 }
+
+
+// ==========================================
+// VOLTAR
+// ==========================================
 
 function voltarPagina() {
     history.back();
 }
 
+
 // ==========================================
-// INICIALIZAÇÃO AO CARREGAR A PÁGINA
+// ALERTAS
 // ==========================================
-document.addEventListener("DOMContentLoaded", () => {
+
+function exibirAlerta(
+    icon,
+    title,
+    text,
+    timer = null,
+    callback = null
+) {
+    if (typeof Swal !== "undefined") {
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: text,
+            timer: timer,
+            showConfirmButton: !timer
+        }).then(function () {
+            if (callback) {
+                callback();
+            }
+        });
+
+    } else {
+        alert(title + ": " + text);
+
+        if (callback) {
+            callback();
+        }
+    }
+}
+
+
+// ==========================================
+// ERROS DO FIREBASE
+// ==========================================
+
+function traduzirErroFirebase(codigo) {
+    switch (codigo) {
+        case "auth/operation-not-allowed":
+            return "Ative o acesso Anônimo no Firebase Authentication.";
+
+        case "auth/network-request-failed":
+            return "Falha de conexão. Confira sua internet e tente novamente.";
+
+        case "permission-denied":
+            return "O Firebase recusou o acesso. Confira as regras do Firestore.";
+
+        case "auth/indisponivel":
+            return "O serviço de identificação não está disponível.";
+
+        default:
+            return "Ocorreu um erro. Tente novamente.";
+    }
+}
+
+
+// ==========================================
+// INICIALIZAÇÃO DA PÁGINA
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
     mostrarUsuario();
+
+    const campoPesquisa =
+        document.getElementById("campoPesquisa");
+
+    if (campoPesquisa) {
+        campoPesquisa.value = "";
+    }
+
+    const formLogin =
+        document.getElementById("formLogin");
+
+    if (formLogin) {
+        formLogin.addEventListener("submit", function (evento) {
+            evento.preventDefault();
+            login();
+        });
+    }
+
+    const formCadastro =
+        document.getElementById("formCadastro");
+
+    if (formCadastro) {
+        formCadastro.addEventListener("submit", function (evento) {
+            evento.preventDefault();
+            cadastrar();
+        });
+    }
+});
+
+
+// ==========================================
+// FECHAR MODAIS CLICANDO FORA
+// ==========================================
+
+window.addEventListener("click", function (evento) {
+    if (evento.target === modalLogin) {
+        modalLogin.style.display = "none";
+    }
+
+    if (evento.target === modalCadastro) {
+        modalCadastro.style.display = "none";
+    }
+
+    if (evento.target === modalPerfil) {
+        modalPerfil.style.display = "none";
+    }
+
+    if (evento.target === modalTermos) {
+        modalTermos.style.display = "none";
+    }
 });
