@@ -429,3 +429,20 @@ main {
 
         font-size:1.5rem;
     }
+@media (max-width: 600px) {
+    html,
+    body {
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    .libras video {
+        width: 100%;
+        height: auto;
+    }
+}
