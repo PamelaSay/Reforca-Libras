@@ -74,8 +74,8 @@
         </nav>
 
         <!-- Pesquisa -->
-             <div class="pesquisa-box">
-                 <input id="campoPesquisa" type="text" placeholder="🔎 Pesquisar aulas, jogos...">
+              <div class="pesquisa-box">
+                 <input type="text" id="campoPesquisa" placeholder="🔎Buscar..." autocomplete="off">
                  <button onclick="pesquisarConteudo()">Pesquisar</button>
              </div>
 
@@ -132,30 +132,17 @@
 
         <form id="formCadastro" autocomplete="off">
             <label for="nomeCadastro">Nome</label>
-            <input
-                id="nomeCadastro"
-                type="text"
-                placeholder="Digite seu nome"
-                required
-                autocomplete="name"
-            >
+            <input id="nomeCadastro" type="text" placeholder="Digite seu nome" required autocomplete="name"           >
 
             <label for="emailCadastro">E-mail</label>
-            <input
-                id="emailCadastro"
-                type="email"
-                placeholder="Digite seu e-mail"
-                required
-                autocomplete="email"
-            >
-
+            <input id="emailCadastro" type="email" placeholder="Digite seu e-mail" required autocomplete="email" >
             <label class="aceite-termos">
                 <input type="checkbox" id="aceitarTermos">
                 <span>
                     Li e concordo com o
                     <button type="button" id="abrirTermos" class="link-termos">
                         Código de Ética e os termos de participação
-                    </button>.
+                    </button>
                 </span>
             </label>
 
