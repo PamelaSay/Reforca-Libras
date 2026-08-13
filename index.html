@@ -93,23 +93,27 @@
 <div id="modalLogin" class="modal">
     <div class="perfil-box">
         <span class="fechar" id="fecharLogin">&times;</span>
-        <img src="../imagens/logo2.png" alt="Logo">
+        <img src="../images/logo2.png" alt="Logo Reforça Libras">
         <h2>Entrar</h2>
 
-        <!-- Campo flexível para E-mail ou Usuário -->
-        <input type="text" id="loginUsuario" placeholder="E-mail ou Nome de Usuário" required>
+        <form id="formLogin" autocomplete="off">
+            <label for="loginEmail">E-mail</label>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Digite seu e-mail"
+                required
+                autocomplete="email"
+            >
+            <button type="submit">Entrar</button>
+        </form>
 
-        <!-- CAMPO DE SENHA COM OLHO -->
-        <div class="campo-senha">
-            <input id="senhaLogin" type="password" placeholder="Senha">
-            <span class="icone-olho" onclick="alternarSenha('senhaLogin', this)">👁️</span>
-        </div>
-
-        <!-- LINK ESQUECEU SUA SENHA -->
-        <a href="#" class="esqueceu-senha" onclick="esqueceuSenha(event)">Esqueceu sua senha?</a>
-
-        <button type="button" onclick="login()">Entrar</button>
-
+        <p>
+            Primeiro acesso?
+            <button type="button" id="abrirCadastro">Cadastrar</button>
+        </p>
+    </div>
+</div>
         <!-- DIVISOR -->
         <div class="divisor">
             <span>ou</span>
@@ -141,19 +145,73 @@
 <div id="modalCadastro" class="modal">
     <div class="perfil-box">
         <span class="fechar" id="fecharCadastro">&times;</span>
-        <img src="../imagens/logo2.png" alt="Logo">
-        <h2>Criar conta</h2>
+        <img src="../images/logo2.png" alt="Logo Reforça Libras">
+        <h2>Criar cadastro</h2>
 
-        <input id="nomeCadastro" placeholder="Nome">
-        <input id="emailCadastro" type="email" placeholder="E-mail">
-        <!-- CAMPO DE SENHA COM OLHO -->
-        <div class="campo-senha">
-            <input id="senhaCadastro" type="password" placeholder="Senha">
-            <span class="icone-olho" onclick="alternarSenha('senhaCadastro', this)">👁️</span>
-        </div>
-        <button type="button" onclick="cadastrar()"> Criar cadastro </button>
+        <form id="formCadastro" autocomplete="off">
+            <label for="nomeCadastro">Nome</label>
+            <input
+                id="nomeCadastro"
+                type="text"
+                placeholder="Digite seu nome"
+                required
+                autocomplete="name"
+            >
+
+            <label for="emailCadastro">E-mail</label>
+            <input
+                id="emailCadastro"
+                type="email"
+                placeholder="Digite seu e-mail"
+                required
+                autocomplete="email"
+            >
+
+            <label class="aceite-termos">
+                <input type="checkbox" id="aceitarTermos">
+                <span>
+                    Li e concordo com o
+                    <button type="button" id="abrirTermos" class="link-termos">
+                        Código de Ética e os termos de participação
+                    </button>.
+                </span>
+            </label>
+
+            <button type="submit">Criar cadastro</button>
+        </form>
     </div>
 </div>
+
+<!-- COLOQUE ESTE MODAL LOGO DEPOIS DO MODAL DE CADASTRO -->
+<div id="modalTermos" class="modal">
+    <div class="perfil-box termos-box">
+        <span class="fechar" id="fecharTermos">&times;</span>
+        <h2>Código de Ética e termos de participação</h2>
+
+        <div class="texto-termos">
+            <p><strong>Versão 1.0</strong></p>
+
+            <p>
+                Insira aqui o texto definitivo do seu Código de Ética e do
+                consentimento para participação.
+            </p>
+
+            <p>
+                Explique quais dados serão coletados, para qual finalidade serão
+                utilizados, por quanto tempo serão mantidos e como o participante
+                poderá solicitar a exclusão.
+            </p>
+
+            <p>
+                A participação é voluntária. O participante poderá deixar de usar
+                a plataforma e solicitar a exclusão de seus dados.
+            </p>
+        </div>
+
+        <button type="button" id="concordarTermos">Li e concordo</button>
+    </div>
+</div>
+
 
 <!-- PERFIL USUARIO -->
 <div id="modalPerfil" class="modal">
