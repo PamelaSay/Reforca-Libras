@@ -29,16 +29,57 @@ a { color: inherit; text-decoration: none; }
     border-bottom: 3px solid var(--dourado);
 }
 
-.btn-voltar {
-    width: 38px;
-    height: 38px;
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,.45);
+.topo .btn-voltar {
+    position: absolute;
+
+    top: 50%;
+    left: 20px;
+
+    transform: translateY(-50%);
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
     border-radius: 50%;
-    font-size: 23px;
+
+    cursor: pointer;
+    z-index: 10;
+
+    transition: transform 0.2s ease;
 }
+
+.topo .btn-voltar .btn-voltar-img {
+    display: block;
+
+    width: 34px;
+    height: 34px;
+    max-width: 34px;
+    max-height: 34px;
+
+    margin: 0;
+    padding: 0;
+
+    object-fit: contain;
+}
+
+.topo .btn-voltar:hover {
+    transform: translateY(-50%) scale(1.08);
+    background: transparent;
+}
+
+.topo .btn-voltar:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
 
 .identidade { display: flex; align-items: center; gap: 10px; }
 .identidade img { width: 46px; height: 46px; object-fit: contain; }
