@@ -72,30 +72,27 @@ body{
 
 /* BOTÃO VOLTAR */
 
-.btn-voltar {
+.btn-voltar-img {
     position: absolute;
     top: 15px;
     left: 15px;
 
-    width: auto;
-    padding: 6px 12px;
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
 
-    border: none;
-    border-radius: 15px;
-
-    background: #8ecae6;
-    color: #16324f;
-
-    font-size: 13px;
-    font-weight: bold;
     cursor: pointer;
-
     z-index: 10;
+
+    transition: transform 0.2s ease;
 }
 
-.btn-voltar:hover {
-    background: #5fa8d3;
-    color: white;
+.btn-voltar-img:hover {
+    transform: scale(1.08);
+}
+
+.btn-voltar-img:active {
+    transform: scale(0.95);
 }
 
 
