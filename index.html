@@ -92,7 +92,11 @@
 
                          <form id="formLogin" autocomplete="off">
                             <label for="loginEmail">E-mail</label>
-                            <input type="email" id="loginEmail"placeholder="Digite seu e-mail"required autocomplete="email">
+                            <input type="email" id="loginEmail" placeholder="Digite seu e-mail" required autocomplete="email">
+
+                            <label for="senhaLogin">Senha</label>
+                            <input type="password" id="senhaLogin" placeholder="Digite sua senha" required autocomplete="current-password">
+
                             <button type="submit">Entrar</button>
                          </form>
                          <!-- DIVISOR -->
@@ -135,6 +139,10 @@
 
             <label for="emailCadastro">E-mail</label>
             <input id="emailCadastro" type="email" placeholder="Digite seu e-mail" required autocomplete="email" >
+
+            <label for="senhaCadastro">Senha</label>
+            <input id="senhaCadastro" type="password" placeholder="Crie uma senha com pelo menos 6 caracteres" required minlength="6" autocomplete="new-password">
+
             <label class="aceite-termos">
                 <input type="checkbox" id="aceitarTermos">
                 <span>
