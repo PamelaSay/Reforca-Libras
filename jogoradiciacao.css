@@ -67,58 +67,81 @@ body {
 }
 
 
-/* BOTÃO VOLTAR */
+/* ==========================================
+   BOTÃO VOLTAR
+========================================== */
 
-button.btn-voltar {
-    position: absolute;
+.topo > button.btn-voltar {
+    position: absolute !important;
 
-    top: 50%;
-    left: 0;
+    top: 50% !important;
+    left: 0 !important;
 
-    transform: translateY(-50%);
+    transform: translateY(-50%) !important;
 
-    width: 40px;
-    height: 40px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    min-width: 40px;
-    min-height: 40px;
+    width: 40px !important;
+    height: 40px !important;
 
-    padding: 0;
-    margin: 0;
+    min-width: 40px !important;
+    max-width: 40px !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 40px !important;
+    max-height: 40px !important;
 
-    border: none;
-    border-radius: 50%;
+    padding: 0 !important;
+    margin: 0 !important;
 
-    background: transparent;
+    overflow: hidden !important;
 
-    cursor: pointer;
-    z-index: 20;
+    border: none !important;
+    border-radius: 50% !important;
+
+    background: transparent !important;
+
+    cursor: pointer !important;
+    z-index: 100 !important;
 
     transition: transform 0.2s ease;
 }
 
-button.btn-voltar img {
-    display: block;
+.topo > button.btn-voltar > img.imagem-voltar {
+    display: block !important;
 
-    width: 36px;
-    height: 36px;
+    width: 32px !important;
+    height: 32px !important;
 
-    max-width: 36px;
-    max-height: 36px;
+    min-width: 32px !important;
+    max-width: 32px !important;
 
-    object-fit: contain;
+    min-height: 32px !important;
+    max-height: 32px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    object-fit: contain !important;
 }
 
-button.btn-voltar:hover {
-    transform: translateY(-50%) scale(1.08);
+.topo > button.btn-voltar:hover {
+    transform:
+        translateY(-50%)
+        scale(1.08) !important;
+}
+
+.topo > button.btn-voltar:active {
+    transform:
+        translateY(-50%)
+        scale(0.95) !important;
 }
 
 
-/* PLACAR E TÍTULO */
+/* ==========================================
+   PLACAR E TÍTULO
+========================================== */
 
 .box-topo,
 .titulo {
@@ -127,7 +150,9 @@ button.btn-voltar:hover {
 
     border: 2px solid var(--dourado);
 
-    box-shadow: 0 6px 16px rgba(29, 53, 87, 0.2);
+    box-shadow:
+        0 6px 16px
+        rgba(29, 53, 87, 0.2);
 }
 
 .box-topo {
@@ -155,7 +180,9 @@ button.btn-voltar:hover {
 
     border-radius: 22px;
 
-    font-size: clamp(21px, 2.3vw, 32px);
+    font-size:
+        clamp(21px, 2.3vw, 32px);
+
     font-weight: 900;
     text-align: center;
 }
@@ -183,6 +210,7 @@ main {
     margin: 10px auto 0;
 
     display: grid;
+
     grid-template-columns:
         minmax(170px, 1fr)
         minmax(340px, 1.65fr)
@@ -215,13 +243,18 @@ main {
 
     background: var(--branco);
 
-    border: 2px solid var(--dourado);
+    border:
+        2px solid
+        var(--dourado);
+
     border-radius: 18px;
 
     font-size: 16px;
     font-weight: 700;
 
-    box-shadow: 0 6px 16px rgba(29, 53, 87, 0.15);
+    box-shadow:
+        0 6px 16px
+        rgba(29, 53, 87, 0.15);
 }
 
 
@@ -240,14 +273,20 @@ main {
     align-items: center;
     justify-content: center;
 
-    background: rgba(255, 255, 255, 0.96);
+    background:
+        rgba(255, 255, 255, 0.96);
 
-    border: 2px solid var(--dourado);
+    border:
+        2px solid
+        var(--dourado);
+
     border-radius: 26px;
 
     text-align: center;
 
-    box-shadow: 0 8px 20px rgba(29, 53, 87, 0.2);
+    box-shadow:
+        0 8px 20px
+        rgba(29, 53, 87, 0.2);
 }
 
 .etiqueta {
@@ -270,7 +309,8 @@ main {
 
     color: var(--azul-escuro);
 
-    font-size: clamp(21px, 2.4vw, 30px);
+    font-size:
+        clamp(21px, 2.4vw, 30px);
 }
 
 
@@ -284,7 +324,10 @@ main {
     display: grid;
 
     grid-template-columns:
-        repeat(var(--lado), minmax(12px, 4.2vh));
+        repeat(
+            var(--lado),
+            minmax(12px, 4.2vh)
+        );
 
     justify-content: center;
 
@@ -302,7 +345,10 @@ main {
 
     background: var(--azul-medio);
 
-    border: 2px solid var(--azul-escuro);
+    border:
+        2px solid
+        var(--azul-escuro);
+
     border-radius: 4px;
 }
 
@@ -317,12 +363,17 @@ main {
     background: var(--azul-escuro);
     color: var(--branco);
 
-    border: 2px solid var(--dourado);
+    border:
+        2px solid
+        var(--dourado);
+
     border-radius: 22px;
 
     text-align: center;
 
-    box-shadow: 0 8px 20px rgba(29, 53, 87, 0.2);
+    box-shadow:
+        0 8px 20px
+        rgba(29, 53, 87, 0.2);
 }
 
 .libras h2 {
@@ -354,10 +405,16 @@ main {
     background: var(--branco);
     color: var(--azul-escuro);
 
-    border: 2px solid var(--dourado);
+    border:
+        2px solid
+        var(--dourado);
+
     border-radius: 16px;
 
-    font-family: 'Nunito', sans-serif;
+    font-family:
+        'Nunito',
+        sans-serif;
+
     font-size: 13px;
     font-weight: 900;
 
@@ -380,7 +437,13 @@ main {
     margin: 10px auto;
 
     display: grid;
-    grid-template-columns: repeat(4, minmax(110px, 170px));
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(110px, 170px)
+        );
+
     justify-content: center;
 
     gap: 14px;
@@ -397,16 +460,26 @@ main {
     background: var(--azul-escuro);
     color: var(--branco);
 
-    border: 2px solid var(--dourado);
+    border:
+        2px solid
+        var(--dourado);
+
     border-radius: 22px;
 
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(25px, 3vw, 34px);
+    font-family:
+        'Nunito',
+        sans-serif;
+
+    font-size:
+        clamp(25px, 3vw, 34px);
+
     font-weight: 900;
 
     cursor: pointer;
 
-    box-shadow: 0 6px 15px rgba(29, 53, 87, 0.2);
+    box-shadow:
+        0 6px 15px
+        rgba(29, 53, 87, 0.2);
 
     transition:
         transform 0.2s ease,
@@ -421,7 +494,9 @@ main {
 
 .alternativas button:disabled {
     opacity: 0.7;
+
     cursor: default;
+
     transform: none;
 }
 
@@ -439,17 +514,25 @@ main {
     padding: 7px 16px;
 
     display: grid;
-    grid-template-columns: 160px 1fr 160px;
+
+    grid-template-columns:
+        160px 1fr 160px;
+
     align-items: center;
     gap: 25px;
 
     background: var(--azul-escuro);
     color: var(--branco);
 
-    border: 2px solid var(--dourado);
+    border:
+        2px solid
+        var(--dourado);
+
     border-radius: 22px;
 
-    box-shadow: 0 8px 20px rgba(29, 53, 87, 0.2);
+    box-shadow:
+        0 8px 20px
+        rgba(29, 53, 87, 0.2);
 
     flex-shrink: 0;
 }
@@ -461,10 +544,16 @@ main {
     background: var(--branco);
     color: var(--azul-escuro);
 
-    border: 2px solid var(--dourado);
+    border:
+        2px solid
+        var(--dourado);
+
     border-radius: 16px;
 
-    font-family: 'Nunito', sans-serif;
+    font-family:
+        'Nunito',
+        sans-serif;
+
     font-size: 13px;
     font-weight: 900;
 
@@ -499,15 +588,17 @@ main {
     width: 10%;
     height: 100%;
 
-    background: linear-gradient(
-        90deg,
-        var(--dourado),
-        #fff0a6
-    );
+    background:
+        linear-gradient(
+            90deg,
+            var(--dourado),
+            #fff0a6
+        );
 
     border-radius: 20px;
 
-    transition: width 0.4s ease;
+    transition:
+        width 0.4s ease;
 }
 
 .vidas {
@@ -523,16 +614,20 @@ main {
 ========================================== */
 
 @media (max-width: 900px) {
+
     html,
     body {
         height: auto;
         min-height: 100%;
+
         overflow-x: hidden;
         overflow-y: auto;
     }
 
     .topo {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+            1fr 1fr;
+
         padding-left: 50px;
     }
 
@@ -542,20 +637,25 @@ main {
     }
 
     .conteudo {
-        grid-template-columns: 1fr 1.5fr;
+        grid-template-columns:
+            1fr 1.5fr;
     }
 
     .libras {
         grid-column: 1 / -1;
 
-        width: min(420px, 100%);
+        width:
+            min(420px, 100%);
 
         justify-self: center;
     }
 
     .alternativas {
         grid-template-columns:
-            repeat(2, minmax(120px, 200px));
+            repeat(
+                2,
+                minmax(120px, 200px)
+            );
     }
 }
 
@@ -565,8 +665,10 @@ main {
 ========================================== */
 
 @media (max-width: 600px) {
+
     body {
         min-height: 100vh;
+
         padding: 12px;
     }
 
@@ -574,6 +676,7 @@ main {
     .conteudo,
     .rodape {
         display: flex;
+
         flex-direction: column;
     }
 
@@ -581,11 +684,33 @@ main {
         padding-left: 0;
     }
 
-    button.btn-voltar {
-        top: 18px;
-        left: 10px;
+    .topo > button.btn-voltar {
+        top: 18px !important;
+        left: 10px !important;
 
-        transform: none;
+        transform: none !important;
+
+        width: 36px !important;
+        height: 36px !important;
+
+        min-width: 36px !important;
+        max-width: 36px !important;
+
+        min-height: 36px !important;
+        max-height: 36px !important;
+    }
+
+    .topo
+    > button.btn-voltar
+    > img.imagem-voltar {
+        width: 28px !important;
+        height: 28px !important;
+
+        min-width: 28px !important;
+        max-width: 28px !important;
+
+        min-height: 28px !important;
+        max-height: 28px !important;
     }
 
     .box-topo {
@@ -615,7 +740,8 @@ main {
     }
 
     .alternativas {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, 1fr);
 
         gap: 12px;
     }
@@ -633,6 +759,7 @@ main {
 
     .progresso-area {
         width: 100%;
+
         order: -1;
     }
 
