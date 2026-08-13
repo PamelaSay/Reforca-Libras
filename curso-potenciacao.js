@@ -607,4 +607,9 @@ function obterUltimaAulaAssistida() {
     return Math.max(
         ...progresso.aulasAssistidas
     );
-};
+}
+// VOLTAR
+
+function voltarPagina() {
+    window.history.back();
+}
