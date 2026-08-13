@@ -238,3 +238,7 @@ function reiniciarJogo(){
 }
 
 carregarPergunta()
+
+function voltarPagina() {
+    history.back();
+}
