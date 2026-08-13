@@ -95,9 +95,35 @@
                             <input type="email" id="loginEmail" placeholder="Digite seu e-mail" required autocomplete="email">
 
                             <label for="senhaLogin">Senha</label>
-                            <input type="password" id="senhaLogin" placeholder="Digite sua senha" required autocomplete="current-password">
 
-                            <button type="submit">Entrar</button>
+<div class="campo-senha">
+    <input
+        type="password"
+        id="senhaLogin"
+        placeholder="Digite sua senha"
+        required
+        autocomplete="current-password"
+    >
+
+    <button
+        type="button"
+        class="mostrar-senha"
+        onclick="alternarSenha('senhaLogin', this)"
+        aria-label="Mostrar senha"
+        title="Mostrar senha"
+    >
+        👁️
+    </button>
+</div>
+
+<button
+    type="button"
+    class="esqueceu-senha"
+    onclick="esqueceuSenha(event)"
+>
+    Esqueceu sua senha?
+</button>
+<button type="submit">Entrar</button>
                          </form>
                          <!-- DIVISOR -->
                         <div class="divisor">
