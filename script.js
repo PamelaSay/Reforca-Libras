@@ -690,6 +690,114 @@ async function excluirConta() {
 
 
 // ==========================================
+// MOSTRAR E OCULTAR SENHA
+// ==========================================
+
+function alternarSenha(idCampo, icone) {
+    const campo = document.getElementById(idCampo);
+
+    if (!campo) {
+        return;
+    }
+
+    if (campo.type === "password") {
+        campo.type = "text";
+        icone.innerHTML = "🙈";
+        icone.setAttribute("aria-label", "Ocultar senha");
+        icone.title = "Ocultar senha";
+
+    } else {
+        campo.type = "password";
+        icone.innerHTML = "👁️";
+        icone.setAttribute("aria-label", "Mostrar senha");
+        icone.title = "Mostrar senha";
+    }
+}
+
+
+// ==========================================
+// RECUPERAR SENHA PELO E-MAIL
+// ==========================================
+
+async function esqueceuSenha(evento) {
+    if (evento) {
+        evento.preventDefault();
+    }
+
+    if (!auth) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "O Firebase não está disponível."
+        );
+
+        return;
+    }
+
+    const campoEmail =
+        document.getElementById("loginEmail");
+
+    const emailPreenchido = campoEmail
+        ? campoEmail.value.trim().toLowerCase()
+        : "";
+
+    const resultado = await Swal.fire({
+        title: "Recuperar senha",
+
+        text:
+            "Informe o e-mail utilizado no cadastro. " +
+            "Você receberá um link para criar uma nova senha.",
+
+        input: "email",
+        inputValue: emailPreenchido,
+        inputPlaceholder: "seuemail@exemplo.com",
+
+        showCancelButton: true,
+
+        confirmButtonText: "Enviar link",
+        cancelButtonText: "Cancelar",
+
+        inputValidator: function (valor) {
+            if (!valor) {
+                return "Informe seu e-mail.";
+            }
+        }
+    });
+
+    if (!resultado.isConfirmed) {
+        return;
+    }
+
+    const email =
+        resultado.value.trim().toLowerCase();
+
+    try {
+        await auth.sendPasswordResetEmail(email);
+
+        await Swal.fire({
+            icon: "success",
+            title: "E-mail enviado!",
+            text:
+                "Confira sua caixa de entrada e a pasta de spam. " +
+                "Abra o link para criar uma nova senha."
+        });
+
+    } catch (erro) {
+        console.error(
+            "Erro ao enviar recuperação de senha:",
+            erro
+        );
+
+        exibirAlerta(
+            "error",
+            "Não foi possível enviar",
+            traduzirErroFirebase(erro.code)
+        );
+    }
+}
+
+
+// ==========================================
 // RECUPERAR SENHA
 // ==========================================
 
