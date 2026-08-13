@@ -187,7 +187,7 @@ function finalizarJogo(){
 
         🔄 Jogar Novamente
 
-    </button>'
+    </button>`
 
 }
 
@@ -215,7 +215,7 @@ function fimDeJogo(){
 
         🔄 Tentar Novamente
 
-    </button>'
+</button>`
 }
 
 
