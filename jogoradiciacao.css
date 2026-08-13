@@ -323,16 +323,13 @@ main {
 
     display: grid;
 
-    grid-template-columns:
-        repeat(
+    grid-template-columns: repeat(
             var(--lado),
             minmax(12px, 4.2vh)
         );
 
     justify-content: center;
-
     gap: 3px;
-
     margin-top: 8px;
 }
 
