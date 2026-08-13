@@ -14,10 +14,16 @@ const firebaseConfig = {
 let db = null;
 let auth = null;
 
-if (typeof firebase !== "undefined") {
+try {
+    if (typeof firebase === "undefined") {
+        throw new Error("Firebase não foi carregado pelo HTML.");
+    }
+
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
     auth = firebase.auth();
+} catch (erro) {
+    console.error("Erro ao iniciar o Firebase:", erro);
 }
 
 const VERSAO_TERMOS = "1.0";
@@ -92,6 +98,7 @@ async function gerarIdDoEmail(email) {
 async function garantirSessaoAnonima() {
     if (!auth) throw { code: "auth/indisponivel" };
     if (auth.currentUser) return auth.currentUser;
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     const credencial = await auth.signInAnonymously();
     return credencial.user;
 }
@@ -224,58 +231,6 @@ async function login() {
 }
 
 // ==========================================
-// ALTERNAR VISIBILIDADE DA SENHA
-// ==========================================
-function alternarSenha(idCampo, elementoIcone) {
-    const campoSenha = document.getElementById(idCampo);
-    if (!campoSenha) return;
-
-    if (campoSenha.type === "password") {
-        campoSenha.type = "text";
-        elementoIcone.innerText = "🙈";
-    } else {
-        campoSenha.type = "password";
-        elementoIcone.innerText = "👁️";
-    }
-}
-
-// ==========================================
-// RECUPERAÇÃO DE SENHA (NATIVA DO FIREBASE)
-// ==========================================
-function esqueceuSenha(event) {
-    if (event) event.preventDefault();
-
-    if (typeof Swal !== 'undefined') {
-        Swal.fire({
-            title: 'Recuperação de Senha',
-            text: 'Digite o e-mail cadastrado para receber o link de redefinição:',
-            input: 'email',
-            inputPlaceholder: 'seu.email@exemplo.com',
-            showCancelButton: true,
-            confirmButtonText: 'Enviar e-mail',
-            cancelButtonText: 'Cancelar'
-        }).then(async (result) => {
-            if (result.isConfirmed && result.value) {
-                try {
-                    await auth.sendPasswordResetEmail(result.value.trim());
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'E-mail enviado!',
-                        text: 'Verifique sua caixa de entrada para redefinir sua senha.'
-                    });
-                } catch (error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erro',
-                        text: traduzirErroFirebase(error.code)
-                    });
-                }
-            }
-        });
-    }
-}
-
-// ==========================================
 // EXIBIÇÃO DE PERFIL E INTERFACE
 // ==========================================
 function mostrarUsuario() {
@@ -395,7 +350,10 @@ function traduzirErroFirebase(codigo) {
         case 'auth/invalid-email':
             return 'E-mail inválido.';
         case 'auth/operation-not-allowed':
+        case 'auth/admin-restricted-operation':
             return 'Ative o acesso Anônimo no Firebase Authentication.';
+        case 'auth/unauthorized-domain':
+            return 'Adicione o domínio deste site aos domínios autorizados do Firebase Authentication.';
         case 'auth/network-request-failed':
             return 'Falha de conexão. Verifique sua internet.';
         case 'auth/indisponivel':
@@ -403,7 +361,9 @@ function traduzirErroFirebase(codigo) {
         case 'permission-denied':
             return 'O Firebase recusou o acesso. Verifique as regras do Firestore.';
         default:
-            return 'Ocorreu um erro. Tente novamente.';
+            return codigo
+                ? `O Firebase retornou o erro: ${codigo}.`
+                : 'Ocorreu um erro. Abra o Console do navegador para conferir.';
     }
 }
 

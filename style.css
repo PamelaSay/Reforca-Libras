@@ -716,7 +716,7 @@ body {
    COMENTÁRIOS E AVALIAÇÃO (CORRIGIDO)
 ========================== */
 .estrela {
-    font-size:40px;
+    font-size:60px;
     color: #ccc; /* Removido o !important daqui */
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
