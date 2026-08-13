@@ -1,236 +1,270 @@
 // potencia.js
 
 const perguntas = [
+    {
+        pergunta: "Como lemos 2³?",
+        respostas: [
+            "Dois vezes três",
+            "Dois elevado ao cubo",
+            "Três ao quadrado"
+        ],
+        correta: 1
+    },
 
-{
-    pergunta:"Como lemos 2³ ?",
+    {
+        pergunta: "3² corresponde a:",
+        respostas: [
+            "3 + 3",
+            "3 × 3",
+            "2 × 3"
+        ],
+        correta: 1
+    },
 
-    respostas:[
-        "Dois vezes três",
-        "Dois elevado ao cubo",
-        "Três ao quadrado"
-    ],
+    {
+        pergunta: "Quanto vale 2⁴?",
+        respostas: [
+            "8",
+            "12",
+            "16"
+        ],
+        correta: 2
+    },
 
-    correta:1
-},
+    {
+        pergunta: "Quanto vale 5⁰?",
+        respostas: [
+            "0",
+            "5",
+            "1"
+        ],
+        correta: 2
+    },
 
-{
-    pergunta:"3² corresponde a:",
+    {
+        pergunta: "2³ × 2² = ?",
+        respostas: [
+            "2⁵",
+            "4⁵",
+            "2⁶"
+        ],
+        correta: 0
+    },
 
-    respostas:[
-        "3 + 3",
-        "3 × 3",
-        "2 × 3"
-    ],
+    {
+        pergunta: "(a²)³ = ?",
+        respostas: [
+            "a⁵",
+            "a⁶",
+            "a⁹"
+        ],
+        correta: 1
+    }
+];
 
-    correta:1
-},
+let perguntaAtual = 0;
+let pontos = 0;
+let vidas = 3;
 
-{
-    pergunta:"Quanto vale 2⁴ ?",
 
-    respostas:[
-        "8",
-        "12",
-        "16"
-    ],
+// CARREGAR PERGUNTA
 
-    correta:2
-},
-
-{
-    pergunta:"Quanto vale 5⁰ ?",
-
-    respostas:[
-        "0",
-        "5",
-        "1"
-    ],
-
-    correta:2
-},
-
-{
-    pergunta:"2³ × 2² = ?",
-
-    respostas:[
-        "2⁵",
-        "4⁵",
-        "2⁶"
-    ],
-
-    correta:0
-},
-
-{
-    pergunta:"(a²)³ = ?",
-
-    respostas:[
-        "a⁵",
-        "a⁶",
-        "a⁹"
-    ],
-
-    correta:1
-}
-
-]
-
-let perguntaAtual = 0
-
-let pontos = 0
-
-let vidas = 3
-
-function carregarPergunta(){
-
-    if(perguntaAtual >= perguntas.length){
-
-        finalizarJogo()
-
-        return
+function carregarPergunta() {
+    if (perguntaAtual >= perguntas.length) {
+        finalizarJogo();
+        return;
     }
 
-    document.getElementById("fase").innerHTML =
-    perguntaAtual + 1
+    const elementoFase =
+        document.getElementById("fase");
 
-    let pergunta =
-    perguntas[perguntaAtual]
+    const elementoPergunta =
+        document.getElementById("pergunta");
 
-    document.getElementById("pergunta").innerHTML =
-    pergunta.pergunta
+    const elementoRespostas =
+        document.getElementById("respostas");
 
-    let respostasHTML = ""
+    if (
+        !elementoFase ||
+        !elementoPergunta ||
+        !elementoRespostas
+    ) {
+        console.error(
+            "Os elementos fase, pergunta ou respostas não foram encontrados."
+        );
 
-    pergunta.respostas.forEach(function(resposta,index){
+        return;
+    }
 
-        respostasHTML += `
+    elementoFase.innerHTML = perguntaAtual + 1;
 
-        <button onclick="verificarResposta(${index})">
+    const pergunta = perguntas[perguntaAtual];
 
-            ${resposta}
+    elementoPergunta.innerHTML = pergunta.pergunta;
 
+    let respostasHTML = "";
+
+    pergunta.respostas.forEach(
+        function (resposta, indice) {
+            respostasHTML += `
+                <button
+                    type="button"
+                    onclick="verificarResposta(${indice})"
+                >
+                    ${resposta}
+                </button>
+            `;
+        }
+    );
+
+    elementoRespostas.innerHTML = respostasHTML;
+}
+
+
+// VERIFICAR RESPOSTA
+
+function verificarResposta(indice) {
+    const pergunta = perguntas[perguntaAtual];
+
+    if (indice === pergunta.correta) {
+        pontos += 10;
+
+        document.getElementById("feedback").innerHTML =
+            "🎉 Resposta correta!";
+    } else {
+        vidas--;
+
+        document.getElementById("feedback").innerHTML =
+            "❌ Resposta incorreta!";
+    }
+
+    atualizarStatus();
+
+    if (vidas <= 0) {
+        fimDeJogo();
+        return;
+    }
+
+    perguntaAtual++;
+
+    setTimeout(function () {
+        carregarPergunta();
+
+        const feedback =
+            document.getElementById("feedback");
+
+        if (feedback) {
+            feedback.innerHTML = "";
+        }
+    }, 1500);
+}
+
+
+// ATUALIZAR STATUS
+
+function atualizarStatus() {
+    const elementoPontos =
+        document.getElementById("pontos");
+
+    const elementoVidas =
+        document.getElementById("vidas");
+
+    if (elementoPontos) {
+        elementoPontos.innerHTML = pontos;
+    }
+
+    if (elementoVidas) {
+        elementoVidas.innerHTML = vidas;
+    }
+}
+
+
+// FINALIZAR JOGO
+
+function finalizarJogo() {
+    const quiz =
+        document.querySelector(".quiz-box");
+
+    if (!quiz) {
+        return;
+    }
+
+    quiz.innerHTML = `
+        <h2>🏆 Missão concluída!</h2>
+
+        <br>
+
+        <h3>Pontuação final: ${pontos}</h3>
+
+        <br>
+
+        <button
+            type="button"
+            onclick="reiniciarJogo()"
+        >
+            🔄 Jogar novamente
         </button>
-
-        `
-    })
-
-    document.getElementById("respostas").innerHTML =
-    respostasHTML
+    `;
 }
 
-function verificarResposta(indice){
 
-    let pergunta =
-    perguntas[perguntaAtual]
+// FIM DE JOGO
 
-    if(indice == pergunta.correta){
+function fimDeJogo() {
+    const quiz =
+        document.querySelector(".quiz-box");
 
-        pontos += 10
-
-        document.getElementById("feedback").innerHTML =
-        "🎉 Resposta correta!"
-
-    }else{
-
-        vidas--
-
-        document.getElementById("feedback").innerHTML =
-        "❌ Resposta incorreta!"
+    if (!quiz) {
+        return;
     }
 
-    atualizarStatus()
+    quiz.innerHTML = `
+        <h2>💀 Game Over</h2>
 
-    if(vidas <= 0){
+        <br>
 
-        fimDeJogo()
+        <h3>Você perdeu todas as vidas!</h3>
 
-        return
+        <br>
+
+        <button
+            type="button"
+            onclick="reiniciarJogo()"
+        >
+            🔄 Tentar novamente
+        </button>
+    `;
+}
+
+
+// REINICIAR
+
+function reiniciarJogo() {
+    perguntaAtual = 0;
+    pontos = 0;
+    vidas = 3;
+
+    window.location.reload();
+}
+
+
+// VOLTAR
+
+function voltarPagina() {
+    window.history.back();
+}
+
+
+// INICIAR O JOGO
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+        carregarPergunta();
+        atualizarStatus();
     }
+);
 
-    perguntaAtual++
-
-    setTimeout(function(){
-
-        carregarPergunta()
-
-        document.getElementById("feedback").innerHTML = "" },1500)
-}
-
-function atualizarStatus(){
-
-    document.getElementById("pontos").innerHTML = pontos
-    document.getElementById("vidas").innerHTML =  vidas
-}
-
-function finalizarJogo(){
-
-    document.querySelector(".quiz-box").innerHTML = `
-
-    <h2>
-
-        🏆 Missão concluída!
-
-    </h2>
-
-    <br>
-
-    <h3>
-
-        Pontuação final: ${pontos}
-
-    </h3>
-
-    <br>
-
-    <button onclick="reiniciarJogo()">
-
-        🔄 Jogar Novamente
-
-    </button>`
-
-}
-
-function fimDeJogo(){
-
-    document.querySelector(".quiz-box").innerHTML = `
-
-    <h2>
-
-        💀 Game Over
-
-    </h2>
-
-    <br>
-
-    <h3>
-
-        Você perdeu todas as vidas!
-
-    </h3>
-
-    <br>
-
-    <button onclick="reiniciarJogo()">
-
-        🔄 Tentar Novamente
-
-</button>`
-}
-
-
-function reiniciarJogo(){
-
-    perguntaAtual = 0
-
-    pontos = 0
-
-    vidas = 3
-
-    location.reload()
-}
-
-carregarPergunta()
 
 function voltarPagina() {
     window.history.back();

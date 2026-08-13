@@ -1,120 +1,72 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Jogo da Radiciação</title>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="jogoradiciacao.css">
 </head>
-
 <body>
-
-  <!-- TOPO -->
-
-  <div class="topo">
+  <header class="topo">
+    <button class="btn-voltar" type="button" onclick="window.history.back()" aria-label="Voltar" title="Voltar">
+      <img src="botao_retornar.png" alt="">
+    </button>
 
     <div class="box-topo">
-      🏆 <span id="pontos">0</span>
+      <strong>🏆 <span id="pontos">0</span></strong>
       <p>PONTOS</p>
     </div>
 
-    <div class="titulo">
-      ⭐ Jogo da Radiciação ⭐
-    </div>
+    <h1 class="titulo">⭐ Jogo da Radiciação ⭐</h1>
 
     <div class="box-topo">
-      <span id="fase">1</span>/10
+      <strong><span id="fase">1</span>/10</strong>
       <p>FASE</p>
     </div>
+  </header>
 
-  </div>
+  <main>
+    <section class="conteudo">
+      <aside class="avatar-area">
+        <div class="fala" id="instrucao">Observe a representação e responda:</div>
+        <img id="avatar" src="avatar.png" alt="Personagem do Reforça Libras">
+      </aside>
 
-  <!-- CONTEÚDO -->
+      <section class="pergunta-area" aria-live="polite">
+        <span class="etiqueta">DESAFIO</span>
+        <h2 id="textoPergunta">Carregando pergunta...</h2>
+        <div id="quadrado" aria-label="Representação visual da quantidade"></div>
+      </section>
 
-  <div class="conteudo">
+      <aside class="libras">
+        <h2>✋ Tradução em Libras</h2>
+        <video id="videoLibras" muted playsinline preload="auto" poster="libras.png">
+          <source id="fonteLibras" src="" type="video/mp4">
+          Seu navegador não reproduz vídeos.
+        </video>
+        <button id="repetirLibras" type="button">↻ Repetir tradução</button>
+      </aside>
+    </section>
 
-    <!-- AVATAR -->
+    <section id="alternativas" class="alternativas" aria-label="Alternativas"></section>
 
-    <div class="avatar-area">
+    <footer class="rodape">
+      <button class="menu" type="button" onclick="window.history.back()">← Sair do jogo</button>
 
-      <div class="fala">
-        Observe o quadrado abaixo e responda:
+      <div class="progresso-area">
+        <p>PROGRESSO</p>
+        <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+          <div id="progresso"></div>
+        </div>
       </div>
 
-      <img
-        id="avatar"
-        src="avatar.png"
-        alt="Avatar">
+      <div class="vidas" aria-label="Vidas restantes">❤️ <span id="vidas">3</span></div>
+    </footer>
+  </main>
 
-    </div>
-
-    <!-- PERGUNTA -->
-
-    <div class="pergunta-area">
-
-      <h2 id="textoPergunta">
-        Qual é a raiz quadrada de 25?
-      </h2>
-
-          <div id="quadrado"></div>
-
-    </div>
-
-    <!-- LIBRAS -->
-
-    <div class="libras">
-
-      <h2>✋ Tradução em Libras</h2>
-
-      <img
-        src="libras.png"
-        alt="Libras">
-
-    </div>
-
-  </div>
-
-  <!-- BOTÕES -->
-
-  <div class="alternativas">
-
-    <button onclick="verificar(4)">4</button>
-
-    <button onclick="verificar(5)">5</button>
-
-    <button onclick="verificar(6)">6</button>
-
-    <button onclick="verificar(8)">8</button>
-
-  </div>
-
-  <!-- BARRA -->
-
-  <div class="rodape">
-
-    <button class="menu">
-      MENU
-    </button>
-
-    <div class="progresso-area">
-
-      <p>PROGRESSO</p>
-
-      <div class="barra">
-        <div id="progresso"></div>
-      </div>
-
-    </div>
-
-    <button class="proximo" onclick="novaPergunta()">
-      PRÓXIMA →
-    </button>
-
-  </div>
-
-<script src="jogoradiciacao.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="jogoradiciacao.js"></script>
 </body>
 </html>
