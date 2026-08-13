@@ -70,24 +70,33 @@ body{
     background:linear-gradient( 101deg,darkgoldenrod,khaki,peru,sandybrown);
 }
 
+/* BOTÃO VOLTAR */
 
-.return-button{
-    display: inline; /* isso faz com que os itens fiquem na mesma linha*/
-    background-color:0;
-    margin-right: 2px; /* Adicione o espaçamento desejado entre os itens */
-    padding:10px 10px 10px 10px; /* Espaçamento interno do botão*/
-    border-radius:1px; /*borda arredondada*/
-    text-decoration: none; /* remova o sublinahdo do link*/
-    transition:background-color 0.3 s;/*Efeito transição ao passar o mouse*/
-  }
-.return-button img{
-    vertical-align:middle;/* Centralizar verticalmente a imagem*/
-    margin-right:5 px;/* Margem a direita da imagem para separa-la do texto */
-    margin-left:0;
-    width:10 px;
-    height:10 px;
-   }
+.btn-voltar {
+    position: absolute;
+    top: 15px;
+    left: 15px;
 
+    width: auto;
+    padding: 6px 12px;
+
+    border: none;
+    border-radius: 15px;
+
+    background: #8ecae6;
+    color: #16324f;
+
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+.btn-voltar:hover {
+    background: #5fa8d3;
+    color: white;
+}
 
 
 
