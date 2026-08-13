@@ -30,116 +30,105 @@
                 <!-- DROPDOWN DISCIPLINAS (Texto simples sem formato de botão) -->
                 
                         <div class="dropdown">
-    <!-- Seu botão original de Disciplinas -->
-    <button type="button" class="dropbtn">
-        📚 Disciplinas ▼
-    </button>
+                            <!-- Seu botão original de Disciplinas -->
+                             <button type="button" class="dropbtn">📚 Disciplinas ▼ </button>
     
-    <!-- COLUNA NÍVEL 2: Matemática, Biologia -->
-    <div class="dropdown-content">
-        
-        <!-- MATEMÁTICA -->
-        <div class="submenu">
-            <a href="matematica.html" class="item-menu">Matemática ▶</a>
+                             <!-- COLUNA NÍVEL 2: Matemática, Biologia -->
+                            <div class="dropdown-content">
+                                 <!-- MATEMÁTICA -->
+                                 <div class="submenu">
+                                     <a href="matematica.html" class="item-menu">Matemática ▶</a>
             
-            <!-- COLNA NÍVEL 3: Tópicos de Matemática -->
-            <div class="submenu-content">
-                <a href="matematica.html/tema=potenciacao">Potenciação</a>
-                <a href="matematica.html/tema=radiciacao">Radiciação</a>
-                <a href=matematica.html" class="ler-mais">➕ Ler mais...</a>
-            </div>
-        </div>
-
-        <!-- BIOLOGIA -->
-        <div class="submenu">
-            <a href="biologia.html" class="item-menu">Biologia ▶</a>
-            
-            <!-- COLUNA NÍVEL 3: Tópicos de Biologia -->
-            <div class="submenu-content">
-                <a href="biologia.html/tema=celulas">Células</a>
-                <a href="biologia.html" class="ler-mais">➕ Ler mais...</a>
-            </div>
-        </div>
-
-    </div>
-</div>
-        
+                                         <!-- COLNA NÍVEL 3: Tópicos de Matemática -->
+                                        <div class="submenu-content">
+                                             <a href="matematica.html/tema=potenciacao">Potenciação</a>
+                                             <a href="matematica.html/tema=radiciacao">Radiciação</a>
+                                              <a href="   matematica.html" class="ler-mais">➕ Ler mais...</a>
+                                         </div>
+                                 </div>
+                                 <!-- BIOLOGIA -->
+                                 <div class="submenu">
+                                     <a href="biologia.html" class="item-menu">Biologia ▶</a>
+                                          <!-- COLUNA NÍVEL 3: Tópicos de Biologia -->
+                                          <div class="submenu-content">
+                                             <a href="biologia.html/tema=celulas">Células</a>
+                                             <a href="biologia.html" class="ler-mais">➕ Ler mais...</a>
+                                         </div>
+                                 </div>
+                                 <!-- QUÍMICA -->
+                                 <div class="submenu">
+                                     <a href="quimica.html" class="item-menu">Química ▶</a>
+                                          <!-- COLUNA NÍVEL 3: Tópicos de Química -->
+                                          <div class="submenu-content">
+                                             <a href="quimica.html/tema=atomos">Átomos</a>
+                                             <a href="quimica.html" class="ler-mais">➕ Ler mais...</a>
+                                         </div>
+                                 </div>
+                             </div>
+                         </div>                
+                                
 
             <a href="#">🎮 Jogos</a>
-            <a href="comentarios.html">
-
-                💬 Comentários
-
-            </a>
+            <a href="comentarios.html">💬 Comentários </a>
 
         </nav>
 
         <!-- Pesquisa -->
-
-       <div class="pesquisa-box">
-            <input id="campoPesquisa" type="text" placeholder="🔎 Pesquisar aulas, jogos...">
-                <button onclick="pesquisarConteudo()">Pesquisar</button>
-        </div>
+             <div class="pesquisa-box">
+                 <input id="campoPesquisa" type="text" placeholder="🔎 Pesquisar aulas, jogos...">
+                 <button onclick="pesquisarConteudo()">Pesquisar</button>
+             </div>
 
         <!-- Login -->
-
-        <button id="btnLogin" class="login-btn">
-            👤 Entrar
-        </button>
+        <button id="btnLogin" class="login-btn">👤 Entrar </button>
 
     </div>
 
-<!-- MODAL LOGIN -->
-<div id="modalLogin" class="modal">
-    <div class="perfil-box">
-        <span class="fechar" id="fecharLogin">&times;</span>
-        <img src="logo2.png" alt="Logo Reforça Libras">
-        <h2>Entrar</h2>
+            <!-- MODAL LOGIN -->
+                <div id="modalLogin" class="modal">
+                    <div class="perfil-box">
+                         <span class="fechar" id="fecharLogin">&times;</span>
+                         <img src="logo2.png" alt="Logo Reforça Libras">
+                         <h2>Entrar</h2>
 
-        <form id="formLogin" autocomplete="off">
-            <label for="loginEmail">E-mail</label>
-            <input
-                type="email"
-                id="loginEmail"
-                placeholder="Digite seu e-mail"
-                required
-                autocomplete="email"
-            >
-            <button type="submit">Entrar</button>
-        </form>
+                         <form id="formLogin" autocomplete="off">
+                            <label for="loginEmail">E-mail</label>
+                            <input type="email" id="loginEmail"placeholder="Digite seu e-mail"required autocomplete="email">
+                            <button type="submit">Entrar</button>
+                         </form>
 
-        <p>
-            Primeiro acesso?
-            <button type="button" id="abrirCadastro">Cadastrar</button>
-        </p>
-    </div>
-</div>
-        <!-- DIVISOR -->
-        <div class="divisor">
-            <span>ou</span>
-        </div>
+                         <p>
+                            Primeiro acesso?
+                            <button type="button" id="abrirCadastro">Cadastrar</button>
+                         </p>
+                    </div>
+                </div>
+                        <!-- DIVISOR -->
+                        <div class="divisor">
+                            <span>ou</span>
+                        </div>
 
-        <!-- BOTÃO DO GOOGLE -->
-        <div id="g_id_onload"
-             data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
-             data-callback="handleCredentialResponse"
-             data-auto_prompt="false">
-        </div>
+                        <!-- BOTÃO DO GOOGLE -->
+                        <div id="g_id_onload"
+                            data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
+                            data-callback="handleCredentialResponse"
+                            data-auto_prompt="false">
+                        </div>
 
-        <div class="g_id_signin"
-             data-type="standard"
-             data-size="large"
-             data-theme="outline"
-             data-text="sign_in_with"
-             data-shape="pill"
-             data-logo_alignment="left">
-        </div>
+                        <div class="g_id_signin"
+                            data-type="standard"
+                            data-size="large"
+                            data-theme="outline"
+                            data-text="sign_in_with"
+                            data-shape="pill"
+                            data-logo_alignment="left">
+                        </div>
 
-        <p>Não possui conta? 
-            <button type="button" id="abrirCadastro">Cadastrar</button>
-        </p>
-    </div>
-</div>
+                        <p>Não possui conta? 
+                            <button type="button" id="abrirCadastro">Cadastrar</button>
+                        </p>
+                    </div>
+                </div>
 
 <!-- MODAL CADASTRO -->
 <div id="modalCadastro" class="modal">
