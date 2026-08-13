@@ -362,13 +362,29 @@ body{
 /* FECHAR (X) PARA OS MODAIS */
 #fecharLogin,
 #fecharPerfil,
-#fecharCadastro {
+#fecharCadastro,
+#fecharTermos {
     position: absolute;
     top: 10px;
     right: 20px;
     font-size: 30px;
     cursor: pointer;
     color: white;
+}
+
+.modal .perfil-box .aceite-termos input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0 8px 0 0;
+    padding: 0;
+    accent-color: #8ecae6;
+}
+
+.aceite-termos {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 14px;
+    text-align: left;
 }
 
 /* Container do campo de senha */
@@ -439,11 +455,11 @@ body{
     width:180px;
     padding:10px 10px;
     border-radius:25px;
-    border:2px solid gold;
+    border:2px solid #8ecae6;
     outline:none;
    font-family:'Nunito',sans-serif;
     font-size:15px;
-    background:white;
+    background:#f4fbff;
 
 }
 
@@ -455,13 +471,13 @@ body{
 .pesquisa-box button{
 
 
-    background:black;
+    background:#8ecae6;
 
 
-    color:white;
+    color:#16324f;
 
 
-    border:2px solid gold;
+    border:2px solid #8ecae6;
 
 
     border-radius:20px 60px;
@@ -489,8 +505,8 @@ body{
     transform:translateY(-5px);
 
 
-    background:linear-gradient(101deg,darkgoldenrod,khaki,peru,sandybrown );
-    color:black;
+    background:#5fa8d3;
+    color:white;
 
 
 }
