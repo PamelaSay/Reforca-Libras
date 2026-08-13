@@ -32,6 +32,7 @@
 ========================================== */
 
 .pagina-curso .cabecalho-conteudo {
+    position: relative;
     min-height: 76px;
 
     padding:
@@ -58,7 +59,7 @@
    BOTÃO VOLTAR
 ========================== */
 
-.pagina-curso .btn-voltar {
+.pagina-curso .cabecalho-conteudo > .btn-voltar {
     position: absolute;
 
     top: 50%;
@@ -66,8 +67,10 @@
 
     transform: translateY(-50%);
 
-    width: 40px;
-    height: 40px;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px;
+    min-height: 40px;
 
     display: flex;
     justify-content: center;
@@ -76,65 +79,42 @@
     margin: 0;
     padding: 0;
 
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: 0 !important;
     border-radius: 50%;
 
     cursor: pointer;
     z-index: 10;
 
     transition: transform 0.2s ease;
+    box-shadow: none !important;
 }
 
-.topo .btn-voltar .btn-voltar-img {
+.pagina-curso .cabecalho-conteudo > .btn-voltar > .btn-voltar-img {
     display: block;
 
-    width: 34px;
-    height: 34px;
-    max-width: 34px;
-    max-height: 34px;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px;
+    min-height: 34px;
+    max-width: 34px !important;
+    max-height: 34px !important;
 
     margin: 0;
     padding: 0;
 
     object-fit: contain;
+    border: 0;
+    border-radius: 0;
 }
 
-.topo .btn-voltar:hover {
+.pagina-curso .cabecalho-conteudo > .btn-voltar:hover {
     transform: translateY(-50%) scale(1.08);
-    background: transparent;
+    background: transparent !important;
 }
 
-.topo .btn-voltar:active {
+.pagina-curso .cabecalho-conteudo > .btn-voltar:active {
     transform: translateY(-50%) scale(0.95);
-}
-
-
-
-
-
-
-.pagina-curso .btn-voltar {
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-
-    padding: 0;
-
-    display: grid;
-    place-items: center;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.45);
-
-    border-radius: 50%;
-
-    background: transparent;
-    color: var(--curso-branco);
-
-    font-size: 23px;
-    text-decoration: none;
 }
 
 
