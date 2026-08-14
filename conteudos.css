@@ -12,6 +12,7 @@
     --curso-azul-claro: #cfefff;
     --curso-azul-medio: #5fa8d3;
     --curso-azul-escuro: #1d3557;
+    --curso-black: #08192b;
     --curso-dourado: gold;
     --curso-branco: #ffffff;
     --curso-texto: #33475b;
@@ -34,7 +35,7 @@
     display: flex;
     align-items: center;
     padding: 10px 22px;
-    background: var(--dark-bg);
+    background: var(--curso-black);
     color: var(--curso-branco);
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
     z-index: 999;
@@ -88,22 +89,16 @@
 > .btn-voltar
 > .btn-voltar-img {
     display: block;
-
     width: 34px !important;
     height: 34px !important;
-
     min-width: 34px;
     min-height: 34px;
-
     max-width: 34px !important;
     max-height: 34px !important;
-
     margin: 0;
     padding: 0;
-
     border: 0;
     border-radius: 0;
-
     object-fit: contain;
 }
 
@@ -1207,15 +1202,11 @@
 
 .pagina-curso > footer {
     padding: 20px;
-
     text-align: center;
-
     background:
-        var(--curso-azul-escuro);
-
+        var(--curso-black);
     color:
         var(--curso-branco);
-
     border-top:
         2px solid
         var(--curso-dourado);
