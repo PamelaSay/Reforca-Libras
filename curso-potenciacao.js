@@ -248,9 +248,21 @@ function videoIdValido(videoId) {
 // ==========================================
 
 function abrirVideoaula(numero, videoId) {
-    const progresso = obterProgressoCurso();
-    prepararControlesDoVideo();
-    if (numero > progresso.etapaLiberada) {
+    const progresso =
+        obterProgressoCurso();
+
+    /*
+     * Bloqueia somente aulas que ainda
+     * não foram liberadas.
+     *
+     * Aulas concluídas continuam podendo
+     * ser assistidas novamente.
+     */
+
+    if (
+        numero >
+        progresso.etapaLiberada
+    ) {
         mostrarMensagem(
             "Etapa bloqueada",
             "Conclua o teste anterior para liberar esta videoaula.",
@@ -297,6 +309,11 @@ function abrirVideoaula(numero, videoId) {
             "tituloVideoaula"
         );
 
+    const aviso =
+        document.querySelector(
+            ".aviso-videoaula"
+        );
+
     if (!modal || !titulo) {
         console.error(
             "O modal da videoaula não foi encontrado."
@@ -306,12 +323,23 @@ function abrirVideoaula(numero, videoId) {
     }
 
     etapaVideoAtual = numero;
-    videoTerminou = false;
 
     titulo.textContent =
         "Aula " +
         numero +
         " — Potenciação";
+
+    if (aviso) {
+        const aulaJaConcluida =
+            progresso.concluidas.includes(
+                numero
+            );
+
+        aviso.textContent =
+            aulaJaConcluida
+                ? "Revisão da videoaula."
+                : "Assista ao vídeo até o final para liberar o teste de conhecimento.";
+    }
 
     modal.classList.add("aberto");
 
@@ -323,7 +351,6 @@ function abrirVideoaula(numero, videoId) {
     document.body.style.overflow =
         "hidden";
 
-    prepararControlesDoVideo();
     prepararAreaDoPlayer();
 
     playerVideoaula = new YT.Player(
@@ -349,19 +376,31 @@ function abrirVideoaula(numero, videoId) {
     );
 }
 
-
 // ==========================================
 // VERIFICAR FINAL DO VÍDEO
 // ==========================================
 function verificarEstadoDoVideo(evento) {
     if (
-        evento.data !== YT.PlayerState.ENDED ||
-        etapaVideoAtual === null
+        evento.data !==
+        YT.PlayerState.ENDED
     ) {
         return;
     }
 
-    const etapaAssistida = etapaVideoAtual;
+    if (etapaVideoAtual === null) {
+        return;
+    }
+
+    const etapaAssistida =
+        etapaVideoAtual;
+
+    const progresso =
+        obterProgressoCurso();
+
+    const aulaJaConcluida =
+        progresso.concluidas.includes(
+            etapaAssistida
+        );
 
     const botaoTeste =
         document.querySelector(
@@ -370,16 +409,95 @@ function verificarEstadoDoVideo(evento) {
             '"] .btn-jogo'
         );
 
-    registrarAulaAssistida(etapaAssistida);
+    /*
+     * Registra que o vídeo foi assistido.
+     * Se já estava registrado, não duplica.
+     */
+
+    registrarAulaAssistida(
+        etapaAssistida
+    );
+
     fecharModalVideoaula();
+
+    /*
+     * FLUXO DE REVISÃO:
+     * a aula já havia sido concluída.
+     */
+
+    if (aulaJaConcluida) {
+        if (
+            typeof Swal !== "undefined"
+        ) {
+            Swal.fire({
+                icon: "success",
+
+                title:
+                    "Revisão concluída!",
+
+                text:
+                    "Você terminou de rever esta videoaula.",
+
+                showCancelButton: true,
+
+                confirmButtonText:
+                    "Voltar à trilha",
+
+                cancelButtonText:
+                    "Refazer verificação",
+
+                confirmButtonColor:
+                    "#1d3557",
+
+                cancelButtonColor:
+                    "#5fa8d3"
+            }).then(
+                function (resultado) {
+                    if (
+                        resultado.dismiss ===
+                        Swal.DismissReason.cancel
+                    ) {
+                        abrirTesteNovamente(
+                            etapaAssistida,
+                            botaoTeste
+                        );
+                    }
+                }
+            );
+
+            return;
+        }
+
+        const refazer =
+            confirm(
+                "Revisão concluída!\n\n" +
+                "Deseja refazer a verificação?"
+            );
+
+        if (refazer) {
+            abrirTesteNovamente(
+                etapaAssistida,
+                botaoTeste
+            );
+        }
+
+        return;
+    }
+
+    /*
+     * PRIMEIRO ACESSO:
+     * pergunta se quer fazer o teste.
+     */
 
     if (typeof Swal !== "undefined") {
         Swal.fire({
             icon: "success",
-            title: "Videoaula concluída!",
+
+            title:
+                "Videoaula concluída!",
+
             text:
-                "Deseja fazer agora a verificação " +
-                "de conhecimento desta aula?",
+                "Deseja fazer agora a verificação de conhecimento desta aula?",
 
             showCancelButton: true,
 
@@ -394,32 +512,39 @@ function verificarEstadoDoVideo(evento) {
 
             cancelButtonColor:
                 "#5fa8d3"
-        }).then(function (resultado) {
-            if (
-                resultado.isConfirmed &&
-                botaoTeste
-            ) {
-                botaoTeste.click();
-                return;
-            }
+        }).then(
+            function (resultado) {
+                if (
+                    resultado.isConfirmed &&
+                    botaoTeste
+                ) {
+                    botaoTeste.click();
 
-            if (botaoTeste) {
-                botaoTeste.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
+                    return;
+                }
+
+                if (botaoTeste) {
+                    botaoTeste.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+                }
             }
-        });
+        );
 
         return;
     }
 
-    const continuar = confirm(
-        "Videoaula concluída!\n\n" +
-        "Deseja fazer agora a verificação?"
-    );
+    const continuar =
+        confirm(
+            "Videoaula concluída!\n\n" +
+            "Deseja fazer agora a verificação?"
+        );
 
-    if (continuar && botaoTeste) {
+    if (
+        continuar &&
+        botaoTeste
+    ) {
         botaoTeste.click();
     }
 }
@@ -559,6 +684,61 @@ function abrirTeste(numero, destino) {
         destino;
 }
 
+// ==========================================
+// ABRIR NOVAMENTE
+// ==========================================
+
+function abrirTesteNovamente(
+    numero,
+    botaoTeste
+) {
+    if (!botaoTeste) {
+        mostrarMensagem(
+            "Teste indisponível",
+            "O jogo desta aula ainda não foi cadastrado.",
+            "info"
+        );
+
+        return;
+    }
+
+    const destino =
+        botaoTeste.getAttribute(
+            "href"
+        );
+
+    if (
+        !destino ||
+        destino === "#" ||
+        destino.includes(
+            "youtube.com"
+        ) ||
+        destino.includes(
+            "youtu.be"
+        )
+    ) {
+        mostrarMensagem(
+            "Teste indisponível",
+            "O jogo desta aula ainda não foi cadastrado.",
+            "info"
+        );
+
+        return;
+    }
+
+    sessionStorage.setItem(
+        "testeCursoAtual",
+        String(numero)
+    );
+
+    sessionStorage.setItem(
+        "testeSendoRefeito",
+        "true"
+    );
+
+    window.location.href =
+        destino;
+}
 
 // ==========================================
 // CONFIGURAR LINKS
