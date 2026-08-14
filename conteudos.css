@@ -29,21 +29,18 @@
 ========================================== */
 
 .pagina-curso .cabecalho-conteudo {
-    position: relative;
-
-    min-height: 76px;
-
+    position: sticky;
+    width: 100%;
     display: flex;
     align-items: center;
-
     padding: 10px 22px;
-
-    background: var(--curso-azul-escuro);
+    background: var(--dark-bg);
     color: var(--curso-branco);
-
-    border-bottom:
-        3px solid var(--curso-dourado);
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    border-bottom: 3px solid var(--curso-dourado);
 }
+
 
 
 /* ==========================================
