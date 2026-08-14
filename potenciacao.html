@@ -40,6 +40,7 @@
             </div>
         </section>
 
+        <div class="area-curso">
         <section class="trilha-conteudo" aria-labelledby="tituloTrilha">
             <div class="titulo-secao">
                 <div>
@@ -59,13 +60,11 @@
                     </div>
                     <div class="acoes-topico">
                         <a class="btn-aula" data-acao="aula" data-video-id="JEaLqcstIw4" href="https://youtu.be/JEaLqcstIw4">
-    <span class="icone">▶</span>
-
-    <span>
-        <small>PRIMEIRO</small>
-        Assistir aula
-    </span>
-</a>
+                        <span class="icone">▶</span>
+                        <span>
+                            <small>PRIMEIRO</small>Assistir aula
+                         </span>
+                        </a>
                         <a class="btn-jogo" data-acao="teste" href="jogo_potencia.html"> 
                             <span class="icone">🎮</span>
                             <span><small>DEPOIS</small>Verificar conhecimento</span>
@@ -132,6 +131,137 @@
                 </article>
             </div>
         </section>
+        
+        <aside class="relatorio-curso" aria-labelledby="tituloRelatorio">
+
+    <div class="relatorio-cabecalho">
+        <span>ACOMPANHAMENTO</span>
+        <h2 id="tituloRelatorio">
+            Meu desempenho
+        </h2>
+
+        <p>
+            Acompanhe seu desenvolvimento
+            em Potenciação.
+        </p>
+    </div>
+
+    <div class="relatorio-geral">
+
+        <div
+            id="circuloDesempenho"
+            class="circulo-desempenho"
+            style="--desempenho: 0"
+        >
+            <strong id="percentualDesempenho">
+                0%
+            </strong>
+
+            <span>desempenho</span>
+        </div>
+
+        <div class="resumo-desempenho">
+            <p>
+                <strong id="totalTestesRealizados">
+                    0
+                </strong>
+                testes realizados
+            </p>
+
+            <p>
+                <strong id="mediaAcertos">
+                    0%
+                </strong>
+                média de acertos
+            </p>
+        </div>
+
+    </div>
+
+    <div class="relatorio-bloco">
+
+        <h3>📚 Andamento das aulas</h3>
+
+        <div id="andamentoEtapas">
+
+            <div class="andamento-item">
+                <span>Aula 1</span>
+                <strong>Não iniciada</strong>
+            </div>
+
+            <div class="andamento-item">
+                <span>Aula 2</span>
+                <strong>Bloqueada</strong>
+            </div>
+
+            <div class="andamento-item">
+                <span>Aula 3</span>
+                <strong>Bloqueada</strong>
+            </div>
+
+            <div class="andamento-item">
+                <span>Aula 4</span>
+                <strong>Bloqueada</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="relatorio-bloco">
+
+        <h3>📈 Desempenho por conteúdo</h3>
+
+        <div
+            id="desempenhoPorConteudo"
+            class="lista-desempenho"
+        >
+            <p class="relatorio-vazio">
+                Realize os testes para visualizar
+                seu desempenho.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="relatorio-bloco recomendacoes">
+
+        <h3>💡 Recomendações</h3>
+
+        <div id="recomendacoesAluno">
+            <p>
+                Comece pela primeira videoaula
+                e realize a verificação.
+            </p>
+        </div>
+
+    </div>
+
+    <div
+        id="conclusaoPotenciacao"
+        class="conclusao-potenciacao"
+        hidden
+    >
+        <span>🏆</span>
+
+        <h3>Trilha concluída!</h3>
+
+        <p>
+            Você concluiu todas as etapas
+            de Potenciação.
+        </p>
+
+        <button
+            type="button"
+            id="abrirResultadoFinal"
+        >
+            Ver resultado completo
+        </button>
+    </div>
+
+</aside>
+</div>
+
     </main>
     <!-- MODAL DA VIDEOAULA -->
 

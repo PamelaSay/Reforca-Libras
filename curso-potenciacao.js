@@ -838,6 +838,7 @@ document.addEventListener(
         criarControlesDoModal();
         atualizarCursoNaTela();
         configurarLinksDoCurso();
+        atualizarRelatorioPotenciacao();
 
         const fechar =
             document.getElementById(
@@ -885,3 +886,442 @@ document.addEventListener(
         );
     }
 );
+// ==========================================
+// RELATÓRIO GERAL DA POTENCIAÇÃO
+// ==========================================
+
+const NOMES_DAS_ETAPAS = {
+    1: "Introdução",
+    2: "Base e expoente",
+    3: "Casos especiais",
+    4: "Propriedades"
+};
+
+
+function obterResultadosPotenciacao() {
+    try {
+        const resultados =
+            JSON.parse(
+                localStorage.getItem(
+                    "resultadosPotenciacao"
+                )
+            );
+
+        return Array.isArray(resultados)
+            ? resultados
+            : [];
+
+    } catch (erro) {
+        console.error(
+            "Erro ao recuperar resultados:",
+            erro
+        );
+
+        return [];
+    }
+}
+
+
+function atualizarRelatorioPotenciacao() {
+    const progresso =
+        obterProgressoCurso();
+
+    const resultados =
+        obterResultadosPotenciacao();
+
+    atualizarResumoDoRelatorio(
+        resultados
+    );
+
+    atualizarAndamentoDasEtapas(
+        progresso
+    );
+
+    atualizarDesempenhoDosConteudos(
+        resultados
+    );
+
+    atualizarRecomendacoes(
+        progresso,
+        resultados
+    );
+
+    verificarConclusaoDaTrilha(
+        progresso
+    );
+}
+
+
+// ==========================================
+// RESUMO GERAL
+// ==========================================
+
+function atualizarResumoDoRelatorio(
+    resultados
+) {
+    const circulo =
+        document.getElementById(
+            "circuloDesempenho"
+        );
+
+    const percentualTexto =
+        document.getElementById(
+            "percentualDesempenho"
+        );
+
+    const totalTestes =
+        document.getElementById(
+            "totalTestesRealizados"
+        );
+
+    const mediaTexto =
+        document.getElementById(
+            "mediaAcertos"
+        );
+
+    const percentuais =
+        resultados
+            .map(function (resultado) {
+                return Number(
+                    resultado.percentual
+                );
+            })
+            .filter(function (valor) {
+                return Number.isFinite(valor);
+            });
+
+    const media =
+        percentuais.length > 0
+            ? Math.round(
+                percentuais.reduce(
+                    function (total, valor) {
+                        return total + valor;
+                    },
+                    0
+                ) / percentuais.length
+            )
+            : 0;
+
+    if (circulo) {
+        circulo.style.setProperty(
+            "--desempenho",
+            media
+        );
+    }
+
+    if (percentualTexto) {
+        percentualTexto.textContent =
+            media + "%";
+    }
+
+    if (totalTestes) {
+        totalTestes.textContent =
+            resultados.length;
+    }
+
+    if (mediaTexto) {
+        mediaTexto.textContent =
+            media + "%";
+    }
+}
+
+
+// ==========================================
+// ANDAMENTO DAS AULAS
+// ==========================================
+
+function atualizarAndamentoDasEtapas(
+    progresso
+) {
+    const area =
+        document.getElementById(
+            "andamentoEtapas"
+        );
+
+    if (!area) {
+        return;
+    }
+
+    area.innerHTML = "";
+
+    for (
+        let etapa = 1;
+        etapa <= TOTAL_ETAPAS;
+        etapa++
+    ) {
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "andamento-item";
+
+        let situacao =
+            "Bloqueada";
+
+        if (
+            progresso.concluidas.includes(
+                etapa
+            )
+        ) {
+            situacao =
+                "Concluída ✓";
+
+            item.classList.add(
+                "concluida"
+            );
+
+        } else if (
+            progresso.aulasAssistidas.includes(
+                etapa
+            )
+        ) {
+            situacao =
+                "Teste disponível";
+
+            item.classList.add(
+                "em-andamento"
+            );
+
+        } else if (
+            etapa <=
+            progresso.etapaLiberada
+        ) {
+            situacao =
+                "Disponível";
+
+            item.classList.add(
+                "em-andamento"
+            );
+        }
+
+        item.innerHTML =
+            "<span>Aula " +
+            etapa +
+            "</span>" +
+            "<strong>" +
+            situacao +
+            "</strong>";
+
+        area.appendChild(item);
+    }
+}
+
+
+// ==========================================
+// DESEMPENHO POR CONTEÚDO
+// ==========================================
+
+function atualizarDesempenhoDosConteudos(
+    resultados
+) {
+    const area =
+        document.getElementById(
+            "desempenhoPorConteudo"
+        );
+
+    if (!area) {
+        return;
+    }
+
+    const desempenho = {};
+
+    resultados.forEach(
+        function (resultado) {
+            const porTopico =
+                resultado.desempenhoPorTopico ||
+                {};
+
+            Object.keys(porTopico).forEach(
+                function (topico) {
+                    const dados =
+                        porTopico[topico];
+
+                    if (!desempenho[topico]) {
+                        desempenho[topico] = {
+                            acertos: 0,
+                            total: 0
+                        };
+                    }
+
+                    desempenho[topico].acertos +=
+                        Number(
+                            dados.acertos
+                        ) || 0;
+
+                    desempenho[topico].total +=
+                        Number(
+                            dados.total
+                        ) || 0;
+                }
+            );
+        }
+    );
+
+    const topicos =
+        Object.keys(desempenho);
+
+    if (topicos.length === 0) {
+        area.innerHTML = `
+            <p class="relatorio-vazio">
+                Realize os testes para visualizar
+                seu desempenho.
+            </p>
+        `;
+
+        return;
+    }
+
+    area.innerHTML = "";
+
+    topicos.forEach(function (topico) {
+        const dados =
+            desempenho[topico];
+
+        const percentual =
+            dados.total > 0
+                ? Math.round(
+                    (
+                        dados.acertos /
+                        dados.total
+                    ) * 100
+                )
+                : 0;
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "desempenho-item";
+
+        if (percentual < 70) {
+            item.classList.add(
+                "atencao"
+            );
+        }
+
+        item.innerHTML = `
+            <div class="desempenho-texto">
+                <span>${topico}</span>
+                <strong>${percentual}%</strong>
+            </div>
+
+            <div class="desempenho-barra">
+                <div
+                    style="width: ${percentual}%"
+                ></div>
+            </div>
+        `;
+
+        area.appendChild(item);
+    });
+}
+
+
+// ==========================================
+// RECOMENDAÇÕES
+// ==========================================
+
+function atualizarRecomendacoes(
+    progresso,
+    resultados
+) {
+    const area =
+        document.getElementById(
+            "recomendacoesAluno"
+        );
+
+    if (!area) {
+        return;
+    }
+
+    if (resultados.length === 0) {
+        area.innerHTML = `
+            <p>
+                Comece pela primeira videoaula
+                e realize a verificação.
+            </p>
+        `;
+
+        return;
+    }
+
+    const dificuldades =
+        new Set();
+
+    resultados.forEach(
+        function (resultado) {
+            const lista =
+                resultado.dificuldades ||
+                [];
+
+            lista.forEach(
+                function (topico) {
+                    dificuldades.add(topico);
+                }
+            );
+        }
+    );
+
+    if (dificuldades.size > 0) {
+        let html =
+            "<p>Recomendamos revisar:</p><ul>";
+
+        dificuldades.forEach(
+            function (topico) {
+                html +=
+                    "<li>" +
+                    topico +
+                    "</li>";
+            }
+        );
+
+        html += "</ul>";
+
+        area.innerHTML = html;
+
+        return;
+    }
+
+    if (
+        progresso.concluidas.length ===
+        TOTAL_ETAPAS
+    ) {
+        area.innerHTML = `
+            <p>
+                Excelente! Você demonstrou
+                bom domínio dos conteúdos.
+            </p>
+        `;
+
+        return;
+    }
+
+    area.innerHTML = `
+        <p>
+            Continue para a próxima etapa
+            da trilha.
+        </p>
+    `;
+}
+
+
+// ==========================================
+// CONCLUSÃO DA TRILHA
+// ==========================================
+
+function verificarConclusaoDaTrilha(
+    progresso
+) {
+    const conclusao =
+        document.getElementById(
+            "conclusaoPotenciacao"
+        );
+
+    if (!conclusao) {
+        return;
+    }
+
+    conclusao.hidden =
+        progresso.concluidas.length !==
+        TOTAL_ETAPAS;
+}
