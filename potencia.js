@@ -1,73 +1,6 @@
-// potencia.js
-
-const perguntas = [
-    {
-        pergunta: "Como lemos 2³?",
-        respostas: [
-            "Dois vezes três",
-            "Dois elevado ao cubo",
-            "Três ao quadrado"
-        ],
-        correta: 1
-    },
-
-    {
-        pergunta: "3² corresponde a:",
-        respostas: [
-            "3 + 3",
-            "3 × 3",
-            "2 × 3"
-        ],
-        correta: 1
-    },
-
-    {
-        pergunta: "Quanto vale 2⁴?",
-        respostas: [
-            "8",
-            "12",
-            "16"
-        ],
-        correta: 2
-    },
-
-    {
-        pergunta: "Quanto vale 5⁰?",
-        respostas: [
-            "0",
-            "5",
-            "1"
-        ],
-        correta: 2
-    },
-
-    {
-        pergunta: "2³ × 2² = ?",
-        respostas: [
-            "2⁵",
-            "4⁵",
-            "2⁶"
-        ],
-        correta: 0
-    },
-
-    {
-        pergunta: "(a²)³ = ?",
-        respostas: [
-            "a⁵",
-            "a⁶",
-            "a⁹"
-        ],
-        correta: 1
-    }
-];
-
-let perguntaAtual = 0;
-let pontos = 0;
-let vidas = 3;
-let resultadosDoTeste = [];
-
-// CARREGAR PERGUNTA
+// ==========================================
+// JOGO — INTRODUÇÃO À POTENCIAÇÃO
+// ==========================================
 
 const perguntas = [
     {
@@ -85,9 +18,9 @@ const perguntas = [
     },
 
     {
-        topico: "Cálculo de potência",
+        topico: "Significado da potência",
 
-        pergunta: "3² corresponde a:",
+        pergunta: "A potência 3² corresponde a:",
 
         respostas: [
             "3 + 3",
@@ -129,7 +62,7 @@ const perguntas = [
     {
         topico: "Produto de potências",
 
-        pergunta: "2³ × 2² = ?",
+        pergunta: "2³ × 2² é igual a:",
 
         respostas: [
             "2⁵",
@@ -143,7 +76,7 @@ const perguntas = [
     {
         topico: "Potência de potência",
 
-        pergunta: "(a²)³ = ?",
+        pergunta: "(a²)³ é igual a:",
 
         respostas: [
             "a⁵",
@@ -156,69 +89,174 @@ const perguntas = [
 ];
 
 
+// ==========================================
+// VARIÁVEIS DO JOGO
+// ==========================================
+
+let perguntaAtual = 0;
+let pontos = 0;
+let vidas = 3;
+let respostaBloqueada = false;
+let resultadosDoTeste = [];
+
+
+// ==========================================
+// CARREGAR PERGUNTA
+// ==========================================
+
+function carregarPergunta() {
+    const elementoPergunta =
+        document.getElementById("pergunta");
+
+    const elementoRespostas =
+        document.getElementById("respostas");
+
+    const elementoFase =
+        document.getElementById("fase");
+
+    const elementoFeedback =
+        document.getElementById("feedback");
+
+    if (
+        !elementoPergunta ||
+        !elementoRespostas
+    ) {
+        console.error(
+            "Os elementos #pergunta ou " +
+            "#respostas não foram encontrados."
+        );
+
+        return;
+    }
+
+    if (perguntaAtual >= perguntas.length) {
+        finalizarAvaliacao();
+        return;
+    }
+
+    respostaBloqueada = false;
+
+    if (elementoFeedback) {
+        elementoFeedback.textContent = "";
+    }
+
+    if (elementoFase) {
+        elementoFase.textContent =
+            perguntaAtual + 1;
+    }
+
+    const pergunta =
+        perguntas[perguntaAtual];
+
+    elementoPergunta.textContent =
+        pergunta.pergunta;
+
+    elementoRespostas.innerHTML = "";
+
+    pergunta.respostas.forEach(
+        function (resposta, indice) {
+            const botao =
+                document.createElement("button");
+
+            botao.type = "button";
+            botao.textContent = resposta;
+
+            botao.addEventListener(
+                "click",
+                function () {
+                    verificarResposta(indice);
+                }
+            );
+
+            elementoRespostas.appendChild(botao);
+        }
+    );
+}
+
+
+// ==========================================
+// VERIFICAR RESPOSTA
+// ==========================================
+
 function verificarResposta(indice) {
-    const pergunta = perguntas[perguntaAtual];
+    if (respostaBloqueada) {
+        return;
+    }
+
+    respostaBloqueada = true;
+
+    const pergunta =
+        perguntas[perguntaAtual];
 
     const acertou =
         indice === pergunta.correta;
 
     resultadosDoTeste.push({
-        numeroQuestao: perguntaAtual + 1,
-        topico: pergunta.topico,
-        pergunta: pergunta.pergunta,
+        numeroQuestao:
+            perguntaAtual + 1,
+
+        topico:
+            pergunta.topico,
+
+        pergunta:
+            pergunta.pergunta,
+
         respostaEscolhida:
             pergunta.respostas[indice],
+
         respostaCorreta:
-            pergunta.respostas[pergunta.correta],
-        acertou: acertou
+            pergunta.respostas[
+                pergunta.correta
+            ],
+
+        acertou:
+            acertou
     });
+
+    const feedback =
+        document.getElementById("feedback");
 
     if (acertou) {
         pontos += 10;
 
-        document.getElementById(
-            "feedback"
-        ).textContent =
-            "🎉 Resposta correta!";
+        if (feedback) {
+            feedback.textContent =
+                "🎉 Resposta correta!";
+        }
 
     } else {
         vidas--;
 
-        document.getElementById(
-            "feedback"
-        ).textContent =
-            "❌ Resposta incorreta!";
+        if (feedback) {
+            feedback.textContent =
+                "❌ Resposta incorreta!";
+        }
     }
 
     atualizarStatus();
 
-    if (vidas <= 0) {
-        finalizarAvaliacao(false);
-        return;
-    }
-
     perguntaAtual++;
 
-    setTimeout(function () {
-        if (
-            perguntaAtual >=
-            perguntas.length
-        ) {
-            finalizarAvaliacao(true);
-            return;
-        }
+    setTimeout(
+        function () {
+            if (
+                perguntaAtual >=
+                perguntas.length
+            ) {
+                finalizarAvaliacao();
+                return;
+            }
 
-        carregarPergunta();
-
-        document.getElementById(
-            "feedback"
-        ).textContent = "";
-
-    }, 1200);
+            carregarPergunta();
+        },
+        1200
+    );
 }
 
 
-// ATUALIZAR STATUS
+// ==========================================
+// ATUALIZAR PONTOS E VIDAS
+// ==========================================
 
 function atualizarStatus() {
     const elementoPontos =
@@ -228,107 +266,22 @@ function atualizarStatus() {
         document.getElementById("vidas");
 
     if (elementoPontos) {
-        elementoPontos.innerHTML = pontos;
+        elementoPontos.textContent =
+            pontos;
     }
 
     if (elementoVidas) {
-        elementoVidas.innerHTML = vidas;
+        elementoVidas.textContent =
+            vidas;
     }
 }
 
 
-// FINALIZAR JOGO
+// ==========================================
+// ANALISAR RESULTADOS
+// ==========================================
 
-function finalizarJogo() {
-    const quiz =
-        document.querySelector(".quiz-box");
-
-    if (!quiz) {
-        return;
-    }
-
-    quiz.innerHTML = `
-        <h2>🏆 Missão concluída!</h2>
-
-        <br>
-
-        <h3>Pontuação final: ${pontos}</h3>
-
-        <br>
-
-        <button
-            type="button"
-            onclick="reiniciarJogo()"
-        >
-            🔄 Jogar novamente
-        </button>
-    `;
-}
-
-
-// FIM DE JOGO
-
-function fimDeJogo() {
-    const quiz =
-        document.querySelector(".quiz-box");
-
-    if (!quiz) {
-        return;
-    }
-
-    quiz.innerHTML = `
-        <h2>💀 Game Over</h2>
-
-        <br>
-
-        <h3>Você perdeu todas as vidas!</h3>
-
-        <br>
-
-        <button
-            type="button"
-            onclick="reiniciarJogo()"
-        >
-            🔄 Tentar novamente
-        </button>
-    `;
-}
-
-
-// REINICIAR
-
-function reiniciarJogo() {
-    perguntaAtual = 0;
-    pontos = 0;
-    vidas = 3;
-
-    window.location.reload();
-}
-
-
-// VOLTAR
-
-function voltarPagina() {
-    window.history.back();
-}
-
-
-// INICIAR O JOGO
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-        carregarPergunta();
-        atualizarStatus();
-    }
-);
-
-
-function voltarPagina() {
-    window.history.back();
-}   
-
-function analisarDificuldades() {
+function analisarResultados() {
     const desempenho = {};
 
     resultadosDoTeste.forEach(
@@ -361,17 +314,14 @@ function analisarDificuldades() {
             const dados =
                 desempenho[topico];
 
-            const percentual = Math.round(
+            dados.percentual = Math.round(
                 (
                     dados.acertos /
                     dados.total
                 ) * 100
             );
 
-            dados.percentual =
-                percentual;
-
-            if (percentual < 70) {
+            if (dados.percentual < 70) {
                 dificuldades.push(topico);
             }
         }
@@ -382,6 +332,92 @@ function analisarDificuldades() {
         dificuldades: dificuldades
     };
 }
+
+
+// ==========================================
+// SALVAR RESULTADO PARA O RELATÓRIO
+// ==========================================
+
+function salvarResultadoDoAluno(
+    percentual,
+    analise
+) {
+    let usuario = null;
+    let historico = [];
+
+    try {
+        usuario = JSON.parse(
+            localStorage.getItem(
+                "usuarioLogado"
+            )
+        );
+
+        historico = JSON.parse(
+            localStorage.getItem(
+                "resultadosPotenciacao"
+            )
+        ) || [];
+
+    } catch (erro) {
+        usuario = null;
+        historico = [];
+    }
+
+    const etapa =
+        Number(
+            sessionStorage.getItem(
+                "testeCursoAtual"
+            )
+        ) || 1;
+
+    historico.push({
+        usuarioId:
+            usuario?.uid ||
+            usuario?.id ||
+            null,
+
+        nome:
+            usuario?.nome ||
+            usuario?.displayName ||
+            "Aluno",
+
+        email:
+            usuario?.email ||
+            "",
+
+        etapa:
+            etapa,
+
+        pontuacao:
+            pontos,
+
+        percentual:
+            percentual,
+
+        respostas:
+            resultadosDoTeste,
+
+        desempenhoPorTopico:
+            analise.desempenho,
+
+        dificuldades:
+            analise.dificuldades,
+
+        realizadoEm:
+            new Date().toISOString()
+    });
+
+    localStorage.setItem(
+        "resultadosPotenciacao",
+        JSON.stringify(historico)
+    );
+}
+
+
+// ==========================================
+// LIBERAR PRÓXIMA AULA
+// ==========================================
+
 function salvarConclusaoDoTeste() {
     const CHAVE_CURSO =
         "progressoCursoPotenciacao";
@@ -437,11 +473,20 @@ function salvarConclusaoDoTeste() {
         progresso.concluidas.push(etapa);
     }
 
+    progresso.concluidas.sort(
+        function (a, b) {
+            return a - b;
+        }
+    );
+
     progresso.etapaLiberada =
         Math.min(
             4,
             Math.max(
-                progresso.etapaLiberada,
+                Number(
+                    progresso.etapaLiberada
+                ) || 1,
+
                 etapa + 1
             )
         );
@@ -450,13 +495,14 @@ function salvarConclusaoDoTeste() {
         CHAVE_CURSO,
         JSON.stringify(progresso)
     );
-
-    return etapa;
 }
-function finalizarAvaliacao(completou) {
-    const analise =
-        analisarDificuldades();
 
+
+// ==========================================
+// FINALIZAR AVALIAÇÃO
+// ==========================================
+
+function finalizarAvaliacao() {
     const acertos =
         resultadosDoTeste.filter(
             function (resultado) {
@@ -472,7 +518,10 @@ function finalizarAvaliacao(completou) {
     );
 
     const aprovado =
-        completou && percentual >= 70;
+        percentual >= 70;
+
+    const analise =
+        analisarResultados();
 
     salvarResultadoDoAluno(
         percentual,
@@ -482,137 +531,165 @@ function finalizarAvaliacao(completou) {
     if (aprovado) {
         salvarConclusaoDoTeste();
 
+        mostrarResultadoAprovado(
+            acertos,
+            percentual
+        );
+
+    } else {
+        mostrarResultadoParaRevisao(
+            acertos,
+            percentual
+        );
+    }
+}
+
+
+// ==========================================
+// RESULTADO APROVADO
+// ==========================================
+
+function mostrarResultadoAprovado(
+    acertos,
+    percentual
+) {
+    const mensagem =
+        "Você acertou " +
+        acertos +
+        " de " +
+        perguntas.length +
+        " questões.";
+
+    if (typeof Swal !== "undefined") {
         Swal.fire({
             icon: "success",
-            title: "Teste concluído!",
-            html:
-                montarRelatorio(
-                    percentual,
-                    analise
-                ),
+            title: "Etapa concluída!",
+            text: mensagem,
             confirmButtonText:
                 "Ir para a próxima aula",
             confirmButtonColor:
-                "#1d3557"
+                "#1d3557",
+
+            allowOutsideClick:
+                false
         }).then(function () {
-            window.location.href =
-                "potenciacao.html";
+            voltarParaCurso();
         });
 
-    } else {
+        return;
+    }
+
+    alert(
+        "Etapa concluída!\n\n" +
+        mensagem
+    );
+
+    voltarParaCurso();
+}
+
+
+// ==========================================
+// RESULTADO PARA REVISÃO
+// ==========================================
+
+function mostrarResultadoParaRevisao(
+    acertos,
+    percentual
+) {
+    const mensagem =
+        "Você acertou " +
+        acertos +
+        " de " +
+        perguntas.length +
+        " questões (" +
+        percentual +
+        "%). Reveja a aula e tente novamente.";
+
+    if (typeof Swal !== "undefined") {
         Swal.fire({
             icon: "warning",
             title: "Vamos revisar?",
-            html:
-                montarRelatorio(
-                    percentual,
-                    analise
-                ),
+            text: mensagem,
+
             showCancelButton: true,
+
             confirmButtonText:
                 "Tentar novamente",
+
             cancelButtonText:
                 "Voltar ao curso",
+
             confirmButtonColor:
-                "#1d3557"
+                "#1d3557",
+
+            cancelButtonColor:
+                "#5fa8d3"
         }).then(function (resultado) {
             if (resultado.isConfirmed) {
-                window.location.reload();
+                reiniciarJogo();
             } else {
-                window.location.href =
-                    "potenciacao.html";
+                voltarParaCurso();
             }
         });
-    }
-}
-function montarRelatorio(
-    percentual,
-    analise
-) {
-    let html =
-        "<p><strong>Desempenho: " +
-        percentual +
-        "%</strong></p>";
 
-    if (
-        analise.dificuldades.length === 0
-    ) {
-        html +=
-            "<p>Você demonstrou bom domínio dos conteúdos avaliados.</p>";
+        return;
+    }
+
+    const tentarNovamente =
+        confirm(mensagem);
+
+    if (tentarNovamente) {
+        reiniciarJogo();
     } else {
-        html +=
-            "<p>Recomendamos revisar:</p><ul>";
-
-        analise.dificuldades.forEach(
-            function (topico) {
-                html +=
-                    "<li>" +
-                    topico +
-                    "</li>";
-            }
-        );
-
-        html += "</ul>";
+        voltarParaCurso();
     }
-
-    return html;
 }
-function salvarResultadoDoAluno(
-    percentual,
-    analise
-) {
-    const usuario = JSON.parse(
-        localStorage.getItem(
-            "usuarioLogado"
-        )
+
+
+// ==========================================
+// REINICIAR
+// ==========================================
+
+function reiniciarJogo() {
+    perguntaAtual = 0;
+    pontos = 0;
+    vidas = 3;
+    respostaBloqueada = false;
+    resultadosDoTeste = [];
+
+    atualizarStatus();
+    carregarPergunta();
+}
+
+
+// ==========================================
+// VOLTAR AO CURSO
+// ==========================================
+
+function voltarParaCurso() {
+    sessionStorage.removeItem(
+        "testeCursoAtual"
     );
 
-    const historico = JSON.parse(
-        localStorage.getItem(
-            "resultadosPotenciacao"
-        )
-    ) || [];
-
-    historico.push({
-        usuarioId:
-            usuario?.uid ||
-            usuario?.id ||
-            null,
-
-        nome:
-            usuario?.nome ||
-            usuario?.displayName ||
-            "Aluno não identificado",
-
-        email:
-            usuario?.email ||
-            "",
-
-        etapa:
-            Number(
-                sessionStorage.getItem(
-                    "testeCursoAtual"
-                )
-            ) || 1,
-
-        pontuacao: pontos,
-        percentual: percentual,
-
-        respostas:
-            resultadosDoTeste,
-
-        desempenhoPorTopico:
-            analise.desempenho,
-
-        dificuldades:
-            analise.dificuldades,
-
-        realizadoEm:
-            new Date().toISOString()
-    });
-
-    localStorage.setItem(
-        "resultadosPotenciacao",
-        JSON.stringify(historico)
-    );
+    window.location.href =
+        "potenciacao.html";
 }
+
+
+function voltarPagina() {
+    window.location.href =
+        "potenciacao.html";
+}
+
+
+// ==========================================
+// INICIAR
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+        atualizarStatus();
+        carregarPergunta();
+    }
+);

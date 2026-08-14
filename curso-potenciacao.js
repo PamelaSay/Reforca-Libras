@@ -249,7 +249,7 @@ function videoIdValido(videoId) {
 
 function abrirVideoaula(numero, videoId) {
     const progresso = obterProgressoCurso();
-
+    prepararControlesDoVideo();
     if (numero > progresso.etapaLiberada) {
         mostrarMensagem(
             "Etapa bloqueada",
@@ -351,124 +351,78 @@ function abrirVideoaula(numero, videoId) {
 
 
 // ==========================================
-// PREPARAR CONTROLES
-// ==========================================
-
-function prepararControlesDoVideo() {
-    const botaoConcluir =
-        document.getElementById(
-            "concluirVideoaula"
-        );
-
-    const aviso =
-        document.querySelector(
-            ".aviso-videoaula"
-        );
-
-    if (botaoConcluir) {
-        botaoConcluir.disabled = true;
-
-        botaoConcluir.textContent =
-            "Assista até o final para continuar";
-    }
-
-    if (aviso) {
-        aviso.textContent =
-            "Assista ao vídeo até o final para liberar o teste de conhecimento.";
-    }
-}
-
-
-// ==========================================
 // VERIFICAR FINAL DO VÍDEO
 // ==========================================
-
 function verificarEstadoDoVideo(evento) {
     if (
-        evento.data !==
-        YT.PlayerState.ENDED
-    ) {
-        return;
-    }
-
-    if (etapaVideoAtual === null) {
-        return;
-    }
-
-    videoTerminou = true;
-
-    const botaoConcluir =
-        document.getElementById(
-            "concluirVideoaula"
-        );
-
-    const aviso =
-        document.querySelector(
-            ".aviso-videoaula"
-        );
-
-    if (botaoConcluir) {
-        botaoConcluir.disabled = false;
-
-        botaoConcluir.textContent =
-            "✓ Concluir aula e fazer verificação";
-
-        botaoConcluir.focus();
-    }
-
-    if (aviso) {
-        aviso.textContent =
-            "Videoaula assistida! Clique em concluir para abrir a verificação.";
-    }
-}
-
-
-// ==========================================
-// CONCLUIR VIDEOAULA
-// ==========================================
-
-function concluirVideoaula() {
-    if (
-        !videoTerminou ||
+        evento.data !== YT.PlayerState.ENDED ||
         etapaVideoAtual === null
     ) {
-        mostrarMensagem(
-            "Aula ainda não concluída",
-            "Assista ao vídeo até o final.",
-            "warning"
-        );
-
         return;
     }
 
-    const etapaConcluida =
-        etapaVideoAtual;
+    const etapaAssistida = etapaVideoAtual;
 
-    const teste =
+    const botaoTeste =
         document.querySelector(
             '.etapa-curso[data-etapa="' +
-            etapaConcluida +
+            etapaAssistida +
             '"] .btn-jogo'
         );
 
-    registrarAulaAssistida(
-        etapaConcluida
-    );
-
+    registrarAulaAssistida(etapaAssistida);
     fecharModalVideoaula();
 
-    mostrarMensagem(
-        "Videoaula concluída!",
-        "A verificação foi liberada.",
-        "success"
-    ).then(function () {
-        if (teste) {
-            teste.click();
-        }
-    });
+    if (typeof Swal !== "undefined") {
+        Swal.fire({
+            icon: "success",
+            title: "Videoaula concluída!",
+            text:
+                "Deseja fazer agora a verificação " +
+                "de conhecimento desta aula?",
+
+            showCancelButton: true,
+
+            confirmButtonText:
+                "Fazer verificação",
+
+            cancelButtonText:
+                "Fazer depois",
+
+            confirmButtonColor:
+                "#1d3557",
+
+            cancelButtonColor:
+                "#5fa8d3"
+        }).then(function (resultado) {
+            if (
+                resultado.isConfirmed &&
+                botaoTeste
+            ) {
+                botaoTeste.click();
+                return;
+            }
+
+            if (botaoTeste) {
+                botaoTeste.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+        });
+
+        return;
+    }
+
+    const continuar = confirm(
+        "Videoaula concluída!\n\n" +
+        "Deseja fazer agora a verificação?"
+    );
+
+    if (continuar && botaoTeste) {
+        botaoTeste.click();
+    }
 }
-
-
 // ==========================================
 // ERRO DO YOUTUBE
 // ==========================================
@@ -659,75 +613,6 @@ function configurarLinksDoCurso() {
 
 
 // ==========================================
-// CRIAR BOTÕES DO MODAL
-// ==========================================
-
-function criarControlesDoModal() {
-    const caixa =
-        document.querySelector(
-            ".videoaula-box"
-        );
-
-    if (!caixa) {
-        return;
-    }
-
-    if (
-        document.getElementById(
-            "concluirVideoaula"
-        )
-    ) {
-        return;
-    }
-
-    const controles =
-        document.createElement("div");
-
-    controles.className =
-        "videoaula-acoes";
-
-    controles.innerHTML = `
-        <button
-            type="button"
-            class="cancelar-videoaula"
-        >
-            Fechar e continuar depois
-        </button>
-
-        <button
-            type="button"
-            id="concluirVideoaula"
-            disabled
-        >
-            Assista até o final para continuar
-        </button>
-    `;
-
-    caixa.appendChild(controles);
-
-    const cancelar =
-        controles.querySelector(
-            ".cancelar-videoaula"
-        );
-
-    const concluir =
-        controles.querySelector(
-            "#concluirVideoaula"
-        );
-
-    cancelar.addEventListener(
-        "click",
-        fecharModalVideoaula
-    );
-
-    concluir.addEventListener(
-        "click",
-        concluirVideoaula
-    );
-}
-
-
-// ==========================================
 // REGISTRAR TESTE CONCLUÍDO
 // ==========================================
 
@@ -835,7 +720,6 @@ function voltarPagina() {
 document.addEventListener(
     "DOMContentLoaded",
     function () {
-        criarControlesDoModal();
         atualizarCursoNaTela();
         configurarLinksDoCurso();
         atualizarRelatorioPotenciacao();

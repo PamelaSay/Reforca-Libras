@@ -1,16 +1,12 @@
-/*
-    CSS exclusivo das páginas dos cursos.
-
-    No HTML, carregue nesta ordem:
-
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="conteudos.css">
-*/
-
-
 /* ==========================================
    CONFIGURAÇÕES DA PÁGINA
 ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 .pagina-curso {
     --curso-azul-claro: #cfefff;
@@ -22,6 +18,7 @@
 
     min-height: 100vh;
 
+    font-family: "Nunito", sans-serif;
     color: var(--curso-texto);
     background: #f7fbfd;
 }
@@ -33,33 +30,29 @@
 
 .pagina-curso .cabecalho-conteudo {
     position: relative;
-    min-height: 76px;
 
-    padding:
-        10px
-        max(
-            22px,
-            calc((100% - 1160px) / 2)
-        );
+    min-height: 76px;
 
     display: flex;
     align-items: center;
-    gap: 18px;
+
+    padding: 10px 22px;
 
     background: var(--curso-azul-escuro);
     color: var(--curso-branco);
 
     border-bottom:
-        3px solid
-        var(--curso-dourado);
+        3px solid var(--curso-dourado);
 }
 
 
-/* ==========================
+/* ==========================================
    BOTÃO VOLTAR
-========================== */
+========================================== */
 
-.pagina-curso .cabecalho-conteudo > .btn-voltar {
+.pagina-curso
+.cabecalho-conteudo
+> .btn-voltar {
     position: absolute;
 
     top: 50%;
@@ -73,59 +66,83 @@
     min-height: 40px;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     margin: 0;
     padding: 0;
 
-    background: transparent !important;
     border: 0 !important;
     border-radius: 50%;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
 
     cursor: pointer;
     z-index: 10;
 
     transition: transform 0.2s ease;
-    box-shadow: none !important;
 }
 
-.pagina-curso .cabecalho-conteudo > .btn-voltar > .btn-voltar-img {
+
+.pagina-curso
+.cabecalho-conteudo
+> .btn-voltar
+> .btn-voltar-img {
     display: block;
 
     width: 34px !important;
     height: 34px !important;
+
     min-width: 34px;
     min-height: 34px;
+
     max-width: 34px !important;
     max-height: 34px !important;
 
     margin: 0;
     padding: 0;
 
-    object-fit: contain;
     border: 0;
     border-radius: 0;
-}
 
-.pagina-curso .cabecalho-conteudo > .btn-voltar:hover {
-    transform: translateY(-50%) scale(1.08);
-    background: transparent !important;
-}
-
-.pagina-curso .cabecalho-conteudo > .btn-voltar:active {
-    transform: translateY(-50%) scale(0.95);
+    object-fit: contain;
 }
 
 
-/* IDENTIDADE */
+.pagina-curso
+.cabecalho-conteudo
+> .btn-voltar:hover {
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+    background:
+        transparent !important;
+}
+
+
+.pagina-curso
+.cabecalho-conteudo
+> .btn-voltar:active {
+    transform:
+        translateY(-50%)
+        scale(0.95);
+}
+
+
+/* ==========================================
+   LOGO
+========================================== */
 
 .pagina-curso .identidade {
     display: flex;
     align-items: center;
-    gap: 10px;
+
     margin-left: 52px;
 }
+
 
 .pagina-curso .identidade img {
     width: 46px;
@@ -134,89 +151,80 @@
     object-fit: contain;
 }
 
-.pagina-curso .identidade strong,
-.pagina-curso .identidade span {
-    display: block;
-}
 
-.pagina-curso .identidade strong {
-    font-size: 18px;
-}
-
-.pagina-curso .identidade span {
-    font-size: 12px;
-
-    opacity: 0.75;
-}
+/* ==========================================
+   TÍTULO CENTRAL DO CABEÇALHO
+========================================== */
 
 .pagina-curso .indicador {
     position: absolute;
+
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+
+    transform:
+        translate(-50%, -50%);
 
     width: max-content;
-    max-width: calc(100% - 150px);
+
+    max-width:
+        calc(100% - 150px);
 
     color: #ffec94;
 
-    font-size: clamp(13px, 2vw, 18px);
+    font-size:
+        clamp(13px, 2vw, 18px);
+
     font-weight: 900;
     text-align: center;
 }
 
 
 /* ==========================================
-   APRESENTAÇÃO DO CURSO
+   APRESENTAÇÃO
 ========================================== */
 
-.pagina-curso .apresentacao-conteudo {
-    padding: 48px 24px 42px;
+.pagina-curso
+.apresentacao-conteudo {
+    padding: 52px 20px;
 
     text-align: center;
 
     background:
         linear-gradient(
-            145deg,
+            135deg,
             #eaf8ff,
             var(--curso-azul-claro)
         );
 
     border-bottom:
-        1px solid
-        #b7dce9;
+        1px solid #cbdfe8;
 }
 
-.pagina-curso .categoria {
-    color: var(--curso-azul-escuro);
-
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-}
 
 .pagina-curso
 .apresentacao-conteudo h1 {
-    margin: 9px 0;
+    margin-bottom: 12px;
 
-    color: var(--curso-azul-escuro);
+    color:
+        var(--curso-azul-escuro);
 
     font-size:
-        clamp(
-            38px,
-            6vw,
-            62px
-        );
+        clamp(36px, 6vw, 62px);
+
+    font-weight: 900;
 }
+
 
 .pagina-curso
 .apresentacao-conteudo > p {
     max-width: 720px;
 
-    margin: 0 auto;
+    margin:
+        0 auto 28px;
 
     font-size: 17px;
-    line-height: 1.65;
+    line-height: 1.7;
 }
 
 
@@ -225,555 +233,97 @@
 ========================================== */
 
 .pagina-curso .painel-curso {
-    max-width: 680px;
+    max-width: 620px;
 
-    margin: 26px auto 0;
-    padding: 17px 20px;
+    margin: 0 auto;
+    padding: 20px;
 
     border:
         2px solid
         var(--curso-dourado);
 
-    border-radius: 20px;
+    border-radius: 22px;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.9
-        );
+        rgba(255, 255, 255, 0.96);
 
     box-shadow:
         0 8px 20px
-        rgba(
-            29,
-            53,
-            87,
-            0.1
-        );
+        rgba(29, 53, 87, 0.18);
+
+    text-align: left;
 }
+
 
 .pagina-curso
 .progresso-curso-texto {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 
-    color: var(--curso-azul-escuro);
+    margin-bottom: 9px;
 }
+
 
 .pagina-curso
 .progresso-curso-texto span {
-    font-size: 11px;
+    color:
+        var(--curso-azul-escuro);
+
+    font-size: 12px;
     font-weight: 900;
-    letter-spacing: 0.12em;
+    letter-spacing: 1px;
 }
+
 
 .pagina-curso
 .progresso-curso-texto strong {
-    font-size: 21px;
+    color:
+        var(--curso-azul-escuro);
+
+    font-size: 22px;
 }
 
 
-/* BARRA */
-
 .pagina-curso .barra-curso {
-    height: 13px;
-
-    margin: 8px 0 6px;
+    height: 18px;
 
     overflow: hidden;
 
     border-radius: 20px;
 
-    background: #d7e7ee;
+    background: #dce9ef;
 }
 
+
 .pagina-curso #barraCurso {
-    width: 0;
+    width: 0%;
     height: 100%;
 
-    border-radius: inherit;
+    border-radius: 20px;
 
     background:
         linear-gradient(
             90deg,
-            var(--curso-azul-medio),
-            var(--curso-azul-escuro)
+            var(--curso-dourado),
+            #fff0a6
         );
 
-    transition:
-        width 0.4s ease;
-}
-
-.pagina-curso
-.painel-curso p {
-    font-size: 12px;
+    transition: width 0.5s ease;
 }
 
 
-/* BOTÃO COMEÇAR/CONTINUAR */
+.pagina-curso #resumoCurso {
+    margin-top: 8px;
 
-.pagina-curso #btnContinuar {
-    width: auto;
+    color: #637582;
 
-    margin-top: 12px;
-    padding: 9px 18px;
-
-    border:
-        2px solid
-        var(--curso-dourado);
-
-    border-radius: 16px;
-
-    background:
-        var(--curso-azul-escuro);
-
-    color:
-        var(--curso-branco);
-
-    font-family:
-        'Nunito',
-        sans-serif;
-
-    font-size: 14px;
-    font-weight: 900;
-
-    cursor: pointer;
+    font-size: 13px;
 }
 
 
 /* ==========================================
-   SEÇÃO DA TRILHA
-========================================== */
-
-.pagina-curso .trilha-conteudo {
-    max-width: 1160px;
-
-    margin: 0 auto;
-    padding: 42px 24px 65px;
-}
-
-.pagina-curso .titulo-secao {
-    margin-bottom: 24px;
-
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-
-    gap: 25px;
-}
-
-.pagina-curso
-.titulo-secao span {
-    color: #397ca6;
-
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-}
-
-.pagina-curso
-.titulo-secao h2 {
-    margin-top: 4px;
-
-    color:
-        var(--curso-azul-escuro);
-
-    font-size: 32px;
-}
-
-.pagina-curso
-.titulo-secao p {
-    font-size: 14px;
-}
-
-.pagina-curso .lista-topicos {
-    display: grid;
-
-    gap: 15px;
-}
-
-
-/* ==========================================
-   CARDS DAS AULAS
-========================================== */
-
-.pagina-curso .topico {
-    position: relative;
-
-    overflow: hidden;
-
-    padding: 20px 22px;
-
-    display: grid;
-
-    grid-template-columns:
-        62px
-        1fr
-        auto;
-
-    align-items: center;
-
-    gap: 19px;
-
-    background:
-        var(--curso-branco);
-
-    border:
-        1px solid
-        #c9dde6;
-
-    border-left:
-        5px solid
-        var(--curso-azul-medio);
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 5px 16px
-        rgba(
-            29,
-            53,
-            87,
-            0.07
-        );
-
-    transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
-}
-
-.pagina-curso
-.topico:not(.bloqueada):hover {
-    transform:
-        translateY(-3px);
-}
-
-
-/* NÚMERO DA AULA */
-
-.pagina-curso .numero-topico {
-    width: 54px;
-    height: 54px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 15px;
-
-    background:
-        var(--curso-azul-claro);
-
-    color:
-        var(--curso-azul-escuro);
-
-    font-weight: 900;
-}
-
-
-/* DESCRIÇÃO */
-
-.pagina-curso .situacao {
-    display: inline-block;
-
-    margin-bottom: 3px;
-
-    color: #397ca6;
-
-    font-size: 9px;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-}
-
-.pagina-curso
-.descricao-topico h3 {
-    margin-bottom: 5px;
-
-    color:
-        var(--curso-azul-escuro);
-
-    font-size: 20px;
-}
-
-.pagina-curso
-.descricao-topico p {
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-
-/* ==========================================
-   BOTÕES DA AULA E DO JOGO
-========================================== */
-
-.pagina-curso .acoes-topico {
-    display: flex;
-
-    gap: 10px;
-}
-
-.pagina-curso
-.acoes-topico a {
-    min-width: 184px;
-
-    padding: 11px 14px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
-
-    border-radius: 13px;
-
-    font-size: 14px;
-    font-weight: 900;
-    text-decoration: none;
-}
-
-.pagina-curso
-.acoes-topico small {
-    display: block;
-
-    font-size: 9px;
-    letter-spacing: 0.1em;
-
-    opacity: 0.65;
-}
-
-.pagina-curso .icone {
-    font-size: 19px;
-}
-
-
-/* BOTÃO VIDEOAULA */
-
-.pagina-curso .btn-aula {
-    border:
-        1px solid
-        #93c6db;
-
-    background:
-        #edf9ff;
-
-    color:
-        var(--curso-azul-escuro);
-}
-
-
-/* BOTÃO JOGO */
-
-.pagina-curso .btn-jogo {
-    border:
-        1px solid
-        var(--curso-dourado);
-
-    background:
-        var(--curso-azul-escuro);
-
-    color:
-        var(--curso-branco);
-}
-
-.pagina-curso
-.acoes-topico a:hover {
-    transform:
-        translateY(-2px);
-}
-
-
-/* ==========================================
-   ESTADOS DO CURSO
-========================================== */
-
-/* CONCLUÍDA */
-
-.pagina-curso
-.topico.concluida {
-    border-left-color:
-        #2e9b62;
-}
-
-.pagina-curso
-.topico.concluida
-.numero-topico {
-    background: #dff6e9;
-    color: #187445;
-}
-
-
-/* BLOQUEADA */
-
-.pagina-curso
-.topico.bloqueada {
-    opacity: 0.62;
-}
-
-.pagina-curso
-.topico.bloqueada::after {
-    content:
-        "🔒 Conclua o teste anterior para liberar";
-
-    position: absolute;
-    inset: 0;
-
-    display: grid;
-    place-items: center;
-
-    padding: 20px;
-
-    background:
-        rgba(
-            247,
-            251,
-            253,
-            0.88
-        );
-
-    color:
-        var(--curso-azul-escuro);
-
-    font-weight: 900;
-    text-align: center;
-}
-/* ==========================================
-   MODAL DA VIDEOAULA
-========================================== */
-
-.pagina-curso .modal-videoaula {
-    position: fixed;
-    inset: 0;
-
-    display: none;
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    background: rgba(8, 25, 43, 0.82);
-
-    z-index: 9999;
-}
-
-.pagina-curso .modal-videoaula.aberto {
-    display: flex;
-}
-
-.pagina-curso .videoaula-box {
-    width: min(900px, 100%);
-    max-height: 95vh;
-
-    overflow-y: auto;
-
-    border: 2px solid var(--curso-dourado);
-    border-radius: 25px;
-
-    background: var(--curso-branco);
-
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-}
-
-.pagina-curso .videoaula-topo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 16px 20px;
-
-    border-bottom: 2px solid var(--curso-dourado);
-
-    background: var(--curso-azul-escuro);
-    color: var(--curso-branco);
-}
-
-.pagina-curso .videoaula-topo span {
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 1px;
-
-    color: var(--curso-dourado);
-}
-
-.pagina-curso .videoaula-topo h2 {
-    margin: 3px 0 0;
-
-    font-size: 22px;
-}
-
-.pagina-curso .fechar-videoaula {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-
-    padding: 0;
-
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-
-    background: transparent;
-    color: var(--curso-branco);
-
-    font-size: 30px;
-    line-height: 1;
-
-    cursor: pointer;
-}
-
-.pagina-curso .fechar-videoaula:hover {
-    border-color: var(--curso-dourado);
-    color: var(--curso-dourado);
-}
-
-.pagina-curso .videoaula-player {
-    position: relative;
-
-    width: 100%;
-    aspect-ratio: 16 / 9;
-
-    background: #000000;
-}
-
-.pagina-curso #playerVideoaula,
-.pagina-curso #playerVideoaula iframe {
-    display: block;
-
-    width: 100%;
-    height: 100%;
-}
-
-.pagina-curso .aviso-videoaula {
-    padding: 14px 20px;
-
-    color: var(--curso-azul-escuro);
-
-    font-weight: 700;
-    text-align: center;
-}
-
-
-/* ==========================================
-   RODAPÉ
-========================================== */
-
-.pagina-curso > footer {
-    padding: 20px;
-
-    text-align: center;
-
-    background:
-        var(--curso-azul-escuro);
-
-    color:
-        var(--curso-branco);
-
-    border-top:
-        2px solid
-        var(--curso-dourado);
-}
-
-/* ==========================================
-   ÁREA DO CURSO E RELATÓRIO
+   ÁREA DO CURSO
 ========================================== */
 
 .pagina-curso .area-curso {
@@ -793,7 +343,9 @@
 }
 
 
-/* Remove espaçamentos duplicados da trilha */
+/* ==========================================
+   TRILHA
+========================================== */
 
 .pagina-curso
 .area-curso
@@ -803,6 +355,314 @@
 
     margin: 0;
     padding: 0;
+}
+
+
+.pagina-curso .titulo-secao {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+}
+
+
+.pagina-curso
+.titulo-secao > div > span {
+    color:
+        var(--curso-azul-medio);
+
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+
+.pagina-curso
+.titulo-secao h2 {
+    margin-top: 4px;
+
+    color:
+        var(--curso-azul-escuro);
+
+    font-size:
+        clamp(24px, 3vw, 34px);
+}
+
+
+.pagina-curso
+.titulo-secao > p {
+    max-width: 300px;
+
+    color: #637582;
+
+    font-size: 13px;
+    text-align: right;
+}
+
+
+/* ==========================================
+   CARDS DAS AULAS
+========================================== */
+
+.pagina-curso .lista-topicos {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.pagina-curso .topico {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        55px
+        minmax(0, 1fr);
+
+    gap: 18px;
+
+    padding: 21px;
+
+    border:
+        2px solid #d5e6ed;
+
+    border-radius: 23px;
+
+    background:
+        var(--curso-branco);
+
+    box-shadow:
+        0 8px 20px
+        rgba(29, 53, 87, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.pagina-curso
+.topico:not(.bloqueada):hover {
+    transform: translateY(-3px);
+}
+
+
+.pagina-curso .numero-topico {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        2px solid
+        var(--curso-dourado);
+
+    border-radius: 50%;
+
+    background:
+        var(--curso-azul-escuro);
+
+    color:
+        var(--curso-branco);
+
+    font-size: 17px;
+    font-weight: 900;
+}
+
+
+.pagina-curso
+.descricao-topico .situacao {
+    display: inline-block;
+
+    margin-bottom: 5px;
+
+    color:
+        var(--curso-azul-medio);
+
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+
+.pagina-curso
+.descricao-topico h3 {
+    margin-bottom: 7px;
+
+    color:
+        var(--curso-azul-escuro);
+
+    font-size: 21px;
+}
+
+
+.pagina-curso
+.descricao-topico p {
+    color: #637582;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* ==========================================
+   BOTÕES DOS CARDS
+========================================== */
+
+.pagina-curso .acoes-topico {
+    grid-column: 1 / -1;
+
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 4px;
+}
+
+
+.pagina-curso
+.acoes-topico a {
+    min-width: 190px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 11px 14px;
+
+    border-radius: 18px;
+
+    font-size: 13px;
+    font-weight: 900;
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.pagina-curso
+.acoes-topico small {
+    display: block;
+
+    margin-bottom: 2px;
+
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+
+.pagina-curso
+.acoes-topico .icone {
+    font-size: 20px;
+}
+
+
+.pagina-curso .btn-aula {
+    border:
+        1px solid #93c6db;
+
+    background:
+        var(--curso-azul-claro);
+
+    color:
+        var(--curso-azul-escuro);
+}
+
+
+.pagina-curso .btn-jogo {
+    border:
+        1px solid
+        var(--curso-dourado);
+
+    background:
+        var(--curso-azul-escuro);
+
+    color:
+        var(--curso-branco);
+}
+
+
+.pagina-curso
+.acoes-topico a:hover {
+    transform:
+        translateY(-2px);
+}
+
+
+/* ==========================================
+   CARD CONCLUÍDO
+========================================== */
+
+.pagina-curso .topico.concluida {
+    border-color: #60a875;
+
+    background: #f3fbf5;
+}
+
+
+.pagina-curso
+.topico.concluida
+.numero-topico {
+    border-color: #60a875;
+
+    background: #327c49;
+}
+
+
+.pagina-curso
+.topico.concluida
+.situacao {
+    color: #327c49;
+}
+
+
+/* ==========================================
+   CARD BLOQUEADO
+========================================== */
+
+.pagina-curso .topico.bloqueada {
+    opacity: 0.62;
+}
+
+
+.pagina-curso
+.topico.bloqueada::after {
+    content:
+        "🔒 Conclua o teste anterior para liberar";
+
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    border-radius: 21px;
+
+    background:
+        rgba(247, 251, 253, 0.88);
+
+    color:
+        var(--curso-azul-escuro);
+
+    font-weight: 900;
+    text-align: center;
+
+    z-index: 5;
 }
 
 
@@ -816,7 +676,8 @@
 
     overflow: hidden;
 
-    border: 2px solid
+    border:
+        2px solid
         var(--curso-dourado);
 
     border-radius: 25px;
@@ -830,7 +691,8 @@
 }
 
 
-.pagina-curso .relatorio-cabecalho {
+.pagina-curso
+.relatorio-cabecalho {
     padding: 22px;
 
     background:
@@ -875,6 +737,7 @@
 .pagina-curso .relatorio-geral {
     display: flex;
     align-items: center;
+
     gap: 17px;
 
     padding: 22px;
@@ -906,8 +769,9 @@
         ),
         conic-gradient(
             var(--curso-dourado)
-            calc(var(--desempenho) * 1%),
-
+            calc(
+                var(--desempenho) * 1%
+            ),
             #dce9ef 0
         );
 }
@@ -1116,7 +980,7 @@
 
 
 /* ==========================================
-   CONCLUSÃO
+   CONCLUSÃO DA TRILHA
 ========================================== */
 
 .pagina-curso
@@ -1157,7 +1021,8 @@
 .conclusao-potenciacao button {
     padding: 10px 17px;
 
-    border: 2px solid
+    border:
+        2px solid
         var(--curso-dourado);
 
     border-radius: 18px;
@@ -1168,7 +1033,8 @@
     color:
         var(--curso-azul-escuro);
 
-    font: 900 13px
+    font:
+        900 13px
         "Nunito",
         sans-serif;
 
@@ -1177,7 +1043,190 @@
 
 
 /* ==========================================
-   RESPONSIVO
+   MODAL DA VIDEOAULA
+========================================== */
+
+.pagina-curso .modal-videoaula {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(8, 25, 43, 0.82);
+
+    z-index: 9999;
+}
+
+
+.pagina-curso
+.modal-videoaula.aberto {
+    display: flex;
+}
+
+
+.pagina-curso .videoaula-box {
+    width:
+        min(900px, 100%);
+
+    max-height: 95vh;
+
+    overflow-y: auto;
+
+    border:
+        2px solid
+        var(--curso-dourado);
+
+    border-radius: 25px;
+
+    background:
+        var(--curso-branco);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.45);
+}
+
+
+.pagina-curso
+.videoaula-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 20px;
+
+    border-bottom:
+        2px solid
+        var(--curso-dourado);
+
+    background:
+        var(--curso-azul-escuro);
+
+    color:
+        var(--curso-branco);
+}
+
+
+.pagina-curso
+.videoaula-topo span {
+    color:
+        var(--curso-dourado);
+
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+
+.pagina-curso
+.videoaula-topo h2 {
+    margin-top: 3px;
+
+    font-size: 22px;
+}
+
+
+.pagina-curso
+.fechar-videoaula {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+
+    padding: 0;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.5);
+
+    border-radius: 50%;
+
+    background:
+        transparent;
+
+    color:
+        var(--curso-branco);
+
+    font-size: 30px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.pagina-curso
+.fechar-videoaula:hover {
+    border-color:
+        var(--curso-dourado);
+
+    color:
+        var(--curso-dourado);
+}
+
+
+.pagina-curso
+.videoaula-player {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    background: #000000;
+}
+
+
+.pagina-curso
+#playerVideoaula,
+.pagina-curso
+#playerVideoaula iframe {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+.pagina-curso
+.aviso-videoaula {
+    padding: 14px 20px;
+
+    color:
+        var(--curso-azul-escuro);
+
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+}
+
+
+/* ==========================================
+   RODAPÉ
+========================================== */
+
+.pagina-curso > footer {
+    padding: 20px;
+
+    text-align: center;
+
+    background:
+        var(--curso-azul-escuro);
+
+    color:
+        var(--curso-branco);
+
+    border-top:
+        2px solid
+        var(--curso-dourado);
+}
+
+
+/* ==========================================
+   TABLETS
 ========================================== */
 
 @media (max-width: 950px) {
@@ -1186,34 +1235,41 @@
         grid-template-columns: 1fr;
     }
 
-    .pagina-curso .relatorio-curso {
+    .pagina-curso
+    .relatorio-curso {
         position: static;
 
         width: 100%;
     }
 }
 
-/* ==========================================
-   TABLETS
-========================================== */
 
-@media (max-width: 850px) {
+@media (max-width: 780px) {
 
-    .pagina-curso .topico {
-        grid-template-columns:
-            55px
-            1fr;
+    .pagina-curso
+    .titulo-secao {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+    .pagina-curso
+    .titulo-secao > p {
+        max-width: none;
+
+        text-align: left;
     }
 
     .pagina-curso
     .acoes-topico {
-        grid-column:
-            1 / -1;
+        flex-direction: column;
     }
 
     .pagina-curso
     .acoes-topico a {
-        flex: 1;
+        width: 100%;
+        min-width: 0;
     }
 }
 
@@ -1226,35 +1282,53 @@
 
     .pagina-curso
     .cabecalho-conteudo {
-        padding: 10px 14px;
+        min-height: 66px;
+
+        padding: 8px 12px;
     }
 
-    .pagina-curso .identidade {
+    .pagina-curso
+    .cabecalho-conteudo
+    > .btn-voltar {
+        left: 12px;
+    }
+
+    .pagina-curso
+    .identidade {
         margin-left: auto;
     }
 
-    .pagina-curso .identidade img {
+    .pagina-curso
+    .identidade img {
         width: 38px;
         height: 38px;
     }
 
-    .pagina-curso .indicador {
+    .pagina-curso
+    .indicador {
         display: block;
-        max-width: calc(100% - 130px);
+
+        max-width:
+            calc(100% - 130px);
+
         font-size: 13px;
     }
 
     .pagina-curso
     .apresentacao-conteudo {
-        padding: 36px 18px;
+        padding: 36px 16px;
     }
 
     .pagina-curso
-    .titulo-secao {
-        align-items: flex-start;
-        flex-direction: column;
+    .apresentacao-conteudo > p {
+        font-size: 15px;
+    }
 
-        gap: 5px;
+    .pagina-curso
+    .area-curso {
+        padding: 28px 12px;
+
+        gap: 20px;
     }
 
     .pagina-curso .topico {
@@ -1262,43 +1336,48 @@
 
         grid-template-columns:
             44px
-            1fr;
+            minmax(0, 1fr);
+
+        gap: 12px;
     }
 
     .pagina-curso
     .numero-topico {
         width: 44px;
         height: 44px;
+
+        font-size: 14px;
     }
 
     .pagina-curso
-    .acoes-topico {
+    .descricao-topico h3 {
+        font-size: 18px;
+    }
+
+    .pagina-curso
+    .relatorio-geral {
         flex-direction: column;
+
+        text-align: center;
     }
 
     .pagina-curso
-    .acoes-topico a {
-        min-width: 0;
-    }
-}
-
-/* CELULAR */
-
-@media (max-width: 600px) {
-
-    .pagina-curso .modal-videoaula {
-        padding: 10px;
-    }
-
-    .pagina-curso .videoaula-box {
+    .videoaula-box {
         border-radius: 18px;
     }
 
-    .pagina-curso .videoaula-topo {
+    .pagina-curso
+    .videoaula-topo {
         padding: 12px 14px;
     }
 
-    .pagina-curso .videoaula-topo h2 {
+    .pagina-curso
+    .videoaula-topo h2 {
         font-size: 18px;
+    }
+
+    .pagina-curso
+    .modal-videoaula {
+        padding: 10px;
     }
 }
