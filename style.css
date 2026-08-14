@@ -778,58 +778,117 @@ body {
 /* ==========================================
    PERFIL COMPLETO DO ALUNO
 ========================================== */
+/* ==========================================
+   PERFIL DO ALUNO — COMPACTO
+========================================== */
 
-.perfil-painel {
+#modalPerfil {
+    padding: 15px;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0, 0, 0, 0.65);
+
+    z-index: 9999;
+}
+
+
+#modalPerfil .perfil-painel {
     position: relative;
 
-    width: min(960px, 94vw);
-    max-height: 92vh;
+    width: min(760px, 96%);
+    max-height: 88vh;
 
     overflow-y: auto;
 
     border: 2px solid gold;
-    border-radius: 28px;
+    border-radius: 23px;
 
     background: #f7fbfd;
+    color: #33475b;
 
     box-shadow:
-        0 20px 60px
-        rgba(0, 0, 0, 0.4);
+        0 15px 45px
+        rgba(0, 0, 0, 0.38);
 }
 
 
-.fechar-perfil {
+/* ==========================================
+   BOTÃO FECHAR
+========================================== */
+
+#modalPerfil .fechar-perfil {
     position: absolute;
 
-    top: 15px;
-    right: 18px;
+    top: 12px;
+    right: 14px;
 
-    z-index: 5;
+    width: 34px;
+    height: 34px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 0;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.55);
+
+    border-radius: 50%;
+
+    background: transparent;
     color: white;
+
+    font-size: 25px;
+    line-height: 1;
+
+    cursor: pointer;
+    z-index: 10;
 }
 
 
-/* CABEÇALHO */
+#modalPerfil .fechar-perfil:hover {
+    border-color: gold;
+    color: gold;
+}
 
-.perfil-cabecalho {
+
+/* ==========================================
+   CABEÇALHO
+========================================== */
+
+#modalPerfil .perfil-cabecalho {
     display: flex;
     align-items: center;
 
-    gap: 17px;
+    gap: 13px;
 
-    padding: 25px 30px;
+    padding:
+        17px
+        58px
+        17px
+        20px;
 
-    border-bottom: 3px solid gold;
+    border-bottom:
+        2px solid gold;
 
     background: #1d3557;
     color: white;
+
+    text-align: left;
 }
 
 
-.perfil-cabecalho .icone-usuario {
-    width: 70px;
-    height: 70px;
+#modalPerfil .icone-usuario {
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
@@ -840,57 +899,582 @@ body {
 
     background: white;
 
-    font-size: 35px;
+    font-size: 26px;
 }
 
 
+#modalPerfil .perfil-identificacao {
+    min-width: 0;
+}
+
+
+#modalPerfil
 .perfil-identificacao > span {
+    display: block;
+
+    margin: 0;
+
     color: gold;
 
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 900;
     letter-spacing: 1px;
 }
 
 
+#modalPerfil
 .perfil-identificacao h2 {
-    margin: 3px 0;
+    display: block;
 
-    font-size: 27px;
+    margin: 2px 0;
+
+    color: white;
+
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1.2;
 }
 
 
+#modalPerfil
 .perfil-identificacao p {
-    opacity: 0.85;
+    display: block;
 
-    font-size: 14px;
+    margin: 0;
+
+    overflow: hidden;
+
+    color: #e8f3f8;
+
+    font-size: 12px;
+    line-height: 1.3;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 
-/* RESUMO */
+/* ==========================================
+   CARDS DO RESUMO
+========================================== */
 
-.perfil-resumo {
+#modalPerfil .perfil-resumo {
     display: grid;
 
     grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+        repeat(4, 1fr);
 
-    gap: 13px;
+    gap: 8px;
 
-    padding: 22px 25px;
+    padding: 13px 16px;
 }
 
 
-.perfil-indicador {
+#modalPerfil .resumo-card {
+    min-width: 0;
+    min-height: 62px;
+
     display: flex;
     align-items: center;
 
-    gap: 11px;
+    gap: 7px;
 
-    padding: 15px;
+    padding: 9px;
 
     border:
+        1px solid #d5e6ed;
 
+    border-radius: 13px;
+
+    background: white;
+    color: #33475b;
+
+    text-align: left;
+}
+
+
+#modalPerfil .resumo-icone {
+    display: block;
+
+    flex-shrink: 0;
+
+    color: #1d3557;
+
+    font-size: 20px;
+}
+
+
+#modalPerfil
+.resumo-card div {
+    min-width: 0;
+}
+
+
+#modalPerfil
+.resumo-card strong {
+    display: block;
+
+    margin: 0;
+
+    color: #1d3557;
+
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+
+#modalPerfil
+.resumo-card div span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #637582;
+
+    font-size: 9px;
+    line-height: 1.2;
+}
+
+
+/* ==========================================
+   CONTEÚDO
+========================================== */
+
+#modalPerfil .perfil-conteudo {
+    display: grid;
+
+    grid-template-columns:
+        1.15fr 1fr;
+
+    align-items: start;
+
+    gap: 11px;
+
+    padding:
+        0
+        16px
+        13px;
+}
+
+
+#modalPerfil .perfil-secao {
+    min-width: 0;
+
+    padding: 14px;
+
+    border:
+        1px solid #d5e6ed;
+
+    border-radius: 16px;
+
+    background: white;
+    color: #33475b;
+
+    text-align: left;
+}
+
+
+#modalPerfil .perfil-titulo-secao {
+    margin-bottom: 11px;
+}
+
+
+#modalPerfil
+.perfil-titulo-secao span {
+    display: block;
+
+    margin: 0;
+
+    color: #5fa8d3;
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+
+#modalPerfil
+.perfil-titulo-secao h3 {
+    display: block;
+
+    margin: 2px 0 0;
+
+    color: #1d3557;
+
+    font-size: 16px;
+    font-weight: 900;
+}
+
+
+/* ==========================================
+   TRILHAS
+========================================== */
+
+#modalPerfil .curso-perfil {
+    margin-bottom: 9px;
+    padding: 11px;
+
+    border:
+        1px solid #d5e6ed;
+
+    border-radius: 13px;
+
+    background: #f7fbfd;
+    color: #33475b;
+}
+
+
+#modalPerfil
+.curso-perfil:last-child {
+    margin-bottom: 0;
+}
+
+
+#modalPerfil
+.curso-perfil-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+#modalPerfil
+.curso-perfil-topo > div {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+
+#modalPerfil .curso-icone {
+    display: block;
+
+    color: #1d3557;
+
+    font-size: 18px;
+}
+
+
+#modalPerfil
+.curso-perfil-topo strong {
+    display: block;
+
+    color: #1d3557;
+
+    font-size: 13px;
+    font-weight: 900;
+}
+
+
+#modalPerfil .curso-percentual {
+    display: block;
+
+    color: #1d3557;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+
+#modalPerfil .perfil-barra {
+    width: 100%;
+    height: 9px;
+
+    margin: 8px 0 5px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background: #dce9ef;
+}
+
+
+#modalPerfil
+.perfil-barra div {
+    height: 100%;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            gold,
+            #fff0a6
+        );
+
+    transition:
+        width 0.5s ease;
+}
+
+
+#modalPerfil .curso-perfil p {
+    display: block;
+
+    margin: 0 0 5px;
+
+    color: #637582;
+
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+
+#modalPerfil .curso-perfil a {
+    display: inline-block;
+
+    color: #1d3557;
+
+    font-size: 10px;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+
+#modalPerfil
+.curso-perfil a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==========================================
+   RECOMENDAÇÕES
+========================================== */
+
+#modalPerfil
+.perfil-recomendacoes {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+#modalPerfil
+.recomendacao-item {
+    padding: 9px;
+
+    border-left:
+        3px solid gold;
+
+    border-radius: 9px;
+
+    background: #fffbea;
+    color: #33475b;
+}
+
+
+#modalPerfil
+.recomendacao-item strong {
+    display: block;
+
+    margin: 0 0 2px;
+
+    color: #1d3557;
+
+    font-size: 11px;
+    font-weight: 900;
+}
+
+
+#modalPerfil
+.recomendacao-item p {
+    display: block;
+
+    margin: 0;
+
+    color: #637582;
+
+    font-size: 10px;
+    line-height: 1.35;
+}
+
+
+#modalPerfil
+.recomendacao-vazia {
+    padding: 12px;
+
+    color: #637582;
+
+    text-align: center;
+}
+
+
+#modalPerfil
+.recomendacao-vazia span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 21px;
+}
+
+
+#modalPerfil
+.recomendacao-vazia p {
+    display: block;
+
+    margin: 0;
+
+    color: #637582;
+
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+
+/* ==========================================
+   ÚLTIMA ATIVIDADE
+========================================== */
+
+#modalPerfil .ultima-atividade {
+    margin-top: 11px;
+    padding-top: 10px;
+
+    border-top:
+        1px solid #d5e6ed;
+}
+
+
+#modalPerfil
+.ultima-atividade h4 {
+    display: block;
+
+    margin: 0 0 4px;
+
+    color: #1d3557;
+
+    font-size: 12px;
+}
+
+
+#modalPerfil
+.ultima-atividade p {
+    display: block;
+
+    margin: 0;
+
+    color: #637582;
+
+    font-size: 10px;
+    line-height: 1.35;
+}
+
+
+/* ==========================================
+   BOTÕES
+========================================== */
+
+#modalPerfil .perfil-acoes {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    padding: 11px 16px;
+
+    border-top:
+        1px solid #d5e6ed;
+
+    background: white;
+}
+
+
+#modalPerfil
+.perfil-acoes button {
+    width: auto;
+    min-width: 110px;
+
+    margin: 0;
+    padding: 8px 13px;
+
+    border-radius: 14px;
+
+    font:
+        900 11px
+        "Nunito",
+        sans-serif;
+
+    cursor: pointer;
+}
+
+
+#modalPerfil .btn-excluir-conta {
+    border:
+        1px solid #d9534f;
+
+    background: white;
+
+    color: #b52d29;
+}
+
+
+#modalPerfil .btn-sair-perfil {
+    border:
+        2px solid gold;
+
+    background: #1d3557;
+
+    color: white;
+}
+
+
+/* ==========================================
+   RESPONSIVO
+========================================== */
+
+@media (max-width: 700px) {
+
+    #modalPerfil .perfil-painel {
+        width: 96%;
+        max-height: 94vh;
+    }
+
+    #modalPerfil .perfil-resumo {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    #modalPerfil .perfil-conteudo {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 420px) {
+
+    #modalPerfil {
+        padding: 7px;
+    }
+
+    #modalPerfil .perfil-resumo {
+        grid-template-columns: 1fr 1fr;
+
+        padding:
+            11px 10px;
+    }
+
+    #modalPerfil .perfil-conteudo {
+        padding:
+            0 10px 11px;
+    }
+
+    #modalPerfil .perfil-acoes {
+        flex-direction: column-reverse;
+
+        padding:
+            10px;
+    }
+
+    #modalPerfil
+    .perfil-acoes button {
+        width: 100%;
+    }
+}
 /* ==========================
    FOOTER
 ========================== */
