@@ -775,6 +775,121 @@ body {
     background: rgba(255, 215, 0, 0.4);
     margin: 15px auto 0 auto;
 }
+/* ==========================================
+   PERFIL COMPLETO DO ALUNO
+========================================== */
+
+.perfil-painel {
+    position: relative;
+
+    width: min(960px, 94vw);
+    max-height: 92vh;
+
+    overflow-y: auto;
+
+    border: 2px solid gold;
+    border-radius: 28px;
+
+    background: #f7fbfd;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.4);
+}
+
+
+.fechar-perfil {
+    position: absolute;
+
+    top: 15px;
+    right: 18px;
+
+    z-index: 5;
+
+    color: white;
+}
+
+
+/* CABEÇALHO */
+
+.perfil-cabecalho {
+    display: flex;
+    align-items: center;
+
+    gap: 17px;
+
+    padding: 25px 30px;
+
+    border-bottom: 3px solid gold;
+
+    background: #1d3557;
+    color: white;
+}
+
+
+.perfil-cabecalho .icone-usuario {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid gold;
+    border-radius: 50%;
+
+    background: white;
+
+    font-size: 35px;
+}
+
+
+.perfil-identificacao > span {
+    color: gold;
+
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+
+.perfil-identificacao h2 {
+    margin: 3px 0;
+
+    font-size: 27px;
+}
+
+
+.perfil-identificacao p {
+    opacity: 0.85;
+
+    font-size: 14px;
+}
+
+
+/* RESUMO */
+
+.perfil-resumo {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 13px;
+
+    padding: 22px 25px;
+}
+
+
+.perfil-indicador {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 15px;
+
+    border:
 
 /* ==========================
    FOOTER

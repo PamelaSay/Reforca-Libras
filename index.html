@@ -213,23 +213,333 @@
     </div>
 </div>
 
+<!-- PERFIL DO ALUNO -->
 
-<!-- PERFIL USUARIO -->
 <div id="modalPerfil" class="modal">
-    <div class="perfil-box">
-        <span class="fechar" id="fecharPerfil">&times;</span>
 
-        <div class="icone-usuario">👤</div>
-        <h2 id="nomeUsuario">Usuário</h2>
-        <h3>📈 Meu progresso</h3>
+    <div class="perfil-painel">
 
-        <p>Aulas concluídas: <span id="aulas">0</span></p>
-        <p>Jogos realizados: <span id="jogos">0</span></p>
-        <p>Pontuação: ⭐ <span id="pontos">0</span></p>
+        <button
+            type="button"
+            class="fechar fechar-perfil"
+            id="fecharPerfil"
+            aria-label="Fechar perfil"
+        >
+            &times;
+        </button>
 
-        <button class="excluir" onclick="excluirConta()">🗑 Excluir conta</button>
-        <button type="button" onclick="sair()">🚪 Sair</button>
+        <!-- IDENTIFICAÇÃO -->
+
+        <header class="perfil-cabecalho">
+
+            <div class="icone-usuario">
+                👤
+            </div>
+
+            <div class="perfil-identificacao">
+
+                <span>
+                    PERFIL DO ALUNO
+                </span>
+
+                <h2 id="nomeUsuario">
+                    Usuário
+                </h2>
+
+                <p id="emailUsuarioPerfil">
+                    E-mail não informado
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- RESUMO -->
+
+        <section class="perfil-resumo">
+
+            <article class="perfil-indicador">
+
+                <span class="perfil-indicador-icone">
+                    📚
+                </span>
+
+                <div>
+                    <strong id="perfilAulas">
+                        0
+                    </strong>
+
+                    <span>
+                        Aulas concluídas
+                    </span>
+                </div>
+
+            </article>
+
+
+            <article class="perfil-indicador">
+
+                <span class="perfil-indicador-icone">
+                    🎮
+                </span>
+
+                <div>
+                    <strong id="perfilTestes">
+                        0
+                    </strong>
+
+                    <span>
+                        Testes realizados
+                    </span>
+                </div>
+
+            </article>
+
+
+            <article class="perfil-indicador">
+
+                <span class="perfil-indicador-icone">
+                    📈
+                </span>
+
+                <div>
+                    <strong id="perfilMedia">
+                        0%
+                    </strong>
+
+                    <span>
+                        Média de acertos
+                    </span>
+                </div>
+
+            </article>
+
+
+            <article class="perfil-indicador">
+
+                <span class="perfil-indicador-icone">
+                    ⭐
+                </span>
+
+                <div>
+                    <strong id="perfilPontos">
+                        0
+                    </strong>
+
+                    <span>
+                        Pontuação
+                    </span>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- CONTEÚDO DO PERFIL -->
+
+        <div class="perfil-conteudo">
+
+            <!-- COLUNA ESQUERDA -->
+
+            <section class="perfil-secao">
+
+                <div class="perfil-titulo-secao">
+
+                    <div>
+                        <span>
+                            MINHAS TRILHAS
+                        </span>
+
+                        <h3>
+                            Andamento nos conteúdos
+                        </h3>
+                    </div>
+
+                </div>
+
+
+                <!-- POTENCIAÇÃO -->
+
+                <article class="perfil-curso">
+
+                    <div class="perfil-curso-topo">
+
+                        <div>
+                            <span class="perfil-curso-icone">
+                                ⚡
+                            </span>
+
+                            <strong>
+                                Potenciação
+                            </strong>
+                        </div>
+
+                        <span id="perfilPotenciacaoTexto">
+                            0 de 4 etapas
+                        </span>
+
+                    </div>
+
+                    <div class="perfil-barra">
+
+                        <div
+                            id="perfilPotenciacaoBarra"
+                            style="width: 0%"
+                        ></div>
+
+                    </div>
+
+                    <div class="perfil-curso-rodape">
+
+                        <span id="perfilPotenciacaoMedia">
+                            Sem resultados
+                        </span>
+
+                        <a href="potenciacao.html">
+                            Continuar →
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- RADICIAÇÃO -->
+
+                <article class="perfil-curso">
+
+                    <div class="perfil-curso-topo">
+
+                        <div>
+                            <span class="perfil-curso-icone">
+                                √
+                            </span>
+
+                            <strong>
+                                Radiciação
+                            </strong>
+                        </div>
+
+                        <span id="perfilRadiciacaoTexto">
+                            0 de 4 etapas
+                        </span>
+
+                    </div>
+
+                    <div class="perfil-barra">
+
+                        <div
+                            id="perfilRadiciacaoBarra"
+                            style="width: 0%"
+                        ></div>
+
+                    </div>
+
+                    <div class="perfil-curso-rodape">
+
+                        <span id="perfilRadiciacaoMedia">
+                            Sem resultados
+                        </span>
+
+                        <a href="radiciacao.html">
+                            Continuar →
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- COLUNA DIREITA -->
+
+            <section class="perfil-secao">
+
+                <div class="perfil-titulo-secao">
+
+                    <div>
+                        <span>
+                            DIAGNÓSTICO
+                        </span>
+
+                        <h3>
+                            Minha aprendizagem
+                        </h3>
+                    </div>
+
+                </div>
+
+
+                <div class="perfil-diagnostico">
+
+                    <article class="diagnostico-bloco dominio">
+
+                        <h4>
+                            ✅ Bom desempenho
+                        </h4>
+
+                        <div id="perfilPontosFortes">
+
+                            <p>
+                                Realize as verificações
+                                para visualizar seus resultados.
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="diagnostico-bloco revisar">
+
+                        <h4>
+                            💡 Preciso revisar
+                        </h4>
+
+                        <div id="perfilRecomendacoes">
+
+                            <p>
+                                Nenhuma recomendação disponível.
+                            </p>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- AÇÕES -->
+
+        <footer class="perfil-acoes">
+
+            <button
+                type="button"
+                class="perfil-btn-sair"
+                onclick="sair()"
+            >
+                🚪 Sair
+            </button>
+
+            <button
+                type="button"
+                class="excluir perfil-btn-excluir"
+                onclick="excluirConta()"
+            >
+                🗑 Excluir conta
+            </button>
+
+        </footer>
+
     </div>
+
 </div>
 
 </header>
