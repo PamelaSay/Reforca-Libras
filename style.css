@@ -151,8 +151,21 @@ body {
     position: relative;
     width: 100%;
 }
+.button .submenu{
+ display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #ffffff;
+    min-width: 170px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 6px 0;
+    z-index: 1001;
+    flex-direction: column;
+}
 
-.submenu .submenu-content {
+.submenu-content {
     display: none;
     position: absolute;
     top: 0;
