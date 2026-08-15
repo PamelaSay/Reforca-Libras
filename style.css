@@ -152,7 +152,7 @@ body {
     width: 100%;
 }
 
-.submenu-content {
+.submenu .submenu-content {
     display: none;
     position: absolute;
     top: 0;
