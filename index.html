@@ -28,31 +28,77 @@
             <a href="#">🏠 Início</a>
                 <!-- DROPDOWN DISCIPLINAS (Texto simples sem formato de botão) -->
                      <div class="dropdown">
-                        <button class="dropbtn">📚 Disciplinas
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                         <div class="dropdown-content">  <!-- MATEMÁTICA -->
-                             <button class="dropbtn"> Matemática
-                                 <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="submenu-content">
-                                <a href="potenciacao.html">Potenciação</a>
-                                <a href="radiciacao.html">Radiciação</a>
-                                <a href="matematica.html" class="ler-mais">➕ Ver todos os conteúdos</a>
-                            </div>
-                         </div>
-                         <div class="dropdown-content">  <!-- Biologia -->
-                             <button class="dropbtn"> Biologia
-                                 <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="submenu-content">
-                                <a href="biologia.html">Introdução à Biologia</a>
-                                <a href="ecologia.html">Ecologia</a>
-                                <a href="biologia.html" class="ler-mais">➕ Ver todos os conteúdos</a>
-                            </div>
-                        </div>
-                           
-                    </div>
+    <button type="button" class="dropbtn">
+        📚 Disciplinas ▼
+    </button>
+
+    <div class="dropdown-content">
+
+        <!-- MATEMÁTICA -->
+        <div class="submenu">
+            <button type="button" class="item-menu">
+                Matemática <span>▶</span>
+            </button>
+
+            <div class="submenu-content">
+                <a href="matematica.html?tema=potenciacao">
+                    Potenciação
+                </a>
+
+                <a href="matematica.html?tema=radiciacao">
+                    Radiciação
+                </a>
+
+                <a href="matematica.html" class="ler-mais">
+                    Ver todas as temáticas
+                </a>
+            </div>
+        </div>
+
+        <!-- BIOLOGIA -->
+        <div class="submenu">
+            <button type="button" class="item-menu">
+                Biologia <span>▶</span>
+            </button>
+
+            <div class="submenu-content">
+                <a href="biologia.html?tema=celulas">
+                    Células
+                </a>
+
+                <a href="biologia.html?tema=corpo-humano">
+                    Corpo humano
+                </a>
+
+                <a href="biologia.html" class="ler-mais">
+                    Ver todas as temáticas
+                </a>
+            </div>
+        </div>
+
+        <!-- QUÍMICA -->
+        <div class="submenu">
+            <button type="button" class="item-menu">
+                Química <span>▶</span>
+            </button>
+
+            <div class="submenu-content">
+                <a href="quimica.html?tema=atomos">
+                    Átomos
+                </a>
+
+                <a href="quimica.html?tema=tabela-periodica">
+                    Tabela periódica
+                </a>
+
+                <a href="quimica.html" class="ler-mais">
+                    Ver todas as temáticas
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
                                    
                                 
 
