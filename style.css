@@ -123,33 +123,37 @@ body {
 /* ==========================================
    MENU DISCIPLINAS EM COLUNA (DROPDOWN)
 ========================================== */
-/* MENU SUSPENSO PRINCIPAL */
-
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
+/* MENU QUE MOSTRA MATEMÁTICA E BIOLOGIA */
+
 .dropdown-content {
-    background: var(--dark-bg);
-    color: white;
-    border: 2px solid var(--gold-primary);
-    border-radius: 20px 60px;
-    padding: 12px 20px;
-    font-family: var(--font-main);
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.4s ease;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    min-width: 190px;
+    padding: 6px 0;
+
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    z-index: 1000;
+    flex-direction: column;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content {
     display: flex;
 }
 
 
-/* CADA DISCIPLINA */
+/* POSIÇÃO DE CADA DISCIPLINA */
 
 .submenu {
     position: relative;
@@ -157,10 +161,11 @@ body {
 }
 
 
-/* MATEMÁTICA, BIOLOGIA, POTENCIAÇÃO E RADICIAÇÃO */
+/* MESMA APARÊNCIA PARA TODOS OS BOTÕES */
 
-.dropdown-content a,
+.dropdown .dropbtn,
 .dropdown-content .item-menu,
+.dropdown-content a,
 .submenu-content a {
     display: flex;
     align-items: center;
@@ -187,15 +192,19 @@ body {
     transition: background-color 0.2s, color 0.2s;
 }
 
-.dropdown-content a:hover,
+
+/* HOVER IGUAL PARA TODOS */
+
+.dropdown .dropbtn:hover,
 .dropdown-content .item-menu:hover,
+.dropdown-content a:hover,
 .submenu-content a:hover {
     color: #007bff;
     background-color: #f0f4f8;
 }
 
 
-/* MENU DAS TEMÁTICAS */
+/* MENU QUE MOSTRA POTENCIAÇÃO E RADICIAÇÃO */
 
 .submenu-content {
     display: none;
@@ -203,7 +212,7 @@ body {
     top: 0;
     left: 100%;
 
-    min-width: 170px;
+    min-width: 190px;
     padding: 6px 0;
 
     background-color: #ffffff;
@@ -214,7 +223,8 @@ body {
     flex-direction: column;
 }
 
-.submenu:hover .submenu-content {
+.submenu:hover .submenu-content,
+.submenu:focus-within .submenu-content {
     display: flex;
 }
 
