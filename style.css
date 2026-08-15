@@ -124,7 +124,7 @@ body {
 /* ==========================================
    MENU DISCIPLINAS EM COLUNA (DROPDOWN)
 ========================================== */
-..dropdown {
+.dropdown {
     position: relative;
     display: inline-block;
 }
