@@ -128,7 +128,8 @@ body {
     display: inline-block;
 }
 
-/* MENU QUE MOSTRA MATEMÁTICA E BIOLOGIA */
+
+/* CAIXA QUE MOSTRA AS DISCIPLINAS */
 
 .dropdown-content {
     display: none;
@@ -136,7 +137,7 @@ body {
     top: 100%;
     left: 0;
 
-    min-width: 190px;
+    min-width: 170px;
     padding: 6px 0;
 
     background-color: #ffffff;
@@ -147,13 +148,16 @@ body {
     flex-direction: column;
 }
 
+
+/* ABRE O MENU DE DISCIPLINAS */
+
 .dropdown:hover .dropdown-content,
 .dropdown:focus-within .dropdown-content {
     display: flex;
 }
 
 
-/* POSIÇÃO DE CADA DISCIPLINA */
+/* MATEMÁTICA, BIOLOGIA E OUTRAS DISCIPLINAS */
 
 .submenu {
     position: relative;
@@ -161,50 +165,7 @@ body {
 }
 
 
-/* MESMA APARÊNCIA PARA TODOS OS BOTÕES */
-
-.dropdown .dropbtn,
-.dropdown-content .item-menu,
-.dropdown-content a,
-.submenu-content a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    width: 100%;
-    padding: 10px 16px;
-
-    color: #333333;
-    background-color: #ffffff;
-
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: left;
-    text-decoration: none;
-
-    border: none;
-    border-radius: 0;
-
-    cursor: pointer;
-    box-sizing: border-box;
-
-    transition: background-color 0.2s, color 0.2s;
-}
-
-
-/* HOVER IGUAL PARA TODOS */
-
-.dropdown .dropbtn:hover,
-.dropdown-content .item-menu:hover,
-.dropdown-content a:hover,
-.submenu-content a:hover {
-    color: #007bff;
-    background-color: #f0f4f8;
-}
-
-
-/* MENU QUE MOSTRA POTENCIAÇÃO E RADICIAÇÃO */
+/* CAIXA QUE MOSTRA AS TEMÁTICAS */
 
 .submenu-content {
     display: none;
@@ -212,7 +173,7 @@ body {
     top: 0;
     left: 100%;
 
-    min-width: 190px;
+    min-width: 170px;
     padding: 6px 0;
 
     background-color: #ffffff;
@@ -223,13 +184,62 @@ body {
     flex-direction: column;
 }
 
+
+/* ABRE O MENU DE TEMÁTICAS */
+
 .submenu:hover .submenu-content,
 .submenu:focus-within .submenu-content {
     display: flex;
 }
 
 
-/* VER TODAS AS TEMÁTICAS */
+/* MESMO CSS PARA TODOS OS BOTÕES E LINKS */
+
+.dropdown .dropbtn,
+.dropdown-content .item-menu,
+.dropdown-content button,
+.dropdown-content a,
+.submenu-content button,
+.submenu-content a {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+
+    color: #333333;
+    background-color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: normal;
+
+    text-align: left;
+    text-decoration: none;
+
+    border: none;
+    border-radius: 0;
+
+    box-sizing: border-box;
+    cursor: pointer;
+
+    transition: background-color 0.2s, color 0.2s;
+}
+
+
+/* MESMO HOVER PARA TODOS */
+
+.dropdown .dropbtn:hover,
+.dropdown-content .item-menu:hover,
+.dropdown-content button:hover,
+.dropdown-content a:hover,
+.submenu-content button:hover,
+.submenu-content a:hover {
+    color: #007bff;
+    background-color: #f0f4f8;
+}
+
+
+/* BOTÃO VER TODAS AS TEMÁTICAS */
 
 .submenu-content a.ler-mais {
     margin-top: 4px;
@@ -238,6 +248,9 @@ body {
     color: #007bff;
     border-top: 1px solid #eeeeee;
 }
+
+
+/* HOVER DO VER TODAS */
 
 .submenu-content a.ler-mais:hover {
     color: #0056b3;
