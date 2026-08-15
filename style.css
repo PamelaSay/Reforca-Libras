@@ -123,139 +123,86 @@ body {
 /* ==========================================
    MENU DISCIPLINAS EM COLUNA (DROPDOWN)
 ========================================== */
+
+/* ==========================================
+   MENU DISCIPLINAS EM COLUNA (DROPDOWN)
+========================================== */
 .dropdown {
     position: relative;
     display: inline-block;
 }
-
-
-/* CAIXA QUE MOSTRA AS DISCIPLINAS */
 
 .dropdown-content {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
-
-    min-width: 170px;
-    padding: 6px 0;
-
     background-color: #ffffff;
+    min-width: 170px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
+    padding: 6px 0;
     z-index: 1000;
     flex-direction: column;
 }
 
-
-/* ABRE O MENU DE DISCIPLINAS */
-
-.dropdown:hover .dropdown-content,
-.dropdown:focus-within .dropdown-content {
+.dropdown:hover .dropdown-content {
     display: flex;
 }
-
-
-/* MATEMÁTICA, BIOLOGIA E OUTRAS DISCIPLINAS */
 
 .submenu {
     position: relative;
     width: 100%;
 }
 
-
-/* CAIXA QUE MOSTRA AS TEMÁTICAS */
-
 .submenu-content {
     display: none;
     position: absolute;
     top: 0;
     left: 100%;
-
-    min-width: 170px;
-    padding: 6px 0;
-
     background-color: #ffffff;
+    min-width: 170px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
+    padding: 6px 0;
     z-index: 1001;
     flex-direction: column;
 }
 
-
-/* ABRE O MENU DE TEMÁTICAS */
-
-.submenu:hover .submenu-content,
-.submenu:focus-within .submenu-content {
+.submenu:hover .submenu-content {
     display: flex;
 }
 
-
-/* MESMO CSS PARA TODOS OS BOTÕES E LINKS */
-
-.dropdown .dropbtn,
-.dropdown-content .item-menu,
-.dropdown-content button,
-.dropdown-content a,
-.submenu-content button,
-.submenu-content a {
+.dropdown-content a {
     display: block;
     width: 100%;
     padding: 10px 16px;
-
     color: #333333;
-    background-color: #ffffff;
-
-    font-family: inherit;
     font-size: 14px;
     font-weight: bold;
-    line-height: normal;
-
-    text-align: left;
     text-decoration: none;
-
-    border: none;
-    border-radius: 0;
-
     box-sizing: border-box;
-    cursor: pointer;
-
-    transition: background-color 0.2s, color 0.2s;
+    text-align: left;
+    transition: background 0.2s, color 0.2s;
 }
 
-
-/* MESMO HOVER PARA TODOS */
-
-.dropdown .dropbtn:hover,
-.dropdown-content .item-menu:hover,
-.dropdown-content button:hover,
-.dropdown-content a:hover,
-.submenu-content button:hover,
-.submenu-content a:hover {
-    color: #007bff;
+.dropdown-content a:hover {
     background-color: #f0f4f8;
+    color: #007bff;
 }
-
-
-/* BOTÃO VER TODAS AS TEMÁTICAS */
 
 .submenu-content a.ler-mais {
-    margin-top: 4px;
-    padding-top: 10px;
-
     color: #007bff;
     border-top: 1px solid #eeeeee;
+    margin-top: 4px;
+    padding-top: 10px;
 }
-
-
-/* HOVER DO VER TODAS */
 
 .submenu-content a.ler-mais:hover {
-    color: #0056b3;
     background-color: #e6f0ff;
+    color: #0056b3;
 }
+
 
 /* ==========================
    HERO / BANNER PRINCIPAL
