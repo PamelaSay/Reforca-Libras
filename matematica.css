@@ -24,45 +24,71 @@ body {
 /* ==========================
    TOPO PADRÃO REFORÇA LIBRAS
 ========================== */
+/* ==========================
+   CABEÇALHO PADRÃO DO INDEX
+========================== */
 
-.topo {
-    position: relative;
+.menu.topo {
+    position: sticky;
+    top: 0;
 
     width: 100%;
-    min-height: 100px;
+    min-height: 96px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    gap: 18px;
+    padding: 12px 70px;
 
-    padding: 12px 80px;
-
-    background: var(--dark-bg);
+    background: #000000;
     color: white;
 
-    border-bottom: 2px solid var(--gold-primary);
+    border-bottom: 2px solid gold;
 
     box-shadow:
         0 3px 15px
         rgba(0, 0, 0, 0.4);
+
+    z-index: 999;
 }
 
-.topo .logo-topo {
+.cabecalho-interno {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+
+    width: 100%;
+    max-width: 1400px;
+}
+
+/* Logo com o mesmo tamanho do index */
+
+.menu.topo .logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu.topo .logo-area img {
     display: block;
 
     width: auto;
     height: 70px;
+    max-width: 180px;
+    max-height: 70px;
 
     object-fit: contain;
 }
 
-.topo h1 {
+.menu.topo h1 {
     margin: 0;
 
     color: white;
 
+    font-family: var(--font-main);
     font-size: clamp(30px, 4vw, 42px);
     font-weight: 900;
     text-align: center;
@@ -128,9 +154,6 @@ body {
         translateY(-50%)
         scale(0.95);
 }
-
-.titulo-cabecalho p { color: var(--gold-primary); font-weight: bold; }
-.titulo-cabecalho h1 { color: white; font-size: clamp(32px, 5vw, 48px); }
 
 main {
     width: 100%;
