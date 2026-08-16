@@ -1222,6 +1222,191 @@ window.addEventListener(
     }
 );
 
+async function registrarAcessoUsuario(
+    usuarioFirebase
+) {
+    if (!usuarioFirebase) {
+        return;
+    }
+
+    /*
+     * Impede que atualizar a página várias vezes
+     * conte como vários acessos na mesma sessão.
+     */
+
+    const chaveDaSessao =
+        "acessoRegistrado_" +
+        usuarioFirebase.uid;
+
+    if (
+        sessionStorage.getItem(
+            chaveDaSessao
+        )
+    ) {
+        return;
+    }
+
+    const referenciaUsuario =
+        db.collection("usuarios")
+            .doc(usuarioFirebase.uid);
+
+    try {
+        await referenciaUsuario.set(
+            {
+                email:
+                    usuarioFirebase.email ||
+                    "",
+
+                ultimoAcesso:
+                    firebase.firestore
+                        .FieldValue
+                        .serverTimestamp(),
+
+                quantidadeAcessos:
+                    firebase.firestore
+                        .FieldValue
+                        .increment(1)
+            },
+            {
+                merge: true
+            }
+        );
+
+        await referenciaUsuario
+            .collection("acessos")
+            .add(
+                {
+                    entrouEm:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp(),
+
+                    paginaInicial:
+                        window.location.pathname,
+
+                    dispositivo:
+                        navigator.userAgent
+                }
+            );
+
+        sessionStorage.setItem(
+            chaveDaSessao,
+            "true"
+        );
+
+    } catch (erro) {
+        console.error(
+            "Erro ao registrar acesso:",
+            erro
+        );
+    }
+}
+
+firebase.auth().onAuthStateChanged(
+    async function (usuarioFirebase) {
+        if (!usuarioFirebase) {
+            return;
+        }
+
+        await registrarAcessoUsuario(
+            usuarioFirebase
+        );
+    }
+);
+
+async function registrarVideoConcluido(
+    tematica,
+    etapa
+) {
+    const usuario =
+        firebase.auth().currentUser;
+
+    if (!usuario) {
+        return;
+    }
+
+    const atividade = {
+        tipo:
+            "video_concluido",
+
+        tematica:
+            tematica,
+
+        etapa:
+            etapa,
+
+        realizadoEm:
+            firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+    };
+
+    await db
+        .collection("usuarios")
+        .doc(usuario.uid)
+        .collection("atividades")
+        .add(atividade);
+}
+
+{
+    titulo:
+        "Introdução à Potenciação",
+
+    tematica:
+        "Potenciação",
+
+    etapa:
+        1,
+
+    acessos:
+        32,
+
+    conclusoes:
+        18,
+
+    link:
+        "potenciacao.html"
+}
+
+
+
+
+{
+    usuarioId:
+        "UID_DO_ALUNO",
+
+    conteudoId:
+        "potenciacao-aula-3",
+
+    tematica:
+        "Potenciação",
+
+    titulo:
+        "Casos especiais",
+
+    tipo:
+        "conteudo_acessado",
+
+    acessadoEm:
+        firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+}
+
+{
+    conteudoId:
+        "potenciacao-aula-3",
+
+    titulo:
+        "Casos especiais",
+
+    totalAcessos:
+        48
+}
+
+db.collection("conteudos")
+    .orderBy("acessosUltimos30Dias", "desc")
+    .limit(3);
 // ==========================================
 // disciplina suspenso
 // ==========================================
