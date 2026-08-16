@@ -320,6 +320,82 @@ main {
 .sem-resultados span { font-size: 45px; }
 .sem-resultados h3 { margin: 8px 0; color: var(--navy-dark); }
 
+/* ==========================================
+   BOTÃO VOLTAR
+========================================== */
+
+.topo > button.btn-voltar {
+    position: absolute !important;
+
+    top: 50% !important;
+    left: 0 !important;
+
+    transform: translateY(-50%) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 40px !important;
+    height: 40px !important;
+
+    min-width: 40px !important;
+    max-width: 40px !important;
+
+    min-height: 40px !important;
+    max-height: 40px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    overflow: hidden !important;
+
+    border: none !important;
+    border-radius: 50% !important;
+
+    background: transparent !important;
+
+    cursor: pointer !important;
+    z-index: 100 !important;
+
+    transition: transform 0.2s ease;
+}
+
+.topo > button.btn-voltar > img.imagem-voltar {
+    display: block !important;
+
+    width: 32px !important;
+    height: 32px !important;
+
+    min-width: 32px !important;
+    max-width: 32px !important;
+
+    min-height: 32px !important;
+    max-height: 32px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    object-fit: contain !important;
+}
+
+.topo > button.btn-voltar:hover {
+    transform:
+        translateY(-50%)
+        scale(1.08) !important;
+}
+
+.topo > button.btn-voltar:active {
+    transform:
+        translateY(-50%)
+        scale(0.95) !important;
+}
+
+
+
+
+
+
 footer {
     margin-top: 60px;
     padding: 25px;
