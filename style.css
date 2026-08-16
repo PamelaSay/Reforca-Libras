@@ -130,20 +130,20 @@ body {
 }
 
 .dropdown-content {
-    background: var(--dark-bg);
-    color: white;
-    border: 2px solid var(--gold-primary);
-    border-radius: 20px 60px;
-    padding: 12px 20px;
-    font-family: var(--font-main);
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.4s ease;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 210px;
+    padding: 10px 0;
+    flex-direction: column;
+    gap: 8px;
+    background: transparent;
+    z-index: 1000;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:hover > .dropdown-content,
+.dropdown:focus-within > .dropdown-content {
     display: flex;
 }
 
@@ -153,53 +153,29 @@ body {
 }
 
 .submenu-content {
-   background: var(--dark-bg);
-    color: white;
-    border: 2px solid var(--gold-primary);
-    border-radius: 20px 60px;
-    padding: 12px 20px;
-    font-family: var(--font-main);
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.4s ease;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 250px;
+    padding-left: 10px;
+    flex-direction: column;
+    gap: 8px;
+    background: transparent;
+    z-index: 1001;
 }
 
-.submenu:hover .submenu-content {
+.submenu:hover > .submenu-content,
+.submenu:focus-within > .submenu-content {
     display: flex;
 }
 
-.dropdown-content a {
-    background: var(--dark-bg);
-    color: white;
-    border: 2px solid var(--gold-primary);
-    border-radius: 20px 60px;
-    padding: 12px 20px;
-    font-family: var(--font-main);
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.4s ease;
-}
-
-.dropdown-content a:hover {
-    background-color: #f0f4f8;
-    color: #007bff;
-}
-
 .submenu-content a.ler-mais {
-    color: #007bff;
-    border-top: 1px solid #eeeeee;
-    margin-top: 4px;
-    padding-top: 10px;
+    color: white;
 }
 
-.submenu-content a.ler-mais:hover {
-    background-color: #e6f0ff;
-    color: #0056b3;
-}
+
+
 
 
 /* ==========================
@@ -713,11 +689,10 @@ body {
     font-size: 14px;
     margin-bottom: 12px;
 }
-
-./* ==========================
+/* ==========================
    COMENTÁRIOS E AVALIAÇÃO (CORRIGIDO)
 ========================== */
-.estrela {
+.estrela{
     font-size:80px;
     color: #ccc; /* Removido o !important daqui */
     cursor: pointer;
