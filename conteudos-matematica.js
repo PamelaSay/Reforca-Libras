@@ -9,8 +9,7 @@ const conteudosMatematica = [
       "Compreenda a raiz como operação inversa da potenciação e pratique seus principais conceitos.",
     icone: "√",
     data: "2026-08-01",
-    aula: "aulas/radiciacao.html",
-    atividade: "jogos/radiciacao.html",
+    aula: "radiciacao.html",
     categoria: "Números"
   },
   {
@@ -19,8 +18,7 @@ const conteudosMatematica = [
       "Aprenda a representar potências, identificar base e expoente e aplicar suas propriedades.",
     icone: "x²",
     data: "2026-07-01",
-    aula: "aulas/potenciacao.html",
-    atividade: "jogos/potencia.html",
+    aula: "potenciacao.html",
     categoria: "Números"
   }
 ];
@@ -56,7 +54,6 @@ function criarCard(conteudo, indice) {
     <div class="card-corpo">
       <div class="card-meta">
         <span>${conteudo.categoria}</span>
-        <span>Aula em Libras</span>
       </div>
 
       <h3>${conteudo.titulo}</h3>
