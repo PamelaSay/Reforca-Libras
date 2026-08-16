@@ -417,29 +417,31 @@ footer {
 
 @media (max-width: 700px) {
     @media (max-width: 700px) {
+@media (max-width: 700px) {
 
-    .topo {
-        min-height: 90px;
+    .menu.topo {
+        min-height: 86px;
+        padding: 10px 55px;
+    }
 
+    .cabecalho-interno {
         gap: 10px;
-
-        padding:
-            10px 55px
-            10px 65px;
     }
 
-    .topo .logo-topo {
+    .menu.topo .logo-area img {
+        width: auto;
         height: 58px;
+        max-height: 58px;
     }
 
-    .topo h1 {
-        font-size: 28px;
+    .menu.topo h1 {
+        font-size: 27px;
     }
 
     .topo .btn-voltar {
-        left: 15px;
+        left: 12px;
     }
-
+}
     main {
         padding:
             30px 15px
