@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conteúdos de Matemática em Libras do Reforça Libras.">
+  <title>Matemática | Reforça Libras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="matematica.css">
+</head>
+<body>
+  <header class="cabecalho">
+    <a class="voltar" href="index.html" aria-label="Voltar para a página inicial">← Voltar</a>
+    <div class="titulo-cabecalho">
+      <span class="icone-titulo" aria-hidden="true">∑</span>
+      <div>
+        <p>Reforça Libras</p>
+        <h1>Matemática</h1>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="apresentacao" aria-labelledby="titulo-conteudos">
+      <p class="etiqueta">APRENDA NO SEU RITMO</p>
+      <h2 id="titulo-conteudos">Todos os conteúdos de Matemática</h2>
+      <p>Escolha um tema para assistir à aula, revisar o conteúdo e praticar com atividades interativas.</p>
+    </section>
+
+    <section class="ferramentas" aria-label="Ferramentas para encontrar conteúdos">
+      <label class="campo-pesquisa" for="pesquisa-conteudo">
+        <span aria-hidden="true">⌕</span>
+        <input id="pesquisa-conteudo" type="search" placeholder="Pesquisar um conteúdo..." autocomplete="off">
+      </label>
+      <p id="quantidade-conteudos" aria-live="polite"></p>
+    </section>
+
+    <section id="lista-conteudos" class="grade-conteudos" aria-live="polite"></section>
+
+    <nav id="paginacao" class="pagination" aria-label="Paginação dos conteúdos"></nav>
+
+    <div id="sem-resultados" class="sem-resultados" hidden>
+      <span aria-hidden="true">🔎</span>
+      <h3>Nenhum conteúdo encontrado</h3>
+      <p>Tente pesquisar usando outra palavra.</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Reforça Libras - Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="conteudos-matematica.js"></script>
+</body>
+</html>
