@@ -251,73 +251,6 @@ main {
 
 
 
-.card-conteudo {
-    position: relative;
-    width: 330px;
-    min-height: 390px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: white;
-    border: 2px solid var(--gold-primary);
-    border-radius: 25px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    transition: transform 0.4s ease;
-}
-
-.card-conteudo:hover { transform: translateY(-10px); }
-
-.card-topo {
-    width: 100%;
-    height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--blue-soft);
-    color: var(--navy-dark);
-    border-bottom: 2px solid var(--gold-primary);
-    font-size: 62px;
-    font-weight: 900;
-}
-
-.card-corpo { flex: 1; display: flex; flex-direction: column; padding: 20px; }
-
-.card-meta {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    color: var(--blue-primary);
-    font-size: 11px;
-    font-weight: 900;
-    text-transform: uppercase;
-}
-
-.card-conteudo h3 { margin: 10px 0; color: var(--navy-dark); font-size: 23px; }
-.card-conteudo p { margin-bottom: 20px; color: #333; line-height: 1.5; }
-.card-acoes { display: flex; gap: 10px; margin-top: auto; }
-
-.botao-card {
-    flex: 1;
-    padding: 12px 8px;
-    background: var(--dark-bg);
-    color: white;
-    border: 2px solid var(--gold-primary);
-    border-radius: 20px 60px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    transition: all 0.4s ease;
-}
-
-.botao-card.secundario { background: white; color: black; }
-
-.botao-card:hover,
-.botao-card.secundario:hover {
-    transform: translateY(-5px);
-    background: var(--gold-hover-gradient);
-    color: black;
-}
-
 /* ==========================
    LISTA DE CONTEÚDOS
 ========================== */
@@ -614,10 +547,11 @@ footer {
     font-weight: bold;
 }
 
-@media (max-width: 700px) {
-    @media (max-width: 700px) {
-@media (max-width: 700px) {
+/* ==========================
+   RESPONSIVIDADE
+========================== */
 
+@media (max-width: 700px) {
     .menu.topo {
         min-height: 86px;
         padding: 10px 55px;
@@ -640,17 +574,14 @@ footer {
     .topo .btn-voltar {
         left: 12px;
     }
-}
+
     main {
-        padding:
-            30px 15px
-            10px;
+        padding: 30px 15px 10px;
     }
 
     .ferramentas {
         flex-direction: column;
         align-items: stretch;
-
         gap: 10px;
     }
 
@@ -662,47 +593,32 @@ footer {
         align-self: flex-start;
     }
 
-    
-
-    .card-conteudo {
-        width: min(100%, 330px);
-    }
-    @media (max-width: 700px) {
-
     .grade-conteudos {
+        width: 100%;
         max-width: 100%;
     }
 
     .card-conteudo {
         width: 100%;
-
-        grid-template-columns:
-            48px
-            minmax(0, 1fr);
-
+        grid-template-columns: 48px minmax(0, 1fr);
         gap: 13px;
-
         padding: 17px;
     }
 
     .card-topo {
         width: 48px;
         height: 48px;
-
         font-size: 19px;
     }
 
     .card-conteudo h3 {
         padding-right: 35px;
-
         font-size: 19px;
     }
 
     .card-acoes {
         grid-column: 1 / -1;
-
         flex-direction: column;
-
         padding-top: 8px;
     }
 
