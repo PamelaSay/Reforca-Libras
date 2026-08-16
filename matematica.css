@@ -249,15 +249,7 @@ main {
     white-space: nowrap;
 }
 
-.grade-conteudos {
-    max-width: 1150px;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
-    gap: 35px;
-}
+
 
 .card-conteudo {
     position: relative;
@@ -326,16 +318,223 @@ main {
     color: black;
 }
 
+/* ==========================
+   LISTA DE CONTEÚDOS
+========================== */
+
+.grade-conteudos {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+/* ==========================
+   CARDS — PADRÃO POTENCIAÇÃO
+========================== */
+
+.card-conteudo {
+    position: relative;
+
+    width: 100%;
+    min-height: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        55px
+        minmax(0, 1fr);
+
+    gap: 18px;
+
+    padding: 21px;
+
+    overflow: visible;
+
+    background: white;
+
+    border: 2px solid #d5e6ed;
+    border-radius: 23px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(29, 53, 87, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.card-conteudo:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 24px
+        rgba(29, 53, 87, 0.18);
+}
+
+
+/* CÍRCULO DO CONTEÚDO */
+
+.card-topo {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: var(--navy-dark);
+    color: white;
+
+    border: 2px solid var(--gold-primary);
+    border-radius: 50%;
+
+    font-size: 22px;
+    font-weight: 900;
+}
+
+
+/* CONTEÚDO DO CARD */
+
+.card-corpo {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 0;
+}
+
+.card-meta {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-bottom: 5px;
+
+    color: var(--blue-primary);
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.card-conteudo h3 {
+    margin: 0 0 7px;
+
+    color: var(--navy-dark);
+
+    font-size: 21px;
+    font-weight: 900;
+}
+
+.card-conteudo p {
+    margin: 0 0 16px;
+
+    color: #637582;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* ==========================
+   BOTÕES DOS CARDS
+========================== */
+
+.card-acoes {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.botao-card {
+    min-width: 190px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 14px;
+
+    background: var(--blue-soft);
+    color: var(--navy-dark);
+
+    border: 1px solid #93c6db;
+    border-radius: 18px;
+
+    font-family: var(--font-main);
+    font-size: 13px;
+    font-weight: 900;
+
+    text-align: center;
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.botao-card.secundario {
+    background: var(--navy-dark);
+    color: white;
+
+    border: 1px solid var(--gold-primary);
+}
+
+.botao-card:hover,
+.botao-card.secundario:hover {
+    transform: translateY(-2px);
+}
+
+.botao-card:hover {
+    background: #b8d9e8;
+    color: var(--navy-dark);
+}
+
+.botao-card.secundario:hover {
+    background: #294b72;
+    color: white;
+}
+
+
+/* ETIQUETA NOVO */
+
 .novo {
     position: absolute;
-    top: 13px;
-    right: 13px;
+
+    top: 12px;
+    right: 12px;
+
     z-index: 2;
-    padding: 6px 10px;
+
+    padding: 5px 10px;
+
     background: var(--gold-primary);
     color: black;
+
     border: 1px solid var(--navy-dark);
     border-radius: 20px;
+
     font-size: 10px;
     font-weight: 900;
 }
@@ -463,11 +662,53 @@ footer {
         align-self: flex-start;
     }
 
-    .grade-conteudos {
-        gap: 25px;
-    }
+    
 
     .card-conteudo {
         width: min(100%, 330px);
     }
+    @media (max-width: 700px) {
+
+    .grade-conteudos {
+        max-width: 100%;
+    }
+
+    .card-conteudo {
+        width: 100%;
+
+        grid-template-columns:
+            48px
+            minmax(0, 1fr);
+
+        gap: 13px;
+
+        padding: 17px;
+    }
+
+    .card-topo {
+        width: 48px;
+        height: 48px;
+
+        font-size: 19px;
+    }
+
+    .card-conteudo h3 {
+        padding-right: 35px;
+
+        font-size: 19px;
+    }
+
+    .card-acoes {
+        grid-column: 1 / -1;
+
+        flex-direction: column;
+
+        padding-top: 8px;
+    }
+
+    .botao-card {
+        width: 100%;
+        min-width: 0;
+    }
+}
 }
