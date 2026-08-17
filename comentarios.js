@@ -175,58 +175,66 @@ function escutarComentariosFirebase() {
 // Renderiza os 5 últimos comentários
 function renderizarUltimosComentarios(comentarios) {
     const lista = document.getElementById("ultimos-comentarios");
+
     if (!lista) return;
 
     lista.innerHTML = "";
 
     if (comentarios.length === 0) {
-        lista.innerHTML = "<p style='color: white; text-align: center; width: 100%;'>Nenhuma avaliação ainda.</p>";
+        lista.innerHTML = "<p>Nenhuma avaliação ainda.</p>";
         return;
     }
 
-    comentarios.slice(0, 5).forEach((comentario) => {
-    lista.appendChild(criarCardComentario(comentario));
+    comentarios.slice(0, 5).forEach(function (comentario) {
+        lista.appendChild(criarCardComentario(comentario));
     });
 }
 
-// Renderiza a lista completa de comentários
+
 function renderizarTodosComentarios(comentarios) {
     const lista = document.getElementById("lista-comentarios");
+
     if (!lista) return;
 
     lista.innerHTML = "";
 
     if (comentarios.length === 0) {
-        lista.innerHTML = "<p style='color: white; text-align: center; width: 100%;'>Nenhum comentário cadastrado ainda.</p>";
+        lista.innerHTML = "<p>Nenhum comentário cadastrado ainda.</p>";
         return;
     }
 
-     comentarios.forEach((comentario) => {
-    lista.appendChild(criarCardComentario(comentario));
-});
+    comentarios.forEach(function (comentario) {
+        lista.appendChild(criarCardComentario(comentario));
+    });
 }
+
 function criarCardComentario(comentario) {
-    const card = document.createElement("div");
+    const card = document.createElement("article");
     card.className = "comentario-card";
 
-    const topo = document.createElement("div");
-    topo.className = "comentario-topo";
+    const cabecalho = document.createElement("div");
+    cabecalho.className = "comentario-cabecalho";
 
     const nome = document.createElement("strong");
+    nome.className = "comentario-nome";
     nome.textContent = comentario.nome + ":";
 
-    const data = document.createElement("span");
+    const data = document.createElement("time");
     data.className = "comentario-data";
     data.textContent = comentario.data;
 
-    topo.append(nome, data);
-    card.appendChild(topo);
+    cabecalho.append(nome, data);
 
-    const corpo = document.createElement("div");
-    corpo.className = "comentario-corpo";
+    const conteudo = document.createElement("div");
+    conteudo.className = "comentario-conteudo";
 
     const estrelas = document.createElement("span");
     estrelas.className = "comentario-estrelas";
+    estrelas.setAttribute(
+        "aria-label",
+        comentario.nota + " de 5 estrelas"
+    );
+
     estrelas.textContent = "⭐".repeat(
         Math.max(
             0,
@@ -238,8 +246,9 @@ function criarCardComentario(comentario) {
     texto.className = "comentario-texto";
     texto.textContent = comentario.texto;
 
-    corpo.append(estrelas, texto);
-    card.appendChild(corpo);
+    conteudo.append(estrelas, texto);
+
+    card.append(cabecalho, conteudo);
 
     return card;
 }
