@@ -752,24 +752,6 @@ body {
     transition: all 0.4s ease;
 }
 
-.comentario-card {
-    background: white;
-    padding: 15px;
-    border-radius: 15px;
-    border: 2px solid var(--gold-primary);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    margin-bottom: 15px;
-    position: relative;
-}
-
-.comentario-card:not(:last-child)::after {
-    content: '';
-    display: block;
-    width: 60%;
-    height: 1px;
-    background: rgba(255, 215, 0, 0.4);
-    margin: 15px auto 0 auto;
-}
 
 /* ==========================================
    PERFIL DO ALUNO — COMPACTO
@@ -806,7 +788,103 @@ body {
         0 15px 45px
         rgba(0, 0, 0, 0.38);
 }
+.comentario-card {
+    width: 100%;
+    min-height: auto;
 
+    margin-bottom: 18px;
+    padding: 16px 20px;
+
+    background: #ffffff;
+
+    border: 2px solid gold;
+    border-radius: 18px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.comentario-linha {
+    width: 100%;
+
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+
+    gap: 5px 9px;
+
+    color: #000000;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.comentario-estrelas {
+    flex-shrink: 0;
+
+    color: gold;
+
+    font-size: 17px;
+    line-height: 1;
+
+    letter-spacing: -2px;
+}
+
+.comentario-conteudo {
+    min-width: 0;
+    flex: 1 1 250px;
+
+    margin: 0;
+
+    color: #000000;
+
+    overflow-wrap: anywhere;
+}
+
+.comentario-nome {
+    font-weight: 900;
+}
+
+.comentario-texto {
+    font-weight: 400;
+}
+
+.comentario-data {
+    flex-shrink: 0;
+
+    margin-left: auto;
+
+    color: #666666;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-align: right;
+}
+
+.comentario-card::after {
+    display: none !important;
+    content: none !important;
+}
+
+@media (max-width: 600px) {
+    .comentario-card {
+        padding: 14px;
+    }
+
+    .comentario-linha {
+        align-items: flex-start;
+    }
+
+    .comentario-conteudo {
+        flex-basis: 180px;
+    }
+
+    .comentario-data {
+        width: 100%;
+        margin-left: 0;
+
+        text-align: right;
+    }
+}
 
 /* ==========================================
    BOTÃO FECHAR
@@ -1481,58 +1559,6 @@ footer {
     font-weight: bold;
 }
 
-.comentario-topo {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 7px;
-}
-
-.comentario-topo strong {
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
-
-.comentario-data {
-    flex-shrink: 0;
-    color: #667085;
-    font-size: 12px;
-    font-weight: 700;
-    text-align: right;
-}
-
-.comentario-corpo {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 4px 8px;
-    line-height: 1.45;
-}
-
-.comentario-estrelas {
-    flex-shrink: 0;
-    font-size: 14px;
-    line-height: 1;
-    letter-spacing: -2px;
-}
-
-.comentario-texto {
-    min-width: 0;
-    flex: 1 1 180px;
-    color: #333;
-    overflow-wrap: anywhere;
-}
-
-@media (max-width: 480px) {
-    .comentario-topo {
-        gap: 8px;
-    }
-
-    .comentario-corpo {
-        align-items: flex-start;
-    }
-}
 
 /* ==========================
    RESPONSIVIDADE

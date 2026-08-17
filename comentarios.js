@@ -207,26 +207,12 @@ function renderizarTodosComentarios(comentarios) {
         lista.appendChild(criarCardComentario(comentario));
     });
 }
-
 function criarCardComentario(comentario) {
     const card = document.createElement("article");
     card.className = "comentario-card";
 
-    const cabecalho = document.createElement("div");
-    cabecalho.className = "comentario-cabecalho";
-
-    const nome = document.createElement("strong");
-    nome.className = "comentario-nome";
-    nome.textContent = comentario.nome + ":";
-
-    const data = document.createElement("time");
-    data.className = "comentario-data";
-    data.textContent = comentario.data;
-
-    cabecalho.append(nome, data);
-
-    const conteudo = document.createElement("div");
-    conteudo.className = "comentario-conteudo";
+    const linha = document.createElement("div");
+    linha.className = "comentario-linha";
 
     const estrelas = document.createElement("span");
     estrelas.className = "comentario-estrelas";
@@ -242,13 +228,25 @@ function criarCardComentario(comentario) {
         )
     );
 
+    const conteudo = document.createElement("p");
+    conteudo.className = "comentario-conteudo";
+
+    const nome = document.createElement("strong");
+    nome.className = "comentario-nome";
+    nome.textContent = comentario.nome + ":";
+
     const texto = document.createElement("span");
     texto.className = "comentario-texto";
-    texto.textContent = comentario.texto;
+    texto.textContent = " " + comentario.texto;
 
-    conteudo.append(estrelas, texto);
+    conteudo.append(nome, texto);
 
-    card.append(cabecalho, conteudo);
+    const data = document.createElement("time");
+    data.className = "comentario-data";
+    data.textContent = comentario.data;
+
+    linha.append(estrelas, conteudo, data);
+    card.appendChild(linha);
 
     return card;
 }
