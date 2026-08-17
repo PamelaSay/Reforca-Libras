@@ -1235,7 +1235,97 @@ body {
         rgba(95, 168, 211, 0.7);
 }
 
+.explicacao-alerta {
+    margin-bottom: 14px;
 
+    color: #1d3557;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+
+    text-align: left;
+}
+
+.alerta-libras {
+    margin-top: 12px;
+    padding: 10px;
+
+    background: #1d3557;
+    color: #ffffff;
+
+    border: 2px solid gold;
+    border-radius: 16px;
+
+    text-align: center;
+}
+
+.alerta-libras h3 {
+    margin-bottom: 8px;
+
+    color: #ffffff;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 15px;
+}
+
+.alerta-libras video {
+    display: block;
+
+    width: 100%;
+    max-width: 420px;
+    max-height: 240px;
+
+    margin: 0 auto;
+
+    background: #000000;
+
+    border-radius: 12px;
+
+    object-fit: contain;
+}
+
+.alerta-libras.indisponivel {
+    min-height: 120px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.alerta-libras.indisponivel span {
+    font-size: 42px;
+}
+
+.alerta-libras.indisponivel p {
+    margin-top: 6px;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.btn-repetir-alerta {
+    margin-top: 8px;
+    padding: 7px 14px;
+
+    background: #ffffff;
+    color: #1d3557;
+
+    border: 2px solid gold;
+    border-radius: 15px;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 13px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.btn-repetir-alerta:hover {
+    background: #cfefff;
+}
 /* ==========================================
    TELAS MUITO PEQUENAS
 ========================================== */

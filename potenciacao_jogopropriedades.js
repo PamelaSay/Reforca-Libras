@@ -62,7 +62,7 @@ const desafios = [
         explicacao:
             "No produto de potências de mesma base, conservamos a base e somamos os expoentes: 2³ × 2⁴ = 2³⁺⁴ = 2⁷.",
 
-        videoPergunta: "",
+        videoPergunta: ""videos/propriedades/pergunta-01.mp4"",
         videoDica: "",
         videoExplicacao: ""
     },
@@ -705,7 +705,8 @@ function iniciarJogo() {
     );
 
 
-    carregarDesafio();
+    carregarVideo(
+    desafio.video);
 }
 
 
@@ -750,10 +751,6 @@ function carregarDesafio() {
 
     carregarVideo(
         desafio.video
-    );
-
-    atualizarNucleos(
-        desafio.nucleo
     );
 
     atualizarTela();
@@ -991,7 +988,6 @@ async function verificarResposta(
 /* ==========================================
    EXPLICAÇÃO
 ========================================== */
-
 function mostrarExplicacao(
     acertou,
     desafio
@@ -1003,7 +999,7 @@ function mostrarExplicacao(
             (
                 acertou
                     ? "Resposta correta!"
-                    : "Resposta incorreta."
+                    : "Vamos revisar."
             ) +
             "\n\n" +
             desafio.explicacao
@@ -1013,22 +1009,77 @@ function mostrarExplicacao(
     }
 
 
+    const possuiVideo =
+        Boolean(
+            desafio.videoExplicacao
+        );
+
+
+    const areaVideo = possuiVideo
+        ? `
+            <div class="alerta-libras">
+                <h3>
+                    ✋ Explicação em Libras
+                </h3>
+
+                <video
+                    id="videoExplicacaoAlerta"
+                    controls
+                    playsinline
+                    preload="metadata"
+                >
+                    <source
+                        src="${desafio.videoExplicacao}"
+                        type="video/mp4"
+                    >
+
+                    Seu navegador não reproduz
+                    este vídeo.
+                </video>
+
+                <button
+                    type="button"
+                    id="repetirExplicacaoAlerta"
+                    class="btn-repetir-alerta"
+                >
+                    ↻ Repetir tradução
+                </button>
+            </div>
+        `
+        : `
+            <div class="alerta-libras indisponivel">
+                <span>✋</span>
+
+                <p>
+                    A explicação em Libras
+                    será adicionada aqui.
+                </p>
+            </div>
+        `;
+
+
     return Swal.fire({
         icon:
             acertou
                 ? "success"
-                : "error",
+                : "warning",
 
         title:
             acertou
-                ? "Energia recuperada!"
-                : "A energia diminuiu!",
+                ? "Resposta correta!"
+                : "Vamos revisar",
 
-        text:
-            desafio.explicacao,
+        html:
+            `
+                <p class="explicacao-alerta">
+                    ${desafio.explicacao}
+                </p>
+
+                ${areaVideo}
+            `,
 
         confirmButtonText:
-            "Continuar missão",
+            "Continuar",
 
         confirmButtonColor:
             "#1d3557",
@@ -1037,10 +1088,57 @@ function mostrarExplicacao(
             "#ffffff",
 
         color:
-            "#1d3557"
+            "#1d3557",
+
+        allowOutsideClick:
+            false,
+
+        allowEscapeKey:
+            false,
+
+        didOpen:
+            function () {
+                const video =
+                    document.getElementById(
+                        "videoExplicacaoAlerta"
+                    );
+
+                const botao =
+                    document.getElementById(
+                        "repetirExplicacaoAlerta"
+                    );
+
+
+                if (!video) {
+                    return;
+                }
+
+
+                video.play().catch(
+                    function () {
+                        /*
+                         * O usuário poderá iniciar
+                         * pelos controles do vídeo.
+                         */
+                    }
+                );
+
+
+                if (botao) {
+                    botao.addEventListener(
+                        "click",
+                        function () {
+                            video.currentTime = 0;
+
+                            video.play().catch(
+                                function () {}
+                            );
+                        }
+                    );
+                }
+            }
     });
 }
-
 
 /* ==========================================
    DICA
@@ -1073,6 +1171,11 @@ function mostrarDica() {
 
     elementos.btnDica.innerHTML =
         "💡 Dica utilizada";
+
+    carregarVideo(
+        desafio.videoDica ||
+        desafio.videoPergunta
+    );
 
     atualizarTela();
 }
@@ -1255,63 +1358,6 @@ function atualizarSequencia() {
         elementos.sequencia.textContent +=
             " · bônus!";
     }
-}
-
-
-/* ==========================================
-   NÚCLEOS
-========================================== */
-
-function atualizarNucleos(
-    nucleoAtual
-) {
-    const nucleos = [
-        document.getElementById(
-            "nucleoProduto"
-        ),
-
-        document.getElementById(
-            "nucleoQuociente"
-        ),
-
-        document.getElementById(
-            "nucleoPotencia"
-        ),
-
-        document.getElementById(
-            "nucleoDistribuicao"
-        )
-    ];
-
-
-    nucleos.forEach(
-        function (nucleo, indice) {
-            const numero =
-                indice + 1;
-
-            nucleo.classList.remove(
-                "ativo"
-            );
-
-            if (
-                numero <
-                nucleoAtual
-            ) {
-                nucleo.classList.add(
-                    "concluido"
-                );
-            }
-
-            if (
-                numero ===
-                nucleoAtual
-            ) {
-                nucleo.classList.add(
-                    "ativo"
-                );
-            }
-        }
-    );
 }
 
 
