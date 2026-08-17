@@ -62,18 +62,16 @@ const desafios = [
         explicacao:
             "No produto de potências de mesma base, conservamos a base e somamos os expoentes: 2³ × 2⁴ = 2³⁺⁴ = 2⁷.",
 
-        videoPergunta: ""videos/propriedades/pergunta-01.mp4"",
-        videoDica: "",
-        videoExplicacao: ""
+        videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
     {
         nucleo: 1,
-
         topico:
             "Produto de potências",
-
         tipo:
             "COMPLETE O EXPOENTE",
 
@@ -121,9 +119,9 @@ const desafios = [
         explicacao:
             "Como 2 + 5 = 7, o expoente que falta é 5. Portanto, 5² × 5⁵ = 5⁷.",
 
-        videoPergunta: "",
-        videoDica: "",
-        videoExplicacao: ""
+        videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
@@ -180,8 +178,9 @@ const desafios = [
         explicacao:
             "Conservamos a base 7 e subtraímos os expoentes: 7⁸ ÷ 7³ = 7⁸⁻³ = 7⁵.",
 
-        video:
-            ""
+        videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
@@ -238,9 +237,9 @@ const desafios = [
         explicacao:
             "O estudante somou os expoentes, mas deveria subtraí-los: x⁹ ÷ x⁴ = x⁹⁻⁴ = x⁵.",
 
-        videoPergunta: "",
-        videoDica: "",
-        videoExplicacao: ""
+        videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
@@ -293,9 +292,9 @@ const desafios = [
         explicacao:
             "Conservamos a base 3 e multiplicamos os expoentes: (3²)⁴ = 3²·⁴ = 3⁸.",
 
-        videoPergunta: "",
-        videoDica: "",
-        videoExplicacao: ""
+        videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
@@ -352,9 +351,9 @@ const desafios = [
         explicacao:
             "Os expoentes devem ser multiplicados: 3 × 5 = 15. Portanto, (a³)⁵ = a¹⁵.",
 
-        videoPergunta: "",
-        videoDica: "",
-        videoExplicacao: ""
+       videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
@@ -407,9 +406,9 @@ const desafios = [
         explicacao:
             "Na potência de um produto, cada fator recebe o expoente: (2 × 5)³ = 2³ × 5³.",
 
-        videoPergunta: "",
-        videoDica: "",
-        videoExplicacao: ""
+        videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
@@ -462,9 +461,9 @@ const desafios = [
         explicacao:
             "Na potência de um quociente, o expoente é aplicado aos dois termos: (a ÷ b)⁴ = a⁴ ÷ b⁴.",
 
-        videoPergunta: "",
-        videoDica: "",
-        videoExplicacao: ""
+        videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
@@ -521,9 +520,9 @@ const desafios = [
         explicacao:
             "Primeiro: 2³ × 2⁴ = 2⁷. Depois: 2⁷ ÷ 2⁵ = 2².",
 
-        videoPergunta: "",
-        videoDica: "",
-        videoExplicacao: ""
+       videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     },
 
 
@@ -580,9 +579,9 @@ const desafios = [
         explicacao:
             "(x²)³ = x⁶. Depois, x⁶ × x⁴ = x⁶⁺⁴ = x¹⁰.",
 
-        videoPergunta: "",
-        videoDica: "",
-        videoExplicacao: ""
+        videoPergunta: "https://youtu.be/r9AoQVkUUvU",
+        videoDica: "https://youtu.be/r9AoQVkUUvU",
+        videoExplicacao: "https://youtu.be/r9AoQVkUUvU"
     }
 ];
 
