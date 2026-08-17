@@ -62,8 +62,9 @@ const desafios = [
         explicacao:
             "No produto de potências de mesma base, conservamos a base e somamos os expoentes: 2³ × 2⁴ = 2³⁺⁴ = 2⁷.",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     },
 
 
@@ -120,8 +121,9 @@ const desafios = [
         explicacao:
             "Como 2 + 5 = 7, o expoente que falta é 5. Portanto, 5² × 5⁵ = 5⁷.",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     },
 
 
@@ -236,8 +238,9 @@ const desafios = [
         explicacao:
             "O estudante somou os expoentes, mas deveria subtraí-los: x⁹ ÷ x⁴ = x⁹⁻⁴ = x⁵.",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     },
 
 
@@ -290,8 +293,9 @@ const desafios = [
         explicacao:
             "Conservamos a base 3 e multiplicamos os expoentes: (3²)⁴ = 3²·⁴ = 3⁸.",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     },
 
 
@@ -348,8 +352,9 @@ const desafios = [
         explicacao:
             "Os expoentes devem ser multiplicados: 3 × 5 = 15. Portanto, (a³)⁵ = a¹⁵.",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     },
 
 
@@ -402,8 +407,9 @@ const desafios = [
         explicacao:
             "Na potência de um produto, cada fator recebe o expoente: (2 × 5)³ = 2³ × 5³.",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     },
 
 
@@ -456,8 +462,9 @@ const desafios = [
         explicacao:
             "Na potência de um quociente, o expoente é aplicado aos dois termos: (a ÷ b)⁴ = a⁴ ÷ b⁴.",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     },
 
 
@@ -514,8 +521,9 @@ const desafios = [
         explicacao:
             "Primeiro: 2³ × 2⁴ = 2⁷. Depois: 2⁷ ÷ 2⁵ = 2².",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     },
 
 
@@ -572,8 +580,9 @@ const desafios = [
         explicacao:
             "(x²)³ = x⁶. Depois, x⁶ × x⁴ = x⁶⁺⁴ = x¹⁰.",
 
-        video:
-            ""
+        videoPergunta: "",
+        videoDica: "",
+        videoExplicacao: ""
     }
 ];
 
@@ -733,9 +742,9 @@ function carregarDesafio() {
         "💡 Usar dica <small>−5 pontos</small>";
 
 
-    criarRepresentacao(
-        desafio.representacao
-    );
+   criarRepresentacaoNeutra(
+    desafio
+);
 
     criarAlternativas(desafio);
 
@@ -754,26 +763,54 @@ function carregarDesafio() {
 /* ==========================================
    REPRESENTAÇÃO VISUAL
 ========================================== */
-
-function criarRepresentacao(itens) {
+function criarRepresentacaoNeutra(
+    desafio
+) {
     elementos.representacao.replaceChildren();
 
-    itens.forEach(function (item) {
-        const elemento =
-            document.createElement("span");
+    const mensagens = {
+        "IDENTIFIQUE A PROPRIEDADE":
+            "Observe como a expressão foi transformada.",
 
-        elemento.className =
-            item.classe;
+        "COMPLETE O EXPOENTE":
+            "Descubra o valor que deve ocupar o lugar de n.",
 
-        elemento.textContent =
-            item.texto;
+        "ESCOLHA O RESULTADO":
+            "Aplique a propriedade adequada.",
 
-        elementos.representacao.appendChild(
-            elemento
-        );
-    });
+        "ENCONTRE O ERRO":
+            "Compare a operação realizada com a propriedade correta.",
+
+        "CONSERTE A MÁQUINA":
+            "A máquina precisa receber o resultado correto.",
+
+        "COMPLETE A REGRA":
+            "Descubra o expoente que está faltando.",
+
+        "DISTRIBUA A ENERGIA":
+            "Observe quais fatores devem receber o expoente.",
+
+        "ESCOLHA A TRANSFORMAÇÃO":
+            "Escolha a transformação que preserva a igualdade.",
+
+        "DESAFIO COMBINADO":
+            "Resolva uma propriedade de cada vez.",
+
+        "DESAFIO FINAL":
+            "Analise a expressão antes de escolher a resposta."
+    };
+
+    const texto =
+        document.createElement("span");
+
+    texto.textContent =
+        mensagens[desafio.tipo] ||
+        "Analise a expressão e escolha a resposta.";
+
+    elementos.representacao.appendChild(
+        texto
+    );
 }
-
 
 /* ==========================================
    CRIAR ALTERNATIVAS

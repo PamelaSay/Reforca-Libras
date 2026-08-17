@@ -108,12 +108,9 @@
     <main class="jogo">
 
         <section class="area-principal">
-
-
             <!-- PERSONAGEM E MISSÃO -->
 
             <aside class="painel-missao">
-
                 <div
                     class="fala-personagem"
                     id="falaPersonagem"
@@ -133,66 +130,66 @@
                     🤟
                 </div>
 
+<nav
+    class="nucleos"
+    aria-label="Conteúdos da trilha de Potenciação"
+>
+    <button
+        type="button"
+        class="nucleo concluido"
+        id="nucleoConceito"
+        data-destino="jogo_potencia.html"
+    >
+        <span>✓</span>
 
-                <!-- NÚCLEOS -->
-
-                <div
-                    class="nucleos"
-                    aria-label="Núcleos de energia"
-                >
-
-                    <div
-                        class="nucleo"
-                        id="nucleoProduto"
-                        title="Produto de potências"
-                    >
-                        <span>1</span>
-
-                        <small>
-                            Produto
-                        </small>
-                    </div>
+        <small>
+            Conceito
+        </small>
+    </button>
 
 
-                    <div
-                        class="nucleo"
-                        id="nucleoQuociente"
-                        title="Quociente de potências"
-                    >
-                        <span>2</span>
+    <button
+        type="button"
+        class="nucleo"
+        id="nucleoCasos"
+        disabled
+    >
+        <span>2</span>
 
-                        <small>
-                            Quociente
-                        </small>
-                    </div>
-
-
-                    <div
-                        class="nucleo"
-                        id="nucleoPotencia"
-                        title="Potência de potência"
-                    >
-                        <span>3</span>
-
-                        <small>
-                            Potência
-                        </small>
-                    </div>
+        <small>
+            Casos especiais
+        </small>
+    </button>
 
 
-                    <div
-                        class="nucleo"
-                        id="nucleoDistribuicao"
-                        title="Potência de produto e quociente"
-                    >
-                        <span>4</span>
+    <button
+        type="button"
+        class="nucleo"
+        id="nucleoBaseDez"
+        disabled
+    >
+        <span>3</span>
 
-                        <small>
-                            Distribuição
-                        </small>
-                    </div>
+        <small>
+            Base 10
+        </small>
+    </button>
 
-                </div>
+
+    <button
+        type="button"
+        class="nucleo ativo"
+        id="nucleoPropriedades"
+        aria-current="step"
+    >
+        <span>4</span>
+
+        <small>
+            Propriedades
+        </small>
+    </button>
+</nav>
+                
 
             </aside>
 

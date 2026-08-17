@@ -1216,6 +1216,25 @@ body {
     }
 }
 
+.nucleo {
+    font-family: "Nunito", sans-serif;
+    cursor: pointer;
+}
+
+.nucleo:disabled {
+    cursor: default;
+}
+
+.nucleo:not(:disabled):hover {
+    transform: translateY(-3px);
+}
+
+.nucleo[aria-current="step"] {
+    box-shadow:
+        0 0 18px
+        rgba(95, 168, 211, 0.7);
+}
+
 
 /* ==========================================
    TELAS MUITO PEQUENAS
