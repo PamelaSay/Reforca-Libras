@@ -185,7 +185,7 @@ function renderizarUltimosComentarios(comentarios) {
     }
 
     comentarios.slice(0, 5).forEach((comentario) => {
-        lista.appendChild(criarCardComentario(comentario, false));
+    lista.appendChild(criarCardComentario(comentario));
     });
 }
 
@@ -201,45 +201,45 @@ function renderizarTodosComentarios(comentarios) {
         return;
     }
 
-    comentarios.forEach((comentario) => {
-        lista.appendChild(criarCardComentario(comentario, true));
-    });
+     comentarios.forEach((comentario) => {
+    lista.appendChild(criarCardComentario(comentario));
+});
 }
-
-function criarCardComentario(comentario, mostrarData) {
+function criarCardComentario(comentario) {
     const card = document.createElement("div");
     card.className = "comentario-card";
 
-    if (mostrarData) {
-        const topo = document.createElement("div");
-        topo.className = "comentario-topo";
+    const topo = document.createElement("div");
+    topo.className = "comentario-topo";
 
-        const nome = document.createElement("strong");
-        nome.textContent = comentario.nome;
+    const nome = document.createElement("strong");
+    nome.textContent = comentario.nome + ":";
 
-        const data = document.createElement("span");
-        data.textContent = comentario.data;
+    const data = document.createElement("span");
+    data.className = "comentario-data";
+    data.textContent = comentario.data;
 
-        topo.append(nome, data);
-        card.appendChild(topo);
-    }
+    topo.append(nome, data);
+    card.appendChild(topo);
 
-    const estrelas = document.createElement("div");
+    const corpo = document.createElement("div");
+    corpo.className = "comentario-corpo";
+
+    const estrelas = document.createElement("span");
     estrelas.className = "comentario-estrelas";
     estrelas.textContent = "⭐".repeat(
-        Math.max(0, Math.min(5, Number(comentario.nota) || 0))
+        Math.max(
+            0,
+            Math.min(5, Number(comentario.nota) || 0)
+        )
     );
-    card.appendChild(estrelas);
 
-    if (!mostrarData) {
-        const nome = document.createElement("strong");
-        nome.textContent = comentario.nome;
-        card.appendChild(nome);
-    }
-
-    const texto = document.createElement("p");
+    const texto = document.createElement("span");
+    texto.className = "comentario-texto";
     texto.textContent = comentario.texto;
-    card.appendChild(texto);
+
+    corpo.append(estrelas, texto);
+    card.appendChild(corpo);
 
     return card;
 }

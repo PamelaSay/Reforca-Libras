@@ -1481,6 +1481,59 @@ footer {
     font-weight: bold;
 }
 
+.comentario-topo {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 7px;
+}
+
+.comentario-topo strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.comentario-data {
+    flex-shrink: 0;
+    color: #667085;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.comentario-corpo {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    line-height: 1.45;
+}
+
+.comentario-estrelas {
+    flex-shrink: 0;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.comentario-texto {
+    min-width: 0;
+    flex: 1 1 180px;
+    color: #333;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+    .comentario-topo {
+        gap: 8px;
+    }
+
+    .comentario-corpo {
+        align-items: flex-start;
+    }
+}
+
 /* ==========================
    RESPONSIVIDADE
 ========================== */
