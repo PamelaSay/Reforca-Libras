@@ -2,7 +2,7 @@
 // CONFIGURAÇÕES DO CURSO
 // ==========================================
 
-const CHAVE_CURSO = "progressoCursoRadiciacao";
+const CHAVE_CURSO = chaveLocalDoUsuario("progressoCursoRadiciacao");
 const TOTAL_ETAPAS = 4;
 
 let playerVideoaula = null;
@@ -962,12 +962,12 @@ const NOMES_DAS_ETAPAS = {
 };
 
 
-function obterresultadosRadiciacao() {
+function obterResultadosRadiciacao() {
     try {
         const resultados =
             JSON.parse(
                 localStorage.getItem(
-                    "resultadosPotenciacao"
+                    chaveLocalDoUsuario("resultadosRadiciacao")
                 )
             );
 
@@ -991,7 +991,7 @@ function atualizarRelatorioRadiciacao() {
         obterProgressoCurso();
 
     const resultados =
-        obterResultadosPotenciacao();
+        obterResultadosRadiciacao();
 
     atualizarResumoDoRelatorio(
         resultados

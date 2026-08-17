@@ -62,14 +62,7 @@ function criarCard(conteudo, indice) {
 
       <div class="card-acoes">
         <a class="botao-card" href="${conteudo.aula}">
-          Ver aula
-        </a>
-
-        <a
-          class="botao-card secundario"
-          href="${conteudo.atividade}"
-        >
-          Praticar
+          Ver trilha
         </a>
       </div>
     </div>

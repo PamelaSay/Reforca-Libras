@@ -98,6 +98,10 @@ function salvarComentario() {
 
     // Objeto do comentário para enviar ao Firebase
     const novoComentario = {
+        usuarioId:
+            typeof auth !== "undefined" && auth && auth.currentUser
+                ? auth.currentUser.uid
+                : null,
         nome: nomeAutor,
         nota: notaSelecionada,
         texto: texto,
@@ -168,7 +172,7 @@ function escutarComentariosFirebase() {
         });
 }
 
-// Renderiza os 4 últimos comentários
+// Renderiza os 5 últimos comentários
 function renderizarUltimosComentarios(comentarios) {
     const lista = document.getElementById("ultimos-comentarios");
     if (!lista) return;
@@ -180,16 +184,8 @@ function renderizarUltimosComentarios(comentarios) {
         return;
     }
 
-    comentarios.slice(0, 4).forEach((comentario) => {
-        lista.innerHTML += `
-            <div class="comentario-card">
-                <div class="comentario-estrelas">
-                    ${"⭐".repeat(comentario.nota)}
-                </div>
-                <strong>${comentario.nome}</strong>
-                <p>${comentario.texto}</p>
-            </div>
-        `;
+    comentarios.slice(0, 5).forEach((comentario) => {
+        lista.appendChild(criarCardComentario(comentario, false));
     });
 }
 
@@ -206,19 +202,46 @@ function renderizarTodosComentarios(comentarios) {
     }
 
     comentarios.forEach((comentario) => {
-        lista.innerHTML += `
-            <div class="comentario-card">
-                <div class="comentario-topo">
-                    <strong>${comentario.nome}</strong>
-                    <span>${comentario.data}</span>
-                </div>
-                <div class="comentario-estrelas">
-                    ${"⭐".repeat(comentario.nota)}
-                </div>
-                <p>${comentario.texto}</p>
-            </div>
-        `;
+        lista.appendChild(criarCardComentario(comentario, true));
     });
+}
+
+function criarCardComentario(comentario, mostrarData) {
+    const card = document.createElement("div");
+    card.className = "comentario-card";
+
+    if (mostrarData) {
+        const topo = document.createElement("div");
+        topo.className = "comentario-topo";
+
+        const nome = document.createElement("strong");
+        nome.textContent = comentario.nome;
+
+        const data = document.createElement("span");
+        data.textContent = comentario.data;
+
+        topo.append(nome, data);
+        card.appendChild(topo);
+    }
+
+    const estrelas = document.createElement("div");
+    estrelas.className = "comentario-estrelas";
+    estrelas.textContent = "⭐".repeat(
+        Math.max(0, Math.min(5, Number(comentario.nota) || 0))
+    );
+    card.appendChild(estrelas);
+
+    if (!mostrarData) {
+        const nome = document.createElement("strong");
+        nome.textContent = comentario.nome;
+        card.appendChild(nome);
+    }
+
+    const texto = document.createElement("p");
+    texto.textContent = comentario.texto;
+    card.appendChild(texto);
+
+    return card;
 }
 
 // 6. Inicialização segura

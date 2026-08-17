@@ -1,38 +1,3 @@
-// ==========================================
-// CONFIGURAÇÃO DO FIREBASE
-// ==========================================
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCA5nHe1MRdnYR70flitnIjI75IOkh0ji8",
-    authDomain: "reforca-app-25554.firebaseapp.com",
-    projectId: "reforca-app-25554",
-    storageBucket: "reforca-app-25554.firebasestorage.app",
-    messagingSenderId: "469342727365",
-    appId: "1:469342727365:web:cd2def6eafd29e615114ac",
-    measurementId: "G-0YVN46JS8W"
-};
-
-let db = null;
-let auth = null;
-
-try {
-    if (typeof firebase === "undefined") {
-        throw new Error("Firebase não foi carregado pelo HTML.");
-    }
-
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
-
-    db = firebase.firestore();
-    auth = firebase.auth();
-
-    console.log("Firebase iniciado corretamente.");
-
-} catch (erro) {
-    console.error("Erro ao iniciar o Firebase:", erro);
-}
-
 const VERSAO_TERMOS = "1.0";
 
 
@@ -170,6 +135,7 @@ async function cadastrar() {
     const emailInput = document.getElementById("emailCadastro");
     const senhaInput = document.getElementById("senhaCadastro");
     const aceiteInput = document.getElementById("aceitarTermos");
+    const rankingInput = document.getElementById("participarRanking");
 
     if (!nomeInput || !emailInput || !senhaInput || !aceiteInput) {
         exibirAlerta(
@@ -184,6 +150,9 @@ async function cadastrar() {
     const nome = nomeInput.value.trim();
     const email = emailInput.value.trim().toLowerCase();
     const senha = senhaInput.value;
+    const participarRanking = Boolean(
+        rankingInput && rankingInput.checked
+    );
 
     if (!nome) {
         exibirAlerta(
@@ -272,6 +241,7 @@ async function cadastrar() {
             pontos: 0,
             aulas: 0,
             jogos: 0,
+            participarRanking: participarRanking,
 
             termosAceitos: true,
             versaoTermos: VERSAO_TERMOS,
@@ -305,7 +275,8 @@ async function cadastrar() {
             email: email,
             pontos: 0,
             aulas: 0,
-            jogos: 0
+            jogos: 0,
+            participarRanking: participarRanking
         };
 
         localStorage.setItem(
@@ -472,7 +443,8 @@ async function login() {
 
             pontos: dadosUsuario.pontos || 0,
             aulas: dadosUsuario.aulas || 0,
-            jogos: dadosUsuario.jogos || 0
+            jogos: dadosUsuario.jogos || 0,
+            participarRanking: Boolean(dadosUsuario.participarRanking)
         };
 
         localStorage.setItem(
@@ -571,9 +543,260 @@ function mostrarPerfil() {
     }
 
     mostrarUsuario();
+    atualizarPerfilLocal();
+    sincronizarResumoNoFirebase();
 
     if (modalPerfil) {
         modalPerfil.style.display = "flex";
+    }
+}
+
+
+// ==========================================
+// RESUMO LOCAL DE APRENDIZAGEM
+// ==========================================
+
+function lerDadosLocais(chave, valorPadrao) {
+    try {
+        const valor = JSON.parse(localStorage.getItem(chave));
+        return valor === null ? valorPadrao : valor;
+    } catch (erro) {
+        return valorPadrao;
+    }
+}
+
+function obterResumoAprendizagem() {
+    const progressoPotenciacao = lerDadosLocais(
+        chaveLocalDoUsuario("progressoCursoPotenciacao"),
+        { concluidas: [] }
+    );
+    const progressoRadiciacao = lerDadosLocais(
+        chaveLocalDoUsuario("progressoCursoRadiciacao"),
+        { concluidas: [] }
+    );
+    const resultadosPotenciacao = lerDadosLocais(
+        chaveLocalDoUsuario("resultadosPotenciacao"),
+        []
+    );
+    const resultadosRadiciacao = lerDadosLocais(
+        chaveLocalDoUsuario("resultadosRadiciacao"),
+        []
+    );
+
+    const concluidasPotenciacao = Array.isArray(
+        progressoPotenciacao.concluidas
+    ) ? progressoPotenciacao.concluidas.length : 0;
+    const concluidasRadiciacao = Array.isArray(
+        progressoRadiciacao.concluidas
+    ) ? progressoRadiciacao.concluidas.length : 0;
+
+    const todosResultados = []
+        .concat(Array.isArray(resultadosPotenciacao) ? resultadosPotenciacao : [])
+        .concat(Array.isArray(resultadosRadiciacao) ? resultadosRadiciacao : []);
+
+    const percentuais = todosResultados
+        .map(function (resultado) {
+            return Number(resultado.percentual);
+        })
+        .filter(Number.isFinite);
+
+    const media = percentuais.length
+        ? Math.round(
+            percentuais.reduce(function (total, valor) {
+                return total + valor;
+            }, 0) / percentuais.length
+        )
+        : 0;
+
+    const pontos = todosResultados.reduce(function (total, resultado) {
+        return total + (Number(resultado.pontuacao) || 0);
+    }, 0);
+
+    function mediaDaTrilha(resultados) {
+        if (!Array.isArray(resultados) || !resultados.length) return null;
+        const valores = resultados
+            .map(function (resultado) { return Number(resultado.percentual); })
+            .filter(Number.isFinite);
+        if (!valores.length) return null;
+        return Math.round(
+            valores.reduce(function (total, valor) { return total + valor; }, 0) /
+            valores.length
+        );
+    }
+
+    return {
+        aulas: concluidasPotenciacao + concluidasRadiciacao,
+        jogos: todosResultados.length,
+        media: media,
+        pontos: pontos,
+        potenciacao: {
+            concluidas: concluidasPotenciacao,
+            media: mediaDaTrilha(resultadosPotenciacao)
+        },
+        radiciacao: {
+            concluidas: concluidasRadiciacao,
+            media: mediaDaTrilha(resultadosRadiciacao)
+        }
+    };
+}
+
+function definirTexto(id, texto) {
+    const elemento = document.getElementById(id);
+    if (elemento) elemento.textContent = texto;
+}
+
+function atualizarPerfilLocal() {
+    const usuario = obterUsuarioLocal();
+    const resumo = obterResumoAprendizagem();
+
+    if (usuario) {
+        definirTexto("nomeUsuario", usuario.nome || "Aluno");
+        definirTexto("emailUsuarioPerfil", usuario.email || "E-mail não informado");
+    }
+
+    definirTexto("perfilAulas", resumo.aulas);
+    definirTexto("perfilTestes", resumo.jogos);
+    definirTexto("perfilMedia", resumo.media + "%");
+    definirTexto("perfilPontos", resumo.pontos);
+
+    atualizarTrilhaNoPerfil("Potenciacao", resumo.potenciacao);
+    atualizarTrilhaNoPerfil("Radiciacao", resumo.radiciacao);
+
+    const pontosFortes = document.getElementById("perfilPontosFortes");
+    const recomendacoes = document.getElementById("perfilRecomendacoes");
+
+    if (pontosFortes) {
+        pontosFortes.replaceChildren();
+        const texto = document.createElement("p");
+        texto.textContent = resumo.jogos === 0
+            ? "Realize as verificações para visualizar seus resultados."
+            : resumo.media >= 70
+                ? "Seu desempenho geral está acima de 70%. Continue avançando."
+                : "Continue praticando para consolidar os conteúdos.";
+        pontosFortes.appendChild(texto);
+    }
+
+    if (recomendacoes) {
+        recomendacoes.replaceChildren();
+        const texto = document.createElement("p");
+        if (resumo.jogos === 0) {
+            texto.textContent = "Comece pela trilha de Potenciação.";
+        } else if (resumo.potenciacao.media !== null && resumo.potenciacao.media < 70) {
+            texto.textContent = "Reveja a trilha de Potenciação e refaça o teste.";
+        } else if (resumo.radiciacao.media !== null && resumo.radiciacao.media < 70) {
+            texto.textContent = "Reveja a trilha de Radiciação e refaça o teste.";
+        } else {
+            texto.textContent = "Nenhuma revisão prioritária no momento.";
+        }
+        recomendacoes.appendChild(texto);
+    }
+}
+
+function atualizarTrilhaNoPerfil(nome, dados) {
+    const concluidas = Math.min(4, Number(dados.concluidas) || 0);
+    definirTexto("perfil" + nome + "Texto", concluidas + " de 4 etapas");
+    definirTexto(
+        "perfil" + nome + "Media",
+        dados.media === null ? "Sem resultados" : "Média: " + dados.media + "%"
+    );
+
+    const barra = document.getElementById("perfil" + nome + "Barra");
+    if (barra) barra.style.width = Math.round((concluidas / 4) * 100) + "%";
+}
+
+async function sincronizarResumoNoFirebase() {
+    if (!auth || !db || !auth.currentUser) return;
+
+    const resumo = obterResumoAprendizagem();
+    try {
+        await db.collection("usuarios").doc(auth.currentUser.uid).set({
+            pontos: resumo.pontos,
+            aulas: resumo.aulas,
+            jogos: resumo.jogos,
+            media: resumo.media,
+            atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        const usuario = obterUsuarioLocal();
+        if (usuario) {
+            Object.assign(usuario, {
+                pontos: resumo.pontos,
+                aulas: resumo.aulas,
+                jogos: resumo.jogos
+            });
+            localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+            mostrarUsuario();
+        }
+        atualizarRankingPublico();
+    } catch (erro) {
+        console.error("Erro ao sincronizar o resumo:", erro);
+    }
+}
+
+function atualizarContinuarEstudando() {
+    const area = document.getElementById("continuarEstudando");
+    if (!area) return;
+
+    const usuario = obterUsuarioLocal();
+    area.replaceChildren();
+    if (!usuario) return;
+
+    const resumo = obterResumoAprendizagem();
+    const titulo = document.createElement("h3");
+    titulo.textContent = "📘 Continuar estudando";
+
+    const link = document.createElement("a");
+    if (resumo.potenciacao.concluidas < 4) {
+        link.href = "potenciacao.html";
+        link.textContent = "Continuar Potenciação →";
+    } else {
+        link.href = "radiciacao.html";
+        link.textContent = "Continuar Radiciação →";
+    }
+
+    area.append(titulo, link);
+}
+
+async function atualizarRankingPublico() {
+    const lista = document.getElementById("rankingLista");
+    if (!lista || !db) return;
+
+    try {
+        const consulta = await db.collection("usuarios")
+            .where("participarRanking", "==", true)
+            .limit(50)
+            .get();
+
+        const participantes = [];
+        consulta.forEach(function (documento) {
+            const dados = documento.data();
+            participantes.push({
+                nome: dados.nome || "Aluno",
+                pontos: Number(dados.pontos) || 0
+            });
+        });
+        participantes.sort(function (a, b) { return b.pontos - a.pontos; });
+
+        lista.replaceChildren();
+        if (!participantes.length) {
+            const vazio = document.createElement("p");
+            vazio.textContent = "O ranking ainda não possui participantes.";
+            lista.appendChild(vazio);
+            return;
+        }
+
+        const medalhas = ["🥇", "🥈", "🥉"];
+        participantes.slice(0, 5).forEach(function (participante, indice) {
+            const item = document.createElement("p");
+            item.className = "ranking-item";
+            item.textContent =
+                (medalhas[indice] || "⭐") + " " + participante.nome +
+                " — " + participante.pontos + " pontos";
+            lista.appendChild(item);
+        });
+    } catch (erro) {
+        console.error("Erro ao carregar ranking:", erro);
+        lista.textContent = "Não foi possível carregar o ranking agora.";
     }
 }
 
@@ -648,6 +871,19 @@ async function excluirConta() {
 
         const usuario = auth.currentUser;
 
+        await apagarColecaoEmLotes(
+            db.collection("usuarios").doc(usuario.uid).collection("resultados")
+        );
+        await apagarColecaoEmLotes(
+            db.collection("usuarios").doc(usuario.uid).collection("atividades")
+        );
+        await apagarColecaoEmLotes(
+            db.collection("usuarios").doc(usuario.uid).collection("acessos")
+        );
+        await apagarConsultaEmLotes(
+            db.collection("comentarios").where("usuarioId", "==", usuario.uid)
+        );
+
         await db
             .collection("usuarios")
             .doc(usuario.uid)
@@ -655,6 +891,15 @@ async function excluirConta() {
 
         await usuario.delete();
 
+        [
+            "progressoCursoPotenciacao",
+            "progressoCursoRadiciacao",
+            "resultadosPotenciacao",
+            "resultadosRadiciacao"
+        ].forEach(function (chaveBase) {
+            localStorage.removeItem(chaveBase);
+            localStorage.removeItem(chaveBase + "_" + usuario.uid);
+        });
         localStorage.removeItem("usuarioLogado");
 
         await Swal.fire({
@@ -688,6 +933,23 @@ async function excluirConta() {
     }
 }
 
+async function apagarColecaoEmLotes(referenciaColecao) {
+    await apagarConsultaEmLotes(referenciaColecao.limit(400));
+}
+
+async function apagarConsultaEmLotes(consulta) {
+    let resultado = await consulta.get();
+
+    while (!resultado.empty) {
+        const lote = db.batch();
+        resultado.docs.forEach(function (documento) {
+            lote.delete(documento.ref);
+        });
+        await lote.commit();
+        resultado = await consulta.get();
+    }
+}
+
 
 // ==========================================
 // MOSTRAR E OCULTAR SENHA
@@ -711,88 +973,6 @@ function alternarSenha(idCampo, icone) {
         icone.innerHTML = "👁️";
         icone.setAttribute("aria-label", "Mostrar senha");
         icone.title = "Mostrar senha";
-    }
-}
-
-
-// ==========================================
-// RECUPERAR SENHA PELO E-MAIL
-// ==========================================
-
-async function esqueceuSenha(evento) {
-    if (evento) {
-        evento.preventDefault();
-    }
-
-    if (!auth) {
-        exibirAlerta(
-            "error",
-            "Erro",
-            "O Firebase não está disponível."
-        );
-
-        return;
-    }
-
-    const campoEmail =
-        document.getElementById("loginEmail");
-
-    const emailPreenchido = campoEmail
-        ? campoEmail.value.trim().toLowerCase()
-        : "";
-
-    const resultado = await Swal.fire({
-        title: "Recuperar senha",
-
-        text:
-            "Informe o e-mail utilizado no cadastro. " +
-            "Você receberá um link para criar uma nova senha.",
-
-        input: "email",
-        inputValue: emailPreenchido,
-        inputPlaceholder: "seuemail@exemplo.com",
-
-        showCancelButton: true,
-
-        confirmButtonText: "Enviar link",
-        cancelButtonText: "Cancelar",
-
-        inputValidator: function (valor) {
-            if (!valor) {
-                return "Informe seu e-mail.";
-            }
-        }
-    });
-
-    if (!resultado.isConfirmed) {
-        return;
-    }
-
-    const email =
-        resultado.value.trim().toLowerCase();
-
-    try {
-        await auth.sendPasswordResetEmail(email);
-
-        await Swal.fire({
-            icon: "success",
-            title: "E-mail enviado!",
-            text:
-                "Confira sua caixa de entrada e a pasta de spam. " +
-                "Abra o link para criar uma nova senha."
-        });
-
-    } catch (erro) {
-        console.error(
-            "Erro ao enviar recuperação de senha:",
-            erro
-        );
-
-        exibirAlerta(
-            "error",
-            "Não foi possível enviar",
-            traduzirErroFirebase(erro.code)
-        );
     }
 }
 
@@ -1099,6 +1279,9 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
         mostrarUsuario();
+        atualizarPerfilLocal();
+        atualizarContinuarEstudando();
+        atualizarRankingPublico();
 
         const campoPesquisa =
             document.getElementById("campoPesquisa");
@@ -1176,7 +1359,9 @@ if (auth) {
 
                     pontos: dados.pontos || 0,
                     aulas: dados.aulas || 0,
-                    jogos: dados.jogos || 0
+                    jogos: dados.jogos || 0,
+                    participarRanking:
+                        Boolean(dados.participarRanking)
                 };
 
                 localStorage.setItem(
@@ -1302,17 +1487,19 @@ async function registrarAcessoUsuario(
     }
 }
 
-firebase.auth().onAuthStateChanged(
-    async function (usuarioFirebase) {
-        if (!usuarioFirebase) {
-            return;
-        }
+if (auth) {
+    auth.onAuthStateChanged(
+        async function (usuarioFirebase) {
+            if (!usuarioFirebase) {
+                return;
+            }
 
-        await registrarAcessoUsuario(
-            usuarioFirebase
-        );
-    }
-);
+            await registrarAcessoUsuario(
+                usuarioFirebase
+            );
+        }
+    );
+}
 
 async function registrarVideoConcluido(
     tematica,
@@ -1347,66 +1534,6 @@ async function registrarVideoConcluido(
         .collection("atividades")
         .add(atividade);
 }
-
-{
-    titulo:
-        "Introdução à Potenciação",
-
-    tematica:
-        "Potenciação",
-
-    etapa:
-        1,
-
-    acessos:
-        32,
-
-    conclusoes:
-        18,
-
-    link:
-        "potenciacao.html"
-}
-
-
-
-
-{
-    usuarioId:
-        "UID_DO_ALUNO",
-
-    conteudoId:
-        "potenciacao-aula-3",
-
-    tematica:
-        "Potenciação",
-
-    titulo:
-        "Casos especiais",
-
-    tipo:
-        "conteudo_acessado",
-
-    acessadoEm:
-        firebase.firestore
-            .FieldValue
-            .serverTimestamp()
-}
-
-{
-    conteudoId:
-        "potenciacao-aula-3",
-
-    titulo:
-        "Casos especiais",
-
-    totalAcessos:
-        48
-}
-
-db.collection("conteudos")
-    .orderBy("acessosUltimos30Dias", "desc")
-    .limit(3);
 // ==========================================
 // disciplina suspenso
 // ==========================================

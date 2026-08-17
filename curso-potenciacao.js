@@ -2,7 +2,7 @@
 // CONFIGURAÇÕES DO CURSO
 // ==========================================
 
-const CHAVE_CURSO = "progressoCursoPotenciacao";
+const CHAVE_CURSO = chaveLocalDoUsuario("progressoCursoPotenciacao");
 const TOTAL_ETAPAS = 4;
 
 let playerVideoaula = null;
@@ -967,7 +967,7 @@ function obterResultadosPotenciacao() {
         const resultados =
             JSON.parse(
                 localStorage.getItem(
-                    "resultadosPotenciacao"
+                    chaveLocalDoUsuario("resultadosPotenciacao")
                 )
             );
 
@@ -1389,88 +1389,3 @@ function verificarConclusaoDaTrilha(
         progresso.concluidas.length !==
         TOTAL_ETAPAS;
 }
-
-await registrarVideoConcluido(
-    "Potenciação",
-    etapaAssistida
-);
-
-async function salvarResultadoNoFirebase(
-    dadosDoTeste
-) {
-    const usuario =
-        firebase.auth().currentUser;
-
-    if (!usuario) {
-        console.warn(
-            "O aluno precisa estar logado."
-        );
-
-        return;
-    }
-
-    const referenciaUsuario =
-        db.collection("usuarios")
-            .doc(usuario.uid);
-
-    await referenciaUsuario
-        .collection("resultados")
-        .add(
-            {
-                tematica:
-                    dadosDoTeste.tematica,
-
-                etapa:
-                    dadosDoTeste.etapa,
-
-                acertos:
-                    dadosDoTeste.acertos,
-
-                totalQuestoes:
-                    dadosDoTeste.totalQuestoes,
-
-                percentual:
-                    dadosDoTeste.percentual,
-
-                pontuacao:
-                    dadosDoTeste.pontuacao,
-
-                dificuldades:
-                    dadosDoTeste.dificuldades,
-
-                respostas:
-                    dadosDoTeste.respostas,
-
-                realizadoEm:
-                    firebase.firestore
-                        .FieldValue
-                        .serverTimestamp()
-            }
-        );
-}
-
-await salvarResultadoNoFirebase({
-    tematica:
-        "Potenciação",
-
-    etapa:
-        1,
-
-    acertos:
-        acertos,
-
-    totalQuestoes:
-        perguntas.length,
-
-    percentual:
-        percentual,
-
-    pontuacao:
-        pontos,
-
-    dificuldades:
-        analise.dificuldades,
-
-    respostas:
-        resultadosDoTeste
-});

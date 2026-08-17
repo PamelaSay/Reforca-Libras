@@ -6,52 +6,52 @@ const perguntas = [
     {
         radicando: 25,
         resposta: 5,
-        video: "libras_raiz_25.mp4"
+        video: ""
     },
     {
         radicando: 36,
         resposta: 6,
-        video: "libras_raiz_36.mp4"
+        video: ""
     },
     {
         radicando: 49,
         resposta: 7,
-        video: "libras_raiz_49.mp4"
+        video: ""
     },
     {
         radicando: 64,
         resposta: 8,
-        video: "libras_raiz_64.mp4"
+        video: ""
     },
     {
         radicando: 81,
         resposta: 9,
-        video: "libras_raiz_81.mp4"
+        video: ""
     },
     {
         radicando: 16,
         resposta: 4,
-        video: "libras_raiz_16.mp4"
+        video: ""
     },
     {
         radicando: 100,
         resposta: 10,
-        video: "libras_raiz_100.mp4"
+        video: ""
     },
     {
         radicando: 9,
         resposta: 3,
-        video: "libras_raiz_9.mp4"
+        video: ""
     },
     {
         radicando: 121,
         resposta: 11,
-        video: "libras_raiz_121.mp4"
+        video: ""
     },
     {
         radicando: 144,
         resposta: 12,
-        video: "libras_raiz_144.mp4"
+        video: ""
     }
 ];
 
@@ -64,6 +64,7 @@ let faseAtual = 0;
 let pontos = 0;
 let vidas = 3;
 let bloqueado = false;
+let resultadosDoTeste = [];
 
 
 // ==========================================
@@ -270,6 +271,13 @@ async function verificar(valor) {
     const acertou =
         valor === perguntaAtual.resposta;
 
+    resultadosDoTeste.push({
+        radicando: perguntaAtual.radicando,
+        respostaEscolhida: valor,
+        respostaCorreta: perguntaAtual.resposta,
+        acertou: acertou
+    });
+
     if (acertou) {
         pontos += 10;
 
@@ -355,7 +363,102 @@ function mostrarAlerta(configuracao) {
 // FINALIZAR JOGO
 // ==========================================
 
+function salvarResultadoRadiciacao(concluiu) {
+    const acertos = resultadosDoTeste.filter(function (resultado) {
+        return resultado.acertou;
+    }).length;
+
+    const percentual = perguntas.length
+        ? Math.round((acertos / perguntas.length) * 100)
+        : 0;
+
+    let historico = [];
+    try {
+        historico = JSON.parse(
+            localStorage.getItem(chaveLocalDoUsuario("resultadosRadiciacao"))
+        ) || [];
+    } catch (erro) {
+        historico = [];
+    }
+
+    const resultadoAtual = {
+        etapa: Number(sessionStorage.getItem("testeCursoAtual")) || 1,
+        pontuacao: pontos,
+        percentual: percentual,
+        respostas: resultadosDoTeste,
+        concluido: concluiu,
+        realizadoEm: new Date().toISOString()
+    };
+
+    historico.push(resultadoAtual);
+
+    localStorage.setItem(
+        chaveLocalDoUsuario("resultadosRadiciacao"),
+        JSON.stringify(historico)
+    );
+
+    salvarResultadoRadiciacaoNoFirebase(resultadoAtual);
+
+    if (concluiu) {
+        let progresso = null;
+        try {
+            progresso = JSON.parse(
+                localStorage.getItem(chaveLocalDoUsuario("progressoCursoRadiciacao"))
+            );
+        } catch (erro) {
+            progresso = null;
+        }
+
+        if (!progresso) {
+            progresso = {
+                etapaLiberada: 1,
+                aulasAssistidas: [],
+                concluidas: []
+            };
+        }
+
+        const etapa = Number(sessionStorage.getItem("testeCursoAtual")) || 1;
+        if (!Array.isArray(progresso.concluidas)) progresso.concluidas = [];
+        if (!progresso.concluidas.includes(etapa)) progresso.concluidas.push(etapa);
+        progresso.etapaLiberada = Math.min(4, Math.max(progresso.etapaLiberada || 1, etapa + 1));
+        localStorage.setItem(
+            chaveLocalDoUsuario("progressoCursoRadiciacao"),
+            JSON.stringify(progresso)
+        );
+    }
+}
+
+function salvarResultadoRadiciacaoNoFirebase(resultado) {
+    if (
+        typeof auth === "undefined" ||
+        typeof db === "undefined" ||
+        !auth ||
+        !db ||
+        !auth.currentUser
+    ) {
+        return;
+    }
+
+    db.collection("usuarios")
+        .doc(auth.currentUser.uid)
+        .collection("resultados")
+        .add({
+            tematica: "Radiciação",
+            etapa: resultado.etapa,
+            pontuacao: resultado.pontuacao,
+            percentual: resultado.percentual,
+            respostas: resultado.respostas,
+            concluido: resultado.concluido,
+            realizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .catch(function (erro) {
+            console.error("Erro ao salvar resultado da Radiciação:", erro);
+        });
+}
+
 async function finalizarJogo(concluiu) {
+    salvarResultadoRadiciacao(concluiu);
+
     if (typeof Swal === "undefined") {
         alert(
             concluiu
@@ -422,6 +525,7 @@ function reiniciarJogo() {
     pontos = 0;
     vidas = 3;
     bloqueado = false;
+    resultadosDoTeste = [];
 
     embaralhar(perguntas);
 
@@ -442,6 +546,18 @@ function carregarLibras(nomeDoVideo) {
         return;
     }
 
+    const aviso = document.getElementById("avisoLibras");
+
+    if (!nomeDoVideo) {
+        elementoVideo.hidden = true;
+        if (botaoRepetirVideo) botaoRepetirVideo.hidden = true;
+        if (aviso) aviso.hidden = false;
+        return;
+    }
+
+    elementoVideo.hidden = false;
+    if (botaoRepetirVideo) botaoRepetirVideo.hidden = false;
+    if (aviso) aviso.hidden = true;
     elementoFonteVideo.src = nomeDoVideo;
 
     elementoVideo.load();

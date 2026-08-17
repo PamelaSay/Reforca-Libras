@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- SweetAlert2 (Alertas Elegantes) -->
-    <!-- Coloque esta linha dentro da tag <head> do seu HTML -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <!-- MENU -->
@@ -25,7 +22,7 @@
 
         <!-- Menu -->
         <nav id="menu-links">
-            <a href="#">🏠 Início</a>
+            <a href="index.html" aria-current="page">🏠 Início</a>
                 <!-- DROPDOWN DISCIPLINAS (Texto simples sem formato de botão) -->
                      <div class="dropdown">
     <button type="button" class="dropbtn">
@@ -61,13 +58,7 @@
             </button>
 
             <div class="submenu-content">
-                <a href="biologia.html/tema=celulas">
-                    Células
-                </a>
-
-                <a href="biologia.html" class="ler-mais">
-                   ➕ Ver todas as temáticas
-                </a>
+                <span class="item-indisponivel">Conteúdos em breve</span>
             </div>
         </div>
 
@@ -77,7 +68,7 @@
                                    
                                 
 
-            <a href="#">🎮 Jogos</a>
+            <a href="jogo_potencia.html">🎮 Jogos</a>
             <a href="comentarios.html">💬 Comentários </a>
 
         </nav>
@@ -133,26 +124,6 @@
 </a>
 <button type="submit">Entrar</button>
                          </form>
-                         <!-- DIVISOR -->
-                        <div class="divisor">
-                            <span>ou</span>
-                        </div>
-                        <!-- BOTÃO DO GOOGLE -->
-                        <div id="g_id_onload"
-                            data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
-                            data-callback="handleCredentialResponse"
-                            data-auto_prompt="false">
-                        </div>
-
-                        <div class="g_id_signin"
-                            data-type="standard"
-                            data-size="large"
-                            data-theme="outline"
-                            data-text="sign_in_with"
-                            data-shape="pill"
-                            data-logo_alignment="left">
-                        </div>
-
                          <p>
                             Primeiro acesso?
                             <button type="button" id="abrirCadastro">Cadastrar</button>
@@ -569,13 +540,13 @@
                     <div class="cards">
                 
                         <!-- CARD POTENCIAÇÃO -->
-                    <div class="card" data-nome="potenciacao>
+                    <div class="card" data-nome="potenciacao matematica">
                         <img src="capa_potenciacao.png" alt="Potenciação">
                         <div class="card-content">
                             <h3>Potenciação</h3>
                             <p>Aprenda potência de forma divertida.</p>
                             <div class="buttons">
-                                <<a href="potenciacao.html">
+                                <a href="potenciacao.html">
     Acessar conteúdo
 </a>
                                
@@ -588,7 +559,7 @@
                     <!-- CARD RADICIAÇÃO -->
 
                     <div class="card" data-nome="radiciacao matematica">
-                        <img src="radiciacao.jpg" alt="Radiciação">
+                        <div class="card-imagem-fallback" role="img" aria-label="Símbolo de raiz quadrada">√</div>
                         <div class="card-content">
                             <h3>Radiciação</h3>
                             <p>Descubra as raízes matemáticas.</p>
@@ -612,12 +583,9 @@
 <div class="box">
 
 <h3>🏆 Ranking</h3>
-
-
-
-<p>🥇 Ana</p>
-<p>🥈 João</p>
-<p>🥉 Maria</p>
+<div id="rankingLista" aria-live="polite">
+    <p>Carregando ranking...</p>
+</div>
 
 </div>
 
@@ -658,7 +626,7 @@
 
     <!-- Botão que leva para a página completa -->
     <div class="ver-mais-box">
-        <a href=" comentarios.html" class="btn-ver-todos">Ler todos os comentários</a>
+        <a href="comentarios.html" class="btn-ver-todos">Ler todos os comentários</a>
     </div>
 </section>
 
@@ -674,6 +642,8 @@
         <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+        <script src="firebase-config.js"></script>
+        <script src="storage-utils.js"></script>
 
     <!-- Biblioteca de Alertas Bonitos SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

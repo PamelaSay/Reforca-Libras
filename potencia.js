@@ -354,7 +354,7 @@ function salvarResultadoDoAluno(
 
         historico = JSON.parse(
             localStorage.getItem(
-                "resultadosPotenciacao"
+                chaveLocalDoUsuario("resultadosPotenciacao")
             )
         ) || [];
 
@@ -408,9 +408,41 @@ function salvarResultadoDoAluno(
     });
 
     localStorage.setItem(
-        "resultadosPotenciacao",
+        chaveLocalDoUsuario("resultadosPotenciacao"),
         JSON.stringify(historico)
     );
+
+    salvarResultadoPotenciacaoNoFirebase(
+        historico[historico.length - 1]
+    );
+}
+
+function salvarResultadoPotenciacaoNoFirebase(resultado) {
+    if (
+        typeof auth === "undefined" ||
+        typeof db === "undefined" ||
+        !auth ||
+        !db ||
+        !auth.currentUser
+    ) {
+        return;
+    }
+
+    db.collection("usuarios")
+        .doc(auth.currentUser.uid)
+        .collection("resultados")
+        .add({
+            tematica: "Potenciação",
+            etapa: resultado.etapa,
+            pontuacao: resultado.pontuacao,
+            percentual: resultado.percentual,
+            respostas: resultado.respostas,
+            dificuldades: resultado.dificuldades,
+            realizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .catch(function (erro) {
+            console.error("Erro ao salvar resultado da Potenciação:", erro);
+        });
 }
 
 
@@ -420,7 +452,7 @@ function salvarResultadoDoAluno(
 
 function salvarConclusaoDoTeste() {
     const CHAVE_CURSO =
-        "progressoCursoPotenciacao";
+        chaveLocalDoUsuario("progressoCursoPotenciacao");
 
     const etapa =
         Number(

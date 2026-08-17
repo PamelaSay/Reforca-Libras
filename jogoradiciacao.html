@@ -11,7 +11,7 @@
 <body>
   <header class="topo">
     <button class="btn-voltar" type="button" onclick="window.history.back()" aria-label="Voltar" title="Voltar">
-      <img src="botao_retornar.png" alt="">
+      <img src="botao_retornar.png" alt="" class="imagem-voltar">
     </button>
 
     <div class="box-topo">
@@ -31,7 +31,7 @@
     <section class="conteudo">
       <aside class="avatar-area">
         <div class="fala" id="instrucao">Observe a representação e responda:</div>
-        <img id="avatar" src="avatar.png" alt="Personagem do Reforça Libras">
+        <div id="avatar" class="avatar-fallback" role="img" aria-label="Sinal de Libras">🤟</div>
       </aside>
 
       <section class="pergunta-area" aria-live="polite">
@@ -42,10 +42,11 @@
 
       <aside class="libras">
         <h2>✋ Tradução em Libras</h2>
-        <video id="videoLibras" muted playsinline preload="auto" poster="libras.png">
+        <video id="videoLibras" muted playsinline preload="metadata" hidden>
           <source id="fonteLibras" src="" type="video/mp4">
           Seu navegador não reproduz vídeos.
         </video>
+        <p id="avisoLibras" class="aviso-libras">Vídeo em Libras ainda não disponível.</p>
         <button id="repetirLibras" type="button">↻ Repetir tradução</button>
       </aside>
     </section>
@@ -67,6 +68,11 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="storage-utils.js"></script>
   <script src="jogoradiciacao.js"></script>
 </body>
 </html>

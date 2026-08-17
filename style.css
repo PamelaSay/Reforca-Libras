@@ -1508,3 +1508,22 @@ footer {
         margin-left: 0;
     }
 }
+/* Estados seguros para conteúdos que ainda não possuem página ou imagem. */
+.item-indisponivel {
+    display: block;
+    padding: 10px 14px;
+    color: #667085;
+    font-weight: 700;
+    cursor: default;
+}
+
+.card-imagem-fallback {
+    width: 100%;
+    min-height: 180px;
+    display: grid;
+    place-items: center;
+    color: #1d3557;
+    background: linear-gradient(135deg, #eaf8ff, #cfefff);
+    font-size: clamp(4rem, 10vw, 7rem);
+    font-weight: 900;
+}
