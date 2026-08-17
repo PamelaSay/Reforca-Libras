@@ -711,7 +711,7 @@ body {
    COMENTÁRIOS E AVALIAÇÃO (CORRIGIDO)
 ========================== */
 .estrela{
-    font-size:25px;
+    font-size:35px;
     color: #ccc; /* Removido o !important daqui */
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
@@ -770,9 +770,7 @@ body {
     background: rgba(255, 215, 0, 0.4);
     margin: 15px auto 0 auto;
 }
-/* ==========================================
-   PERFIL COMPLETO DO ALUNO
-========================================== */
+
 /* ==========================================
    PERFIL DO ALUNO — COMPACTO
 ========================================== */
