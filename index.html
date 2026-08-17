@@ -12,7 +12,6 @@
 <body>
     <!-- MENU -->
     <header class="menu">
-
     <div class="container menu-content">
 
         <!-- Logo -->
@@ -25,51 +24,37 @@
             <a href="index.html" aria-current="page">🏠 Início</a>
                 <!-- DROPDOWN DISCIPLINAS (Texto simples sem formato de botão) -->
                      <div class="dropdown">
-    <button type="button" class="dropbtn">
-        📚 Disciplinas ▼
-    </button>
+                         <button type="button" class="dropbtn">
+                             📚 Disciplinas ▼
+                         </button>
 
-    <div class="dropdown-content">
-        <!-- MATEMÁTICA -->
-        <div class="submenu">
-            <button type="button" class="item-menu">
-                Matemática <span>▶</span>
-            </button>
+                            <div class="dropdown-content">
+                                <!-- MATEMÁTICA -->
+                                    <div class="submenu">
+                                        <button type="button" class="item-menu">
+                                        Matemática <span>▶</span>
+                                        </button>
+                                        <div class="submenu-content">
+                                            <a href="potenciacao.html">Potenciação </a>
+                                            <a href="radiciacao.html">Radiciação </a>
+                                            <a href="matematica.html" class="ler-mais"> ➕ Ver todas as temáticas </a>
+                                        </div>
+                                    </div>
 
-            <div class="submenu-content">
-                <a href="potenciacao.html">
-                    Potenciação
-                </a>
+                                <!-- BIOLOGIA -->
+                                    <div class="submenu">
+                                        <button type="button" class="item-menu">
+                                            Biologia <span>▶</span>
+                                        </button>
 
-                <a href="radiciacao.html">
-                    Radiciação
-                </a>
-
-                <a href="matematica.html" class="ler-mais">
-                   ➕ Ver todas as temáticas
-                </a>
-            </div>
-        </div>
-
-        <!-- BIOLOGIA -->
-        <div class="submenu">
-            <button type="button" class="item-menu">
-                Biologia <span>▶</span>
-            </button>
-
-            <div class="submenu-content">
-                <span class="item-indisponivel">Conteúdos em breve</span>
-            </div>
-        </div>
-
-       
-    </div>
-</div>
-                                   
-                                
-
-            <a href="jogo_potencia.html">🎮 Jogos</a>
-            <a href="comentarios.html">💬 Comentários </a>
+                                        <div class="submenu-content">
+                                            <span class="item-indisponivel">Conteúdos em breve</span>
+                                        </div>
+                                    </div>
+                            </div>
+                     </div>
+                <a href="jogo_potencia.html">🎮 Jogos</a>
+                <a href="comentarios.html">💬 Comentários </a>
 
         </nav>
 
@@ -95,34 +80,15 @@
                             <label for="loginEmail">E-mail</label>
                             <input id="loginEmail"type="email"placeholder="E-mail" autocomplete="email"required>
                           <div class="campo-senha">
-    <input
-        id="senhaLogin"
-        type="password"
-        placeholder="Senha"
-        autocomplete="current-password"
-        required
-    >
-
-    <span
-        class="icone-olho"
-        onclick="alternarSenha('senhaLogin', this)"
-        role="button"
-        tabindex="0"
-        aria-label="Mostrar senha"
-        title="Mostrar senha"
-    >
-        👁️
-    </span>
-</div>
-
-<a
-    href="#"
-    class="esqueceu-senha"
-    onclick="esqueceuSenha(event)"
->
-    Esqueceu sua senha?
-</a>
-<button type="submit">Entrar</button>
+                             <input id="senhaLogin" type="password" placeholder="Senha" autocomplete="current-password" required >
+                                <span  class="icone-olho" onclick="alternarSenha('senhaLogin', this)"  role="button" tabindex="0" aria-label="Mostrar senha" title="Mostrar senha" >
+                                    👁️
+                                </span>
+                            </div>
+                                <a href="#" class="esqueceu-senha" onclick="esqueceuSenha(event)" >
+                                    Esqueceu sua senha?
+                                </a>
+                            <button type="submit">Entrar</button>
                          </form>
                          <p>
                             Primeiro acesso?
@@ -547,9 +513,8 @@
                             <p>Aprenda potência de forma divertida.</p>
                             <div class="buttons">
                                 <a href="potenciacao.html">
-    Acessar conteúdo
-</a>
-                               
+                                    Acessar conteúdo
+                                </a>
                             </div>
                         </div>
                     </div>
