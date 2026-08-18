@@ -166,7 +166,7 @@ function atualizarModuloAtivo() {
 
 function mostrarQuestao() {
     const q = questoesDaPartida[indiceQuestao];
-    if (!q) return finalizarPartida(true);
+    if (q) return finalizarPartida(true);
     respostaBloqueada = false; dicaUtilizada = false;
     elementos.topico.textContent = q.topico.toUpperCase();
     elementos.nivel.textContent = "NÍVEL " + q.nivel;
