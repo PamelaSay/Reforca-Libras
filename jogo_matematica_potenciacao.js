@@ -95,7 +95,11 @@ function iniciarAplicacao() {
     adicionarEventos();
     const parametros = new URLSearchParams(window.location.search);
     const moduloRecebido = parametros.get("modulo");
+    const etapaRecebida = Number(parametros.get("etapa"));
     if (moduloRecebido && bancoDeQuestoes[moduloRecebido]) moduloAtual = moduloRecebido;
+    if (Number.isInteger(etapaRecebida) && etapaRecebida >= 1) {
+        sessionStorage.setItem("testeCursoAtual", String(etapaRecebida));
+    }
     carregarModulosConcluidos();
     iniciarPartida(moduloAtual);
 }
@@ -558,7 +562,7 @@ async function finalizarPartida(concluiu) {
     });
 
     if (resposta.isConfirmed) {
-        voltarParaTrilha();
+        window.location.replace("potenciacao.html");
         return;
     }
 
@@ -570,4 +574,64 @@ async function finalizarPartida(concluiu) {
     window.location.href =
         "index.html#avaliacao";
 }
-function voltarParaTrilha(){elementos.video.src="";window.location.href="potenciacao.html";}
+
+async function sairDoJogo() {
+    const partidaIniciada = resultadosDaPartida.length > 0;
+    const mensagem = partidaIniciada
+        ? "O progresso desta partida ainda não foi concluído. Deseja realmente sair?"
+        : "Deseja sair do jogo e voltar para a trilha de potenciação?";
+
+    const resposta = await Swal.fire({
+        icon: "question",
+        title: "Sair do jogo?",
+        html: `
+            <div class="explicacao-resposta">
+                <div class="texto-explicacao">${mensagem}</div>
+                <iframe
+                    id="videoAlertaSaida"
+                    class="video-explicacao"
+                    src="${urlYouTube(VIDEO_TESTE)}"
+                    title="Tradução do alerta de saída em Libras"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                ></iframe>
+                <button
+                    id="repetirAlertaSaida"
+                    class="botao-alerta-repetir"
+                    type="button"
+                >
+                    ↻ Repetir tradução em Libras
+                </button>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: "Sim, sair",
+        cancelButtonText: "Continuar jogando",
+        confirmButtonColor: "#d94b4b",
+        cancelButtonColor: "#1d3557",
+        allowOutsideClick: false,
+        customClass: { popup: "alerta-reforca" },
+        didOpen: function () {
+            const video = document.getElementById("videoAlertaSaida");
+            const repetir = document.getElementById("repetirAlertaSaida");
+            if (!video || !repetir) return;
+            repetir.addEventListener("click", function () {
+                video.src = "";
+                setTimeout(function () {
+                    video.src = urlYouTube(VIDEO_TESTE, true);
+                }, 100);
+            });
+        },
+        willClose: function () {
+            const video = document.getElementById("videoAlertaSaida");
+            if (video) video.src = "";
+        }
+    });
+
+    if (resposta.isConfirmed) voltarParaTrilha();
+}
+
+function voltarParaTrilha() {
+    if (elementos.video) elementos.video.src = "";
+    window.location.replace("potenciacao.html");
+}
