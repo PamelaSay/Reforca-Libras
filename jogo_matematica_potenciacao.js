@@ -262,11 +262,32 @@ function atualizarVidas(){
 }
 
 function chaveLocal(base){return typeof chaveLocalDoUsuario==="function"?chaveLocalDoUsuario(base):base+"_visitante";}
+function salvarResultadoLocal(resultado) {
+    /*
+     * Esta é a chave lida pelo relatório da
+     * página potenciacao.html.
+     */
+    const chave = chaveLocal(
+        "resultadosPotenciacao"
+    );
 
-function salvarResultadoLocal(resultado){
-    const chave=chaveLocal("resultadosJogoPotenciacao");let historico=[];
-    try{historico=JSON.parse(localStorage.getItem(chave))||[];}catch(e){historico=[];}
-    historico.push(resultado);localStorage.setItem(chave,JSON.stringify(historico));
+    let historico = [];
+
+    try {
+        historico =
+            JSON.parse(
+                localStorage.getItem(chave)
+            ) || [];
+    } catch (erro) {
+        historico = [];
+    }
+
+    historico.push(resultado);
+
+    localStorage.setItem(
+        chave,
+        JSON.stringify(historico)
+    );
 }
 
 function marcarModuloConcluido(modulo){
@@ -287,48 +308,183 @@ async function salvarFirebase(resultado){
     catch(erro){console.error("Erro ao salvar resultado:",erro);}
 }
 
-async function finalizarPartida(concluiu){
-    elementos.video.src="";
-    const acertos=resultadosDaPartida.filter(r=>r.acertou).length;
-    const total=resultadosDaPartida.length;
-    const resultado={jogo:"jogo_matematica_potenciacao",tematica:"Potenciação",modulo:moduloAtual,nomeModulo:configuracaoModulos[moduloAtual].titulo,pontuacao:pontos,acertos,erros:total-acertos,totalRespondido:total,percentual:total?Math.round(acertos/total*100):0,concluido,respostas:resultadosDaPartida,realizadoEm:new Date().toISOString()};
-    salvarResultadoLocal(resultado);if(concluiu)marcarModuloConcluido(moduloAtual);salvarFirebase(resultado);
-    const r=await Swal.fire({icon:concluiu?"success":"warning",title:concluiu?"Módulo concluído!":"Suas vidas terminaram",html:`Você acertou <strong>${acertos} de ${total}</strong> desafios.<br>Pontuação: <strong>${pontos}</strong>.<br>Aproveitamento: <strong>${resultado.percentual}%</strong>.`,showDenyButton:true,showCancelButton:true,confirmButtonText:"Jogar novamente",denyButtonText:"Escolher outro módulo",cancelButtonText:"Avaliar o jogo",confirmButtonColor:"#1d3557",denyButtonColor:"#5fa8d3",cancelButtonColor:"#d9a900",allowOutsideClick:false});
-    if(r.isConfirmed)iniciarPartida(moduloAtual);else if(r.isDenied)document.querySelector(".mapa-modulos").scrollIntoView({behavior:"smooth"});else window.location.href="index.html#avaliacao";
+function registrarConclusaoNaTrilha() {
+    const etapaAtual = Number(
+        sessionStorage.getItem("testeCursoAtual")
+    );
+
+    /*
+     * A etapa é registrada pela página potenciacao.html
+     * quando o aluno entra no jogo.
+     */
+    if (
+        !Number.isInteger(etapaAtual) ||
+        etapaAtual < 1
+    ) {
+        return;
+    }
+
+    const chaveProgresso = chaveLocal(
+        "progressoCursoPotenciacao"
+    );
+
+    let progresso = {
+        etapaLiberada: 1,
+        aulasAssistidas: [],
+        concluidas: []
+    };
+
+    try {
+        const progressoSalvo =
+            localStorage.getItem(chaveProgresso);
+
+        if (progressoSalvo) {
+            progresso = {
+                ...progresso,
+                ...JSON.parse(progressoSalvo)
+            };
+        }
+    } catch (erro) {
+        console.error(
+            "Erro ao recuperar o progresso da trilha:",
+            erro
+        );
+    }
+
+    if (!Array.isArray(progresso.concluidas)) {
+        progresso.concluidas = [];
+    }
+
+    if (!Array.isArray(progresso.aulasAssistidas)) {
+        progresso.aulasAssistidas = [];
+    }
+
+    if (
+        !progresso.concluidas.includes(etapaAtual)
+    ) {
+        progresso.concluidas.push(etapaAtual);
+    }
+
+    progresso.concluidas.sort(function (a, b) {
+        return a - b;
+    });
+
+    progresso.etapaLiberada = Math.max(
+        Number(progresso.etapaLiberada) || 1,
+        etapaAtual + 1
+    );
+
+    localStorage.setItem(
+        chaveProgresso,
+        JSON.stringify(progresso)
+    );
+
+    sessionStorage.removeItem("testeCursoAtual");
+    sessionStorage.removeItem("testeSendoRefeito");
 }
-async function sairDoJogo() {
-    const partidaIniciada =
-        resultadosDaPartida.length > 0;
 
-    const mensagem = partidaIniciada
-        ? "O progresso desta partida ainda não foi concluído. Deseja realmente sair?"
-        : "Deseja sair do jogo e voltar para a trilha de potenciação?";
+async function finalizarPartida(concluiu) {
+    elementos.video.src = "";
 
-    const videoSaida =
-        "https://www.youtube.com/embed/r9AoQVkUUvU";
+    const acertos =
+        resultadosDaPartida.filter(
+            function (resultado) {
+                return resultado.acertou;
+            }
+        ).length;
+
+    const total =
+        resultadosDaPartida.length;
+
+    const percentual = total > 0
+        ? Math.round((acertos / total) * 100)
+        : 0;
+
+    const etapaAtual = Number(
+        sessionStorage.getItem("testeCursoAtual")
+    );
+
+    const resultado = {
+        jogo: "jogo_matematica_potenciacao",
+        tematica: "Potenciação",
+        modulo: moduloAtual,
+
+        nomeModulo:
+            configuracaoModulos[moduloAtual].titulo,
+
+        etapa:
+            Number.isInteger(etapaAtual)
+                ? etapaAtual
+                : null,
+
+        pontuacao: pontos,
+        acertos: acertos,
+        erros: total - acertos,
+        totalRespondido: total,
+        percentual: percentual,
+        concluido: concluiu,
+        respostas: resultadosDaPartida,
+        realizadoEm: new Date().toISOString()
+    };
+
+    salvarResultadoLocal(resultado);
+
+    if (concluiu) {
+        marcarModuloConcluido(moduloAtual);
+        registrarConclusaoNaTrilha();
+    }
+
+    salvarFirebase(resultado);
+
+    const titulo = concluiu
+        ? "Módulo concluído!"
+        : "Suas vidas terminaram";
+
+    const textoRetorno = concluiu
+        ? "A próxima etapa da trilha foi liberada."
+        : "Você pode voltar à trilha para revisar a aula.";
 
     const resposta = await Swal.fire({
-        icon: "question",
-        title: "Sair do jogo?",
+        icon: concluiu
+            ? "success"
+            : "warning",
+
+        title: titulo,
 
         html: `
             <div class="explicacao-resposta">
 
                 <div class="texto-explicacao">
-                    ${mensagem}
+                    Você acertou
+                    <strong>${acertos} de ${total}</strong>
+                    desafios.
+
+                    <br>
+
+                    Pontuação:
+                    <strong>${pontos} pontos</strong>.
+
+                    <br>
+
+                    Aproveitamento:
+                    <strong>${percentual}%</strong>.
+
+                    <br><br>
+
+                    ${textoRetorno}
                 </div>
 
                 <iframe
-                    id="videoAlertaSaida"
+                    id="videoConclusaoJogo"
                     class="video-explicacao"
-                    src="${urlYouTube(videoSaida)}"
-                    title="Tradução do alerta de saída em Libras"
+                    src="${urlYouTube(VIDEO_TESTE)}"
+                    title="Tradução do resultado do jogo em Libras"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
                 ></iframe>
 
                 <button
-                    id="repetirAlertaSaida"
+                    id="repetirConclusaoJogo"
                     class="botao-alerta-repetir"
                     type="button"
                 >
@@ -338,12 +494,21 @@ async function sairDoJogo() {
             </div>
         `,
 
+        showDenyButton: true,
         showCancelButton: true,
-        confirmButtonText: "Sim, sair",
-        cancelButtonText: "Continuar jogando",
 
-        confirmButtonColor: "#d94b4b",
-        cancelButtonColor: "#1d3557",
+        confirmButtonText:
+            "Voltar para a trilha",
+
+        denyButtonText:
+            "Jogar novamente",
+
+        cancelButtonText:
+            "Avaliar o jogo",
+
+        confirmButtonColor: "#1d3557",
+        denyButtonColor: "#5fa8d3",
+        cancelButtonColor: "#d9a900",
 
         allowOutsideClick: false,
         allowEscapeKey: false,
@@ -355,24 +520,24 @@ async function sairDoJogo() {
         didOpen: function () {
             const video =
                 document.getElementById(
-                    "videoAlertaSaida"
+                    "videoConclusaoJogo"
                 );
 
-            const botaoRepetir =
+            const repetir =
                 document.getElementById(
-                    "repetirAlertaSaida"
+                    "repetirConclusaoJogo"
                 );
 
-            if (!video || !botaoRepetir) return;
+            if (!video || !repetir) return;
 
-            botaoRepetir.addEventListener(
+            repetir.addEventListener(
                 "click",
                 function () {
                     video.src = "";
 
                     setTimeout(function () {
                         video.src = urlYouTube(
-                            videoSaida,
+                            VIDEO_TESTE,
                             true
                         );
                     }, 100);
@@ -383,7 +548,7 @@ async function sairDoJogo() {
         willClose: function () {
             const video =
                 document.getElementById(
-                    "videoAlertaSaida"
+                    "videoConclusaoJogo"
                 );
 
             if (video) {
@@ -394,7 +559,15 @@ async function sairDoJogo() {
 
     if (resposta.isConfirmed) {
         voltarParaTrilha();
+        return;
     }
-}
 
+    if (resposta.isDenied) {
+        iniciarPartida(moduloAtual);
+        return;
+    }
+
+    window.location.href =
+        "index.html#avaliacao";
+}
 function voltarParaTrilha(){elementos.video.src="";window.location.href="potenciacao.html";}
