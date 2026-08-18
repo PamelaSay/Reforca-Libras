@@ -297,10 +297,105 @@ async function finalizarPartida(concluiu){
     if(r.isConfirmed)iniciarPartida(moduloAtual);else if(r.isDenied)document.querySelector(".mapa-modulos").scrollIntoView({behavior:"smooth"});else window.location.href="index.html#avaliacao";
 }
 
-async function sairDoJogo(){
-    if(resultadosDaPartida.length===0)return voltarParaTrilha();
-    const r=await Swal.fire({icon:"question",title:"Sair do jogo?",text:"O progresso desta partida ainda não foi concluído.",showCancelButton:true,confirmButtonText:"Sair",cancelButtonText:"Continuar jogando",confirmButtonColor:"#d94b4b",cancelButtonColor:"#1d3557"});
-    if(r.isConfirmed)voltarParaTrilha();
+async function sairDoJogo() {
+    const partidaIniciada =
+        resultadosDaPartida.length > 0;
+
+    const mensagem = partidaIniciada
+        ? "O progresso desta partida ainda não foi concluído. Deseja realmente sair?"
+        : "Deseja sair do jogo e voltar para a trilha de potenciação?";
+
+    const videoSaida =
+        "https://www.youtube.com/embed/r9AoQVkUUvU";
+
+    const resposta = await Swal.fire({
+        icon: "question",
+        title: "Sair do jogo?",
+
+        html: `
+            <div class="explicacao-resposta">
+
+                <div class="texto-explicacao">
+                    ${mensagem}
+                </div>
+
+                <iframe
+                    id="videoAlertaSaida"
+                    class="video-explicacao"
+                    src="${urlYouTube(videoSaida)}"
+                    title="Tradução do alerta de saída em Libras"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                ></iframe>
+
+                <button
+                    id="repetirAlertaSaida"
+                    class="botao-alerta-repetir"
+                    type="button"
+                >
+                    ↻ Repetir tradução em Libras
+                </button>
+
+            </div>
+        `,
+
+        showCancelButton: true,
+        confirmButtonText: "Sim, sair",
+        cancelButtonText: "Continuar jogando",
+
+        confirmButtonColor: "#d94b4b",
+        cancelButtonColor: "#1d3557",
+
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+
+        customClass: {
+            popup: "alerta-reforca"
+        },
+
+        didOpen: function () {
+            const video =
+                document.getElementById(
+                    "videoAlertaSaida"
+                );
+
+            const botaoRepetir =
+                document.getElementById(
+                    "repetirAlertaSaida"
+                );
+
+            if (!video || !botaoRepetir) return;
+
+            botaoRepetir.addEventListener(
+                "click",
+                function () {
+                    video.src = "";
+
+                    setTimeout(function () {
+                        video.src = urlYouTube(
+                            videoSaida,
+                            true
+                        );
+                    }, 100);
+                }
+            );
+        },
+
+        willClose: function () {
+            const video =
+                document.getElementById(
+                    "videoAlertaSaida"
+                );
+
+            if (video) {
+                video.src = "";
+            }
+        }
+    });
+
+    if (resposta.isConfirmed) {
+        voltarParaTrilha();
+    }
 }
 
 function voltarParaTrilha(){elementos.video.src="";window.location.href="potenciacao.html";}
