@@ -296,7 +296,6 @@ async function finalizarPartida(concluiu){
     const r=await Swal.fire({icon:concluiu?"success":"warning",title:concluiu?"Módulo concluído!":"Suas vidas terminaram",html:`Você acertou <strong>${acertos} de ${total}</strong> desafios.<br>Pontuação: <strong>${pontos}</strong>.<br>Aproveitamento: <strong>${resultado.percentual}%</strong>.`,showDenyButton:true,showCancelButton:true,confirmButtonText:"Jogar novamente",denyButtonText:"Escolher outro módulo",cancelButtonText:"Avaliar o jogo",confirmButtonColor:"#1d3557",denyButtonColor:"#5fa8d3",cancelButtonColor:"#d9a900",allowOutsideClick:false});
     if(r.isConfirmed)iniciarPartida(moduloAtual);else if(r.isDenied)document.querySelector(".mapa-modulos").scrollIntoView({behavior:"smooth"});else window.location.href="index.html#avaliacao";
 }
-
 async function sairDoJogo() {
     const partidaIniciada =
         resultadosDaPartida.length > 0;
