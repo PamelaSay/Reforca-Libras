@@ -135,10 +135,29 @@ function embaralhar(lista) {
 }
 
 function iniciarPartida(modulo) {
+    const questoesDoModulo = bancoDeQuestoes[modulo];
+
+    if (!Array.isArray(questoesDoModulo) || questoesDoModulo.length === 0) {
+        console.error("O módulo não possui questões cadastradas:", modulo);
+
+        Swal.fire({
+            icon: "error",
+            title: "Não foi possível iniciar o módulo",
+            text: "As questões deste módulo não foram encontradas.",
+            confirmButtonText: "Voltar para a trilha",
+            confirmButtonColor: "#1d3557",
+            allowOutsideClick: false
+        }).then(function () {
+            window.location.replace("potenciacao.html");
+        });
+
+        return;
+    }
+
     moduloAtual = modulo;
     indiceQuestao = 0; pontos = 0; vidas = TOTAL_VIDAS; sequenciaAcertos = 0;
     respostaBloqueada = false; dicaUtilizada = false; resultadosDaPartida = [];
-    questoesDaPartida = embaralhar(bancoDeQuestoes[modulo]).slice(0, QUESTOES_POR_PARTIDA).map(q => ({...q, alternativasEmbaralhadas:embaralhar(q.alternativas)}));
+    questoesDaPartida = embaralhar(questoesDoModulo).slice(0, QUESTOES_POR_PARTIDA).map(q => ({...q, alternativasEmbaralhadas:embaralhar(q.alternativas)}));
     atualizarModuloAtivo();
     mostrarQuestao();
 }
@@ -166,7 +185,34 @@ function atualizarModuloAtivo() {
 
 function mostrarQuestao() {
     const q = questoesDaPartida[indiceQuestao];
-    if (!q) return finalizarPartida(true);
+
+    if (!q) {
+        console.error(
+            "Questão não encontrada.",
+            {
+                modulo: moduloAtual,
+                indice: indiceQuestao,
+                total: questoesDaPartida.length
+            }
+        );
+
+        Swal.fire({
+            icon: "error",
+            title: "Questão não carregada",
+            text: "Reinicie o módulo para tentar novamente.",
+            showCancelButton: true,
+            confirmButtonText: "Reiniciar módulo",
+            cancelButtonText: "Voltar para a trilha",
+            confirmButtonColor: "#1d3557",
+            cancelButtonColor: "#64748b",
+            allowOutsideClick: false
+        }).then(function (resposta) {
+            if (resposta.isConfirmed) iniciarPartida(moduloAtual);
+            else window.location.replace("potenciacao.html");
+        });
+
+        return;
+    }
     respostaBloqueada = false; dicaUtilizada = false;
     elementos.topico.textContent = q.topico.toUpperCase();
     elementos.nivel.textContent = "NÍVEL " + q.nivel;
@@ -388,6 +434,19 @@ function registrarConclusaoNaTrilha() {
 }
 
 async function finalizarPartida(concluiu) {
+    /*
+     * Impede que um erro de carregamento seja interpretado
+     * como conclusão do módulo antes de o aluno responder.
+     */
+    if (resultadosDaPartida.length === 0) {
+        console.error(
+            "A finalização foi bloqueada porque nenhuma questão foi respondida."
+        );
+
+        iniciarPartida(moduloAtual);
+        return;
+    }
+
     elementos.video.src = "";
 
     const acertos =
