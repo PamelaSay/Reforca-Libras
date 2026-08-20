@@ -47,7 +47,7 @@
                     <strong id="porcentagemCurso">0%</strong>
                 </div>
                 <div class="barra-curso"><div id="barraCurso"></div></div>
-                <p id="resumoCurso">0 de 4 etapas concluídas</p>
+                <p id="resumoCurso">0 de 5 etapas concluídas</p>
             </div>
         </section>
 
@@ -66,8 +66,8 @@
                     <div class="numero-topico">01</div>
                     <div class="descricao-topico">
                         <span class="situacao">AULA 1 · DISPONÍVEL</span>
-                        <h3>Introdução à potenciação</h3>
-                        <p>Compreenda a potência como uma multiplicação de fatores iguais.</p>
+                        <h3>Preparação — revisão da multiplicação</h3>
+                        <p>Relembre a multiplicação de fatores iguais antes de iniciar a potenciação.</p>
                     </div>
                     <div class="acoes-topico">
                         <a class="btn-aula" data-acao="aula" data-video-id="r9AoQVkUUvU" href="https://youtu.be/r9AoQVkUUvU">
@@ -76,10 +76,10 @@
                             <small>PRIMEIRO</small>Assistir aula
                          </span>
                         </a>
-                        <a class="btn-jogo" data-acao="teste" href="jogo_matematica_potenciacao.html?modulo=potenciacao"> 
-                            <span class="icone">🎮</span>
-                            <span><small>DEPOIS</small>Verificar conhecimento</span>
-                        </a>
+                        <span class="btn-jogo revisao-sem-teste" aria-label="Esta preparação é concluída ao terminar o vídeo">
+                            <span class="icone">✓</span>
+                            <span><small>AO TERMINAR</small>Liberar próxima aula</span>
+                        </span>
                     </div>
                 </article>
 
@@ -95,7 +95,7 @@
                             <span class="icone">▶</span>
                             <span><small>PRIMEIRO</small>Assistir videoaula</span>
                         </a>
-                        <a class="btn-jogo" data-acao="teste" href="jogo_matematica_potenciacao.html?modulo=casosEspeciais">
+                        <a class="btn-jogo" data-acao="teste" href="jogo_matematica_potenciacao.html?modulo=potenciacao">
         
                     <span class="icone">🎮</span>
                             <span><small>DEPOIS</small>Verificar conhecimento</span>
@@ -115,7 +115,7 @@
                             <span class="icone">▶</span>
                             <span><small>PRIMEIRO</small>Assistir videoaula</span>
                         </a>
-                        <a class="btn-jogo" data-acao="teste" href="jogo_matematica_potenciacao.html?modulo=baseDe">
+                        <a class="btn-jogo" data-acao="teste" href="jogo_matematica_potenciacao.html?modulo=casosEspeciais">
                             <span class="icone">🎮</span>
                             <span><small>DEPOIS</small>Verificar conhecimento</span>
                         </a>
@@ -126,6 +126,25 @@
                     <div class="numero-topico">04</div>
                     <div class="descricao-topico">
                         <span class="situacao">AULA 4 · BLOQUEADA</span>
+                        <h3>Potências de base 10</h3>
+                        <p>Relacione o expoente à quantidade de zeros na escrita das potências de base 10.</p>
+                    </div>
+                    <div class="acoes-topico">
+                        <a class="btn-aula" data-acao="aula" data-video-id="r9AoQVkUUvU" href="https://youtu.be/r9AoQVkUUvU">
+                            <span class="icone">▶</span>
+                            <span><small>PRIMEIRO</small>Assistir videoaula</span>
+                        </a>
+                        <a class="btn-jogo" data-acao="teste" href="jogo_matematica_potenciacao.html?modulo=baseDez">
+                            <span class="icone">🎮</span>
+                            <span><small>DEPOIS</small>Verificar conhecimento</span>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="topico etapa-curso bloqueada" data-etapa="5">
+                    <div class="numero-topico">05</div>
+                    <div class="descricao-topico">
+                        <span class="situacao">AULA 5 · BLOQUEADA</span>
                         <h3>Propriedades da potenciação</h3>
                         <p>Pratique produto, quociente, potência de potência e potência de produto.</p>
                     </div>
@@ -147,46 +166,24 @@
 
     <div class="relatorio-cabecalho">
         <span>ACOMPANHAMENTO</span>
-        <h2 id="tituloRelatorio">
-            Meu desempenho
-        </h2>
+        <h2 id="tituloRelatorio">Minha trilha</h2>
 
         <p>
-            Acompanhe seu desenvolvimento
-            em Potenciação.
+            Acompanhe as etapas e consulte a orientação em Libras.
         </p>
     </div>
 
-    <div class="relatorio-geral">
-
-        <div
-            id="circuloDesempenho"
-            class="circulo-desempenho"
-            style="--desempenho: 0"
-        >
-            <strong id="percentualDesempenho">
-                0%
-            </strong>
-
-            <span>desempenho</span>
-        </div>
-
-        <div class="resumo-desempenho">
-            <p>
-                <strong id="totalTestesRealizados">
-                    0
-                </strong>
-                testes realizados
-            </p>
-
-            <p>
-                <strong id="mediaAcertos">
-                    0%
-                </strong>
-                média de acertos
-            </p>
-        </div>
-
+    <div class="relatorio-bloco janela-libras-trilha">
+        <h3>🤟 Orientação em Libras</h3>
+        <iframe
+            id="videoLibrasTrilha"
+            src="https://www.youtube.com/embed/r9AoQVkUUvU?rel=0&amp;modestbranding=1"
+            title="Orientação da trilha de Potenciação em Libras"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+        ></iframe>
+        <button type="button" id="repetirVideoLibrasTrilha">↻ Repetir tradução em Libras</button>
     </div>
 
     <div class="relatorio-bloco">
@@ -215,35 +212,11 @@
                 <strong>Bloqueada</strong>
             </div>
 
-        </div>
+            <div class="andamento-item">
+                <span>Aula 5</span>
+                <strong>Bloqueada</strong>
+            </div>
 
-    </div>
-
-    <div class="relatorio-bloco">
-
-        <h3>📈 Desempenho por conteúdo</h3>
-
-        <div
-            id="desempenhoPorConteudo"
-            class="lista-desempenho"
-        >
-            <p class="relatorio-vazio">
-                Realize os testes para visualizar
-                seu desempenho.
-            </p>
-        </div>
-
-    </div>
-
-    <div class="relatorio-bloco recomendacoes">
-
-        <h3>💡 Recomendações</h3>
-
-        <div id="recomendacoesAluno">
-            <p>
-                Comece pela primeira videoaula
-                e realize a verificação.
-            </p>
         </div>
 
     </div>
@@ -262,12 +235,7 @@
             de Potenciação.
         </p>
 
-        <button
-            type="button"
-            id="abrirResultadoFinal"
-        >
-            Ver resultado completo
-        </button>
+        <a href="matematica.html" class="btn-voltar-matematica">Voltar para Matemática</a>
     </div>
 
 </aside>
