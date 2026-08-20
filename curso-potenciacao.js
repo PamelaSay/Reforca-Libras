@@ -3,7 +3,7 @@
 // ==========================================
 
 const CHAVE_CURSO = chaveLocalDoUsuario("progressoCursoPotenciacao");
-const TOTAL_ETAPAS = 4;
+const TOTAL_ETAPAS = 5;
 const VIDEO_ALERTA_VIDEOAULA =
     "https://www.youtube.com/embed/r9AoQVkUUvU";
 
@@ -19,6 +19,7 @@ let videoTerminou = false;
 
 function progressoInicial() {
     return {
+        versao: 2,
         etapaLiberada: 1,
         aulasAssistidas: [],
         concluidas: []
@@ -38,6 +39,13 @@ function obterProgressoCurso() {
         const progresso = salvo
             ? JSON.parse(salvo)
             : progressoInicial();
+
+        /* Reinicia apenas o progresso antigo de quatro etapas. */
+        if (progresso.versao !== 2) {
+            const novoProgresso = progressoInicial();
+            salvarProgressoCurso(novoProgresso);
+            return novoProgresso;
+        }
 
         progresso.etapaLiberada =
             Number(progresso.etapaLiberada) || 1;
@@ -482,6 +490,42 @@ function verificarEstadoDoVideo(evento) {
     );
 
     fecharModalVideoaula();
+
+    /* A revisão da multiplicação é uma etapa preparatória. */
+    if (etapaAssistida === 1) {
+        if (!aulaJaConcluida) {
+            concluirEtapaPotenciacao(1);
+        }
+
+        if (typeof Swal !== "undefined") {
+            Swal.fire({
+                icon: "success",
+                title: aulaJaConcluida
+                    ? "Revisão concluída!"
+                    : "Preparação concluída!",
+                html: conteudoAlertaComLibras(
+                    aulaJaConcluida
+                        ? "Você terminou de rever a multiplicação."
+                        : "A revisão da multiplicação foi concluída. A Aula 2 está liberada."
+                ),
+                confirmButtonText: "Continuar trilha",
+                confirmButtonColor: "#1d3557",
+                allowOutsideClick: false,
+                customClass: {
+                    popup: "alerta-reforca"
+                },
+                didOpen: ativarVideoDoAlerta,
+                willClose: pararVideoDoAlerta
+            });
+        } else {
+            alert(
+                "Preparação concluída!\n\n" +
+                "A Aula 2 está liberada."
+            );
+        }
+
+        return;
+    }
 
     /*
      * FLUXO DE REVISÃO:
@@ -928,6 +972,7 @@ function concluirEtapaPotenciacao(numero) {
 
     salvarProgressoCurso(progresso);
     atualizarCursoNaTela();
+    atualizarAcompanhamentoDaTrilha();
 }
 
 
@@ -946,11 +991,17 @@ function mostrarMensagem(
         return Swal.fire({
             icon: icone,
             title: titulo,
-            text: texto,
+            html: conteudoAlertaComLibras(texto),
             confirmButtonColor:
                 "#1d3557",
             confirmButtonText:
-                "OK"
+                "OK",
+            allowOutsideClick: false,
+            customClass: {
+                popup: "alerta-reforca"
+            },
+            didOpen: ativarVideoDoAlerta,
+            willClose: pararVideoDoAlerta
         });
     }
 
@@ -993,7 +1044,8 @@ document.addEventListener(
     function () {
         atualizarCursoNaTela();
         configurarLinksDoCurso();
-        atualizarRelatorioPotenciacao();
+        atualizarAcompanhamentoDaTrilha();
+        configurarJanelaLibrasDaTrilha();
 
         const fechar =
             document.getElementById(
@@ -1046,10 +1098,11 @@ document.addEventListener(
 // ==========================================
 
 const NOMES_DAS_ETAPAS = {
-    1: "Introdução",
+    1: "Revisão da multiplicação",
     2: "Base e expoente",
     3: "Casos especiais",
-    4: "Propriedades"
+    4: "Potências de base 10",
+    5: "Propriedades"
 };
 
 
@@ -1479,4 +1532,51 @@ function verificarConclusaoDaTrilha(
     conclusao.hidden =
         progresso.concluidas.length !==
         TOTAL_ETAPAS;
+}
+
+
+// ==========================================
+// ACOMPANHAMENTO SIMPLIFICADO DA TRILHA
+// ==========================================
+
+function atualizarAcompanhamentoDaTrilha() {
+    const progresso = obterProgressoCurso();
+    atualizarAndamentoDasEtapas(progresso);
+    verificarConclusaoDaTrilha(progresso);
+}
+
+
+// ==========================================
+// JANELA DE ORIENTAÇÃO EM LIBRAS
+// ==========================================
+
+function configurarJanelaLibrasDaTrilha() {
+    const video = document.getElementById(
+        "videoLibrasTrilha"
+    );
+
+    const botao = document.getElementById(
+        "repetirVideoLibrasTrilha"
+    );
+
+    if (!video || !botao) {
+        return;
+    }
+
+    const enderecoOriginal = video.src;
+
+    botao.addEventListener("click", function () {
+        video.src = "";
+
+        setTimeout(function () {
+            const separador = enderecoOriginal.includes("?")
+                ? "&"
+                : "?";
+
+            video.src =
+                enderecoOriginal +
+                separador +
+                "autoplay=1";
+        }, 100);
+    });
 }
