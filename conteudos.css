@@ -1372,7 +1372,7 @@
 /* ==========================================
    TRILHA DE POTENCIAÇÃO — JANELA EM LIBRAS
 ========================================== */
-
+.pagina-potenciacao .janela-libras-trilha iframe,
 .pagina-potenciacao .janela-libras-trilha iframe {
     display: block;
     width: 100%;
@@ -1383,6 +1383,8 @@
 }
 
 .pagina-potenciacao .janela-libras-trilha button,
+.pagina-radiciacao .janela-libras-trilha button,
+.pagina-radiciacao .btn-voltar-matematica,
 .pagina-potenciacao .btn-voltar-matematica {
     display: block;
     width: 100%;
