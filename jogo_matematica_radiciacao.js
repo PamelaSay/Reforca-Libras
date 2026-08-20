@@ -2,56 +2,59 @@
 // PERGUNTAS DO JOGO
 // ==========================================
 
+const VIDEO_TESTE_LIBRAS =
+    "https://www.youtube.com/embed/r9AoQVkUUvU";
+
 const perguntas = [
     {
         radicando: 25,
         resposta: 5,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 36,
         resposta: 6,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 49,
         resposta: 7,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 64,
         resposta: 8,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 81,
         resposta: 9,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 16,
         resposta: 4,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 100,
         resposta: 10,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 9,
         resposta: 3,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 121,
         resposta: 11,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     },
     {
         radicando: 144,
         resposta: 12,
-        video: ""
+        video: VIDEO_TESTE_LIBRAS
     }
 ];
 
@@ -65,6 +68,7 @@ let pontos = 0;
 let vidas = 3;
 let bloqueado = false;
 let resultadosDoTeste = [];
+let sequencia = 0;
 
 
 // ==========================================
@@ -73,14 +77,19 @@ let resultadosDoTeste = [];
 
 let elementoPontos;
 let elementoFase;
+let elementoTotalQuestoes;
 let elementoVidas;
 let elementoPergunta;
 let elementoQuadrado;
 let elementoAlternativas;
 let elementoProgresso;
 let elementoVideo;
-let elementoFonteVideo;
 let botaoRepetirVideo;
+let elementoVideoIndisponivel;
+let elementoPorcentagem;
+let elementoSequencia;
+let botaoDica;
+let areaDica;
 
 
 // ==========================================
@@ -92,7 +101,10 @@ function iniciarJogo() {
         document.getElementById("pontos");
 
     elementoFase =
-        document.getElementById("fase");
+        document.getElementById("questaoAtual");
+
+    elementoTotalQuestoes =
+        document.getElementById("totalQuestoes");
 
     elementoVidas =
         document.getElementById("vidas");
@@ -107,16 +119,28 @@ function iniciarJogo() {
         document.getElementById("alternativas");
 
     elementoProgresso =
-        document.getElementById("progresso");
+        document.getElementById("preenchimentoProgresso");
 
     elementoVideo =
         document.getElementById("videoLibras");
 
-    elementoFonteVideo =
-        document.getElementById("fonteLibras");
-
     botaoRepetirVideo =
-        document.getElementById("repetirLibras");
+        document.getElementById("botaoRepetirLibras");
+
+    elementoVideoIndisponivel =
+        document.getElementById("videoIndisponivel");
+
+    elementoPorcentagem =
+        document.getElementById("porcentagemProgresso");
+
+    elementoSequencia =
+        document.getElementById("valorSequencia");
+
+    botaoDica =
+        document.getElementById("botaoDica");
+
+    areaDica =
+        document.getElementById("areaDica");
 
     if (
         !elementoPontos ||
@@ -141,6 +165,12 @@ function iniciarJogo() {
         );
     }
 
+    configurarControlesDaTela();
+
+    if (elementoTotalQuestoes) {
+        elementoTotalQuestoes.textContent = perguntas.length;
+    }
+
     embaralhar(perguntas);
     mostrarPergunta();
     atualizarStatus();
@@ -153,6 +183,12 @@ function iniciarJogo() {
 
 function mostrarPergunta() {
     bloqueado = false;
+
+    if (areaDica && botaoDica) {
+        areaDica.hidden = true;
+        botaoDica.setAttribute("aria-expanded", "false");
+        botaoDica.textContent = "💡 Ver dica";
+    }
 
     const perguntaAtual =
         perguntas[faseAtual];
@@ -233,12 +269,23 @@ function criarAlternativas(respostaCorreta) {
     elementoAlternativas.innerHTML = "";
 
     alternativas.forEach(
-        function (valor) {
+        function (valor, indice) {
             const botao =
                 document.createElement("button");
 
             botao.type = "button";
-            botao.textContent = valor;
+            botao.className = "botao-alternativa";
+            botao.dataset.valor = String(valor);
+
+            const letra = String.fromCharCode(65 + indice);
+
+            botao.innerHTML =
+                '<span class="letra-alternativa">' +
+                letra +
+                "</span>" +
+                "<span>" +
+                valor +
+                "</span>";
 
             botao.addEventListener(
                 "click",
@@ -280,6 +327,12 @@ async function verificar(valor) {
 
     if (acertou) {
         pontos += 10;
+        sequencia++;
+
+        marcarAlternativas(
+            valor,
+            perguntaAtual.resposta
+        );
 
         atualizarStatus();
 
@@ -296,6 +349,12 @@ async function verificar(valor) {
 
     } else {
         vidas--;
+        sequencia = 0;
+
+        marcarAlternativas(
+            valor,
+            perguntaAtual.resposta
+        );
 
         atualizarStatus();
 
@@ -323,6 +382,8 @@ async function verificar(valor) {
 
     faseAtual++;
 
+    atualizarStatus();
+
     if (faseAtual >= perguntas.length) {
         finalizarJogo(true);
         return;
@@ -336,16 +397,81 @@ async function verificar(valor) {
 // ALERTA DE RESPOSTA
 // ==========================================
 
+function conteudoAlertaComLibras(texto) {
+    return `
+        <div style="display:grid;gap:12px;text-align:left;">
+            <div style="padding:12px;background:#f2fbff;border-left:5px solid #5fa8d3;border-radius:12px;">
+                ${texto}
+            </div>
+
+            <iframe
+                id="videoAlertaRadiciacao"
+                src="${VIDEO_TESTE_LIBRAS}?rel=0&modestbranding=1"
+                title="Tradução do alerta do jogo de Radiciação em Libras"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="width:100%;height:250px;background:#000;border:2px solid #5fa8d3;border-radius:14px;"
+            ></iframe>
+
+            <button
+                id="repetirAlertaRadiciacao"
+                type="button"
+                style="width:100%;padding:9px 12px;background:#dff4ff;color:#1d3557;border:2px solid #5fa8d3;border-radius:12px;font-weight:900;cursor:pointer;"
+            >
+                ↻ Repetir tradução em Libras
+            </button>
+        </div>
+    `;
+}
+
+function ativarTraducaoDoAlerta() {
+    const video = document.getElementById(
+        "videoAlertaRadiciacao"
+    );
+
+    const botao = document.getElementById(
+        "repetirAlertaRadiciacao"
+    );
+
+    if (!video || !botao) return;
+
+    botao.addEventListener("click", function () {
+        video.src = "";
+
+        setTimeout(function () {
+            video.src =
+                VIDEO_TESTE_LIBRAS +
+                "?rel=0&modestbranding=1&autoplay=1";
+        }, 100);
+    });
+}
+
+function pararTraducaoDoAlerta() {
+    const video = document.getElementById(
+        "videoAlertaRadiciacao"
+    );
+
+    if (video) video.src = "";
+}
+
 function mostrarAlerta(configuracao) {
     if (typeof Swal !== "undefined") {
         return Swal.fire({
             icon: configuracao.icon,
             title: configuracao.title,
-            text: configuracao.text,
-            timer: configuracao.timer,
-            showConfirmButton: false,
+            html: conteudoAlertaComLibras(
+                configuracao.text
+            ),
+            confirmButtonText: "Continuar",
+            confirmButtonColor: "#1d3557",
+            allowOutsideClick: false,
             background: "#ffffff",
-            color: "#1d3557"
+            color: "#1d3557",
+            customClass: {
+                popup: "alerta-reforca"
+            },
+            didOpen: ativarTraducaoDoAlerta,
+            willClose: pararTraducaoDoAlerta
         });
     }
 
@@ -479,19 +605,21 @@ async function finalizarJogo(concluiu) {
             ? "Missão concluída!"
             : "Game Over",
 
-        html: concluiu
-            ? (
-                "Você completou as 10 fases." +
-                "<br><strong>Pontuação: " +
-                pontos +
-                "</strong>"
-            )
-            : (
-                "Suas vidas terminaram." +
-                "<br><strong>Pontuação: " +
-                pontos +
-                "</strong>"
-            ),
+        html: conteudoAlertaComLibras(
+            concluiu
+                ? (
+                    "Você completou as 10 fases." +
+                    "<br><strong>Pontuação: " +
+                    pontos +
+                    "</strong>"
+                )
+                : (
+                    "Suas vidas terminaram." +
+                    "<br><strong>Pontuação: " +
+                    pontos +
+                    "</strong>"
+                )
+        ),
 
         showCancelButton: true,
 
@@ -505,13 +633,22 @@ async function finalizarJogo(concluiu) {
             "#1d3557",
 
         cancelButtonColor:
-            "#5fa8d3"
+            "#5fa8d3",
+
+        allowOutsideClick: false,
+
+        customClass: {
+            popup: "alerta-reforca"
+        },
+
+        didOpen: ativarTraducaoDoAlerta,
+        willClose: pararTraducaoDoAlerta
     });
 
     if (resultado.isConfirmed) {
         reiniciarJogo();
     } else {
-        window.history.back();
+        window.location.href = "radiciacao.html";
     }
 }
 
@@ -526,6 +663,7 @@ function reiniciarJogo() {
     vidas = 3;
     bloqueado = false;
     resultadosDoTeste = [];
+    sequencia = 0;
 
     embaralhar(perguntas);
 
@@ -539,42 +677,28 @@ function reiniciarJogo() {
 // ==========================================
 
 function carregarLibras(nomeDoVideo) {
-    if (
-        !elementoVideo ||
-        !elementoFonteVideo
-    ) {
+    if (!elementoVideo) {
         return;
     }
-
-    const aviso = document.getElementById("avisoLibras");
 
     if (!nomeDoVideo) {
         elementoVideo.hidden = true;
         if (botaoRepetirVideo) botaoRepetirVideo.hidden = true;
-        if (aviso) aviso.hidden = false;
+        if (elementoVideoIndisponivel) {
+            elementoVideoIndisponivel.hidden = false;
+        }
         return;
     }
 
     elementoVideo.hidden = false;
     if (botaoRepetirVideo) botaoRepetirVideo.hidden = false;
-    if (aviso) aviso.hidden = true;
-    elementoFonteVideo.src = nomeDoVideo;
-
-    elementoVideo.load();
-    elementoVideo.currentTime = 0;
-
-    const reproducao =
-        elementoVideo.play();
-
-    if (reproducao) {
-        reproducao.catch(
-            function () {
-                console.log(
-                    "O navegador aguardará uma interação para reproduzir o vídeo."
-                );
-            }
-        );
+    if (elementoVideoIndisponivel) {
+        elementoVideoIndisponivel.hidden = true;
     }
+
+    elementoVideo.src =
+        nomeDoVideo +
+        "?rel=0&modestbranding=1";
 }
 
 
@@ -587,21 +711,18 @@ function repetirTraducao() {
         return;
     }
 
-    elementoVideo.currentTime = 0;
+    const endereco = elementoVideo.src
+        .replace("&autoplay=1", "")
+        .replace("?autoplay=1", "");
 
-    const reproducao =
-        elementoVideo.play();
+    elementoVideo.src = "";
 
-    if (reproducao) {
-        reproducao.catch(
-            function (erro) {
-                console.error(
-                    "Não foi possível repetir o vídeo:",
-                    erro
-                );
-            }
-        );
-    }
+    setTimeout(function () {
+        elementoVideo.src =
+            endereco +
+            (endereco.includes("?") ? "&" : "?") +
+            "autoplay=1";
+    }, 100);
 }
 
 
@@ -618,15 +739,28 @@ function atualizarStatus() {
             perguntas.length
         );
 
-    elementoVidas.textContent = vidas;
+    elementoVidas.innerHTML =
+        "❤️".repeat(vidas) +
+        "<span class=\"somente-leitor\">" +
+        vidas +
+        " vidas restantes</span>";
+
+    if (elementoSequencia) {
+        elementoSequencia.textContent = sequencia;
+    }
 
     const porcentagem =
-        ((faseAtual + 1) /
+        (faseAtual /
             perguntas.length) *
         100;
 
     elementoProgresso.style.width =
         porcentagem + "%";
+
+    if (elementoPorcentagem) {
+        elementoPorcentagem.textContent =
+            Math.round(porcentagem) + "%";
+    }
 
     const barra =
         elementoProgresso.parentElement;
@@ -643,6 +777,95 @@ function atualizarStatus() {
 // ==========================================
 // BLOQUEAR ALTERNATIVAS
 // ==========================================
+
+function marcarAlternativas(valorEscolhido, respostaCorreta) {
+    const botoes =
+        elementoAlternativas.querySelectorAll(
+            ".botao-alternativa"
+        );
+
+    botoes.forEach(function (botao) {
+        const valor = Number(botao.dataset.valor);
+
+        if (valor === respostaCorreta) {
+            botao.classList.add("correta");
+        } else if (valor === valorEscolhido) {
+            botao.classList.add("incorreta");
+        } else {
+            botao.classList.add("neutra");
+        }
+    });
+}
+
+function configurarControlesDaTela() {
+    const botaoVoltar =
+        document.getElementById("botaoVoltar");
+
+    const botaoSair =
+        document.getElementById("botaoSair");
+
+    if (botaoVoltar) {
+        botaoVoltar.addEventListener(
+            "click",
+            confirmarSaidaDoJogo
+        );
+    }
+
+    if (botaoSair) {
+        botaoSair.addEventListener(
+            "click",
+            confirmarSaidaDoJogo
+        );
+    }
+
+    if (botaoDica && areaDica) {
+        botaoDica.addEventListener("click", function () {
+            const deveAbrir = areaDica.hidden;
+
+            areaDica.hidden = !deveAbrir;
+            botaoDica.setAttribute(
+                "aria-expanded",
+                String(deveAbrir)
+            );
+
+            botaoDica.textContent = deveAbrir
+                ? "💡 Ocultar dica"
+                : "💡 Ver dica";
+        });
+    }
+}
+
+async function confirmarSaidaDoJogo() {
+    if (typeof Swal === "undefined") {
+        if (confirm("Deseja sair do jogo?")) {
+            window.location.href = "radiciacao.html";
+        }
+        return;
+    }
+
+    const resultado = await Swal.fire({
+        icon: "warning",
+        title: "Sair do jogo?",
+        html: conteudoAlertaComLibras(
+            "O progresso desta partida ainda não concluída será perdido."
+        ),
+        showCancelButton: true,
+        confirmButtonText: "Sim, sair",
+        cancelButtonText: "Continuar jogando",
+        confirmButtonColor: "#d94b4b",
+        cancelButtonColor: "#1d3557",
+        allowOutsideClick: false,
+        customClass: {
+            popup: "alerta-reforca"
+        },
+        didOpen: ativarTraducaoDoAlerta,
+        willClose: pararTraducaoDoAlerta
+    });
+
+    if (resultado.isConfirmed) {
+        window.location.href = "radiciacao.html";
+    }
+}
 
 function desativarAlternativas() {
     const botoes =
