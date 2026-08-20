@@ -1370,9 +1370,9 @@
 }
 
 /* ==========================================
-   TRILHA DE POTENCIAÇÃO — JANELA EM LIBRAS
+   TRILHA DE POTENCIAÇÃO E RADICIAÇÃO — JANELA EM LIBRAS
 ========================================== */
-.pagina-radiciacao.janela-libras-trilha iframe,
+.pagina-radiciacao .janela-libras-trilha iframe,
 .pagina-potenciacao .janela-libras-trilha iframe {
     display: block;
     width: 100%;
