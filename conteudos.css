@@ -1372,7 +1372,7 @@
 /* ==========================================
    TRILHA DE POTENCIAÇÃO — JANELA EM LIBRAS
 ========================================== */
-.pagina-potenciacao .janela-libras-trilha iframe,
+.pagina-radiciacao.janela-libras-trilha iframe,
 .pagina-potenciacao .janela-libras-trilha iframe {
     display: block;
     width: 100%;
@@ -1409,22 +1409,29 @@
 .pagina-potenciacao .janela-libras-trilha button:hover,
 .pagina-potenciacao .janela-libras-trilha button:focus-visible,
 .pagina-potenciacao .btn-voltar-matematica:hover,
-.pagina-potenciacao .btn-voltar-matematica:focus-visible {
+.pagina-potenciacao .btn-voltar-matematica:focus-visible,
+.pagina-radiciacao .janela-libras-trilha button:hover,
+.pagina-radiciacao .janela-libras-trilha button:focus-visible,
+.pagina-radiciacao .btn-voltar-matematica:hover,
+.pagina-radiciacao .btn-voltar-matematica:focus-visible {
     background: #1d3557;
     color: #fff;
     transform: translateY(-1px);
 }
 
-.pagina-potenciacao .revisao-sem-teste {
+.pagina-potenciacao .revisao-sem-teste,
+.pagina-radiciacao .revisao-sem-teste {
     cursor: default;
 }
 
-.pagina-potenciacao .revisao-sem-teste:hover {
+.pagina-potenciacao .revisao-sem-teste:hover,
+.pagina-radiciacao .revisao-sem-teste:hover {
     transform: none;
 }
 
 @media (max-width: 600px) {
-    .pagina-potenciacao .janela-libras-trilha iframe {
+    .pagina-potenciacao .janela-libras-trilha iframe,
+    .pagina-radiciacao .janela-libras-trilha iframe  {
         min-height: 190px;
     }
 }
