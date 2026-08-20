@@ -29,13 +29,13 @@
         <button
             type="button"
             class="btn-voltar"
-            onclick="voltarPagina()"
-            aria-label="Voltar"
-            title="Voltar"
+            onclick="window.location.href='index.html'"
+            aria-label="Voltar para a página inicial"
+            title="Voltar para a página inicial"
         >
             <img
                 src="botao_retornar.png"
-                alt="Voltar"
+                alt="Voltar para a página inicial"
                 class="btn-voltar-img"
             >
         </button>
@@ -165,8 +165,8 @@
                             <a
                                 class="btn-aula"
                                 data-acao="aula"
-                                data-video-id="ID_DO_VIDEO_DA_AULA_1"
-                                href="#"
+                                data-video-id="r9AoQVkUUvU"
+                                href="https://youtu.be/r9AoQVkUUvU"
                             >
                                 <span class="icone">
                                     ▶
@@ -238,8 +238,8 @@
                             <a
                                 class="btn-aula"
                                 data-acao="aula"
-                                data-video-id="ID_DO_VIDEO_DA_AULA_2"
-                                href="#"
+                                data-video-id="r9AoQVkUUvU"
+                                href="https://youtu.be/r9AoQVkUUvU"
                             >
                                 <span class="icone">
                                     ▶
@@ -311,8 +311,8 @@
                             <a
                                 class="btn-aula"
                                 data-acao="aula"
-                                data-video-id="ID_DO_VIDEO_DA_AULA_3"
-                                href="#"
+                                data-video-id="r9AoQVkUUvU"
+                                href="https://youtu.be/r9AoQVkUUvU"
                             >
                                 <span class="icone">
                                     ▶
@@ -383,8 +383,8 @@
                             <a
                                 class="btn-aula"
                                 data-acao="aula"
-                                data-video-id="ID_DO_VIDEO_DA_AULA_4"
-                                href="#"
+                                data-video-id="r9AoQVkUUvU"
+                                href="https://youtu.be/r9AoQVkUUvU"
                             >
                                 <span class="icone">
                                     ▶
@@ -439,57 +439,31 @@
                         ACOMPANHAMENTO
                     </span>
 
-                    <h2 id="tituloRelatorio">
-                        Meu desempenho
-                    </h2>
+                    <h2 id="tituloRelatorio">Minha trilha</h2>
 
                     <p>
-                        Acompanhe seu desenvolvimento
-                        em Radiciação.
+                        Acompanhe as etapas e consulte
+                        a orientação em Libras.
                     </p>
 
                 </div>
 
 
-                <div class="relatorio-geral">
+                <div class="relatorio-bloco janela-libras-trilha">
+                    <h3>🤟 Orientação em Libras</h3>
 
-                    <div
-                        id="circuloDesempenho"
-                        class="circulo-desempenho"
-                        style="--desempenho: 0"
-                    >
+                    <iframe
+                        id="videoLibrasTrilha"
+                        src="https://www.youtube.com/embed/r9AoQVkUUvU?rel=0&amp;modestbranding=1"
+                        title="Orientação da trilha de Radiciação em Libras"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy"
+                    ></iframe>
 
-                        <strong id="percentualDesempenho">
-                            0%
-                        </strong>
-
-                        <span>
-                            desempenho
-                        </span>
-
-                    </div>
-
-
-                    <div class="resumo-desempenho">
-
-                        <p>
-                            <strong id="totalTestesRealizados">
-                                0
-                            </strong>
-
-                            testes realizados
-                        </p>
-
-                        <p>
-                            <strong id="mediaAcertos">
-                                0%
-                            </strong>
-
-                            média de acertos
-                        </p>
-
-                    </div>
-
+                    <button type="button" id="repetirVideoLibrasTrilha">
+                        ↻ Repetir tradução em Libras
+                    </button>
                 </div>
 
 
@@ -500,41 +474,6 @@
                     </h3>
 
                     <div id="andamentoEtapas"></div>
-
-                </div>
-
-
-                <div class="relatorio-bloco">
-
-                    <h3>
-                        📈 Desempenho por conteúdo
-                    </h3>
-
-                    <div
-                        id="desempenhoPorConteudo"
-                        class="lista-desempenho"
-                    >
-                        <p class="relatorio-vazio">
-                            Realize os testes para visualizar
-                            seu desempenho.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="relatorio-bloco recomendacoes">
-
-                    <h3>
-                        💡 Recomendações
-                    </h3>
-
-                    <div id="recomendacoesAluno">
-                        <p>
-                            Comece pela primeira videoaula
-                            e realize a verificação.
-                        </p>
-                    </div>
 
                 </div>
 
@@ -556,12 +495,9 @@
                         de Radiciação.
                     </p>
 
-                    <button
-                        type="button"
-                        id="abrirResultadoFinal"
-                    >
-                        Ver resultado completo
-                    </button>
+                    <a href="matematica.html" class="btn-voltar-matematica">
+                        Voltar para Matemática
+                    </a>
 
                 </div>
 

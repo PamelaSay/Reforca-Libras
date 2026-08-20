@@ -4,6 +4,8 @@
 
 const CHAVE_CURSO = chaveLocalDoUsuario("progressoCursoRadiciacao");
 const TOTAL_ETAPAS = 4;
+const VIDEO_ALERTA_VIDEOAULA =
+    "https://www.youtube.com/embed/r9AoQVkUUvU";
 
 let playerVideoaula = null;
 let etapaVideoAtual = null;
@@ -96,6 +98,7 @@ function registrarAulaAssistida(numero) {
 
     salvarProgressoCurso(progresso);
     atualizarCursoNaTela();
+    atualizarAcompanhamentoDaTrilha();
 }
 
 
@@ -377,6 +380,71 @@ function abrirVideoaula(numero, videoId) {
 }
 
 // ==========================================
+// ALERTA COM TRADUÇÃO EM LIBRAS
+// ==========================================
+
+function conteudoAlertaComLibras(texto) {
+    return `
+        <div style="display:grid;gap:12px;text-align:left;">
+            <div style="padding:12px;background:#f2fbff;border-left:5px solid #5fa8d3;border-radius:12px;">
+                ${texto}
+            </div>
+
+            <iframe
+                id="videoAlertaVideoaula"
+                src="${VIDEO_ALERTA_VIDEOAULA}?rel=0&modestbranding=1"
+                title="Tradução do alerta da trilha de Radiciação em Libras"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="width:100%;height:260px;background:#000;border:2px solid #5fa8d3;border-radius:14px;"
+            ></iframe>
+
+            <button
+                id="repetirAlertaVideoaula"
+                type="button"
+                style="width:100%;min-height:40px;padding:8px 12px;background:#dff4ff;color:#1d3557;border:2px solid #5fa8d3;border-radius:12px;font-weight:900;cursor:pointer;"
+            >
+                ↻ Repetir tradução em Libras
+            </button>
+        </div>
+    `;
+}
+
+function ativarVideoDoAlerta() {
+    const video = document.getElementById(
+        "videoAlertaVideoaula"
+    );
+
+    const botao = document.getElementById(
+        "repetirAlertaVideoaula"
+    );
+
+    if (!video || !botao) {
+        return;
+    }
+
+    botao.addEventListener("click", function () {
+        video.src = "";
+
+        setTimeout(function () {
+            video.src =
+                VIDEO_ALERTA_VIDEOAULA +
+                "?rel=0&modestbranding=1&autoplay=1";
+        }, 100);
+    });
+}
+
+function pararVideoDoAlerta() {
+    const video = document.getElementById(
+        "videoAlertaVideoaula"
+    );
+
+    if (video) {
+        video.src = "";
+    }
+}
+
+// ==========================================
 // VERIFICAR FINAL DO VÍDEO
 // ==========================================
 function verificarEstadoDoVideo(evento) {
@@ -435,8 +503,9 @@ function verificarEstadoDoVideo(evento) {
                 title:
                     "Revisão concluída!",
 
-                text:
-                    "Você terminou de rever esta videoaula.",
+                html: conteudoAlertaComLibras(
+                    "Você terminou de rever esta videoaula."
+                ),
 
                 showCancelButton: true,
 
@@ -450,7 +519,16 @@ function verificarEstadoDoVideo(evento) {
                     "#1d3557",
 
                 cancelButtonColor:
-                    "#5fa8d3"
+                    "#5fa8d3",
+
+                allowOutsideClick: false,
+
+                customClass: {
+                    popup: "alerta-reforca"
+                },
+
+                didOpen: ativarVideoDoAlerta,
+                willClose: pararVideoDoAlerta
             }).then(
                 function (resultado) {
                     if (
@@ -496,8 +574,9 @@ function verificarEstadoDoVideo(evento) {
             title:
                 "Videoaula concluída!",
 
-            text:
-                "Deseja fazer agora a verificação de conhecimento desta aula?",
+            html: conteudoAlertaComLibras(
+                "Deseja fazer agora a verificação de conhecimento desta aula?"
+            ),
 
             showCancelButton: true,
 
@@ -511,7 +590,16 @@ function verificarEstadoDoVideo(evento) {
                 "#1d3557",
 
             cancelButtonColor:
-                "#5fa8d3"
+                "#5fa8d3",
+
+            allowOutsideClick: false,
+
+            customClass: {
+                popup: "alerta-reforca"
+            },
+
+            didOpen: ativarVideoDoAlerta,
+            willClose: pararVideoDoAlerta
         }).then(
             function (resultado) {
                 if (
@@ -837,6 +925,7 @@ function concluirEtapaRadiciacao(numero) {
 
     salvarProgressoCurso(progresso);
     atualizarCursoNaTela();
+    atualizarAcompanhamentoDaTrilha();
 }
 
 
@@ -855,11 +944,17 @@ function mostrarMensagem(
         return Swal.fire({
             icon: icone,
             title: titulo,
-            text: texto,
+            html: conteudoAlertaComLibras(texto),
             confirmButtonColor:
                 "#1d3557",
             confirmButtonText:
-                "OK"
+                "OK",
+            allowOutsideClick: false,
+            customClass: {
+                popup: "alerta-reforca"
+            },
+            didOpen: ativarVideoDoAlerta,
+            willClose: pararVideoDoAlerta
         });
     }
 
@@ -902,7 +997,8 @@ document.addEventListener(
     function () {
         atualizarCursoNaTela();
         configurarLinksDoCurso();
-        atualizarRelatorioRadiciacao();
+        atualizarAcompanhamentoDaTrilha();
+        configurarJanelaLibrasDaTrilha();
 
         const fechar =
             document.getElementById(
@@ -1388,4 +1484,51 @@ function verificarConclusaoDaTrilha(
     conclusao.hidden =
         progresso.concluidas.length !==
         TOTAL_ETAPAS;
+}
+
+
+// ==========================================
+// ACOMPANHAMENTO SIMPLIFICADO DA TRILHA
+// ==========================================
+
+function atualizarAcompanhamentoDaTrilha() {
+    const progresso = obterProgressoCurso();
+    atualizarAndamentoDasEtapas(progresso);
+    verificarConclusaoDaTrilha(progresso);
+}
+
+
+// ==========================================
+// JANELA DE ORIENTAÇÃO EM LIBRAS
+// ==========================================
+
+function configurarJanelaLibrasDaTrilha() {
+    const video = document.getElementById(
+        "videoLibrasTrilha"
+    );
+
+    const botao = document.getElementById(
+        "repetirVideoLibrasTrilha"
+    );
+
+    if (!video || !botao) {
+        return;
+    }
+
+    const enderecoOriginal = video.src;
+
+    botao.addEventListener("click", function () {
+        video.src = "";
+
+        setTimeout(function () {
+            const separador = enderecoOriginal.includes("?")
+                ? "&"
+                : "?";
+
+            video.src =
+                enderecoOriginal +
+                separador +
+                "autoplay=1";
+        }, 100);
+    });
 }
