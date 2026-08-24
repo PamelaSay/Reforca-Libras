@@ -135,7 +135,6 @@ async function cadastrar() {
     const emailInput = document.getElementById("emailCadastro");
     const senhaInput = document.getElementById("senhaCadastro");
     const aceiteInput = document.getElementById("aceitarTermos");
-    const rankingInput = document.getElementById("participarRanking");
 
     if (!nomeInput || !emailInput || !senhaInput || !aceiteInput) {
         exibirAlerta(
@@ -150,9 +149,8 @@ async function cadastrar() {
     const nome = nomeInput.value.trim();
     const email = emailInput.value.trim().toLowerCase();
     const senha = senhaInput.value;
-    const participarRanking = Boolean(
-        rankingInput && rankingInput.checked
-    );
+    // O ranking público usa somente o nome informado no cadastro.
+    const participarRanking = true;
 
     if (!nome) {
         exibirAlerta(
@@ -651,7 +649,6 @@ function atualizarPerfilLocal() {
 
     if (usuario) {
         definirTexto("nomeUsuario", usuario.nome || "Aluno");
-        definirTexto("emailUsuarioPerfil", usuario.email || "E-mail não informado");
     }
 
     definirTexto("perfilAulas", resumo.aulas);
@@ -763,7 +760,6 @@ async function atualizarRankingPublico() {
 
     try {
         const consulta = await db.collection("usuarios")
-            .where("participarRanking", "==", true)
             .limit(50)
             .get();
 
@@ -839,10 +835,9 @@ async function excluirConta() {
 
     const resultado = await Swal.fire({
         title: "Excluir conta?",
-        text:
-            "Seu cadastro e seus dados de perfil serão " +
-            "apagados permanentemente.",
-
+        html: montarConteudoAlertaLibras(
+            "Seu cadastro, seu progresso e seus comentários serão apagados permanentemente."
+        ),
         icon: "warning",
 
         showCancelButton: true,
@@ -859,17 +854,17 @@ async function excluirConta() {
     }
 
     try {
-        if (!auth || !auth.currentUser) {
+        const usuario = await aguardarUsuarioFirebase();
+
+        if (!auth || !usuario) {
             exibirAlerta(
                 "warning",
-                "Entre novamente",
-                "Faça login novamente antes de excluir sua conta."
+                "Sessão não encontrada",
+                "Não foi possível localizar a conta conectada."
             );
 
             return;
         }
-
-        const usuario = auth.currentUser;
 
         await apagarColecaoEmLotes(
             db.collection("usuarios").doc(usuario.uid).collection("resultados")
@@ -905,7 +900,7 @@ async function excluirConta() {
         await Swal.fire({
             icon: "success",
             title: "Conta excluída",
-            text: "Seu cadastro foi removido.",
+            html: montarConteudoAlertaLibras("Seu cadastro foi removido."),
             timer: 1500,
             showConfirmButton: false
         });
@@ -918,8 +913,8 @@ async function excluirConta() {
         if (erro.code === "auth/requires-recent-login") {
             exibirAlerta(
                 "warning",
-                "Entre novamente",
-                "Por segurança, saia, entre novamente e repita a exclusão."
+                "Confirmação de segurança necessária",
+                "O Firebase bloqueou a exclusão porque esta sessão é antiga. Entre novamente e repita somente nesse caso."
             );
 
             return;
@@ -931,6 +926,28 @@ async function excluirConta() {
             traduzirErroFirebase(erro.code)
         );
     }
+}
+
+function aguardarUsuarioFirebase() {
+    if (!auth) return Promise.resolve(null);
+    if (auth.currentUser) return Promise.resolve(auth.currentUser);
+
+    return new Promise(function (resolve) {
+        let finalizado = false;
+        const encerrar = function (usuario) {
+            if (finalizado) return;
+            finalizado = true;
+            resolve(usuario || null);
+        };
+        const cancelarObservacao = auth.onAuthStateChanged(function (usuario) {
+            cancelarObservacao();
+            encerrar(usuario);
+        });
+        setTimeout(function () {
+            cancelarObservacao();
+            encerrar(auth.currentUser);
+        }, 3000);
+    });
 }
 
 async function apagarColecaoEmLotes(referenciaColecao) {
@@ -1180,7 +1197,7 @@ function exibirAlerta(
         Swal.fire({
             icon: icon,
             title: title,
-            text: text,
+            html: montarConteudoAlertaLibras(text),
             timer: timer,
             showConfirmButton: !timer
         }).then(function () {
@@ -1196,6 +1213,24 @@ function exibirAlerta(
             callback();
         }
     }
+}
+
+function escaparHtml(valor) {
+    const elemento = document.createElement("div");
+    elemento.textContent = String(valor || "");
+    return elemento.innerHTML;
+}
+
+function montarConteudoAlertaLibras(texto) {
+    return (
+        '<div class="alerta-conteudo-acessivel">' +
+            '<div class="janela-libras-alerta" aria-label="Janela de tradução em Libras">' +
+                '<span aria-hidden="true">🤟</span>' +
+                '<strong>Janela de Libras</strong>' +
+            '</div>' +
+            '<p>' + escaparHtml(texto) + '</p>' +
+        '</div>'
+    );
 }
 
 
