@@ -1,6 +1,3 @@
-jogo_radiciacao_visual_js_completo.txt
-
-
 "use strict";
 
 const VIDEO_TESTE = "https://www.youtube.com/embed/r9AoQVkUUvU";
@@ -44,4 +41,4 @@ async function alertaResposta(acertou,q){await Swal.fire({icon:acertou?"success"
 function atualizar(){el.pontos.textContent=pontos;el.questaoAtual.textContent=Math.min(indice+1,questoes.length);el.totalQuestoes.textContent=questoes.length;el.sequencia.textContent=sequencia;el.vidas.textContent="❤️".repeat(vidas);const percentual=Math.round(indice/questoes.length*100);el.porcentagem.textContent=percentual+"%";el.preenchimento.style.width=percentual+"%";el.barra.setAttribute("aria-valuenow",percentual);el.mapaEtapas.querySelectorAll("li").forEach((li,i)=>{li.classList.toggle("atual",i===indice);li.classList.toggle("concluida",i<indice);});}
 async function finalizar(concluiu){el.preenchimento.style.width=concluiu?"100%":el.preenchimento.style.width;el.porcentagem.textContent=concluiu?"100%":el.porcentagem.textContent;const r=await Swal.fire({icon:concluiu?"success":"warning",title:concluiu?"Missão concluída!":"Suas vidas terminaram",html:conteudoAlerta(`Pontuação: <strong>${pontos}</strong>.<br>Este protótipo não altera o progresso da trilha.`,VIDEO_TESTE,"Resultado em Libras"),showCancelButton:true,confirmButtonText:"Jogar novamente",cancelButtonText:"Fechar protótipo",confirmButtonColor:"#1d3557",cancelButtonColor:"#5fa8d3",allowOutsideClick:false,didOpen:()=>ativarAlerta(VIDEO_TESTE)});if(r.isConfirmed)iniciar();else sairPrototipo();}
 async function confirmarSaida(){const r=await Swal.fire({icon:"question",title:"Sair do protótipo?",html:conteudoAlerta("Esta partida não está associada à trilha e seu progresso não será salvo.",VIDEO_TESTE,"Saída em Libras"),showCancelButton:true,confirmButtonText:"Sim, sair",cancelButtonText:"Continuar jogando",confirmButtonColor:"#d94b4b",cancelButtonColor:"#1d3557",didOpen:()=>ativarAlerta(VIDEO_TESTE)});if(r.isConfirmed)sairPrototipo();}
-function sairPrototipo(){if(history.length>1)history.back();else location.href="../index.html";}
+function sairPrototipo(){if(history.length>1)history.back();else location.href="index.html";}
