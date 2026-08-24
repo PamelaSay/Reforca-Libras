@@ -1,289 +1,1582 @@
-"use strict";
+const VERSAO_TERMOS = "1.0";
 
-const VIDEO_TESTE = "https://www.youtube.com/embed/r9AoQVkUUvU";
-const TOTAL_VIDAS = 3;
-const QUESTOES_POR_PARTIDA = 10;
-const V = VIDEO_TESTE;
 
-const configuracaoModulos = {
-    introducao: {
-        titulo: "Introdução à Radiciação",
-        instrucao: "Analise quadrados, cubos e os elementos da radiciação."
-    },
-    propriedades: {
-        titulo: "Propriedades da Radiciação",
-        instrucao: "Use produto, quociente e simplificação de radicais."
+// ==========================================
+// ELEMENTOS DOS MODAIS
+// ==========================================
+
+const btnLogin = document.getElementById("btnLogin");
+
+const modalLogin = document.getElementById("modalLogin");
+const fecharLogin = document.getElementById("fecharLogin");
+
+const abrirCadastro = document.getElementById("abrirCadastro");
+const modalCadastro = document.getElementById("modalCadastro");
+const fecharCadastro = document.getElementById("fecharCadastro");
+
+const modalPerfil = document.getElementById("modalPerfil");
+const fecharPerfil = document.getElementById("fecharPerfil");
+
+const modalTermos = document.getElementById("modalTermos");
+const abrirTermos = document.getElementById("abrirTermos");
+const fecharTermos = document.getElementById("fecharTermos");
+const concordarTermos = document.getElementById("concordarTermos");
+
+
+// ==========================================
+// ABRIR LOGIN OU PERFIL
+// ==========================================
+
+if (btnLogin) {
+    btnLogin.onclick = function () {
+        const usuarioLogado = obterUsuarioLocal();
+
+        if (usuarioLogado) {
+            mostrarPerfil();
+        } else if (modalLogin) {
+            modalLogin.style.display = "flex";
+        }
+    };
+}
+
+
+// ==========================================
+// FECHAR MODAIS
+// ==========================================
+
+if (fecharLogin) {
+    fecharLogin.onclick = function () {
+        modalLogin.style.display = "none";
+    };
+}
+
+if (fecharCadastro) {
+    fecharCadastro.onclick = function () {
+        modalCadastro.style.display = "none";
+    };
+}
+
+if (fecharPerfil) {
+    fecharPerfil.onclick = function () {
+        modalPerfil.style.display = "none";
+    };
+}
+
+if (fecharTermos) {
+    fecharTermos.onclick = function () {
+        modalTermos.style.display = "none";
+    };
+}
+
+
+// ==========================================
+// ABRIR CADASTRO
+// ==========================================
+
+if (abrirCadastro) {
+    abrirCadastro.onclick = function () {
+        if (modalLogin) {
+            modalLogin.style.display = "none";
+        }
+
+        if (modalCadastro) {
+            modalCadastro.style.display = "flex";
+        }
+    };
+}
+
+
+// ==========================================
+// CÓDIGO DE ÉTICA
+// ==========================================
+
+if (abrirTermos) {
+    abrirTermos.onclick = function () {
+        if (modalTermos) {
+            modalTermos.style.display = "flex";
+        }
+    };
+}
+
+if (concordarTermos) {
+    concordarTermos.onclick = function () {
+        const aceite = document.getElementById("aceitarTermos");
+
+        if (aceite) {
+            aceite.checked = true;
+        }
+
+        if (modalTermos) {
+            modalTermos.style.display = "none";
+        }
+    };
+}
+
+
+// ==========================================
+// USUÁRIO SALVO NO NAVEGADOR
+// ==========================================
+
+function obterUsuarioLocal() {
+    try {
+        return JSON.parse(localStorage.getItem("usuarioLogado"));
+    } catch (erro) {
+        return null;
     }
-};
-
-const bancoDeQuestoes = {
-    introducao: [
-        {id:"rad-int-01",topico:"Raiz quadrada",nivel:1,pergunta:"Qual é a medida do lado de um quadrado com área igual a 25?",representacao:"Área do quadrado = 25 unidades²",alternativas:["5","10","12,5","25"],correta:"5",dica:"Procure um número que, multiplicado por ele mesmo, resulte em 25.",explicacao:"Como 5 × 5 = 25, o lado do quadrado mede 5 unidades. Portanto, √25 = 5.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-02",topico:"Raiz quadrada",nivel:1,pergunta:"Qual é a raiz quadrada de 36?",representacao:"√36",alternativas:["6","4","18","72"],correta:"6",dica:"Qual número multiplicado por ele mesmo resulta em 36?",explicacao:"6 × 6 = 36. Portanto, √36 = 6.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-03",topico:"Raiz cúbica",nivel:1,pergunta:"Qual é a raiz cúbica de 27?",representacao:"∛27",alternativas:["3","6","9","27"],correta:"3",dica:"Procure um número que, multiplicado por ele mesmo três vezes, resulte em 27.",explicacao:"3 × 3 × 3 = 27. Portanto, ∛27 = 3.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-04",topico:"Formação de cubos",nivel:1,pergunta:"Um cubo possui volume igual a 64. Qual é a medida de sua aresta?",representacao:"Volume do cubo = 64 unidades³",alternativas:["4","2","8","16"],correta:"4",dica:"A aresta participa três vezes da multiplicação.",explicacao:"4 × 4 × 4 = 64. Assim, ∛64 = 4 e a aresta mede 4 unidades.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-05",topico:"Índice",nivel:1,pergunta:"Na expressão ∛125 = 5, qual é o índice?",representacao:"³√125 = 5",alternativas:["3","5","25","125"],correta:"3",dica:"O índice é o número pequeno colocado junto ao radical.",explicacao:"O número 3 é o índice. Ele indica que a operação é uma raiz cúbica.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-06",topico:"Radicando",nivel:1,pergunta:"Na expressão √49 = 7, qual é o radicando?",representacao:"√49 = 7",alternativas:["49","7","2","√"],correta:"49",dica:"O radicando é o número que aparece dentro do radical.",explicacao:"Na expressão √49 = 7, o número 49 está dentro do radical. Portanto, ele é o radicando.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-07",topico:"Raiz",nivel:1,pergunta:"Na expressão ∛8 = 2, qual é a raiz?",representacao:"³√8 = 2",alternativas:["2","3","8","24"],correta:"2",dica:"A raiz é o resultado da operação.",explicacao:"Como 2 × 2 × 2 = 8, o resultado da operação e a raiz são iguais a 2.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-08",topico:"Raízes exatas",nivel:2,pergunta:"Qual destas raízes quadradas é exata?",representacao:"Escolha a expressão com resultado inteiro",alternativas:["√49","√20","√30","√50"],correta:"√49",dica:"Procure um radicando que seja o quadrado de um número inteiro.",explicacao:"Como 7 × 7 = 49, temos √49 = 7. Por isso, √49 é uma raiz exata.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-09",topico:"Caso com zero",nivel:1,pergunta:"Qual é o valor de √0?",representacao:"√0",alternativas:["0","1","2","Não existe"],correta:"0",dica:"Zero multiplicado por ele mesmo continua sendo zero.",explicacao:"Como 0 × 0 = 0, temos √0 = 0.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-int-10",topico:"Caso com um",nivel:1,pergunta:"Qual é o valor de ∛1?",representacao:"³√1",alternativas:["1","0","3","Não existe"],correta:"1",dica:"Um multiplicado por ele mesmo não muda de valor.",explicacao:"Como 1 × 1 × 1 = 1, temos ∛1 = 1.",videoPergunta:V,videoDica:V,videoExplicacao:V}
-    ],
-    propriedades: [
-        {id:"rad-pro-01",topico:"Produto de radicais",nivel:1,pergunta:"Qual propriedade aparece em √(9 × 4) = √9 × √4?",representacao:"√(9 × 4) = √9 × √4",alternativas:["Produto","Quociente","Adição","Subtração"],correta:"Produto",dica:"Observe a operação que aparece entre 9 e 4.",explicacao:"A raiz de um produto pode ser escrita como o produto das raízes, quando os radicais possuem o mesmo índice.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-02",topico:"Produto de radicais",nivel:1,pergunta:"Qual é o valor de √9 × √16?",representacao:"√9 × √16",alternativas:["12","7","25","144"],correta:"12",dica:"Calcule separadamente √9 e √16.",explicacao:"√9 = 3 e √16 = 4. Portanto, √9 × √16 = 3 × 4 = 12.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-03",topico:"Produto de radicais",nivel:1,pergunta:"Qual é o valor de √(25 × 4)?",representacao:"√(25 × 4)",alternativas:["10","7","20","100"],correta:"10",dica:"Separe a raiz do produto em √25 × √4.",explicacao:"√(25 × 4) = √25 × √4 = 5 × 2 = 10.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-04",topico:"Quociente de radicais",nivel:1,pergunta:"Qual é o valor de √(64 ÷ 4)?",representacao:"√(64 ÷ 4)",alternativas:["4","2","8","16"],correta:"4",dica:"Você pode calcular √64 ÷ √4.",explicacao:"√(64 ÷ 4) = √64 ÷ √4 = 8 ÷ 2 = 4.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-05",topico:"Quociente de radicais",nivel:1,pergunta:"Qual propriedade aparece em √(49 ÷ 1) = √49 ÷ √1?",representacao:"√(49 ÷ 1) = √49 ÷ √1",alternativas:["Quociente","Produto","Potência","Adição"],correta:"Quociente",dica:"Observe a divisão apresentada dentro e fora do radical.",explicacao:"A raiz de um quociente pode ser escrita como o quociente das raízes, com divisor diferente de zero.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-06",topico:"Simplificação",nivel:2,pergunta:"Qual é a forma simplificada de √12?",representacao:"√12 = √(4 × 3)",alternativas:["2√3","3√2","4√3","6√2"],correta:"2√3",dica:"O fator 4 possui raiz quadrada exata.",explicacao:"√12 = √(4 × 3) = √4 × √3 = 2√3.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-07",topico:"Simplificação",nivel:2,pergunta:"Qual é a forma simplificada de √18?",representacao:"√18 = √(9 × 2)",alternativas:["3√2","2√3","6√2","9√2"],correta:"3√2",dica:"Separe o fator 9, pois ele possui raiz exata.",explicacao:"√18 = √(9 × 2) = √9 × √2 = 3√2.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-08",topico:"Simplificação",nivel:2,pergunta:"Qual é a forma simplificada de √50?",representacao:"√50 = √(25 × 2)",alternativas:["5√2","2√5","10√5","25√2"],correta:"5√2",dica:"O número 25 é um quadrado perfeito.",explicacao:"√50 = √(25 × 2) = √25 × √2 = 5√2.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-09",topico:"Fatoração",nivel:2,pergunta:"Qual fator com raiz exata ajuda a simplificar √20?",representacao:"20 = fator exato × outro fator",alternativas:["4","2","5","10"],correta:"4",dica:"Procure um quadrado perfeito que seja divisor de 20.",explicacao:"O número 4 divide 20 e possui raiz exata. Assim, √20 = √(4 × 5) = 2√5.",videoPergunta:V,videoDica:V,videoExplicacao:V},
-        {id:"rad-pro-10",topico:"Simplificação",nivel:3,pergunta:"Sabendo que 72 = 36 × 2, qual é a forma simplificada de √72?",representacao:"√72 = √(36 × 2)",alternativas:["6√2","2√6","3√8","12√2"],correta:"6√2",dica:"Calcule a raiz quadrada do fator 36.",explicacao:"√72 = √(36 × 2) = √36 × √2 = 6√2.",videoPergunta:V,videoDica:V,videoExplicacao:V}
-    ]
-};
-
-let moduloAtual = "introducao";
-let questoes = [];
-let indice = 0;
-let pontos = 0;
-let vidas = TOTAL_VIDAS;
-let sequencia = 0;
-let bloqueado = false;
-let dicaUsada = false;
-let resultados = [];
-const el = {};
-
-document.addEventListener("DOMContentLoaded", iniciar);
-
-function iniciar() {
-    localizarElementos();
-    adicionarEventos();
-    const recebido = new URLSearchParams(location.search).get("modulo");
-    if (recebido && bancoDeQuestoes[recebido]) moduloAtual = recebido;
-    carregarModulosConcluidos();
-    iniciarPartida(moduloAtual);
 }
 
-function localizarElementos() {
-    const ids = {pontos:"pontos",questaoAtual:"questaoAtual",totalQuestoes:"totalQuestoes",tituloModulo:"tituloModulo",topico:"topicoPergunta",nivel:"nivelPergunta",instrucao:"instrucao",pergunta:"textoPergunta",representacao:"representacaoDesafio",alternativas:"alternativas",botaoDica:"botaoDica",areaDica:"areaDica",textoDica:"textoDica",video:"videoLibras",videoIndisponivel:"videoIndisponivel",repetir:"botaoRepetirLibras",preenchimento:"preenchimentoProgresso",barra:"barraProgresso",porcentagem:"porcentagemProgresso",vidas:"vidas",sequencia:"valorSequencia",voltar:"botaoVoltar",sair:"botaoSair"};
-    Object.entries(ids).forEach(([chave,id]) => el[chave] = document.getElementById(id));
-    el.modulos = document.querySelectorAll(".botao-modulo[data-modulo]");
-}
 
-function adicionarEventos() {
-    el.botaoDica.addEventListener("click", alternarDica);
-    el.repetir.addEventListener("click", repetirVideo);
-    el.voltar.addEventListener("click", confirmarSaida);
-    el.sair.addEventListener("click", confirmarSaida);
-    el.modulos.forEach(botao => botao.addEventListener("click", () => selecionarModulo(botao.dataset.modulo)));
-}
+// ==========================================
+// CADASTRAR USUÁRIO
+// ==========================================
 
-function embaralhar(lista) {
-    const copia = [...lista];
-    for (let i = copia.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copia[i], copia[j]] = [copia[j], copia[i]];
+async function cadastrar() {
+    const nomeInput = document.getElementById("nomeCadastro");
+    const emailInput = document.getElementById("emailCadastro");
+    const senhaInput = document.getElementById("senhaCadastro");
+    const aceiteInput = document.getElementById("aceitarTermos");
+
+    if (!nomeInput || !emailInput || !senhaInput || !aceiteInput) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "Os campos do cadastro não foram encontrados."
+        );
+
+        return;
     }
-    return copia;
-}
 
-function iniciarPartida(modulo) {
-    moduloAtual = modulo;
-    indice = 0; pontos = 0; vidas = TOTAL_VIDAS; sequencia = 0;
-    bloqueado = false; dicaUsada = false; resultados = [];
-    questoes = embaralhar(bancoDeQuestoes[modulo]).slice(0, QUESTOES_POR_PARTIDA).map(q => ({...q, alternativasSorteadas:embaralhar(q.alternativas)}));
-    atualizarModulo();
-    mostrarQuestao();
-}
+    const nome = nomeInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
+    const senha = senhaInput.value;
+    // O ranking público usa somente o nome informado no cadastro.
+    const participarRanking = true;
 
-async function selecionarModulo(modulo) {
-    if (!bancoDeQuestoes[modulo] || modulo === moduloAtual) return;
-    if (resultados.length) {
-        const resposta = await Swal.fire({icon:"question",title:"Trocar de módulo?",html:htmlAlertaTraducao("O progresso desta partida será perdido.", "Troca de módulo em Libras"),showCancelButton:true,confirmButtonText:"Trocar",cancelButtonText:"Continuar aqui",confirmButtonColor:"#1d3557",didOpen:ativarRepeticaoAlerta});
-        if (!resposta.isConfirmed) return;
+    if (!nome) {
+        exibirAlerta(
+            "warning",
+            "Atenção",
+            "Informe seu nome."
+        );
+
+        return;
     }
-    iniciarPartida(modulo);
+
+    if (!email || !emailInput.checkValidity()) {
+        exibirAlerta(
+            "warning",
+            "Atenção",
+            "Informe um e-mail válido."
+        );
+
+        return;
+    }
+
+    if (senha.length < 6) {
+        exibirAlerta(
+            "warning",
+            "Atenção",
+            "A senha deve ter pelo menos 6 caracteres."
+        );
+
+        return;
+    }
+
+    if (!aceiteInput.checked) {
+        exibirAlerta(
+            "warning",
+            "Aceite necessário",
+            "Leia e aceite o Código de Ética e os termos de participação."
+        );
+
+        return;
+    }
+
+    if (!auth || !db) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "O Firebase não está disponível."
+        );
+
+        return;
+    }
+
+    let usuarioCriado = null;
+
+    try {
+        // Mantém a pessoa conectada depois de fechar o navegador.
+        await auth.setPersistence(
+            firebase.auth.Auth.Persistence.LOCAL
+        );
+
+        /*
+         * A senha é enviada diretamente ao Firebase Authentication.
+         * Ela não será gravada no Firestore.
+         */
+        const credencial =
+            await auth.createUserWithEmailAndPassword(
+                email,
+                senha
+            );
+
+        usuarioCriado = credencial.user;
+
+        // Guarda o nome no perfil do Firebase Authentication.
+        await usuarioCriado.updateProfile({
+            displayName: nome
+        });
+
+        /*
+         * Dados que serão armazenados no Firestore.
+         * Observe que não existe nenhum campo chamado "senha".
+         */
+        const dadosUsuario = {
+            uid: usuarioCriado.uid,
+            nome: nome,
+            email: email,
+            nivel: "Iniciante",
+            pontos: 0,
+            aulas: 0,
+            jogos: 0,
+            participarRanking: participarRanking,
+
+            termosAceitos: true,
+            versaoTermos: VERSAO_TERMOS,
+
+            dataAceiteTermos:
+                firebase.firestore.FieldValue.serverTimestamp(),
+
+            dataCriacao:
+                firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        try {
+            await db
+                .collection("usuarios")
+                .doc(usuarioCriado.uid)
+                .set(dadosUsuario);
+
+        } catch (erroFirestore) {
+            /*
+             * Se o Firestore recusar a gravação, excluímos a conta
+             * recém-criada para não deixar um cadastro incompleto.
+             */
+            await usuarioCriado.delete();
+
+            throw erroFirestore;
+        }
+
+        const sessaoUsuario = {
+            uid: usuarioCriado.uid,
+            nome: nome,
+            email: email,
+            pontos: 0,
+            aulas: 0,
+            jogos: 0,
+            participarRanking: participarRanking
+        };
+
+        localStorage.setItem(
+            "usuarioLogado",
+            JSON.stringify(sessaoUsuario)
+        );
+
+        if (modalCadastro) {
+            modalCadastro.style.display = "none";
+        }
+
+        limparFormularioCadastro();
+        mostrarUsuario();
+
+        exibirAlerta(
+            "success",
+            "Cadastro concluído!",
+            `Bem-vindo(a), ${nome}!`,
+            1600
+        );
+
+    } catch (erro) {
+        console.error("Erro no cadastro:", erro);
+
+        exibirAlerta(
+            "error",
+            "Erro ao cadastrar",
+            traduzirErroFirebase(erro.code)
+        );
+    }
 }
 
-function atualizarModulo() {
-    const config = configuracaoModulos[moduloAtual];
-    el.tituloModulo.textContent = config.titulo;
-    el.instrucao.textContent = config.instrucao;
-    el.modulos.forEach(botao => {
-        const ativo = botao.dataset.modulo === moduloAtual;
-        botao.classList.toggle("ativo", ativo);
-        botao.setAttribute("aria-pressed", String(ativo));
-        const estado = botao.querySelector(".estado-modulo");
-        if (estado) estado.textContent = ativo ? "▶" : (botao.classList.contains("concluido") ? "✓" : "○");
+
+// ==========================================
+// LOGIN
+// ==========================================
+
+async function login() {
+    const emailInput = document.getElementById("loginEmail");
+    const senhaInput = document.getElementById("senhaLogin");
+
+    if (!emailInput || !senhaInput) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "Os campos de login não foram encontrados."
+        );
+
+        return;
+    }
+
+    const email = emailInput.value.trim().toLowerCase();
+    const senha = senhaInput.value;
+
+    if (!email || !emailInput.checkValidity()) {
+        exibirAlerta(
+            "warning",
+            "Atenção",
+            "Informe um e-mail válido."
+        );
+
+        return;
+    }
+
+    if (!senha) {
+        exibirAlerta(
+            "warning",
+            "Atenção",
+            "Informe sua senha."
+        );
+
+        return;
+    }
+
+    if (!auth || !db) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "O Firebase não está disponível."
+        );
+
+        return;
+    }
+
+    try {
+        await auth.setPersistence(
+            firebase.auth.Auth.Persistence.LOCAL
+        );
+
+        const credencial =
+            await auth.signInWithEmailAndPassword(
+                email,
+                senha
+            );
+
+        const usuario = credencial.user;
+
+        const referencia = db
+            .collection("usuarios")
+            .doc(usuario.uid);
+
+        const documento = await referencia.get();
+
+        let dadosUsuario;
+
+        if (documento.exists) {
+            dadosUsuario = documento.data();
+
+            /*
+             * Se uma versão antiga do site salvou a senha no
+             * Firestore, este trecho apaga somente esse campo.
+             */
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    dadosUsuario,
+                    "senha"
+                )
+            ) {
+                await referencia.update({
+                    senha:
+                        firebase.firestore.FieldValue.delete()
+                });
+
+                delete dadosUsuario.senha;
+            }
+
+        } else {
+            /*
+             * Caso a conta exista no Authentication, mas ainda não
+             * tenha um documento no Firestore, o perfil é recriado.
+             */
+            dadosUsuario = {
+                uid: usuario.uid,
+
+                nome:
+                    usuario.displayName ||
+                    email.split("@")[0],
+
+                email: usuario.email,
+
+                nivel: "Iniciante",
+                pontos: 0,
+                aulas: 0,
+                jogos: 0,
+
+                termosAceitos: false,
+
+                dataCriacao:
+                    firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            await referencia.set(dadosUsuario);
+        }
+
+        const sessaoUsuario = {
+            uid: usuario.uid,
+
+            nome:
+                dadosUsuario.nome ||
+                usuario.displayName ||
+                email.split("@")[0],
+
+            email: usuario.email,
+
+            pontos: dadosUsuario.pontos || 0,
+            aulas: dadosUsuario.aulas || 0,
+            jogos: dadosUsuario.jogos || 0,
+            participarRanking: Boolean(dadosUsuario.participarRanking)
+        };
+
+        localStorage.setItem(
+            "usuarioLogado",
+            JSON.stringify(sessaoUsuario)
+        );
+
+        if (modalLogin) {
+            modalLogin.style.display = "none";
+        }
+
+        limparFormularioLogin();
+        mostrarUsuario();
+
+        exibirAlerta(
+            "success",
+            "Bem-vindo(a)!",
+            `Olá, ${sessaoUsuario.nome}!`,
+            1600
+        );
+
+    } catch (erro) {
+        console.error("Erro no login:", erro);
+
+        exibirAlerta(
+            "error",
+            "Não foi possível entrar",
+            traduzirErroFirebase(erro.code)
+        );
+    }
+}
+
+
+// ==========================================
+// MOSTRAR NOME DO USUÁRIO
+// ==========================================
+
+function mostrarUsuario() {
+    const usuario = obterUsuarioLocal();
+
+    if (!usuario) {
+        if (btnLogin) {
+            btnLogin.innerHTML = "👤 Entrar";
+        }
+
+        return;
+    }
+
+    if (btnLogin) {
+        btnLogin.innerHTML = "👤 " + usuario.nome;
+    }
+
+    const nomeUsuario =
+        document.getElementById("nomeUsuario");
+
+    const pontos =
+        document.getElementById("pontos");
+
+    const aulas =
+        document.getElementById("aulas");
+
+    const jogos =
+        document.getElementById("jogos");
+
+    if (nomeUsuario) {
+        nomeUsuario.innerText = usuario.nome;
+    }
+
+    if (pontos) {
+        pontos.innerText = usuario.pontos || 0;
+    }
+
+    if (aulas) {
+        aulas.innerText = usuario.aulas || 0;
+    }
+
+    if (jogos) {
+        jogos.innerText = usuario.jogos || 0;
+    }
+}
+
+
+// ==========================================
+// MOSTRAR PERFIL
+// ==========================================
+
+function mostrarPerfil() {
+    const usuario = obterUsuarioLocal();
+
+    if (!usuario) {
+        if (modalLogin) {
+            modalLogin.style.display = "flex";
+        }
+
+        return;
+    }
+
+    mostrarUsuario();
+    atualizarPerfilLocal();
+    sincronizarResumoNoFirebase();
+
+    if (modalPerfil) {
+        modalPerfil.style.display = "flex";
+    }
+}
+
+
+// ==========================================
+// RESUMO LOCAL DE APRENDIZAGEM
+// ==========================================
+
+function lerDadosLocais(chave, valorPadrao) {
+    try {
+        const valor = JSON.parse(localStorage.getItem(chave));
+        return valor === null ? valorPadrao : valor;
+    } catch (erro) {
+        return valorPadrao;
+    }
+}
+
+function obterResumoAprendizagem() {
+    const progressoPotenciacao = lerDadosLocais(
+        chaveLocalDoUsuario("progressoCursoPotenciacao"),
+        { concluidas: [] }
+    );
+    const progressoRadiciacao = lerDadosLocais(
+        chaveLocalDoUsuario("progressoCursoRadiciacao"),
+        { concluidas: [] }
+    );
+    const resultadosPotenciacao = lerDadosLocais(
+        chaveLocalDoUsuario("resultadosPotenciacao"),
+        []
+    );
+    const resultadosRadiciacao = lerDadosLocais(
+        chaveLocalDoUsuario("resultadosRadiciacao"),
+        []
+    );
+
+    const concluidasPotenciacao = Array.isArray(
+        progressoPotenciacao.concluidas
+    ) ? progressoPotenciacao.concluidas.length : 0;
+    const concluidasRadiciacao = Array.isArray(
+        progressoRadiciacao.concluidas
+    ) ? progressoRadiciacao.concluidas.length : 0;
+
+    const todosResultados = []
+        .concat(Array.isArray(resultadosPotenciacao) ? resultadosPotenciacao : [])
+        .concat(Array.isArray(resultadosRadiciacao) ? resultadosRadiciacao : []);
+
+    const percentuais = todosResultados
+        .map(function (resultado) {
+            return Number(resultado.percentual);
+        })
+        .filter(Number.isFinite);
+
+    const media = percentuais.length
+        ? Math.round(
+            percentuais.reduce(function (total, valor) {
+                return total + valor;
+            }, 0) / percentuais.length
+        )
+        : 0;
+
+    const pontos = todosResultados.reduce(function (total, resultado) {
+        return total + (Number(resultado.pontuacao) || 0);
+    }, 0);
+
+    function mediaDaTrilha(resultados) {
+        if (!Array.isArray(resultados) || !resultados.length) return null;
+        const valores = resultados
+            .map(function (resultado) { return Number(resultado.percentual); })
+            .filter(Number.isFinite);
+        if (!valores.length) return null;
+        return Math.round(
+            valores.reduce(function (total, valor) { return total + valor; }, 0) /
+            valores.length
+        );
+    }
+
+    return {
+        aulas: concluidasPotenciacao + concluidasRadiciacao,
+        jogos: todosResultados.length,
+        media: media,
+        pontos: pontos,
+        potenciacao: {
+            concluidas: concluidasPotenciacao,
+            media: mediaDaTrilha(resultadosPotenciacao)
+        },
+        radiciacao: {
+            concluidas: concluidasRadiciacao,
+            media: mediaDaTrilha(resultadosRadiciacao)
+        }
+    };
+}
+
+function definirTexto(id, texto) {
+    const elemento = document.getElementById(id);
+    if (elemento) elemento.textContent = texto;
+}
+
+function atualizarPerfilLocal() {
+    const usuario = obterUsuarioLocal();
+    const resumo = obterResumoAprendizagem();
+
+    if (usuario) {
+        definirTexto("nomeUsuario", usuario.nome || "Aluno");
+    }
+
+    definirTexto("perfilAulas", resumo.aulas);
+    definirTexto("perfilTestes", resumo.jogos);
+    definirTexto("perfilMedia", resumo.media + "%");
+    definirTexto("perfilPontos", resumo.pontos);
+
+    atualizarTrilhaNoPerfil("Potenciacao", resumo.potenciacao);
+    atualizarTrilhaNoPerfil("Radiciacao", resumo.radiciacao);
+
+    const pontosFortes = document.getElementById("perfilPontosFortes");
+    const recomendacoes = document.getElementById("perfilRecomendacoes");
+
+    if (pontosFortes) {
+        pontosFortes.replaceChildren();
+        const texto = document.createElement("p");
+        texto.textContent = resumo.jogos === 0
+            ? "Realize as verificações para visualizar seus resultados."
+            : resumo.media >= 70
+                ? "Seu desempenho geral está acima de 70%. Continue avançando."
+                : "Continue praticando para consolidar os conteúdos.";
+        pontosFortes.appendChild(texto);
+    }
+
+    if (recomendacoes) {
+        recomendacoes.replaceChildren();
+        const texto = document.createElement("p");
+        if (resumo.jogos === 0) {
+            texto.textContent = "Comece pela trilha de Potenciação.";
+        } else if (resumo.potenciacao.media !== null && resumo.potenciacao.media < 70) {
+            texto.textContent = "Reveja a trilha de Potenciação e refaça o teste.";
+        } else if (resumo.radiciacao.media !== null && resumo.radiciacao.media < 70) {
+            texto.textContent = "Reveja a trilha de Radiciação e refaça o teste.";
+        } else {
+            texto.textContent = "Nenhuma revisão prioritária no momento.";
+        }
+        recomendacoes.appendChild(texto);
+    }
+}
+
+function atualizarTrilhaNoPerfil(nome, dados) {
+    const concluidas = Math.min(4, Number(dados.concluidas) || 0);
+    definirTexto("perfil" + nome + "Texto", concluidas + " de 4 etapas");
+    definirTexto(
+        "perfil" + nome + "Media",
+        dados.media === null ? "Sem resultados" : "Média: " + dados.media + "%"
+    );
+
+    const barra = document.getElementById("perfil" + nome + "Barra");
+    if (barra) barra.style.width = Math.round((concluidas / 4) * 100) + "%";
+}
+
+async function sincronizarResumoNoFirebase() {
+    if (!auth || !db || !auth.currentUser) return;
+
+    const resumo = obterResumoAprendizagem();
+    try {
+        await db.collection("usuarios").doc(auth.currentUser.uid).set({
+            pontos: resumo.pontos,
+            aulas: resumo.aulas,
+            jogos: resumo.jogos,
+            media: resumo.media,
+            atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        const usuario = obterUsuarioLocal();
+        if (usuario) {
+            Object.assign(usuario, {
+                pontos: resumo.pontos,
+                aulas: resumo.aulas,
+                jogos: resumo.jogos
+            });
+            localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+            mostrarUsuario();
+        }
+        atualizarRankingPublico();
+    } catch (erro) {
+        console.error("Erro ao sincronizar o resumo:", erro);
+    }
+}
+
+function atualizarContinuarEstudando() {
+    const area = document.getElementById("continuarEstudando");
+    if (!area) return;
+
+    const usuario = obterUsuarioLocal();
+    area.replaceChildren();
+    if (!usuario) return;
+
+    const resumo = obterResumoAprendizagem();
+    const titulo = document.createElement("h3");
+    titulo.textContent = "📘 Continuar estudando";
+
+    const link = document.createElement("a");
+    if (resumo.potenciacao.concluidas < 4) {
+        link.href = "potenciacao.html";
+        link.textContent = "Continuar Potenciação →";
+    } else {
+        link.href = "radiciacao.html";
+        link.textContent = "Continuar Radiciação →";
+    }
+
+    area.append(titulo, link);
+}
+
+async function atualizarRankingPublico() {
+    const lista = document.getElementById("rankingLista");
+    if (!lista || !db) return;
+
+    try {
+        const consulta = await db.collection("usuarios")
+            .limit(50)
+            .get();
+
+        const participantes = [];
+        consulta.forEach(function (documento) {
+            const dados = documento.data();
+            participantes.push({
+                nome: dados.nome || "Aluno",
+                pontos: Number(dados.pontos) || 0
+            });
+        });
+        participantes.sort(function (a, b) { return b.pontos - a.pontos; });
+
+        lista.replaceChildren();
+        if (!participantes.length) {
+            const vazio = document.createElement("p");
+            vazio.textContent = "O ranking ainda não possui participantes.";
+            lista.appendChild(vazio);
+            return;
+        }
+
+        const medalhas = ["🥇", "🥈", "🥉"];
+        participantes.slice(0, 5).forEach(function (participante, indice) {
+            const item = document.createElement("p");
+            item.className = "ranking-item";
+            item.textContent =
+                (medalhas[indice] || "⭐") + " " + participante.nome +
+                " — " + participante.pontos + " pontos";
+            lista.appendChild(item);
+        });
+    } catch (erro) {
+        console.error("Erro ao carregar ranking:", erro);
+        lista.textContent = "Não foi possível carregar o ranking agora.";
+    }
+}
+
+
+// ==========================================
+// SAIR
+// ==========================================
+
+async function sair() {
+    try {
+        if (auth) {
+            await auth.signOut();
+        }
+    } catch (erro) {
+        console.error("Erro ao encerrar sessão:", erro);
+    }
+
+    localStorage.removeItem("usuarioLogado");
+
+    if (modalPerfil) {
+        modalPerfil.style.display = "none";
+    }
+
+    if (btnLogin) {
+        btnLogin.innerHTML = "👤 Entrar";
+    }
+
+    window.location.reload();
+}
+
+
+// ==========================================
+// EXCLUIR CONTA
+// ==========================================
+
+async function excluirConta() {
+    if (typeof Swal === "undefined") {
+        return;
+    }
+
+    const resultado = await Swal.fire({
+        title: "Excluir conta?",
+        html: montarConteudoAlertaLibras(
+            "Seu cadastro, seu progresso e seus comentários serão apagados permanentemente."
+        ),
+        icon: "warning",
+
+        showCancelButton: true,
+
+        confirmColor: "#d33",
+        cancelColor: "#3085d6",
+
+        confirmButtonText: "Sim, excluir",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!resultado.isConfirmed) {
+        return;
+    }
+
+    try {
+        const usuario = await aguardarUsuarioFirebase();
+
+        if (!auth || !usuario) {
+            exibirAlerta(
+                "warning",
+                "Sessão não encontrada",
+                "Não foi possível localizar a conta conectada."
+            );
+
+            return;
+        }
+
+        await apagarColecaoEmLotes(
+            db.collection("usuarios").doc(usuario.uid).collection("resultados")
+        );
+        await apagarColecaoEmLotes(
+            db.collection("usuarios").doc(usuario.uid).collection("atividades")
+        );
+        await apagarColecaoEmLotes(
+            db.collection("usuarios").doc(usuario.uid).collection("acessos")
+        );
+        await apagarConsultaEmLotes(
+            db.collection("comentarios").where("usuarioId", "==", usuario.uid)
+        );
+
+        await db
+            .collection("usuarios")
+            .doc(usuario.uid)
+            .delete();
+
+        await usuario.delete();
+
+        [
+            "progressoCursoPotenciacao",
+            "progressoCursoRadiciacao",
+            "resultadosPotenciacao",
+            "resultadosRadiciacao"
+        ].forEach(function (chaveBase) {
+            localStorage.removeItem(chaveBase);
+            localStorage.removeItem(chaveBase + "_" + usuario.uid);
+        });
+        localStorage.removeItem("usuarioLogado");
+
+        await Swal.fire({
+            icon: "success",
+            title: "Conta excluída",
+            html: montarConteudoAlertaLibras("Seu cadastro foi removido."),
+            timer: 1500,
+            showConfirmButton: false
+        });
+
+        window.location.reload();
+
+    } catch (erro) {
+        console.error("Erro ao excluir conta:", erro);
+
+        if (erro.code === "auth/requires-recent-login") {
+            exibirAlerta(
+                "warning",
+                "Confirmação de segurança necessária",
+                "O Firebase bloqueou a exclusão porque esta sessão é antiga. Entre novamente e repita somente nesse caso."
+            );
+
+            return;
+        }
+
+        exibirAlerta(
+            "error",
+            "Erro ao excluir",
+            traduzirErroFirebase(erro.code)
+        );
+    }
+}
+
+function aguardarUsuarioFirebase() {
+    if (!auth) return Promise.resolve(null);
+    if (auth.currentUser) return Promise.resolve(auth.currentUser);
+
+    return new Promise(function (resolve) {
+        let finalizado = false;
+        const encerrar = function (usuario) {
+            if (finalizado) return;
+            finalizado = true;
+            resolve(usuario || null);
+        };
+        const cancelarObservacao = auth.onAuthStateChanged(function (usuario) {
+            cancelarObservacao();
+            encerrar(usuario);
+        });
+        setTimeout(function () {
+            cancelarObservacao();
+            encerrar(auth.currentUser);
+        }, 3000);
     });
 }
 
-function mostrarQuestao() {
-    const q = questoes[indice];
-    bloqueado = false; dicaUsada = false;
-    el.topico.textContent = q.topico.toUpperCase();
-    el.nivel.textContent = "NÍVEL " + q.nivel;
-    el.pergunta.textContent = q.pergunta;
-    el.representacao.textContent = q.representacao;
-    el.textoDica.textContent = q.dica;
-    el.areaDica.hidden = true;
-    el.botaoDica.textContent = "💡 Ver dica";
-    el.botaoDica.setAttribute("aria-expanded", "false");
-    criarAlternativas(q);
-    carregarVideo(q.videoPergunta, "Tradução da pergunta em Libras");
-    atualizarStatus();
+async function apagarColecaoEmLotes(referenciaColecao) {
+    await apagarConsultaEmLotes(referenciaColecao.limit(400));
 }
 
-function criarAlternativas(q) {
-    el.alternativas.replaceChildren();
-    q.alternativasSorteadas.forEach((texto, i) => {
-        const botao = document.createElement("button");
-        botao.type = "button"; botao.className = "botao-alternativa"; botao.dataset.resposta = texto;
-        const letra = document.createElement("span"); letra.className = "letra-alternativa"; letra.textContent = ["A","B","C","D"][i];
-        const resposta = document.createElement("span"); resposta.textContent = texto;
-        botao.append(letra, resposta);
-        botao.addEventListener("click", () => verificarResposta(texto, botao));
-        el.alternativas.appendChild(botao);
+async function apagarConsultaEmLotes(consulta) {
+    let resultado = await consulta.get();
+
+    while (!resultado.empty) {
+        const lote = db.batch();
+        resultado.docs.forEach(function (documento) {
+            lote.delete(documento.ref);
+        });
+        await lote.commit();
+        resultado = await consulta.get();
+    }
+}
+
+
+// ==========================================
+// MOSTRAR E OCULTAR SENHA
+// ==========================================
+
+function alternarSenha(idCampo, icone) {
+    const campo = document.getElementById(idCampo);
+
+    if (!campo) {
+        return;
+    }
+
+    if (campo.type === "password") {
+        campo.type = "text";
+        icone.innerHTML = "🙈";
+        icone.setAttribute("aria-label", "Ocultar senha");
+        icone.title = "Ocultar senha";
+
+    } else {
+        campo.type = "password";
+        icone.innerHTML = "👁️";
+        icone.setAttribute("aria-label", "Mostrar senha");
+        icone.title = "Mostrar senha";
+    }
+}
+
+
+// ==========================================
+// RECUPERAR SENHA
+// ==========================================
+
+async function esqueceuSenha(evento) {
+    if (evento) {
+        evento.preventDefault();
+    }
+
+    if (!auth) {
+        exibirAlerta(
+            "error",
+            "Erro",
+            "O Firebase não está disponível."
+        );
+
+        return;
+    }
+
+    let email = "";
+
+    const campoEmail =
+        document.getElementById("loginEmail");
+
+    if (campoEmail) {
+        email = campoEmail.value.trim().toLowerCase();
+    }
+
+    if (typeof Swal === "undefined") {
+        if (!email) {
+            email = prompt(
+                "Digite o e-mail usado no cadastro:"
+            );
+        }
+
+        if (!email) {
+            return;
+        }
+
+        try {
+            await auth.sendPasswordResetEmail(email);
+
+            alert(
+                "O link de redefinição foi enviado para seu e-mail."
+            );
+
+        } catch (erro) {
+            alert(traduzirErroFirebase(erro.code));
+        }
+
+        return;
+    }
+
+    const resultado = await Swal.fire({
+        title: "Recuperar senha",
+
+        text:
+            "Informe o e-mail usado no cadastro para receber " +
+            "o link de redefinição.",
+
+        input: "email",
+        inputValue: email,
+
+        inputPlaceholder: "seuemail@exemplo.com",
+
+        showCancelButton: true,
+
+        confirmButtonText: "Enviar",
+        cancelButtonText: "Cancelar",
+
+        inputValidator: function (valor) {
+            if (!valor) {
+                return "Informe seu e-mail.";
+            }
+        }
+    });
+
+    if (!resultado.isConfirmed) {
+        return;
+    }
+
+    try {
+        await auth.sendPasswordResetEmail(
+            resultado.value.trim().toLowerCase()
+        );
+
+        exibirAlerta(
+            "success",
+            "E-mail enviado",
+            "Confira sua caixa de entrada e a pasta de spam."
+        );
+
+    } catch (erro) {
+        console.error(
+            "Erro ao enviar recuperação de senha:",
+            erro
+        );
+
+        exibirAlerta(
+            "error",
+            "Não foi possível enviar",
+            traduzirErroFirebase(erro.code)
+        );
+    }
+}
+
+
+// ==========================================
+// LIMPAR FORMULÁRIOS
+// ==========================================
+
+function limparFormularioLogin() {
+    const formulario =
+        document.getElementById("formLogin");
+
+    if (formulario) {
+        formulario.reset();
+    }
+}
+
+function limparFormularioCadastro() {
+    const formulario =
+        document.getElementById("formCadastro");
+
+    if (formulario) {
+        formulario.reset();
+    }
+}
+
+
+// ==========================================
+// PESQUISA
+// ==========================================
+
+function pesquisarConteudo() {
+    const campo =
+        document.getElementById("campoPesquisa");
+
+    if (!campo) {
+        return;
+    }
+
+    const pesquisa =
+        campo.value.trim().toLowerCase();
+
+    const cards =
+        document.querySelectorAll(".card");
+
+    cards.forEach(function (card) {
+        const nome =
+            card.dataset.nome
+                ? card.dataset.nome.toLowerCase()
+                : "";
+
+        card.style.display =
+            nome.includes(pesquisa)
+                ? "block"
+                : "none";
     });
 }
 
-async function verificarResposta(escolhida, botaoEscolhido) {
-    if (bloqueado) return;
-    bloqueado = true;
-    const q = questoes[indice];
-    const acertou = escolhida === q.correta;
-    el.alternativas.querySelectorAll("button").forEach(botao => {
-        botao.disabled = true;
-        if (botao.dataset.resposta === q.correta) botao.classList.add("correta");
-        else if (botao === botaoEscolhido) botao.classList.add("incorreta");
-        else botao.classList.add("neutra");
-    });
-    if (acertou) { pontos += dicaUsada ? 7 : 10; sequencia++; } else { vidas--; sequencia = 0; }
-    resultados.push({id:q.id,topico:q.topico,respostaEscolhida:escolhida,respostaCorreta:q.correta,acertou,dicaUtilizada:dicaUsada});
-    atualizarStatus();
-    await alertaExplicacao(acertou, q);
-    if (vidas <= 0) return finalizar(false);
-    indice++;
-    atualizarStatus();
-    if (indice >= questoes.length) return finalizar(true);
-    mostrarQuestao();
+
+// ==========================================
+// ABRIR JOGOS
+// ==========================================
+
+function abrirJogo(tipo) {
+    const paginas = {
+        potencia: "jogo_potencia.html",
+        radiciacao: "jogoradiciacao.html",
+        planocartesiano: "planocartesiano.html"
+    };
+
+    if (paginas[tipo]) {
+        window.location.href = paginas[tipo];
+    }
 }
 
-function alternarDica() {
-    const abrir = el.areaDica.hidden;
-    el.areaDica.hidden = !abrir;
-    el.botaoDica.setAttribute("aria-expanded", String(abrir));
-    el.botaoDica.textContent = abrir ? "💡 Ocultar dica" : "💡 Ver dica";
-    if (abrir) { dicaUsada = true; carregarVideo(questoes[indice].videoDica, "Tradução da dica em Libras"); }
-    else carregarVideo(questoes[indice].videoPergunta, "Tradução da pergunta em Libras");
+
+// ==========================================
+// VOLTAR PÁGINA
+// ==========================================
+
+function voltarPagina() {
+    history.back();
 }
 
-function urlVideo(url, autoplay = false) {
-    if (!url) return "";
-    const separador = url.includes("?") ? "&" : "?";
-    return url + separador + "rel=0&modestbranding=1" + (autoplay ? "&autoplay=1" : "");
+
+// ==========================================
+// ALERTAS
+// ==========================================
+
+function exibirAlerta(
+    icon,
+    title,
+    text,
+    timer = null,
+    callback = null
+) {
+    if (typeof Swal !== "undefined") {
+        Swal.fire({
+            icon: icon,
+            title: title,
+            html: montarConteudoAlertaLibras(text),
+            timer: timer,
+            showConfirmButton: !timer
+        }).then(function () {
+            if (callback) {
+                callback();
+            }
+        });
+
+    } else {
+        alert(title + ": " + text);
+
+        if (callback) {
+            callback();
+        }
+    }
 }
 
-function carregarVideo(url, titulo) {
-    if (!url) { el.video.hidden = true; el.repetir.hidden = true; el.videoIndisponivel.hidden = false; return; }
-    el.videoIndisponivel.hidden = true; el.video.hidden = false; el.repetir.hidden = false;
-    el.video.title = titulo; el.video.src = urlVideo(url);
+function escaparHtml(valor) {
+    const elemento = document.createElement("div");
+    elemento.textContent = String(valor || "");
+    return elemento.innerHTML;
 }
 
-function repetirVideo() {
-    const q = questoes[indice];
-    const url = el.areaDica.hidden ? q.videoPergunta : q.videoDica;
-    el.video.src = "";
-    setTimeout(() => el.video.src = urlVideo(url, true), 100);
+function montarConteudoAlertaLibras(texto) {
+    return (
+        '<div class="alerta-conteudo-acessivel">' +
+            '<div class="janela-libras-alerta" aria-label="Janela de tradução em Libras">' +
+                '<span aria-hidden="true">🤟</span>' +
+                '<strong>Janela de Libras</strong>' +
+            '</div>' +
+            '<p>' + escaparHtml(texto) + '</p>' +
+        '</div>'
+    );
 }
 
-async function alertaExplicacao(acertou, q) {
-    await Swal.fire({
-        icon: acertou ? "success" : "error",
-        title: acertou ? "Muito bem!" : "Vamos revisar",
-        html:`<div class="explicacao-resposta"><div class="texto-explicacao">${q.explicacao}</div><iframe id="videoExplicacao" class="video-explicacao" src="${urlVideo(q.videoExplicacao)}" title="Explicação da resposta em Libras" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><button id="repetirExplicacao" class="botao-alerta-repetir" type="button">↻ Repetir explicação em Libras</button></div>`,
-        confirmButtonText:"Continuar",confirmButtonColor:"#1d3557",allowOutsideClick:false,customClass:{popup:"alerta-reforca"},
-        didOpen:()=>{const v=document.getElementById("videoExplicacao");const b=document.getElementById("repetirExplicacao");if(v&&b)b.onclick=()=>{v.src="";setTimeout(()=>v.src=urlVideo(q.videoExplicacao,true),100);};},
-        willClose:()=>{const v=document.getElementById("videoExplicacao");if(v)v.src="";}
-    });
+
+// ==========================================
+// TRADUZIR ERROS DO FIREBASE
+// ==========================================
+
+function traduzirErroFirebase(codigo) {
+    switch (codigo) {
+        case "auth/invalid-email":
+            return "O e-mail informado é inválido.";
+
+        case "auth/email-already-in-use":
+            return (
+                "Este e-mail já possui cadastro. " +
+                "Entre usando seu e-mail e sua senha."
+            );
+
+        case "auth/weak-password":
+            return "A senha deve ter pelo menos 6 caracteres.";
+
+        case "auth/user-not-found":
+        case "auth/wrong-password":
+        case "auth/invalid-credential":
+            return "E-mail ou senha incorretos.";
+
+        case "auth/operation-not-allowed":
+            return (
+                "Ative o provedor E-mail/senha " +
+                "no Firebase Authentication."
+            );
+
+        case "auth/too-many-requests":
+            return (
+                "Muitas tentativas foram realizadas. " +
+                "Aguarde alguns minutos."
+            );
+
+        case "auth/network-request-failed":
+            return (
+                "Falha de conexão. Confira sua internet " +
+                "e tente novamente."
+            );
+
+        case "auth/unauthorized-domain":
+            return (
+                "O domínio deste site não está autorizado " +
+                "no Firebase Authentication."
+            );
+
+        case "auth/requires-recent-login":
+            return (
+                "Por segurança, saia e entre novamente " +
+                "antes de realizar essa operação."
+            );
+
+        case "permission-denied":
+            return (
+                "O Firestore recusou o acesso. " +
+                "Confira as regras do banco."
+            );
+
+        default:
+            if (codigo) {
+                return "O Firebase retornou o erro: " + codigo;
+            }
+
+            return (
+                "Ocorreu um erro. Abra o Console do navegador " +
+                "para conferir os detalhes."
+            );
+    }
 }
 
-function atualizarStatus() {
-    el.pontos.textContent = pontos;
-    el.questaoAtual.textContent = Math.min(indice + 1, questoes.length);
-    el.totalQuestoes.textContent = questoes.length;
-    el.sequencia.textContent = sequencia;
-    el.vidas.innerHTML = "❤️".repeat(vidas) + `<span class="somente-leitor">${vidas} vidas restantes</span>`;
-    const percentual = Math.round((indice / questoes.length) * 100);
-    el.preenchimento.style.width = percentual + "%";
-    el.porcentagem.textContent = percentual + "%";
-    el.barra.setAttribute("aria-valuenow", String(percentual));
+
+// ==========================================
+// EVENTOS DOS FORMULÁRIOS
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+        mostrarUsuario();
+        atualizarPerfilLocal();
+        atualizarContinuarEstudando();
+        atualizarRankingPublico();
+
+        const campoPesquisa =
+            document.getElementById("campoPesquisa");
+
+        if (campoPesquisa) {
+            campoPesquisa.value = "";
+        }
+
+        const formLogin =
+            document.getElementById("formLogin");
+
+        if (formLogin) {
+            formLogin.addEventListener(
+                "submit",
+                function (evento) {
+                    evento.preventDefault();
+                    login();
+                }
+            );
+        }
+
+        const formCadastro =
+            document.getElementById("formCadastro");
+
+        if (formCadastro) {
+            formCadastro.addEventListener(
+                "submit",
+                function (evento) {
+                    evento.preventDefault();
+                    cadastrar();
+                }
+            );
+        }
+    }
+);
+
+
+// ==========================================
+// ACOMPANHAR ESTADO DO FIREBASE
+// ==========================================
+
+if (auth) {
+    auth.onAuthStateChanged(
+        async function (usuarioFirebase) {
+            if (!usuarioFirebase) {
+                /*
+                 * Não apagamos aqui imediatamente para evitar conflito
+                 * durante o carregamento inicial. O botão será ajustado
+                 * pela sessão local.
+                 */
+                return;
+            }
+
+            try {
+                const documento = await db
+                    .collection("usuarios")
+                    .doc(usuarioFirebase.uid)
+                    .get();
+
+                if (!documento.exists) {
+                    return;
+                }
+
+                const dados = documento.data();
+
+                const sessao = {
+                    uid: usuarioFirebase.uid,
+
+                    nome:
+                        dados.nome ||
+                        usuarioFirebase.displayName ||
+                        usuarioFirebase.email.split("@")[0],
+
+                    email: usuarioFirebase.email,
+
+                    pontos: dados.pontos || 0,
+                    aulas: dados.aulas || 0,
+                    jogos: dados.jogos || 0,
+                    participarRanking:
+                        Boolean(dados.participarRanking)
+                };
+
+                localStorage.setItem(
+                    "usuarioLogado",
+                    JSON.stringify(sessao)
+                );
+
+                mostrarUsuario();
+
+            } catch (erro) {
+                console.error(
+                    "Erro ao recuperar sessão do usuário:",
+                    erro
+                );
+            }
+        }
+    );
 }
 
-function chaveUsuario(base) {
-    return typeof chaveLocalDoUsuario === "function" ? chaveLocalDoUsuario(base) : base;
+
+// ==========================================
+// FECHAR MODAIS CLICANDO FORA
+// ==========================================
+
+window.addEventListener(
+    "click",
+    function (evento) {
+        if (evento.target === modalLogin) {
+            modalLogin.style.display = "none";
+        }
+
+        if (evento.target === modalCadastro) {
+            modalCadastro.style.display = "none";
+        }
+
+        if (evento.target === modalPerfil) {
+            modalPerfil.style.display = "none";
+        }
+
+        if (evento.target === modalTermos) {
+            modalTermos.style.display = "none";
+        }
+    }
+);
+
+async function registrarAcessoUsuario(
+    usuarioFirebase
+) {
+    if (!usuarioFirebase) {
+        return;
+    }
+
+    /*
+     * Impede que atualizar a página várias vezes
+     * conte como vários acessos na mesma sessão.
+     */
+
+    const chaveDaSessao =
+        "acessoRegistrado_" +
+        usuarioFirebase.uid;
+
+    if (
+        sessionStorage.getItem(
+            chaveDaSessao
+        )
+    ) {
+        return;
+    }
+
+    const referenciaUsuario =
+        db.collection("usuarios")
+            .doc(usuarioFirebase.uid);
+
+    try {
+        await referenciaUsuario.set(
+            {
+                email:
+                    usuarioFirebase.email ||
+                    "",
+
+                ultimoAcesso:
+                    firebase.firestore
+                        .FieldValue
+                        .serverTimestamp(),
+
+                quantidadeAcessos:
+                    firebase.firestore
+                        .FieldValue
+                        .increment(1)
+            },
+            {
+                merge: true
+            }
+        );
+
+        await referenciaUsuario
+            .collection("acessos")
+            .add(
+                {
+                    entrouEm:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp(),
+
+                    paginaInicial:
+                        window.location.pathname,
+
+                    dispositivo:
+                        navigator.userAgent
+                }
+            );
+
+        sessionStorage.setItem(
+            chaveDaSessao,
+            "true"
+        );
+
+    } catch (erro) {
+        console.error(
+            "Erro ao registrar acesso:",
+            erro
+        );
+    }
 }
 
-function salvarResultado(concluido) {
-    const acertos = resultados.filter(r => r.acertou).length;
-    const total = resultados.length;
-    const resultado = {jogo:"jogo_matematica_radiciacao",tematica:"Radiciação",modulo:moduloAtual,nomeModulo:configuracaoModulos[moduloAtual].titulo,etapa:Number(sessionStorage.getItem("testeCursoAtual"))||null,pontuacao:pontos,acertos,erros:total-acertos,totalRespondido:total,percentual:total?Math.round(acertos/total*100):0,concluido,respostas:resultados,realizadoEm:new Date().toISOString()};
-    let historico=[];try{historico=JSON.parse(localStorage.getItem(chaveUsuario("resultadosRadiciacao")))||[];}catch(e){historico=[];}
-    historico.push(resultado);localStorage.setItem(chaveUsuario("resultadosRadiciacao"),JSON.stringify(historico));
-    if(concluido){marcarModuloConcluido(moduloAtual);registrarConclusaoNaTrilha();}
-    salvarFirebase(resultado);
-    return resultado;
+if (auth) {
+    auth.onAuthStateChanged(
+        async function (usuarioFirebase) {
+            if (!usuarioFirebase) {
+                return;
+            }
+
+            await registrarAcessoUsuario(
+                usuarioFirebase
+            );
+        }
+    );
 }
 
-function registrarConclusaoNaTrilha() {
-    const etapa = Number(sessionStorage.getItem("testeCursoAtual"));
-    if (!Number.isInteger(etapa) || etapa < 1) return;
-    const chave = chaveUsuario("progressoCursoRadiciacao");
-    let progresso={etapaLiberada:1,aulasAssistidas:[],concluidas:[]};try{progresso=JSON.parse(localStorage.getItem(chave))||progresso;}catch(e){}
-    if(!Array.isArray(progresso.concluidas))progresso.concluidas=[];
-    if(!progresso.concluidas.includes(etapa))progresso.concluidas.push(etapa);
-    progresso.etapaLiberada=Math.max(Number(progresso.etapaLiberada)||1,etapa+1);
-    localStorage.setItem(chave,JSON.stringify(progresso));
-    sessionStorage.removeItem("testeCursoAtual");
-}
+async function registrarVideoConcluido(
+    tematica,
+    etapa
+) {
+    const usuario =
+        firebase.auth().currentUser;
 
-function marcarModuloConcluido(modulo) {
-    const chave=chaveUsuario("modulosJogoRadiciacaoConcluidos");let lista=[];try{lista=JSON.parse(localStorage.getItem(chave))||[];}catch(e){}
-    if(!lista.includes(modulo))lista.push(modulo);localStorage.setItem(chave,JSON.stringify(lista));carregarModulosConcluidos();
-}
+    if (!usuario) {
+        return;
+    }
 
-function carregarModulosConcluidos() {
-    const chave=chaveUsuario("modulosJogoRadiciacaoConcluidos");let lista=[];try{lista=JSON.parse(localStorage.getItem(chave))||[];}catch(e){}
-    document.querySelectorAll(".botao-modulo[data-modulo]").forEach(b=>b.classList.toggle("concluido",lista.includes(b.dataset.modulo)));
-}
+    const atividade = {
+        tipo:
+            "video_concluido",
 
-function salvarFirebase(resultado) {
-    if(typeof auth==="undefined"||typeof db==="undefined"||!auth||!db||!auth.currentUser)return;
-    db.collection("usuarios").doc(auth.currentUser.uid).collection("resultados").add({...resultado,realizadoEm:firebase.firestore.FieldValue.serverTimestamp()}).catch(erro=>console.error("Erro ao salvar resultado:",erro));
-}
+        tematica:
+            tematica,
 
-async function finalizar(concluido) {
-    if (!resultados.length) return;
-    const resultado=salvarResultado(concluido);
-    const resposta=await Swal.fire({icon:concluido?"success":"warning",title:concluido?"Módulo concluído!":"Suas vidas terminaram",html:`<div class="explicacao-resposta"><div class="texto-explicacao">Você acertou <strong>${resultado.acertos} de ${resultado.totalRespondido}</strong> desafios.<br>Pontuação: <strong>${pontos}</strong>.<br>Aproveitamento: <strong>${resultado.percentual}%</strong>.</div><iframe id="videoFinal" class="video-explicacao" src="${urlVideo(V)}" title="Resultado do jogo em Libras" allowfullscreen></iframe><button id="repetirFinal" class="botao-alerta-repetir" type="button">↻ Repetir tradução em Libras</button></div>`,showDenyButton:true,showCancelButton:true,confirmButtonText:"Voltar para a trilha",denyButtonText:"Jogar novamente",cancelButtonText:"Avaliar o jogo",confirmButtonColor:"#1d3557",denyButtonColor:"#5fa8d3",cancelButtonColor:"#d9a900",allowOutsideClick:false,allowEscapeKey:false,customClass:{popup:"alerta-reforca"},didOpen:()=>{const v=document.getElementById("videoFinal");const b=document.getElementById("repetirFinal");if(v&&b)b.onclick=()=>{v.src="";setTimeout(()=>v.src=urlVideo(V,true),100);};}});
-    if(resposta.isConfirmed)location.replace("radiciacao.html");
-    else if(resposta.isDenied)iniciarPartida(moduloAtual);
-    else location.href="index.html#avaliacao";
-}
+        etapa:
+            etapa,
 
-async function confirmarSaida() {
-    const mensagem=resultados.length?"O progresso desta partida será perdido.":"Deseja voltar para a trilha de Radiciação?";
-    const resposta=await Swal.fire({icon:"question",title:"Sair do jogo?",html:htmlAlertaTraducao(mensagem, "Saída do jogo em Libras"),showCancelButton:true,confirmButtonText:"Sim, sair",cancelButtonText:"Continuar jogando",confirmButtonColor:"#d94b4b",cancelButtonColor:"#1d3557",didOpen:ativarRepeticaoAlerta});
-    if(resposta.isConfirmed)location.replace("radiciacao.html");
-}
+        realizadoEm:
+            firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+    };
 
-function htmlAlertaTraducao(mensagem, tituloVideo) {
-    return `<div class="explicacao-resposta"><div class="texto-explicacao">${mensagem}</div><iframe id="videoAlerta" class="video-explicacao" src="${urlVideo(V)}" title="${tituloVideo}" allowfullscreen></iframe><button id="repetirVideoAlerta" class="botao-alerta-repetir" type="button">↻ Repetir tradução em Libras</button></div>`;
+    await db
+        .collection("usuarios")
+        .doc(usuario.uid)
+        .collection("atividades")
+        .add(atividade);
 }
-
-function ativarRepeticaoAlerta() {
-    const video=document.getElementById("videoAlerta");
-    const botao=document.getElementById("repetirVideoAlerta");
-    if(video&&botao)botao.addEventListener("click",()=>{video.src="";setTimeout(()=>video.src=urlVideo(V,true),100);});
+// ==========================================
+// disciplina suspenso
+// ==========================================
+function myFunction() {
+  var x = document.getElementById("menu-links");
+  if (x.className === "menu-links") {
+    x.className += " responsive";
+  } else {
+    x.className = "menu-links";
+  }
 }
