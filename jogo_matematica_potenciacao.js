@@ -2241,19 +2241,45 @@ function rolarParaMapaNoCelular() {
    SAÍDA DO JOGO
 ===================================================== */
 
+const VIDEO_ALERTA_SAIDA =
+    "https://www.youtube.com/embed/r9AoQVkUUvU";
+
+function montarConteudoSaida(mensagem) {
+    return `
+        <div class="explicacao-resposta">
+            <div class="texto-explicacao">
+                ${mensagem}
+            </div>
+
+            <iframe
+                id="videoSaidaAlerta"
+                class="video-explicacao"
+                src="${criarEnderecoYouTube(VIDEO_ALERTA_SAIDA)}"
+                title="Tradução do alerta de saída em Libras"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            ></iframe>
+
+            <button
+                id="repetirSaidaAlerta"
+                class="botao-alerta-repetir"
+                type="button"
+            >
+                ↻ Repetir tradução em Libras
+            </button>
+        </div>
+    `;
+}
+
 async function sairDoJogo() {
-    if (
-        resultadosDaPartida.length === 0
-    ) {
-        voltarParaTrilha();
-        return;
-    }
+    const mensagem = resultadosDaPartida.length > 0
+        ? "O progresso desta partida ainda não foi concluído."
+        : "Deseja sair do jogo e voltar para a trilha de Potenciação?";
 
     const resposta = await Swal.fire({
         icon: "question",
         title: "Sair do jogo?",
-        text:
-            "O progresso desta partida ainda não foi concluído.",
+        html: montarConteudoSaida(mensagem),
         showCancelButton: true,
         confirmButtonText: "Sair",
         cancelButtonText:
@@ -2263,6 +2289,36 @@ async function sairDoJogo() {
 
         customClass: {
             popup: "alerta-reforca"
+        },
+
+        didOpen: function () {
+            const video =
+                document.getElementById("videoSaidaAlerta");
+
+            const repetir =
+                document.getElementById("repetirSaidaAlerta");
+
+            if (!video || !repetir) return;
+
+            repetir.addEventListener("click", function () {
+                video.src = "";
+
+                setTimeout(function () {
+                    video.src = criarEnderecoYouTube(
+                        VIDEO_ALERTA_SAIDA,
+                        true
+                    );
+                }, 100);
+            });
+        },
+
+        willClose: function () {
+            const video =
+                document.getElementById("videoSaidaAlerta");
+
+            if (video) {
+                video.src = "";
+            }
         }
     });
 
