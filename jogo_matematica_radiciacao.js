@@ -1,2051 +1,289 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jogo acessível de radiciação do Reforça Libras">
-    <title>Jogo de Radiciação | Reforça Libras</title>
+"use strict";
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="jogo_matematica_radiciacao.css?v=2">
-</head>
+const VIDEO_TESTE = "https://www.youtube.com/embed/r9AoQVkUUvU";
+const TOTAL_VIDAS = 3;
+const QUESTOES_POR_PARTIDA = 10;
+const V = VIDEO_TESTE;
 
-<body>
-    <header class="topo-jogo">
-        <button
-            id="botaoVoltar"
-            class="botao-voltar"
-            type="button"
-            aria-label="Voltar para a trilha de radiciação"
-            title="Voltar para a trilha"
-        >
-            <img src="botao_retornar.png" alt="" class="imagem-voltar">
-        </button>
-
-        <section class="caixa-status" aria-label="Pontuação atual">
-            <strong>🏆 <span id="pontos">0</span></strong>
-            <span>PONTOS</span>
-        </section>
-
-        <div class="titulo-jogo">
-            <span aria-hidden="true">√</span>
-            <div>
-                <p>MISSÃO RAIZ</p>
-                <h1 id="tituloModulo">Introdução à Radiciação</h1>
-            </div>
-            <span aria-hidden="true">√</span>
-        </div>
-
-        <section class="caixa-status" aria-label="Questão atual">
-            <strong>
-                <span id="questaoAtual">1</span>/<span id="totalQuestoes">10</span>
-            </strong>
-            <span>DESAFIO</span>
-        </section>
-    </header>
-
-    <main class="jogo">
-        <section class="painel-jogo">
-            <aside class="mapa-modulos" aria-labelledby="tituloMapa">
-                <div class="cabecalho-mapa">
-                    <span aria-hidden="true">🧭</span>
-                    <h2 id="tituloMapa">Mapa da missão</h2>
-                </div>
-
-                <p class="orientacao-mapa">
-                    Resolva os dez desafios de raízes quadradas exatas.
-                </p>
-
-                <nav class="lista-modulos" aria-label="Módulos do jogo de radiciação">
-                    <button class="botao-modulo ativo" type="button" data-modulo="introducao" aria-pressed="true">
-                        <span class="numero-modulo">1</span>
-                        <span class="texto-modulo">
-                            <strong>Introdução</strong>
-                            <small>Quadrados, cubos e elementos</small>
-                        </span>
-                        <span class="estado-modulo" aria-hidden="true">▶</span>
-                    </button>
-
-                    <button class="botao-modulo" type="button" data-modulo="propriedades" aria-pressed="false">
-                        <span class="numero-modulo">2</span>
-                        <span class="texto-modulo">
-                            <strong>Propriedades</strong>
-                            <small>Produto, quociente e simplificação</small>
-                        </span>
-                        <span class="estado-modulo" aria-hidden="true">○</span>
-                    </button>
-                </nav>
-
-                <div class="sequencia" aria-label="Sequência de respostas corretas">
-                    <span aria-hidden="true">🔥</span>
-                    <div>
-                        <strong id="valorSequencia">0</strong>
-                        <small>sequência de acertos</small>
-                    </div>
-                </div>
-            </aside>
-
-            <section class="area-desafio" aria-labelledby="textoPergunta">
-                <div class="cabecalho-desafio">
-                    <span id="topicoPergunta" class="etiqueta-topico">RADICIAÇÃO</span>
-                    <span id="nivelPergunta" class="etiqueta-nivel">NÍVEL 1</span>
-                </div>
-
-                <p id="instrucao" class="instrucao">
-                    Observe a representação e escolha uma alternativa.
-                </p>
-
-                <h2 id="textoPergunta">Carregando desafio...</h2>
-
-                <div
-                    id="representacaoDesafio"
-                    class="representacao-desafio"
-                    aria-label="Representação matemática da questão"
-                ></div>
-
-                <div
-                    id="alternativas"
-                    class="alternativas"
-                    role="group"
-                    aria-label="Alternativas da questão"
-                ></div>
-
-                <div class="acoes-desafio">
-                    <button
-                        id="botaoDica"
-                        class="botao-dica"
-                        type="button"
-                        aria-expanded="false"
-                        aria-controls="areaDica"
-                    >
-                        💡 Ver dica
-                    </button>
-
-                    <p class="aviso-primeira-resposta">
-                        A primeira resposta será registrada.
-                    </p>
-                </div>
-
-                <section id="areaDica" class="area-dica" hidden aria-live="polite">
-                    <div class="icone-dica" aria-hidden="true">💡</div>
-                    <div>
-                        <strong>Dica</strong>
-                        <p id="textoDica"></p>
-                    </div>
-                </section>
-            </section>
-
-            <aside class="painel-libras" aria-labelledby="tituloLibras">
-                <div class="cabecalho-libras">
-                    <span aria-hidden="true">🤟</span>
-                    <h2 id="tituloLibras">Tradução em Libras</h2>
-                </div>
-
-                <div id="areaVideoLibras" class="area-video">
-                    <iframe
-                        id="videoLibras"
-                        class="video-libras"
-                        src=""
-                        title="Tradução da questão em Libras"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen
-                        hidden
-                    ></iframe>
-
-                    <div id="videoIndisponivel" class="video-indisponivel">
-                        <span aria-hidden="true">🎥</span>
-                        <p>O vídeo em Libras desta questão será inserido aqui.</p>
-                    </div>
-                </div>
-
-                <button id="botaoRepetirLibras" class="botao-repetir" type="button" hidden>
-                    ↻ Repetir tradução
-                </button>
-
-                <p class="orientacao-libras">
-                    A tradução apresenta a pergunta e as alternativas.
-                </p>
-            </aside>
-        </section>
-
-        <footer class="rodape-jogo">
-            <button id="botaoSair" class="botao-sair" type="button">
-                ← Sair do jogo
-            </button>
-
-            <section class="area-progresso" aria-label="Progresso da partida">
-                <div class="texto-progresso">
-                    <strong>PROGRESSO</strong>
-                    <span id="porcentagemProgresso">0%</span>
-                </div>
-
-                <div
-                    id="barraProgresso"
-                    class="barra-progresso"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="0"
-                >
-                    <div id="preenchimentoProgresso"></div>
-                </div>
-            </section>
-
-            <section class="area-vidas" aria-label="Vidas restantes">
-                <strong>VIDAS</strong>
-                <div id="vidas" aria-live="polite"></div>
-            </section>
-        </footer>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="storage-utils.js"></script>
-    <script src="jogo_matematica_radiciacao.js"></script>
-</body>
-</html>// ==========================================
-
-// PERGUNTAS DO JOGO
-
-// ==========================================
-
-
-
-const VIDEO_TESTE_LIBRAS =
-
-    "https://www.youtube.com/embed/r9AoQVkUUvU";
-
-
-
-const perguntas = [
-
-    {
-
-        radicando: 25,
-
-        resposta: 5,
-
-        video: VIDEO_TESTE_LIBRAS
-
+const configuracaoModulos = {
+    introducao: {
+        titulo: "Introdução à Radiciação",
+        instrucao: "Analise quadrados, cubos e os elementos da radiciação."
     },
-
-    {
-
-        radicando: 36,
-
-        resposta: 6,
-
-        video: VIDEO_TESTE_LIBRAS
-
-    },
-
-    {
-
-        radicando: 49,
-
-        resposta: 7,
-
-        video: VIDEO_TESTE_LIBRAS
-
-    },
-
-    {
-
-        radicando: 64,
-
-        resposta: 8,
-
-        video: VIDEO_TESTE_LIBRAS
-
-    },
-
-    {
-
-        radicando: 81,
-
-        resposta: 9,
-
-        video: VIDEO_TESTE_LIBRAS
-
-    },
-
-    {
-
-        radicando: 16,
-
-        resposta: 4,
-
-        video: VIDEO_TESTE_LIBRAS
-
-    },
-
-    {
-
-        radicando: 100,
-
-        resposta: 10,
-
-        video: VIDEO_TESTE_LIBRAS
-
-    },
-
-    {
-
-        radicando: 9,
-
-        resposta: 3,
-
-        video: VIDEO_TESTE_LIBRAS
-
-    },
-
-    {
-
-        radicando: 121,
-
-        resposta: 11,
-
-        video: VIDEO_TESTE_LIBRAS
-
-    },
-
-    {
-
-        radicando: 144,
-
-        resposta: 12,
-
-        video: VIDEO_TESTE_LIBRAS
-
+    propriedades: {
+        titulo: "Propriedades da Radiciação",
+        instrucao: "Use produto, quociente e simplificação de radicais."
     }
+};
 
-];
+const bancoDeQuestoes = {
+    introducao: [
+        {id:"rad-int-01",topico:"Raiz quadrada",nivel:1,pergunta:"Qual é a medida do lado de um quadrado com área igual a 25?",representacao:"Área do quadrado = 25 unidades²",alternativas:["5","10","12,5","25"],correta:"5",dica:"Procure um número que, multiplicado por ele mesmo, resulte em 25.",explicacao:"Como 5 × 5 = 25, o lado do quadrado mede 5 unidades. Portanto, √25 = 5.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-02",topico:"Raiz quadrada",nivel:1,pergunta:"Qual é a raiz quadrada de 36?",representacao:"√36",alternativas:["6","4","18","72"],correta:"6",dica:"Qual número multiplicado por ele mesmo resulta em 36?",explicacao:"6 × 6 = 36. Portanto, √36 = 6.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-03",topico:"Raiz cúbica",nivel:1,pergunta:"Qual é a raiz cúbica de 27?",representacao:"∛27",alternativas:["3","6","9","27"],correta:"3",dica:"Procure um número que, multiplicado por ele mesmo três vezes, resulte em 27.",explicacao:"3 × 3 × 3 = 27. Portanto, ∛27 = 3.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-04",topico:"Formação de cubos",nivel:1,pergunta:"Um cubo possui volume igual a 64. Qual é a medida de sua aresta?",representacao:"Volume do cubo = 64 unidades³",alternativas:["4","2","8","16"],correta:"4",dica:"A aresta participa três vezes da multiplicação.",explicacao:"4 × 4 × 4 = 64. Assim, ∛64 = 4 e a aresta mede 4 unidades.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-05",topico:"Índice",nivel:1,pergunta:"Na expressão ∛125 = 5, qual é o índice?",representacao:"³√125 = 5",alternativas:["3","5","25","125"],correta:"3",dica:"O índice é o número pequeno colocado junto ao radical.",explicacao:"O número 3 é o índice. Ele indica que a operação é uma raiz cúbica.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-06",topico:"Radicando",nivel:1,pergunta:"Na expressão √49 = 7, qual é o radicando?",representacao:"√49 = 7",alternativas:["49","7","2","√"],correta:"49",dica:"O radicando é o número que aparece dentro do radical.",explicacao:"Na expressão √49 = 7, o número 49 está dentro do radical. Portanto, ele é o radicando.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-07",topico:"Raiz",nivel:1,pergunta:"Na expressão ∛8 = 2, qual é a raiz?",representacao:"³√8 = 2",alternativas:["2","3","8","24"],correta:"2",dica:"A raiz é o resultado da operação.",explicacao:"Como 2 × 2 × 2 = 8, o resultado da operação e a raiz são iguais a 2.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-08",topico:"Raízes exatas",nivel:2,pergunta:"Qual destas raízes quadradas é exata?",representacao:"Escolha a expressão com resultado inteiro",alternativas:["√49","√20","√30","√50"],correta:"√49",dica:"Procure um radicando que seja o quadrado de um número inteiro.",explicacao:"Como 7 × 7 = 49, temos √49 = 7. Por isso, √49 é uma raiz exata.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-09",topico:"Caso com zero",nivel:1,pergunta:"Qual é o valor de √0?",representacao:"√0",alternativas:["0","1","2","Não existe"],correta:"0",dica:"Zero multiplicado por ele mesmo continua sendo zero.",explicacao:"Como 0 × 0 = 0, temos √0 = 0.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-int-10",topico:"Caso com um",nivel:1,pergunta:"Qual é o valor de ∛1?",representacao:"³√1",alternativas:["1","0","3","Não existe"],correta:"1",dica:"Um multiplicado por ele mesmo não muda de valor.",explicacao:"Como 1 × 1 × 1 = 1, temos ∛1 = 1.",videoPergunta:V,videoDica:V,videoExplicacao:V}
+    ],
+    propriedades: [
+        {id:"rad-pro-01",topico:"Produto de radicais",nivel:1,pergunta:"Qual propriedade aparece em √(9 × 4) = √9 × √4?",representacao:"√(9 × 4) = √9 × √4",alternativas:["Produto","Quociente","Adição","Subtração"],correta:"Produto",dica:"Observe a operação que aparece entre 9 e 4.",explicacao:"A raiz de um produto pode ser escrita como o produto das raízes, quando os radicais possuem o mesmo índice.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-02",topico:"Produto de radicais",nivel:1,pergunta:"Qual é o valor de √9 × √16?",representacao:"√9 × √16",alternativas:["12","7","25","144"],correta:"12",dica:"Calcule separadamente √9 e √16.",explicacao:"√9 = 3 e √16 = 4. Portanto, √9 × √16 = 3 × 4 = 12.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-03",topico:"Produto de radicais",nivel:1,pergunta:"Qual é o valor de √(25 × 4)?",representacao:"√(25 × 4)",alternativas:["10","7","20","100"],correta:"10",dica:"Separe a raiz do produto em √25 × √4.",explicacao:"√(25 × 4) = √25 × √4 = 5 × 2 = 10.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-04",topico:"Quociente de radicais",nivel:1,pergunta:"Qual é o valor de √(64 ÷ 4)?",representacao:"√(64 ÷ 4)",alternativas:["4","2","8","16"],correta:"4",dica:"Você pode calcular √64 ÷ √4.",explicacao:"√(64 ÷ 4) = √64 ÷ √4 = 8 ÷ 2 = 4.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-05",topico:"Quociente de radicais",nivel:1,pergunta:"Qual propriedade aparece em √(49 ÷ 1) = √49 ÷ √1?",representacao:"√(49 ÷ 1) = √49 ÷ √1",alternativas:["Quociente","Produto","Potência","Adição"],correta:"Quociente",dica:"Observe a divisão apresentada dentro e fora do radical.",explicacao:"A raiz de um quociente pode ser escrita como o quociente das raízes, com divisor diferente de zero.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-06",topico:"Simplificação",nivel:2,pergunta:"Qual é a forma simplificada de √12?",representacao:"√12 = √(4 × 3)",alternativas:["2√3","3√2","4√3","6√2"],correta:"2√3",dica:"O fator 4 possui raiz quadrada exata.",explicacao:"√12 = √(4 × 3) = √4 × √3 = 2√3.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-07",topico:"Simplificação",nivel:2,pergunta:"Qual é a forma simplificada de √18?",representacao:"√18 = √(9 × 2)",alternativas:["3√2","2√3","6√2","9√2"],correta:"3√2",dica:"Separe o fator 9, pois ele possui raiz exata.",explicacao:"√18 = √(9 × 2) = √9 × √2 = 3√2.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-08",topico:"Simplificação",nivel:2,pergunta:"Qual é a forma simplificada de √50?",representacao:"√50 = √(25 × 2)",alternativas:["5√2","2√5","10√5","25√2"],correta:"5√2",dica:"O número 25 é um quadrado perfeito.",explicacao:"√50 = √(25 × 2) = √25 × √2 = 5√2.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-09",topico:"Fatoração",nivel:2,pergunta:"Qual fator com raiz exata ajuda a simplificar √20?",representacao:"20 = fator exato × outro fator",alternativas:["4","2","5","10"],correta:"4",dica:"Procure um quadrado perfeito que seja divisor de 20.",explicacao:"O número 4 divide 20 e possui raiz exata. Assim, √20 = √(4 × 5) = 2√5.",videoPergunta:V,videoDica:V,videoExplicacao:V},
+        {id:"rad-pro-10",topico:"Simplificação",nivel:3,pergunta:"Sabendo que 72 = 36 × 2, qual é a forma simplificada de √72?",representacao:"√72 = √(36 × 2)",alternativas:["6√2","2√6","3√8","12√2"],correta:"6√2",dica:"Calcule a raiz quadrada do fator 36.",explicacao:"√72 = √(36 × 2) = √36 × √2 = 6√2.",videoPergunta:V,videoDica:V,videoExplicacao:V}
+    ]
+};
 
-
-
-
-
-// ==========================================
-
-// ESTADO DO JOGO
-
-// ==========================================
-
-
-
-let faseAtual = 0;
-
+let moduloAtual = "introducao";
+let questoes = [];
+let indice = 0;
 let pontos = 0;
-
-let vidas = 3;
-
-let bloqueado = false;
-
-let resultadosDoTeste = [];
-
+let vidas = TOTAL_VIDAS;
 let sequencia = 0;
-
-
-
-
-
-// ==========================================
-
-// ELEMENTOS DO HTML
-
-// ==========================================
-
-
-
-let elementoPontos;
-
-let elementoFase;
-
-let elementoTotalQuestoes;
-
-let elementoVidas;
-
-let elementoPergunta;
-
-let elementoQuadrado;
-
-let elementoAlternativas;
-
-let elementoProgresso;
-
-let elementoVideo;
-
-let botaoRepetirVideo;
-
-let elementoVideoIndisponivel;
-
-let elementoPorcentagem;
-
-let elementoSequencia;
-
-let botaoDica;
-
-let areaDica;
-
-
-
-
-
-// ==========================================
-
-// INICIAR O JOGO
-
-// ==========================================
-
-
-
-function iniciarJogo() {
-
-    elementoPontos =
-
-        document.getElementById("pontos");
-
-
-
-    elementoFase =
-
-        document.getElementById("questaoAtual");
-
-
-
-    elementoTotalQuestoes =
-
-        document.getElementById("totalQuestoes");
-
-
-
-    elementoVidas =
-
-        document.getElementById("vidas");
-
-
-
-    elementoPergunta =
-
-        document.getElementById("textoPergunta");
-
-
-
-    elementoQuadrado =
-
-        document.getElementById("quadrado");
-
-
-
-    elementoAlternativas =
-
-        document.getElementById("alternativas");
-
-
-
-    elementoProgresso =
-
-        document.getElementById("preenchimentoProgresso");
-
-
-
-    elementoVideo =
-
-        document.getElementById("videoLibras");
-
-
-
-    botaoRepetirVideo =
-
-        document.getElementById("botaoRepetirLibras");
-
-
-
-    elementoVideoIndisponivel =
-
-        document.getElementById("videoIndisponivel");
-
-
-
-    elementoPorcentagem =
-
-        document.getElementById("porcentagemProgresso");
-
-
-
-    elementoSequencia =
-
-        document.getElementById("valorSequencia");
-
-
-
-    botaoDica =
-
-        document.getElementById("botaoDica");
-
-
-
-    areaDica =
-
-        document.getElementById("areaDica");
-
-
-
-    if (
-
-        !elementoPontos ||
-
-        !elementoFase ||
-
-        !elementoVidas ||
-
-        !elementoPergunta ||
-
-        !elementoQuadrado ||
-
-        !elementoAlternativas ||
-
-        !elementoProgresso
-
-    ) {
-
-        console.error(
-
-            "Um ou mais elementos do jogo não foram encontrados no HTML."
-
-        );
-
-
-
-        return;
-
-    }
-
-
-
-    if (botaoRepetirVideo) {
-
-        botaoRepetirVideo.addEventListener(
-
-            "click",
-
-            repetirTraducao
-
-        );
-
-    }
-
-
-
-    configurarControlesDaTela();
-
-
-
-    if (elementoTotalQuestoes) {
-
-        elementoTotalQuestoes.textContent = perguntas.length;
-
-    }
-
-
-
-    embaralhar(perguntas);
-
-    mostrarPergunta();
-
-    atualizarStatus();
-
+let bloqueado = false;
+let dicaUsada = false;
+let resultados = [];
+const el = {};
+
+document.addEventListener("DOMContentLoaded", iniciar);
+
+function iniciar() {
+    localizarElementos();
+    adicionarEventos();
+    const recebido = new URLSearchParams(location.search).get("modulo");
+    if (recebido && bancoDeQuestoes[recebido]) moduloAtual = recebido;
+    carregarModulosConcluidos();
+    iniciarPartida(moduloAtual);
 }
 
-
-
-
-
-// ==========================================
-
-// MOSTRAR PERGUNTA
-
-// ==========================================
-
-
-
-function mostrarPergunta() {
-
-    bloqueado = false;
-
-
-
-    if (areaDica && botaoDica) {
-
-        areaDica.hidden = true;
-
-        botaoDica.setAttribute("aria-expanded", "false");
-
-        botaoDica.textContent = "💡 Ver dica";
-
-    }
-
-
-
-    const perguntaAtual =
-
-        perguntas[faseAtual];
-
-
-
-    elementoPergunta.textContent =
-
-        "Qual é a raiz quadrada de " +
-
-        perguntaAtual.radicando +
-
-        "?";
-
-
-
-    criarRepresentacao(
-
-        perguntaAtual.resposta
-
-    );
-
-
-
-    criarAlternativas(
-
-        perguntaAtual.resposta
-
-    );
-
-
-
-    carregarLibras(
-
-        perguntaAtual.video
-
-    );
-
-
-
-    atualizarStatus();
-
+function localizarElementos() {
+    const ids = {pontos:"pontos",questaoAtual:"questaoAtual",totalQuestoes:"totalQuestoes",tituloModulo:"tituloModulo",topico:"topicoPergunta",nivel:"nivelPergunta",instrucao:"instrucao",pergunta:"textoPergunta",representacao:"representacaoDesafio",alternativas:"alternativas",botaoDica:"botaoDica",areaDica:"areaDica",textoDica:"textoDica",video:"videoLibras",videoIndisponivel:"videoIndisponivel",repetir:"botaoRepetirLibras",preenchimento:"preenchimentoProgresso",barra:"barraProgresso",porcentagem:"porcentagemProgresso",vidas:"vidas",sequencia:"valorSequencia",voltar:"botaoVoltar",sair:"botaoSair"};
+    Object.entries(ids).forEach(([chave,id]) => el[chave] = document.getElementById(id));
+    el.modulos = document.querySelectorAll(".botao-modulo[data-modulo]");
 }
 
-
-
-
-
-// ==========================================
-
-// CRIAR REPRESENTAÇÃO VISUAL
-
-// ==========================================
-
-
-
-function criarRepresentacao(lado) {
-
-    elementoQuadrado.innerHTML = "";
-
-
-
-    elementoQuadrado.style.setProperty(
-
-        "--lado",
-
-        lado
-
-    );
-
-
-
-    const quantidade = lado * lado;
-
-
-
-    for (
-
-        let numero = 0;
-
-        numero < quantidade;
-
-        numero++
-
-    ) {
-
-        const celula =
-
-            document.createElement("div");
-
-
-
-        celula.className = "quad";
-
-
-
-        elementoQuadrado.appendChild(celula);
-
-    }
-
+function adicionarEventos() {
+    el.botaoDica.addEventListener("click", alternarDica);
+    el.repetir.addEventListener("click", repetirVideo);
+    el.voltar.addEventListener("click", confirmarSaida);
+    el.sair.addEventListener("click", confirmarSaida);
+    el.modulos.forEach(botao => botao.addEventListener("click", () => selecionarModulo(botao.dataset.modulo)));
 }
-
-
-
-
-
-// ==========================================
-
-// CRIAR ALTERNATIVAS
-
-// ==========================================
-
-
-
-function criarAlternativas(respostaCorreta) {
-
-    const opcoes =
-
-        new Set([respostaCorreta]);
-
-
-
-    while (opcoes.size < 4) {
-
-        const deslocamento =
-
-            Math.floor(Math.random() * 7) - 3;
-
-
-
-        const opcao =
-
-            respostaCorreta + deslocamento;
-
-
-
-        if (opcao > 0) {
-
-            opcoes.add(opcao);
-
-        }
-
-    }
-
-
-
-    const alternativas =
-
-        embaralhar(Array.from(opcoes));
-
-
-
-    elementoAlternativas.innerHTML = "";
-
-
-
-    alternativas.forEach(
-
-        function (valor, indice) {
-
-            const botao =
-
-                document.createElement("button");
-
-
-
-            botao.type = "button";
-
-            botao.className = "botao-alternativa";
-
-            botao.dataset.valor = String(valor);
-
-
-
-            const letra = String.fromCharCode(65 + indice);
-
-
-
-            botao.innerHTML =
-
-                '<span class="letra-alternativa">' +
-
-                letra +
-
-                "</span>" +
-
-                "<span>" +
-
-                valor +
-
-                "</span>";
-
-
-
-            botao.addEventListener(
-
-                "click",
-
-                function () {
-
-                    verificar(valor);
-
-                }
-
-            );
-
-
-
-            elementoAlternativas.appendChild(botao);
-
-        }
-
-    );
-
-}
-
-
-
-
-
-// ==========================================
-
-// VERIFICAR RESPOSTA
-
-// ==========================================
-
-
-
-async function verificar(valor) {
-
-    if (bloqueado) {
-
-        return;
-
-    }
-
-
-
-    bloqueado = true;
-
-    desativarAlternativas();
-
-
-
-    const perguntaAtual =
-
-        perguntas[faseAtual];
-
-
-
-    const acertou =
-
-        valor === perguntaAtual.resposta;
-
-
-
-    resultadosDoTeste.push({
-
-        radicando: perguntaAtual.radicando,
-
-        respostaEscolhida: valor,
-
-        respostaCorreta: perguntaAtual.resposta,
-
-        acertou: acertou
-
-    });
-
-
-
-    if (acertou) {
-
-        pontos += 10;
-
-        sequencia++;
-
-
-
-        marcarAlternativas(
-
-            valor,
-
-            perguntaAtual.resposta
-
-        );
-
-
-
-        atualizarStatus();
-
-
-
-        await mostrarAlerta({
-
-            icon: "success",
-
-            title: "Muito bem!",
-
-            text:
-
-                "√" +
-
-                perguntaAtual.radicando +
-
-                " = " +
-
-                perguntaAtual.resposta,
-
-            timer: 1400
-
-        });
-
-
-
-    } else {
-
-        vidas--;
-
-        sequencia = 0;
-
-
-
-        marcarAlternativas(
-
-            valor,
-
-            perguntaAtual.resposta
-
-        );
-
-
-
-        atualizarStatus();
-
-
-
-        await mostrarAlerta({
-
-            icon: "error",
-
-            title: "Quase!",
-
-            text:
-
-                "A resposta correta é " +
-
-                perguntaAtual.resposta +
-
-                ", pois " +
-
-                perguntaAtual.resposta +
-
-                " × " +
-
-                perguntaAtual.resposta +
-
-                " = " +
-
-                perguntaAtual.radicando +
-
-                ".",
-
-            timer: 2400
-
-        });
-
-    }
-
-
-
-    if (vidas <= 0) {
-
-        finalizarJogo(false);
-
-        return;
-
-    }
-
-
-
-    faseAtual++;
-
-
-
-    atualizarStatus();
-
-
-
-    if (faseAtual >= perguntas.length) {
-
-        finalizarJogo(true);
-
-        return;
-
-    }
-
-
-
-    mostrarPergunta();
-
-}
-
-
-
-
-
-// ==========================================
-
-// ALERTA DE RESPOSTA
-
-// ==========================================
-
-
-
-function conteudoAlertaComLibras(texto) {
-
-    return `
-
-        <div style="display:grid;gap:12px;text-align:left;">
-
-            <div style="padding:12px;background:#f2fbff;border-left:5px solid #5fa8d3;border-radius:12px;">
-
-                ${texto}
-
-            </div>
-
-
-
-            <iframe
-
-                id="videoAlertaRadiciacao"
-
-                src="${VIDEO_TESTE_LIBRAS}?rel=0&modestbranding=1"
-
-                title="Tradução do alerta do jogo de Radiciação em Libras"
-
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-
-                allowfullscreen
-
-                style="width:100%;height:250px;background:#000;border:2px solid #5fa8d3;border-radius:14px;"
-
-            ></iframe>
-
-
-
-            <button
-
-                id="repetirAlertaRadiciacao"
-
-                type="button"
-
-                style="width:100%;padding:9px 12px;background:#dff4ff;color:#1d3557;border:2px solid #5fa8d3;border-radius:12px;font-weight:900;cursor:pointer;"
-
-            >
-
-                ↻ Repetir tradução em Libras
-
-            </button>
-
-        </div>
-
-    `;
-
-}
-
-
-
-function ativarTraducaoDoAlerta() {
-
-    const video = document.getElementById(
-
-        "videoAlertaRadiciacao"
-
-    );
-
-
-
-    const botao = document.getElementById(
-
-        "repetirAlertaRadiciacao"
-
-    );
-
-
-
-    if (!video || !botao) return;
-
-
-
-    botao.addEventListener("click", function () {
-
-        video.src = "";
-
-
-
-        setTimeout(function () {
-
-            video.src =
-
-                VIDEO_TESTE_LIBRAS +
-
-                "?rel=0&modestbranding=1&autoplay=1";
-
-        }, 100);
-
-    });
-
-}
-
-
-
-function pararTraducaoDoAlerta() {
-
-    const video = document.getElementById(
-
-        "videoAlertaRadiciacao"
-
-    );
-
-
-
-    if (video) video.src = "";
-
-}
-
-
-
-function mostrarAlerta(configuracao) {
-
-    if (typeof Swal !== "undefined") {
-
-        return Swal.fire({
-
-            icon: configuracao.icon,
-
-            title: configuracao.title,
-
-            html: conteudoAlertaComLibras(
-
-                configuracao.text
-
-            ),
-
-            confirmButtonText: "Continuar",
-
-            confirmButtonColor: "#1d3557",
-
-            allowOutsideClick: false,
-
-            background: "#ffffff",
-
-            color: "#1d3557",
-
-            customClass: {
-
-                popup: "alerta-reforca"
-
-            },
-
-            didOpen: ativarTraducaoDoAlerta,
-
-            willClose: pararTraducaoDoAlerta
-
-        });
-
-    }
-
-
-
-    alert(
-
-        configuracao.title +
-
-        "\n" +
-
-        configuracao.text
-
-    );
-
-
-
-    return Promise.resolve();
-
-}
-
-
-
-
-
-// ==========================================
-
-// FINALIZAR JOGO
-
-// ==========================================
-
-
-
-function salvarResultadoRadiciacao(concluiu) {
-
-    const acertos = resultadosDoTeste.filter(function (resultado) {
-
-        return resultado.acertou;
-
-    }).length;
-
-
-
-    const percentual = perguntas.length
-
-        ? Math.round((acertos / perguntas.length) * 100)
-
-        : 0;
-
-
-
-    let historico = [];
-
-    try {
-
-        historico = JSON.parse(
-
-            localStorage.getItem(chaveLocalDoUsuario("resultadosRadiciacao"))
-
-        ) || [];
-
-    } catch (erro) {
-
-        historico = [];
-
-    }
-
-
-
-    const resultadoAtual = {
-
-        etapa: Number(sessionStorage.getItem("testeCursoAtual")) || 1,
-
-        pontuacao: pontos,
-
-        percentual: percentual,
-
-        respostas: resultadosDoTeste,
-
-        concluido: concluiu,
-
-        realizadoEm: new Date().toISOString()
-
-    };
-
-
-
-    historico.push(resultadoAtual);
-
-
-
-    localStorage.setItem(
-
-        chaveLocalDoUsuario("resultadosRadiciacao"),
-
-        JSON.stringify(historico)
-
-    );
-
-
-
-    salvarResultadoRadiciacaoNoFirebase(resultadoAtual);
-
-
-
-    if (concluiu) {
-
-        let progresso = null;
-
-        try {
-
-            progresso = JSON.parse(
-
-                localStorage.getItem(chaveLocalDoUsuario("progressoCursoRadiciacao"))
-
-            );
-
-        } catch (erro) {
-
-            progresso = null;
-
-        }
-
-
-
-        if (!progresso) {
-
-            progresso = {
-
-                etapaLiberada: 1,
-
-                aulasAssistidas: [],
-
-                concluidas: []
-
-            };
-
-        }
-
-
-
-        const etapa = Number(sessionStorage.getItem("testeCursoAtual")) || 1;
-
-        if (!Array.isArray(progresso.concluidas)) progresso.concluidas = [];
-
-        if (!progresso.concluidas.includes(etapa)) progresso.concluidas.push(etapa);
-
-        progresso.etapaLiberada = Math.min(4, Math.max(progresso.etapaLiberada || 1, etapa + 1));
-
-        localStorage.setItem(
-
-            chaveLocalDoUsuario("progressoCursoRadiciacao"),
-
-            JSON.stringify(progresso)
-
-        );
-
-    }
-
-}
-
-
-
-function salvarResultadoRadiciacaoNoFirebase(resultado) {
-
-    if (
-
-        typeof auth === "undefined" ||
-
-        typeof db === "undefined" ||
-
-        !auth ||
-
-        !db ||
-
-        !auth.currentUser
-
-    ) {
-
-        return;
-
-    }
-
-
-
-    db.collection("usuarios")
-
-        .doc(auth.currentUser.uid)
-
-        .collection("resultados")
-
-        .add({
-
-            tematica: "Radiciação",
-
-            etapa: resultado.etapa,
-
-            pontuacao: resultado.pontuacao,
-
-            percentual: resultado.percentual,
-
-            respostas: resultado.respostas,
-
-            concluido: resultado.concluido,
-
-            realizadoEm: firebase.firestore.FieldValue.serverTimestamp()
-
-        })
-
-        .catch(function (erro) {
-
-            console.error("Erro ao salvar resultado da Radiciação:", erro);
-
-        });
-
-}
-
-
-
-async function finalizarJogo(concluiu) {
-
-    salvarResultadoRadiciacao(concluiu);
-
-
-
-    if (typeof Swal === "undefined") {
-
-        alert(
-
-            concluiu
-
-                ? "Missão concluída! Pontuação: " + pontos
-
-                : "Game Over! Pontuação: " + pontos
-
-        );
-
-
-
-        reiniciarJogo();
-
-        return;
-
-    }
-
-
-
-    const resultado = await Swal.fire({
-
-        icon: concluiu
-
-            ? "success"
-
-            : "error",
-
-
-
-        title: concluiu
-
-            ? "Missão concluída!"
-
-            : "Game Over",
-
-
-
-        html: conteudoAlertaComLibras(
-
-            concluiu
-
-                ? (
-
-                    "Você completou as 10 fases." +
-
-                    "<br><strong>Pontuação: " +
-
-                    pontos +
-
-                    "</strong>"
-
-                )
-
-                : (
-
-                    "Suas vidas terminaram." +
-
-                    "<br><strong>Pontuação: " +
-
-                    pontos +
-
-                    "</strong>"
-
-                )
-
-        ),
-
-
-
-        showCancelButton: true,
-
-
-
-        confirmButtonText:
-
-            "Jogar novamente",
-
-
-
-        cancelButtonText:
-
-            "Sair do jogo",
-
-
-
-        confirmButtonColor:
-
-            "#1d3557",
-
-
-
-        cancelButtonColor:
-
-            "#5fa8d3",
-
-
-
-        allowOutsideClick: false,
-
-
-
-        customClass: {
-
-            popup: "alerta-reforca"
-
-        },
-
-
-
-        didOpen: ativarTraducaoDoAlerta,
-
-        willClose: pararTraducaoDoAlerta
-
-    });
-
-
-
-    if (resultado.isConfirmed) {
-
-        reiniciarJogo();
-
-    } else {
-
-        window.location.href = "radiciacao.html";
-
-    }
-
-}
-
-
-
-
-
-// ==========================================
-
-// REINICIAR JOGO
-
-// ==========================================
-
-
-
-function reiniciarJogo() {
-
-    faseAtual = 0;
-
-    pontos = 0;
-
-    vidas = 3;
-
-    bloqueado = false;
-
-    resultadosDoTeste = [];
-
-    sequencia = 0;
-
-
-
-    embaralhar(perguntas);
-
-
-
-    mostrarPergunta();
-
-    atualizarStatus();
-
-}
-
-
-
-
-
-// ==========================================
-
-// CARREGAR TRADUÇÃO EM LIBRAS
-
-// ==========================================
-
-
-
-function carregarLibras(nomeDoVideo) {
-
-    if (!elementoVideo) {
-
-        return;
-
-    }
-
-
-
-    if (!nomeDoVideo) {
-
-        elementoVideo.hidden = true;
-
-        if (botaoRepetirVideo) botaoRepetirVideo.hidden = true;
-
-        if (elementoVideoIndisponivel) {
-
-            elementoVideoIndisponivel.hidden = false;
-
-        }
-
-        return;
-
-    }
-
-
-
-    elementoVideo.hidden = false;
-
-    if (botaoRepetirVideo) botaoRepetirVideo.hidden = false;
-
-    if (elementoVideoIndisponivel) {
-
-        elementoVideoIndisponivel.hidden = true;
-
-    }
-
-
-
-    elementoVideo.src =
-
-        nomeDoVideo +
-
-        "?rel=0&modestbranding=1";
-
-}
-
-
-
-
-
-// ==========================================
-
-// REPETIR TRADUÇÃO
-
-// ==========================================
-
-
-
-function repetirTraducao() {
-
-    if (!elementoVideo) {
-
-        return;
-
-    }
-
-
-
-    const endereco = elementoVideo.src
-
-        .replace("&autoplay=1", "")
-
-        .replace("?autoplay=1", "");
-
-
-
-    elementoVideo.src = "";
-
-
-
-    setTimeout(function () {
-
-        elementoVideo.src =
-
-            endereco +
-
-            (endereco.includes("?") ? "&" : "?") +
-
-            "autoplay=1";
-
-    }, 100);
-
-}
-
-
-
-
-
-// ==========================================
-
-// ATUALIZAR PLACAR E PROGRESSO
-
-// ==========================================
-
-
-
-function atualizarStatus() {
-
-    elementoPontos.textContent = pontos;
-
-
-
-    elementoFase.textContent =
-
-        Math.min(
-
-            faseAtual + 1,
-
-            perguntas.length
-
-        );
-
-
-
-    elementoVidas.innerHTML =
-
-        "❤️".repeat(vidas) +
-
-        "<span class=\"somente-leitor\">" +
-
-        vidas +
-
-        " vidas restantes</span>";
-
-
-
-    if (elementoSequencia) {
-
-        elementoSequencia.textContent = sequencia;
-
-    }
-
-
-
-    const porcentagem =
-
-        (faseAtual /
-
-            perguntas.length) *
-
-        100;
-
-
-
-    elementoProgresso.style.width =
-
-        porcentagem + "%";
-
-
-
-    if (elementoPorcentagem) {
-
-        elementoPorcentagem.textContent =
-
-            Math.round(porcentagem) + "%";
-
-    }
-
-
-
-    const barra =
-
-        elementoProgresso.parentElement;
-
-
-
-    if (barra) {
-
-        barra.setAttribute(
-
-            "aria-valuenow",
-
-            Math.round(porcentagem)
-
-        );
-
-    }
-
-}
-
-
-
-
-
-// ==========================================
-
-// BLOQUEAR ALTERNATIVAS
-
-// ==========================================
-
-
-
-function marcarAlternativas(valorEscolhido, respostaCorreta) {
-
-    const botoes =
-
-        elementoAlternativas.querySelectorAll(
-
-            ".botao-alternativa"
-
-        );
-
-
-
-    botoes.forEach(function (botao) {
-
-        const valor = Number(botao.dataset.valor);
-
-
-
-        if (valor === respostaCorreta) {
-
-            botao.classList.add("correta");
-
-        } else if (valor === valorEscolhido) {
-
-            botao.classList.add("incorreta");
-
-        } else {
-
-            botao.classList.add("neutra");
-
-        }
-
-    });
-
-}
-
-
-
-function configurarControlesDaTela() {
-
-    const botaoVoltar =
-
-        document.getElementById("botaoVoltar");
-
-
-
-    const botaoSair =
-
-        document.getElementById("botaoSair");
-
-
-
-    if (botaoVoltar) {
-
-        botaoVoltar.addEventListener(
-
-            "click",
-
-            confirmarSaidaDoJogo
-
-        );
-
-    }
-
-
-
-    if (botaoSair) {
-
-        botaoSair.addEventListener(
-
-            "click",
-
-            confirmarSaidaDoJogo
-
-        );
-
-    }
-
-
-
-    if (botaoDica && areaDica) {
-
-        botaoDica.addEventListener("click", function () {
-
-            const deveAbrir = areaDica.hidden;
-
-
-
-            areaDica.hidden = !deveAbrir;
-
-            botaoDica.setAttribute(
-
-                "aria-expanded",
-
-                String(deveAbrir)
-
-            );
-
-
-
-            botaoDica.textContent = deveAbrir
-
-                ? "💡 Ocultar dica"
-
-                : "💡 Ver dica";
-
-        });
-
-    }
-
-}
-
-
-
-async function confirmarSaidaDoJogo() {
-
-    if (typeof Swal === "undefined") {
-
-        if (confirm("Deseja sair do jogo?")) {
-
-            window.location.href = "radiciacao.html";
-
-        }
-
-        return;
-
-    }
-
-
-
-    const resultado = await Swal.fire({
-
-        icon: "warning",
-
-        title: "Sair do jogo?",
-
-        html: conteudoAlertaComLibras(
-
-            "O progresso desta partida ainda não concluída será perdido."
-
-        ),
-
-        showCancelButton: true,
-
-        confirmButtonText: "Sim, sair",
-
-        cancelButtonText: "Continuar jogando",
-
-        confirmButtonColor: "#d94b4b",
-
-        cancelButtonColor: "#1d3557",
-
-        allowOutsideClick: false,
-
-        customClass: {
-
-            popup: "alerta-reforca"
-
-        },
-
-        didOpen: ativarTraducaoDoAlerta,
-
-        willClose: pararTraducaoDoAlerta
-
-    });
-
-
-
-    if (resultado.isConfirmed) {
-
-        window.location.href = "radiciacao.html";
-
-    }
-
-}
-
-
-
-function desativarAlternativas() {
-
-    const botoes =
-
-        elementoAlternativas.querySelectorAll(
-
-            "button"
-
-        );
-
-
-
-    botoes.forEach(
-
-        function (botao) {
-
-            botao.disabled = true;
-
-        }
-
-    );
-
-}
-
-
-
-
-
-// ==========================================
-
-// EMBARALHAR
-
-// ==========================================
-
-
 
 function embaralhar(lista) {
-
-    for (
-
-        let indice = lista.length - 1;
-
-        indice > 0;
-
-        indice--
-
-    ) {
-
-        const outroIndice =
-
-            Math.floor(
-
-                Math.random() *
-
-                (indice + 1)
-
-            );
-
-
-
-        const temporario =
-
-            lista[indice];
-
-
-
-        lista[indice] =
-
-            lista[outroIndice];
-
-
-
-        lista[outroIndice] =
-
-            temporario;
-
+    const copia = [...lista];
+    for (let i = copia.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copia[i], copia[j]] = [copia[j], copia[i]];
     }
-
-
-
-    return lista;
-
+    return copia;
 }
 
+function iniciarPartida(modulo) {
+    moduloAtual = modulo;
+    indice = 0; pontos = 0; vidas = TOTAL_VIDAS; sequencia = 0;
+    bloqueado = false; dicaUsada = false; resultados = [];
+    questoes = embaralhar(bancoDeQuestoes[modulo]).slice(0, QUESTOES_POR_PARTIDA).map(q => ({...q, alternativasSorteadas:embaralhar(q.alternativas)}));
+    atualizarModulo();
+    mostrarQuestao();
+}
 
+async function selecionarModulo(modulo) {
+    if (!bancoDeQuestoes[modulo] || modulo === moduloAtual) return;
+    if (resultados.length) {
+        const resposta = await Swal.fire({icon:"question",title:"Trocar de módulo?",html:htmlAlertaTraducao("O progresso desta partida será perdido.", "Troca de módulo em Libras"),showCancelButton:true,confirmButtonText:"Trocar",cancelButtonText:"Continuar aqui",confirmButtonColor:"#1d3557",didOpen:ativarRepeticaoAlerta});
+        if (!resposta.isConfirmed) return;
+    }
+    iniciarPartida(modulo);
+}
 
+function atualizarModulo() {
+    const config = configuracaoModulos[moduloAtual];
+    el.tituloModulo.textContent = config.titulo;
+    el.instrucao.textContent = config.instrucao;
+    el.modulos.forEach(botao => {
+        const ativo = botao.dataset.modulo === moduloAtual;
+        botao.classList.toggle("ativo", ativo);
+        botao.setAttribute("aria-pressed", String(ativo));
+        const estado = botao.querySelector(".estado-modulo");
+        if (estado) estado.textContent = ativo ? "▶" : (botao.classList.contains("concluido") ? "✓" : "○");
+    });
+}
 
+function mostrarQuestao() {
+    const q = questoes[indice];
+    bloqueado = false; dicaUsada = false;
+    el.topico.textContent = q.topico.toUpperCase();
+    el.nivel.textContent = "NÍVEL " + q.nivel;
+    el.pergunta.textContent = q.pergunta;
+    el.representacao.textContent = q.representacao;
+    el.textoDica.textContent = q.dica;
+    el.areaDica.hidden = true;
+    el.botaoDica.textContent = "💡 Ver dica";
+    el.botaoDica.setAttribute("aria-expanded", "false");
+    criarAlternativas(q);
+    carregarVideo(q.videoPergunta, "Tradução da pergunta em Libras");
+    atualizarStatus();
+}
 
-// ==========================================
+function criarAlternativas(q) {
+    el.alternativas.replaceChildren();
+    q.alternativasSorteadas.forEach((texto, i) => {
+        const botao = document.createElement("button");
+        botao.type = "button"; botao.className = "botao-alternativa"; botao.dataset.resposta = texto;
+        const letra = document.createElement("span"); letra.className = "letra-alternativa"; letra.textContent = ["A","B","C","D"][i];
+        const resposta = document.createElement("span"); resposta.textContent = texto;
+        botao.append(letra, resposta);
+        botao.addEventListener("click", () => verificarResposta(texto, botao));
+        el.alternativas.appendChild(botao);
+    });
+}
 
-// INICIALIZAÇÃO
+async function verificarResposta(escolhida, botaoEscolhido) {
+    if (bloqueado) return;
+    bloqueado = true;
+    const q = questoes[indice];
+    const acertou = escolhida === q.correta;
+    el.alternativas.querySelectorAll("button").forEach(botao => {
+        botao.disabled = true;
+        if (botao.dataset.resposta === q.correta) botao.classList.add("correta");
+        else if (botao === botaoEscolhido) botao.classList.add("incorreta");
+        else botao.classList.add("neutra");
+    });
+    if (acertou) { pontos += dicaUsada ? 7 : 10; sequencia++; } else { vidas--; sequencia = 0; }
+    resultados.push({id:q.id,topico:q.topico,respostaEscolhida:escolhida,respostaCorreta:q.correta,acertou,dicaUtilizada:dicaUsada});
+    atualizarStatus();
+    await alertaExplicacao(acertou, q);
+    if (vidas <= 0) return finalizar(false);
+    indice++;
+    atualizarStatus();
+    if (indice >= questoes.length) return finalizar(true);
+    mostrarQuestao();
+}
 
-// ==========================================
+function alternarDica() {
+    const abrir = el.areaDica.hidden;
+    el.areaDica.hidden = !abrir;
+    el.botaoDica.setAttribute("aria-expanded", String(abrir));
+    el.botaoDica.textContent = abrir ? "💡 Ocultar dica" : "💡 Ver dica";
+    if (abrir) { dicaUsada = true; carregarVideo(questoes[indice].videoDica, "Tradução da dica em Libras"); }
+    else carregarVideo(questoes[indice].videoPergunta, "Tradução da pergunta em Libras");
+}
 
+function urlVideo(url, autoplay = false) {
+    if (!url) return "";
+    const separador = url.includes("?") ? "&" : "?";
+    return url + separador + "rel=0&modestbranding=1" + (autoplay ? "&autoplay=1" : "");
+}
 
+function carregarVideo(url, titulo) {
+    if (!url) { el.video.hidden = true; el.repetir.hidden = true; el.videoIndisponivel.hidden = false; return; }
+    el.videoIndisponivel.hidden = true; el.video.hidden = false; el.repetir.hidden = false;
+    el.video.title = titulo; el.video.src = urlVideo(url);
+}
 
-document.addEventListener(
+function repetirVideo() {
+    const q = questoes[indice];
+    const url = el.areaDica.hidden ? q.videoPergunta : q.videoDica;
+    el.video.src = "";
+    setTimeout(() => el.video.src = urlVideo(url, true), 100);
+}
 
-    "DOMContentLoaded",
+async function alertaExplicacao(acertou, q) {
+    await Swal.fire({
+        icon: acertou ? "success" : "error",
+        title: acertou ? "Muito bem!" : "Vamos revisar",
+        html:`<div class="explicacao-resposta"><div class="texto-explicacao">${q.explicacao}</div><iframe id="videoExplicacao" class="video-explicacao" src="${urlVideo(q.videoExplicacao)}" title="Explicação da resposta em Libras" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><button id="repetirExplicacao" class="botao-alerta-repetir" type="button">↻ Repetir explicação em Libras</button></div>`,
+        confirmButtonText:"Continuar",confirmButtonColor:"#1d3557",allowOutsideClick:false,customClass:{popup:"alerta-reforca"},
+        didOpen:()=>{const v=document.getElementById("videoExplicacao");const b=document.getElementById("repetirExplicacao");if(v&&b)b.onclick=()=>{v.src="";setTimeout(()=>v.src=urlVideo(q.videoExplicacao,true),100);};},
+        willClose:()=>{const v=document.getElementById("videoExplicacao");if(v)v.src="";}
+    });
+}
 
-    iniciarJogo
+function atualizarStatus() {
+    el.pontos.textContent = pontos;
+    el.questaoAtual.textContent = Math.min(indice + 1, questoes.length);
+    el.totalQuestoes.textContent = questoes.length;
+    el.sequencia.textContent = sequencia;
+    el.vidas.innerHTML = "❤️".repeat(vidas) + `<span class="somente-leitor">${vidas} vidas restantes</span>`;
+    const percentual = Math.round((indice / questoes.length) * 100);
+    el.preenchimento.style.width = percentual + "%";
+    el.porcentagem.textContent = percentual + "%";
+    el.barra.setAttribute("aria-valuenow", String(percentual));
+}
 
-);
+function chaveUsuario(base) {
+    return typeof chaveLocalDoUsuario === "function" ? chaveLocalDoUsuario(base) : base;
+}
+
+function salvarResultado(concluido) {
+    const acertos = resultados.filter(r => r.acertou).length;
+    const total = resultados.length;
+    const resultado = {jogo:"jogo_matematica_radiciacao",tematica:"Radiciação",modulo:moduloAtual,nomeModulo:configuracaoModulos[moduloAtual].titulo,etapa:Number(sessionStorage.getItem("testeCursoAtual"))||null,pontuacao:pontos,acertos,erros:total-acertos,totalRespondido:total,percentual:total?Math.round(acertos/total*100):0,concluido,respostas:resultados,realizadoEm:new Date().toISOString()};
+    let historico=[];try{historico=JSON.parse(localStorage.getItem(chaveUsuario("resultadosRadiciacao")))||[];}catch(e){historico=[];}
+    historico.push(resultado);localStorage.setItem(chaveUsuario("resultadosRadiciacao"),JSON.stringify(historico));
+    if(concluido){marcarModuloConcluido(moduloAtual);registrarConclusaoNaTrilha();}
+    salvarFirebase(resultado);
+    return resultado;
+}
+
+function registrarConclusaoNaTrilha() {
+    const etapa = Number(sessionStorage.getItem("testeCursoAtual"));
+    if (!Number.isInteger(etapa) || etapa < 1) return;
+    const chave = chaveUsuario("progressoCursoRadiciacao");
+    let progresso={etapaLiberada:1,aulasAssistidas:[],concluidas:[]};try{progresso=JSON.parse(localStorage.getItem(chave))||progresso;}catch(e){}
+    if(!Array.isArray(progresso.concluidas))progresso.concluidas=[];
+    if(!progresso.concluidas.includes(etapa))progresso.concluidas.push(etapa);
+    progresso.etapaLiberada=Math.max(Number(progresso.etapaLiberada)||1,etapa+1);
+    localStorage.setItem(chave,JSON.stringify(progresso));
+    sessionStorage.removeItem("testeCursoAtual");
+}
+
+function marcarModuloConcluido(modulo) {
+    const chave=chaveUsuario("modulosJogoRadiciacaoConcluidos");let lista=[];try{lista=JSON.parse(localStorage.getItem(chave))||[];}catch(e){}
+    if(!lista.includes(modulo))lista.push(modulo);localStorage.setItem(chave,JSON.stringify(lista));carregarModulosConcluidos();
+}
+
+function carregarModulosConcluidos() {
+    const chave=chaveUsuario("modulosJogoRadiciacaoConcluidos");let lista=[];try{lista=JSON.parse(localStorage.getItem(chave))||[];}catch(e){}
+    document.querySelectorAll(".botao-modulo[data-modulo]").forEach(b=>b.classList.toggle("concluido",lista.includes(b.dataset.modulo)));
+}
+
+function salvarFirebase(resultado) {
+    if(typeof auth==="undefined"||typeof db==="undefined"||!auth||!db||!auth.currentUser)return;
+    db.collection("usuarios").doc(auth.currentUser.uid).collection("resultados").add({...resultado,realizadoEm:firebase.firestore.FieldValue.serverTimestamp()}).catch(erro=>console.error("Erro ao salvar resultado:",erro));
+}
+
+async function finalizar(concluido) {
+    if (!resultados.length) return;
+    const resultado=salvarResultado(concluido);
+    const resposta=await Swal.fire({icon:concluido?"success":"warning",title:concluido?"Módulo concluído!":"Suas vidas terminaram",html:`<div class="explicacao-resposta"><div class="texto-explicacao">Você acertou <strong>${resultado.acertos} de ${resultado.totalRespondido}</strong> desafios.<br>Pontuação: <strong>${pontos}</strong>.<br>Aproveitamento: <strong>${resultado.percentual}%</strong>.</div><iframe id="videoFinal" class="video-explicacao" src="${urlVideo(V)}" title="Resultado do jogo em Libras" allowfullscreen></iframe><button id="repetirFinal" class="botao-alerta-repetir" type="button">↻ Repetir tradução em Libras</button></div>`,showDenyButton:true,showCancelButton:true,confirmButtonText:"Voltar para a trilha",denyButtonText:"Jogar novamente",cancelButtonText:"Avaliar o jogo",confirmButtonColor:"#1d3557",denyButtonColor:"#5fa8d3",cancelButtonColor:"#d9a900",allowOutsideClick:false,allowEscapeKey:false,customClass:{popup:"alerta-reforca"},didOpen:()=>{const v=document.getElementById("videoFinal");const b=document.getElementById("repetirFinal");if(v&&b)b.onclick=()=>{v.src="";setTimeout(()=>v.src=urlVideo(V,true),100);};}});
+    if(resposta.isConfirmed)location.replace("radiciacao.html");
+    else if(resposta.isDenied)iniciarPartida(moduloAtual);
+    else location.href="index.html#avaliacao";
+}
+
+async function confirmarSaida() {
+    const mensagem=resultados.length?"O progresso desta partida será perdido.":"Deseja voltar para a trilha de Radiciação?";
+    const resposta=await Swal.fire({icon:"question",title:"Sair do jogo?",html:htmlAlertaTraducao(mensagem, "Saída do jogo em Libras"),showCancelButton:true,confirmButtonText:"Sim, sair",cancelButtonText:"Continuar jogando",confirmButtonColor:"#d94b4b",cancelButtonColor:"#1d3557",didOpen:ativarRepeticaoAlerta});
+    if(resposta.isConfirmed)location.replace("radiciacao.html");
+}
+
+function htmlAlertaTraducao(mensagem, tituloVideo) {
+    return `<div class="explicacao-resposta"><div class="texto-explicacao">${mensagem}</div><iframe id="videoAlerta" class="video-explicacao" src="${urlVideo(V)}" title="${tituloVideo}" allowfullscreen></iframe><button id="repetirVideoAlerta" class="botao-alerta-repetir" type="button">↻ Repetir tradução em Libras</button></div>`;
+}
+
+function ativarRepeticaoAlerta() {
+    const video=document.getElementById("videoAlerta");
+    const botao=document.getElementById("repetirVideoAlerta");
+    if(video&&botao)botao.addEventListener("click",()=>{video.src="";setTimeout(()=>video.src=urlVideo(V,true),100);});
+}
