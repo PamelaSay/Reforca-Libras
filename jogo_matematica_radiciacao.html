@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="jogo_matematica_radiciacao.css">
+    <link rel="stylesheet" href="jogo_matematica_radiciacao.css?v=2">
 </head>
 
 <body>
@@ -33,7 +33,7 @@
             <span aria-hidden="true">√</span>
             <div>
                 <p>MISSÃO RAIZ</p>
-                <h1>Radiciação</h1>
+                <h1 id="tituloModulo">Introdução à Radiciação</h1>
             </div>
             <span aria-hidden="true">√</span>
         </div>
@@ -59,35 +59,17 @@
                 </p>
 
                 <nav class="lista-modulos" aria-label="Módulos do jogo de radiciação">
-                    <button class="botao-modulo" type="button" aria-pressed="false" disabled>
+                    <button class="botao-modulo ativo" type="button" data-modulo="introducao" aria-pressed="true">
                         <span class="numero-modulo">1</span>
                         <span class="texto-modulo">
                             <strong>Introdução</strong>
-                            <small>Significado e operação inversa</small>
-                        </span>
-                        <span class="estado-modulo" aria-hidden="true">○</span>
-                    </button>
-
-                    <button class="botao-modulo" type="button" aria-pressed="false" disabled>
-                        <span class="numero-modulo">2</span>
-                        <span class="texto-modulo">
-                            <strong>Elementos</strong>
-                            <small>Índice, radical, radicando e raiz</small>
-                        </span>
-                        <span class="estado-modulo" aria-hidden="true">○</span>
-                    </button>
-
-                    <button class="botao-modulo ativo" type="button" aria-pressed="true" disabled>
-                        <span class="numero-modulo">3</span>
-                        <span class="texto-modulo">
-                            <strong>Raízes exatas</strong>
-                            <small>Descubra a raiz quadrada</small>
+                            <small>Quadrados, cubos e elementos</small>
                         </span>
                         <span class="estado-modulo" aria-hidden="true">▶</span>
                     </button>
 
-                    <button class="botao-modulo" type="button" aria-pressed="false" disabled>
-                        <span class="numero-modulo">4</span>
+                    <button class="botao-modulo" type="button" data-modulo="propriedades" aria-pressed="false">
+                        <span class="numero-modulo">2</span>
                         <span class="texto-modulo">
                             <strong>Propriedades</strong>
                             <small>Produto, quociente e simplificação</small>
@@ -107,8 +89,8 @@
 
             <section class="area-desafio" aria-labelledby="textoPergunta">
                 <div class="cabecalho-desafio">
-                    <span class="etiqueta-topico">RADICIAÇÃO</span>
-                    <span class="etiqueta-nivel">NÍVEL 1</span>
+                    <span id="topicoPergunta" class="etiqueta-topico">RADICIAÇÃO</span>
+                    <span id="nivelPergunta" class="etiqueta-nivel">NÍVEL 1</span>
                 </div>
 
                 <p id="instrucao" class="instrucao">
@@ -118,9 +100,9 @@
                 <h2 id="textoPergunta">Carregando desafio...</h2>
 
                 <div
-                    id="quadrado"
-                    class="representacao-desafio representacao-radiciacao"
-                    aria-label="Representação visual da quantidade"
+                    id="representacaoDesafio"
+                    class="representacao-desafio"
+                    aria-label="Representação matemática da questão"
                 ></div>
 
                 <div
@@ -150,9 +132,7 @@
                     <div class="icone-dica" aria-hidden="true">💡</div>
                     <div>
                         <strong>Dica</strong>
-                        <p id="textoDica">
-                            Pense em qual número multiplicado por ele mesmo resulta no radicando.
-                        </p>
+                        <p id="textoDica"></p>
                     </div>
                 </section>
             </section>
